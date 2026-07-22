@@ -1,0 +1,14 @@
+attack-v19-core @ git+https://github.com/poojakira/attack-v19-core.git
+mitreattack-python==3.0.3
+stix2==3.0.1
+taxii2-client==2.3.0
+networkx==3.3
+pandas==2.2.2
+pydantic==2.7.4
+redis==5.0.6
+structlog==24.2.0
+tqdm==4.66.4
+httpx==0.27.0
+PyYAML==6.0.1
+pytest==8.2.1
+scapy==2.5.0
