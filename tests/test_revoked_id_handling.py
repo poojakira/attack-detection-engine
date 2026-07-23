@@ -7,10 +7,15 @@ from unittest.mock import Mock, patch
 import pytest
 
 from attack_core.constants import V19_REVOCATION_MAP
-from attack_core.base import BaseDetector
-from attack_core.index import ATTACKIndex
-from attack_core.models import ATTACKMapping, Domain, Technique
 from attack_core.loader import ATTACKLoader
+from attack_core.index import ATTACKIndex
+from detection_engine.base import BaseDetector
+
+
+class ConcreteDetector(BaseDetector):
+    """Concrete implementation for testing."""
+    def detect(self, data):
+        return []
 
 
 class TestRevokedIDHandling:
@@ -19,7 +24,7 @@ class TestRevokedIDHandling:
     def setup_method(self):
         self.loader = ATTACKLoader()
         self.index = ATTACKIndex(self.loader)
-        self.detector = BaseDetector(self.index)
+        self.detector = ConcreteDetector(self.index)
 
     def test_revoked_id_remapped_with_warning(self, caplog):
         """Revoked ID should be remapped and log WARNING."""
