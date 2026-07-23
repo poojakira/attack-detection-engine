@@ -1,5 +1,9 @@
 # attack-detection-engine
 
+[![CI](https://github.com/poojakira/attack-detection-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/poojakira/attack-detection-engine/actions/workflows/ci.yml)
+[![Python >=3.10](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Unified detection engine mapping telemetry to MITRE ATT&CK v19 techniques across 5 data sources.
 
 ## Data Sources
