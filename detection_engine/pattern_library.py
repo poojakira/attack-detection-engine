@@ -307,6 +307,15 @@ CODE_PATTERNS = [
         "technique_ids": ["T1059", "T1059.006"],
     },
     {
+        "rule_id": "CODE-T1059-002",
+        "rule_name": "PowerShell IEX/DownloadString",
+        "pattern": r"(IEX|Invoke-Expression)\s+\(|\.DownloadString\s*\(",
+        "description": "PowerShell IEX or WebClient DownloadString",
+        "severity": "HIGH",
+        "confidence": 0.9,
+        "technique_ids": ["T1059", "T1059.001"],
+    },
+    {
         "rule_id": "CODE-T1202-001",
         "rule_name": "Indirect Command Execution",
         "pattern": r"(certutil|mshta|rundll32|regsvr32|regasm|installutil|msbuild|csc|vbc)\.exe",
@@ -325,3 +334,145 @@ CODE_PATTERNS = [
         "technique_ids": ["T1553", "T1553.002"],
     },
 ]
+
+# =============================================================================
+# ATT&CK v19 AI-SPECIFIC DETECTION PATTERNS
+# New techniques in v19: T1682 (Query Public AI Services), T1683 (Generate Content),
+# T1684 (Social Engineering), T1685 (Disable or Modify Tools), T1689 (Downgrade Attack),
+# T1027/018 (Invisible Unicode)
+# =============================================================================
+
+AI_TECHNIQUE_PATTERNS = [
+    {
+        "rule_id":       "ATK-V19-T1682-001",
+        "rule_name":     "Query Public AI Services — Suspicious LLM API Call in Process",
+        "severity":      "MEDIUM",
+        "confidence":    0.70,
+        "technique_ids": ["T1682"],
+        "description":   "Process making outbound calls to public AI API endpoints (OpenAI, Anthropic, Gemini, Mistral, Cohere). LAMEHUG (S9035/APT28) used this pattern in live operations per ATT&CK v19.",
+        "conditions": [
+            {"type": "message_contains", "keywords": [
+                "api.openai.com", "api.anthropic.com", "generativelanguage.googleapis.com",
+                "api.mistral.ai", "api.cohere.com", "api.together.xyz"
+            ]},
+            {"type": "field_regex", "field": "process_name",
+             "pattern": r"(cmd\.exe|powershell|bash|python|node|curl|wget)"},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1682-002",
+        "rule_name":     "Query Public AI Services — LLM API Key in Environment or CLI",
+        "severity":      "HIGH",
+        "confidence":    0.85,
+        "technique_ids": ["T1682", "T1552.001"],
+        "description":   "AI API key passed via CLI argument or environment variable — credential exposure enabling unauthorized AI querying.",
+        "conditions": [
+            {"type": "field_regex", "field": "cmdline",
+             "pattern": r"(OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|sk-[A-Za-z0-9]{32,})"},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1683-001",
+        "rule_name":     "Generate Content — AI-Generated Written Content for Phishing",
+        "severity":      "HIGH",
+        "confidence":    0.65,
+        "technique_ids": ["T1683/001", "T1566"],
+        "description":   "Automated high-volume content generation via LLM API for use in phishing or disinformation. Pattern: rapid sequential LLM completions with variable substitution.",
+        "conditions": [
+            {"type": "message_contains", "keywords": ["completion", "generate", "prompt"]},
+            {"type": "field_regex", "field": "request_count_per_min", "pattern": r"[5-9]\d|[1-9]\d{2,}"},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1683-002",
+        "rule_name":     "Generate Content — Deepfake Audio-Visual Generation Detected",
+        "severity":      "CRITICAL",
+        "confidence":    0.75,
+        "technique_ids": ["T1683/002", "T1684"],
+        "description":   "Process invoking voice-cloning or video synthesis libraries (TTS, Wav2Lip, ElevenLabs API). Maps to T1683/002 Audio-Visual Content — new in ATT&CK v19.",
+        "conditions": [
+            {"type": "message_contains", "keywords": [
+                "elevenlabs", "wav2lip", "so-vits-svc", "rvc", "coqui",
+                "tortoisetcc", "styletts", "f5-tts", "voice_clone"
+            ]},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1684-001",
+        "rule_name":     "Social Engineering — Impersonation Pattern in Outbound Communication",
+        "severity":      "HIGH",
+        "confidence":    0.72,
+        "technique_ids": ["T1684/001", "T1566"],
+        "description":   "Email or message headers show display-name/domain mismatch with AI-generated body content. T1684/001 Social Engineering: Impersonation — new in ATT&CK v19.",
+        "conditions": [
+            {"type": "field_regex", "field": "from_header",
+             "pattern": r"([Cc][Ee][Oo]|[Cc][Ff][Oo]|[Hh][Rr]|[Ii][Tt] [Ss]upport)"},
+            {"type": "field_regex", "field": "reply_to",
+             "pattern": r"@(?!yourdomain\.com)"},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1684-002",
+        "rule_name":     "Social Engineering — Email Spoofing via DMARC Failure",
+        "severity":      "HIGH",
+        "confidence":    0.90,
+        "technique_ids": ["T1684/002"],
+        "description":   "Inbound email failed DMARC check with spoofed From: domain. T1684/002 Email Spoofing — new sub-technique in ATT&CK v19 (previously standalone T1566.003).",
+        "conditions": [
+            {"type": "field_regex", "field": "dmarc_result", "pattern": r"fail"},
+            {"type": "message_contains", "keywords": ["Authentication-Results", "dmarc=fail"]},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1027-018-001",
+        "rule_name":     "Invisible Unicode Obfuscation in Source Code or Script",
+        "severity":      "HIGH",
+        "confidence":    0.88,
+        "technique_ids": ["T1027/018"],
+        "description":   "Source file contains invisible Unicode characters (zero-width space U+200B, ZWSP, RLO U+202E, tag characters U+E0000-U+E007F). T1027/018 Invisible Unicode — new sub-technique in ATT&CK v19.",
+        "conditions": [
+            {"type": "field_regex", "field": "file_content_hex",
+             "pattern": r"(e2 80 8b|e2 80 ab|e2 80 ae|ef a3 b0|f3 a0 80)"},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1689-001",
+        "rule_name":     "Downgrade Attack — TLS/SSL Downgrade Negotiation",
+        "severity":      "HIGH",
+        "confidence":    0.82,
+        "technique_ids": ["T1689"],
+        "description":   "Network connection negotiated TLS 1.0 or SSL 3.0 after initial higher-version offer. T1689 Downgrade Attack — new in ATT&CK v19.",
+        "conditions": [
+            {"type": "field_regex", "field": "tls_version", "pattern": r"(TLSv1\.0|SSLv3|TLSv1$)"},
+            {"type": "field_regex", "field": "tls_negotiation_log",
+             "pattern": r"downgrad|version_fallback|legacy_renegotiation"},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1685-001",
+        "rule_name":     "Disable or Modify Tools — Security Tool Process Termination",
+        "severity":      "CRITICAL",
+        "confidence":    0.92,
+        "technique_ids": ["T1685"],
+        "description":   "Process termination targeting known security tools. T1685 replaces revoked T1562.001 (Impair Defenses: Disable or Modify Tools) in ATT&CK v19.",
+        "conditions": [
+            {"type": "field_regex", "field": "target_process",
+             "pattern": r"(MsMpEng|cb\.exe|CylanceSvc|CSFalconService|SentinelAgent|CrowdStrike|cylancesvc|bdagent)"},
+            {"type": "message_contains", "keywords": ["TerminateProcess", "taskkill", "sc stop", "net stop"]},
+        ],
+    },
+    {
+        "rule_id":       "ATK-V19-T1685-005-001",
+        "rule_name":     "Disable or Modify Tools — Clear Windows Event Logs",
+        "severity":      "HIGH",
+        "confidence":    0.95,
+        "technique_ids": ["T1685/005"],
+        "description":   "Windows Event Log cleared via wevtutil or Clear-EventLog. T1685/005 replaces revoked T1070.001 in ATT&CK v19.",
+        "conditions": [
+            {"type": "event_id", "values": ["1102", "104"]},
+        ],
+    },
+]
+
+# Merge into LOG_PATTERNS at end of file
+LOG_PATTERNS.extend(AI_TECHNIQUE_PATTERNS)
