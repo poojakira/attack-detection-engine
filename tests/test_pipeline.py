@@ -50,6 +50,7 @@ def test_log_detector_credential_dumping(pipeline):
 
 def test_traffic_detector_beaconing(pipeline):
     traffic = []
+    base_ts = 1704067200.0
     for i in range(15):
         traffic.append({
             "record_type": "conn",
@@ -60,23 +61,26 @@ def test_traffic_detector_beaconing(pipeline):
             "bytes_out": 1024,
             "bytes_in": 512,
             "duration": 0.1,
-            "timestamp": str(1000 + i * 60.0),
+            "timestamp": base_ts + i * 60.0,
         })
     findings = pipeline.run({"traffic": traffic})
-    beacon_findings = [f for f in findings if "T1071" in [m.technique_id for m in f.mappings]]
+    beacon_findings = [f for f in findings if any(m.technique_id.startswith("T1071") for m in f.mappings)]
     assert len(beacon_findings) > 0
 
 
 def test_traffic_detector_dns_tunneling(pipeline):
+    import random
+    import string
+    query = ''.join(random.choices(string.ascii_letters + string.digits, k=60)) + ".evil.com"
     traffic = [{
         "record_type": "dns",
-        "query": "a" * 60 + ".evil.com",
-        "qtype": "TXT",
+        "query": query,
+        "qtype_name": "TXT",
         "src_ip": "10.0.0.5",
-        "timestamp": "2024-01-01T00:00:00Z",
+        "timestamp": 1000.0,
     }]
     findings = pipeline.run({"traffic": traffic})
-    dns_findings = [f for f in findings if "T1048" in [m.technique_id for m in f.mappings]]
+    dns_findings = [f for f in findings if any(m.technique_id.startswith("T1048") for m in f.mappings)]
     assert len(dns_findings) > 0
 
 

@@ -4,7 +4,7 @@ Analyzes: Python, PowerShell, Bash, JavaScript, C/C++, Go, Rust
 """
 
 import re
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from .base import BaseDetector, DetectionFinding
 from .pattern_library import CODE_PATTERNS
 
@@ -38,10 +38,12 @@ class CodeDetector(BaseDetector):
                 continue
             for pattern in self._patterns:
                 if pattern.get("regex") and pattern["regex"].search(source):
-                    findings.append(self._make_finding(pattern, record))
+                    finding = self._make_finding(pattern, record)
+                    if finding:
+                        findings.append(finding)
         return findings
 
-    def _make_finding(self, pattern: Dict, record: Dict) -> DetectionFinding:
+    def _make_finding(self, pattern: Dict, record: Dict) -> Optional[DetectionFinding]:
         matches = pattern["regex"].findall(record.get("source_code", "")) if pattern.get("regex") else []
         evidence = {
             "file_path": record.get("file_path", ""),
@@ -49,6 +51,10 @@ class CodeDetector(BaseDetector):
             "matches": matches[:10],
             "hash": record.get("hash", ""),
         }
+        mapping_list = [m for tid in pattern["technique_ids"]
+                        if (m := self._build_mapping(tid, pattern["confidence"])) is not None]
+        if not mapping_list:
+            return None
         return DetectionFinding(
             rule_id=pattern["rule_id"],
             rule_name=pattern["rule_name"],
@@ -56,7 +62,7 @@ class CodeDetector(BaseDetector):
             confidence=pattern["confidence"],
             source_type="code",
             raw_evidence=evidence,
-            mappings=[self._build_mapping(tid, pattern["confidence"]) for tid in pattern["technique_ids"]],
+            mappings=mapping_list,
             timestamp=record.get("timestamp", ""),
             host=record.get("host", ""),
             description=f"{pattern['description']} in {record.get('file_path', 'unknown')}",

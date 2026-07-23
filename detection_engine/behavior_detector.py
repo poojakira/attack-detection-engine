@@ -3,7 +3,7 @@ Behavior detection engine.
 Analyzes process trees, API call sequences, and behavioral patterns.
 """
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from .base import BaseDetector, DetectionFinding
 from .pattern_library import BEHAVIOR_PATTERNS
 
@@ -51,11 +51,13 @@ class BehaviorDetector(BaseDetector):
                 child_name = child.get("name", "").lower()
                 for sus_parent, sus_child in suspicious_parent_child:
                     if sus_parent in parent_name and sus_child in child_name:
-                        findings.append(self._make_finding(
+                        finding = self._make_finding(
                             "T1059.001", "Suspicious Process Spawn",
                             "HIGH", 0.85, record, "behavior",
                             f"{parent_name} spawned {child_name}"
-                        ))
+                        )
+                        if finding:
+                            findings.append(finding)
         return findings
 
     def _analyze_api_calls(self, record: Dict) -> List[DetectionFinding]:
@@ -74,11 +76,13 @@ class BehaviorDetector(BaseDetector):
                 injection_sequence.append(call)
 
         if len(injection_sequence) >= 3:
-            findings.append(self._make_finding(
+            finding = self._make_finding(
                 "T1055", "Process Injection API Sequence",
                 "CRITICAL", 0.9, record, "behavior",
                 f"Injection APIs: {[c['api'] for c in injection_sequence]}"
-            ))
+            )
+            if finding:
+                findings.append(finding)
 
         return findings
 
@@ -91,26 +95,33 @@ class BehaviorDetector(BaseDetector):
 
         if "temp" in image_path or "appdata" in image_path:
             if any(x in cmdline for x in ["powershell", "cmd", "wscript", "cscript", "rundll32"]):
-                findings.append(self._make_finding(
+                finding = self._make_finding(
                     "T1059", "Script Execution from Temp/AppData",
                     "HIGH", 0.8, record, "behavior",
                     f"Process: {image_path} CMD: {cmdline[:200]}"
-                ))
+                )
+                if finding:
+                    findings.append(finding)
 
         if "system32" not in image_path and "syswow64" not in image_path:
             system_binaries = ["svchost.exe", "lsass.exe", "csrss.exe", "winlogon.exe", "services.exe"]
             for sys_bin in system_binaries:
                 if sys_bin in image_path:
-                    findings.append(self._make_finding(
+                    finding = self._make_finding(
                         "T1036", "System Binary in Non-Standard Path",
                         "HIGH", 0.9, record, "behavior",
                         f"{sys_bin} running from {image_path}"
-                    ))
+                    )
+                    if finding:
+                        findings.append(finding)
 
         return findings
 
     def _make_finding(self, tech_id: str, rule_name: str, severity: str, confidence: float,
-                      evidence: Dict, source_type: str, description: str) -> DetectionFinding:
+                      evidence: Dict, source_type: str, description: str) -> Optional[DetectionFinding]:
+        mapping = self._build_mapping(tech_id, confidence)
+        if mapping is None:
+            return None
         return DetectionFinding(
             rule_id=f"BEH-{tech_id.replace('.', '-')}",
             rule_name=rule_name,
@@ -118,7 +129,7 @@ class BehaviorDetector(BaseDetector):
             confidence=confidence,
             source_type=source_type,
             raw_evidence=evidence,
-            mappings=[self._build_mapping(tech_id, confidence)],
+            mappings=[mapping],
             timestamp=str(evidence.get("timestamp", "")),
             host=evidence.get("host", ""),
             description=description,

@@ -251,7 +251,10 @@ class TrafficDetector(BaseDetector):
         return findings
 
     def _make_finding(self, tech_id: str, rule_name: str, severity: str,
-                      confidence: float, evidence: Dict, description: str) -> DetectionFinding:
+                      confidence: float, evidence: Dict, description: str) -> Optional[DetectionFinding]:
+        mapping = self._build_mapping(tech_id, confidence)
+        if mapping is None:
+            return None
         return DetectionFinding(
             rule_id=f"NET-{tech_id.replace('.', '-')}",
             rule_name=rule_name,
@@ -259,7 +262,7 @@ class TrafficDetector(BaseDetector):
             confidence=confidence,
             source_type="traffic",
             raw_evidence=evidence,
-            mappings=[self._build_mapping(tech_id, confidence)],
+            mappings=[mapping],
             timestamp=str(evidence.get("timestamp", "")),
             host=evidence.get("src_ip", ""),
             description=description,

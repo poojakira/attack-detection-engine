@@ -2,7 +2,7 @@
 EDR telemetry and SIEM event detection engine.
 """
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from collections import defaultdict, deque
 from .base import BaseDetector, DetectionFinding
 from .pattern_library import EVENT_PATTERNS
@@ -38,11 +38,13 @@ class EventDetector(BaseDetector):
         technique = event.get("technique", "")
 
         if technique:
-            findings.append(self._make_finding(
+            finding = self._make_finding(
                 technique, f"CrowdStrike: {event_type}",
                 "HIGH", 0.9, record,
                 f"CrowdStrike detection: {event_type} ({tactic})"
-            ))
+            )
+            if finding:
+                findings.append(finding)
 
         return findings
 
@@ -53,11 +55,13 @@ class EventDetector(BaseDetector):
         for attack in mitre_attack:
             technique = attack.get("techniqueId", "")
             if technique:
-                findings.append(self._make_finding(
+                finding = self._make_finding(
                     technique, f"SentinelOne: {threat.get('threatName', 'Threat')}",
                     "HIGH", 0.9, record,
                     f"SentinelOne threat: {threat.get('threatName')}"
-                ))
+                )
+                if finding:
+                    findings.append(finding)
         return findings
 
     def _analyze_defender(self, record: Dict) -> List[DetectionFinding]:
@@ -67,11 +71,13 @@ class EventDetector(BaseDetector):
         for tech in techniques:
             tid = tech.get("techniqueId", "")
             if tid:
-                findings.append(self._make_finding(
+                finding = self._make_finding(
                     tid, f"Defender: {alert.get('title', 'Alert')}",
                     "HIGH", 0.85, record,
                     f"Defender alert: {alert.get('description', '')[:200]}"
-                ))
+                )
+                if finding:
+                    findings.append(finding)
         return findings
 
     def _analyze_elastic(self, record: Dict) -> List[DetectionFinding]:
@@ -82,22 +88,26 @@ class EventDetector(BaseDetector):
         for tech in techniques:
             tid = tech.get("id", "")
             if tid:
-                findings.append(self._make_finding(
+                finding = self._make_finding(
                     tid, f"Elastic: {rule.get('name', 'Rule')}",
                     "MEDIUM", 0.8, record,
                     f"Elastic rule: {rule.get('description', '')[:200]}"
-                ))
+                )
+                if finding:
+                    findings.append(finding)
         return findings
 
     def _analyze_generic_edr(self, record: Dict) -> List[DetectionFinding]:
         findings = []
         for pattern in EVENT_PATTERNS:
             if self._matches_pattern(record, pattern):
-                findings.append(self._make_finding(
+                finding = self._make_finding(
                     pattern["technique_ids"][0], pattern["rule_name"],
                     pattern["severity"], pattern["confidence"], record,
                     pattern["description"]
-                ))
+                )
+                if finding:
+                    findings.append(finding)
         return findings
 
     def _matches_pattern(self, record: Dict, pattern: Dict) -> bool:
@@ -111,7 +121,10 @@ class EventDetector(BaseDetector):
         return True
 
     def _make_finding(self, tech_id: str, rule_name: str, severity: str,
-                      confidence: float, evidence: Dict, description: str) -> DetectionFinding:
+                      confidence: float, evidence: Dict, description: str) -> Optional[DetectionFinding]:
+        mapping = self._build_mapping(tech_id, confidence)
+        if mapping is None:
+            return None
         return DetectionFinding(
             rule_id=f"EDR-{tech_id.replace('.', '-')}",
             rule_name=rule_name,
@@ -119,7 +132,7 @@ class EventDetector(BaseDetector):
             confidence=confidence,
             source_type="event",
             raw_evidence=evidence,
-            mappings=[self._build_mapping(tech_id, confidence)],
+            mappings=[mapping],
             timestamp=str(evidence.get("timestamp", "")),
             host=evidence.get("host", "") or evidence.get("agent", {}).get("hostname", ""),
             description=description,

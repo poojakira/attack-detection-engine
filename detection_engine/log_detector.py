@@ -49,6 +49,8 @@ class LogDetector(BaseDetector):
         for record in data:
             for pattern in LOG_PATTERNS:
                 if self._matches(record, pattern):
+                    mapping_list = [m for tid in pattern["technique_ids"]
+                                    if (m := self._build_mapping(tid, pattern["confidence"])) is not None]
                     finding = DetectionFinding(
                         rule_id=pattern["rule_id"],
                         rule_name=pattern["rule_name"],
@@ -56,8 +58,7 @@ class LogDetector(BaseDetector):
                         confidence=pattern["confidence"],
                         source_type="log",
                         raw_evidence=record,
-                        mappings=[self._build_mapping(tid, pattern["confidence"])
-                                  for tid in pattern["technique_ids"]],
+                        mappings=mapping_list,
                         timestamp=record.get("timestamp", ""),
                         host=record.get("host", ""),
                         description=pattern["description"],

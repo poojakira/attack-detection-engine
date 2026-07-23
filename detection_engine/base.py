@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 from attack_core.models import ATTACKMapping
+from attack_core.constants import V19_REVOCATION_MAP
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -30,10 +34,24 @@ class BaseDetector(ABC):
         """
         pass
 
-    def _build_mapping(self, technique_id: str, confidence: float) -> ATTACKMapping:
-        tech = self.index.get(technique_id)
+    def _build_mapping(self, technique_id: str, confidence: float) -> Optional[ATTACKMapping]:
+        # Step 1: Check revocation map first
+        resolved_id = V19_REVOCATION_MAP.get(technique_id, technique_id)
+        if resolved_id != technique_id:
+            logger.warning(
+                f"[ATT&CK v19] Technique {technique_id} was revoked. "
+                f"Auto-remapped to {resolved_id}. Update rule table."
+            )
+
+        # Step 2: Look up resolved ID
+        tech = self.index.get(resolved_id)
         if tech is None:
-            raise ValueError(f"Unknown technique: {technique_id}")
+            logger.error(
+                f"[ATT&CK v19] Technique {resolved_id} not found in index. "
+                f"Original ID: {technique_id}. Skipping mapping."
+            )
+            return None  # caller must filter None values out of mappings list
+
         tactic_id = tech.tactic_ids[0] if tech.tactic_ids else "unknown"
         tactic = self.index._tactics.get(tactic_id)
         return ATTACKMapping(
