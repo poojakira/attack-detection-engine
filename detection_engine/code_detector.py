@@ -4,7 +4,8 @@ Analyzes: Python, PowerShell, Bash, JavaScript, C/C++, Go, Rust
 """
 
 import re
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
 from .base import BaseDetector, DetectionFinding
 from .pattern_library import CODE_PATTERNS
 
@@ -44,15 +45,20 @@ class CodeDetector(BaseDetector):
         return findings
 
     def _make_finding(self, pattern: Dict, record: Dict) -> Optional[DetectionFinding]:
-        matches = pattern["regex"].findall(record.get("source_code", "")) if pattern.get("regex") else []
+        matches = (
+            pattern["regex"].findall(record.get("source_code", "")) if pattern.get("regex") else []
+        )
         evidence = {
             "file_path": record.get("file_path", ""),
             "language": record.get("language", ""),
             "matches": matches[:10],
             "hash": record.get("hash", ""),
         }
-        mapping_list = [m for tid in pattern["technique_ids"]
-                        if (m := self._build_mapping(tid, pattern["confidence"])) is not None]
+        mapping_list = [
+            m
+            for tid in pattern["technique_ids"]
+            if (m := self._build_mapping(tid, pattern["confidence"])) is not None
+        ]
         if not mapping_list:
             return None
         return DetectionFinding(

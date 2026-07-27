@@ -55,3 +55,19 @@ Each finding includes:
 ```bash
 pytest tests/ -v
 ```
+<!-- engineering-update-2026-07-27 -->
+## Engineering Update - 2026-07-27
+
+Scope: Private ATT&CK v19 detection engine.
+
+Current hardening pass:
+- Build system: Makefile targets added or verified for install, lint, format, test, build, security, and verify.
+- Dashboard: Static 3D dashboard: dashboard/index.html. Serve with make dashboard after local static validation.
+- ATT&CK mapping: repos that map detections now use the shared v19 mapping builder where applicable.
+- Validation: Validated: Ruff passed, pytest passed (27 tests), wheel build passed.
+
+Known limits:
+- Linux and GitHub Actions post-push results must be checked after this push.
+- Security scans are build targets; dependency advisories can change after this local snapshot.
+- No production-readiness or benchmark-certification claim is made from local checks alone.
+<!-- /engineering-update-2026-07-27 -->

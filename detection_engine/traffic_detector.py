@@ -33,7 +33,8 @@ Detection signatures:
 import math
 import statistics
 from collections import defaultdict, deque
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
 from .base import BaseDetector, DetectionFinding
 
 
@@ -65,37 +66,49 @@ class TrafficDetector(BaseDetector):
         findings = []
         src_ip = record.get("src_ip", "")
         dst_ip = record.get("dst_ip", "")
-        src_port = record.get("src_port", 0)
+        record.get("src_port", 0)
         dst_port = record.get("dst_port", 0)
-        proto = record.get("proto", "").upper()
+        record.get("proto", "").upper()
         bytes_out = record.get("bytes_out", 0) or record.get("orig_bytes", 0)
         bytes_in = record.get("bytes_in", 0) or record.get("resp_bytes", 0)
         duration = record.get("duration", 0)
         timestamp = record.get("timestamp", "")
 
         key = f"{src_ip}->{dst_ip}:{dst_port}"
-        self._conn_history[key].append({
-            "timestamp": timestamp,
-            "bytes_out": bytes_out,
-            "bytes_in": bytes_in,
-            "duration": duration,
-        })
+        self._conn_history[key].append(
+            {
+                "timestamp": timestamp,
+                "bytes_out": bytes_out,
+                "bytes_in": bytes_in,
+                "duration": duration,
+            }
+        )
 
         if len(self._conn_history[key]) >= 10:
             if self._is_beaconing(self._conn_history[key]):
-                findings.append(self._make_finding(
-                    "T1071.001", "HTTP Beaconing Detected",
-                    "HIGH", 0.85, record,
-                    f"Regular interval connections to {dst_ip}:{dst_port}"
-                ))
+                findings.append(
+                    self._make_finding(
+                        "T1071.001",
+                        "HTTP Beaconing Detected",
+                        "HIGH",
+                        0.85,
+                        record,
+                        f"Regular interval connections to {dst_ip}:{dst_port}",
+                    )
+                )
 
         if bytes_out > self._baseline_bytes[src_ip] * 3:
             if dst_ip not in self._get_known_destinations(src_ip):
-                findings.append(self._make_finding(
-                    "T1041", "Large Outbound Data Transfer to New Destination",
-                    "HIGH", 0.8, record,
-                    f"{bytes_out} bytes to {dst_ip}:{dst_port} (baseline: {self._baseline_bytes[src_ip]})"
-                ))
+                findings.append(
+                    self._make_finding(
+                        "T1041",
+                        "Large Outbound Data Transfer to New Destination",
+                        "HIGH",
+                        0.8,
+                        record,
+                        f"{bytes_out} bytes to {dst_ip}:{dst_port} (baseline: {self._baseline_bytes[src_ip]})",
+                    )
+                )
             self._baseline_bytes[src_ip] = max(self._baseline_bytes[src_ip], bytes_out)
 
         self._track_port_scan(src_ip, dst_ip, dst_port, timestamp)
@@ -106,7 +119,7 @@ class TrafficDetector(BaseDetector):
         intervals = []
         for i in range(1, len(history)):
             try:
-                t1 = float(history[i-1].get("timestamp", 0))
+                t1 = float(history[i - 1].get("timestamp", 0))
                 t2 = float(history[i].get("timestamp", 0))
                 intervals.append(t2 - t1)
             except (ValueError, TypeError):
@@ -129,7 +142,9 @@ class TrafficDetector(BaseDetector):
             ts = float(timestamp)
             self._scan_tracker[key].append((ts, dst_port))
             cutoff = ts - 60
-            self._scan_tracker[key] = deque([(t, p) for t, p in self._scan_tracker[key] if t > cutoff])
+            self._scan_tracker[key] = deque(
+                [(t, p) for t, p in self._scan_tracker[key] if t > cutoff]
+            )
             unique_ports = set(p for t, p in self._scan_tracker[key])
             if len(unique_ports) > 15:
                 return True
@@ -141,35 +156,50 @@ class TrafficDetector(BaseDetector):
         findings = []
         query = record.get("query", "").lower()
         qtype = record.get("qtype", "").upper()
-        src_ip = record.get("src_ip", "")
+        record.get("src_ip", "")
         answers = record.get("answers", [])
 
         if len(query) > 50:
             entropy = self._shannon_entropy(query)
             if entropy > 3.5:
-                findings.append(self._make_finding(
-                    "T1048.003", "DNS Tunneling - High Entropy Query",
-                    "HIGH", 0.9, record,
-                    f"Query: {query[:100]} (entropy={entropy:.2f})"
-                ))
+                findings.append(
+                    self._make_finding(
+                        "T1048.003",
+                        "DNS Tunneling - High Entropy Query",
+                        "HIGH",
+                        0.9,
+                        record,
+                        f"Query: {query[:100]} (entropy={entropy:.2f})",
+                    )
+                )
 
         if qtype == "TXT" and len(query) > 30:
-            findings.append(self._make_finding(
-                "T1048.003", "DNS Tunneling - TXT Record Query",
-                "MEDIUM", 0.75, record,
-                f"TXT query: {query[:100]}"
-            ))
+            findings.append(
+                self._make_finding(
+                    "T1048.003",
+                    "DNS Tunneling - TXT Record Query",
+                    "MEDIUM",
+                    0.75,
+                    record,
+                    f"TXT query: {query[:100]}",
+                )
+            )
 
         if qtype in ("A", "AAAA") and answers:
             for ans in answers:
                 if ans.get("type") in ("A", "AAAA"):
                     ip = ans.get("data", "")
                     if self._is_suspicious_ip(ip):
-                        findings.append(self._make_finding(
-                            "T1071.004", "DNS C2 - Fast Flux / Suspicious IP",
-                            "MEDIUM", 0.7, record,
-                            f"Domain {query} resolved to {ip}"
-                        ))
+                        findings.append(
+                            self._make_finding(
+                                "T1071.004",
+                                "DNS C2 - Fast Flux / Suspicious IP",
+                                "MEDIUM",
+                                0.7,
+                                record,
+                                f"Domain {query} resolved to {ip}",
+                            )
+                        )
 
         return findings
 
@@ -201,34 +231,59 @@ class TrafficDetector(BaseDetector):
         uri = record.get("uri", "")
         host = record.get("host", "")
         user_agent = record.get("user_agent", "")
-        src_ip = record.get("src_ip", "")
-        status = record.get("status_code", 0)
+        record.get("src_ip", "")
+        record.get("status_code", 0)
 
         suspicious_ua = [
-            "python", "curl", "wget", "go-http", "java/", "apache-httpclient",
-            "powershell", "winhttp", "msie", "mozilla/4.0", "bot", "scanner",
+            "python",
+            "curl",
+            "wget",
+            "go-http",
+            "java/",
+            "apache-httpclient",
+            "powershell",
+            "winhttp",
+            "msie",
+            "mozilla/4.0",
+            "bot",
+            "scanner",
         ]
         if any(s in user_agent.lower() for s in suspicious_ua):
-            findings.append(self._make_finding(
-                "T1071.001", "Suspicious HTTP User Agent",
-                "MEDIUM", 0.7, record,
-                f"UA: {user_agent[:100]}"
-            ))
+            findings.append(
+                self._make_finding(
+                    "T1071.001",
+                    "Suspicious HTTP User Agent",
+                    "MEDIUM",
+                    0.7,
+                    record,
+                    f"UA: {user_agent[:100]}",
+                )
+            )
 
         if "github.com" in host or "raw.githubusercontent.com" in host:
             if "pastebin" in uri or "gist" in uri or "/raw/" in uri:
-                findings.append(self._make_finding(
-                    "T1102", "Web Service C2 - GitHub/Pastebin",
-                    "MEDIUM", 0.75, record,
-                    f"Request to {host}{uri}"
-                ))
+                findings.append(
+                    self._make_finding(
+                        "T1102",
+                        "Web Service C2 - GitHub/Pastebin",
+                        "MEDIUM",
+                        0.75,
+                        record,
+                        f"Request to {host}{uri}",
+                    )
+                )
 
         if method == "POST" and len(uri) > 100:
-            findings.append(self._make_finding(
-                "T1071.001", "Long URI POST - Potential C2",
-                "LOW", 0.5, record,
-                f"POST {uri[:200]}"
-            ))
+            findings.append(
+                self._make_finding(
+                    "T1071.001",
+                    "Long URI POST - Potential C2",
+                    "LOW",
+                    0.5,
+                    record,
+                    f"POST {uri[:200]}",
+                )
+            )
 
         return findings
 
@@ -243,15 +298,27 @@ class TrafficDetector(BaseDetector):
             signature = alert.get("signature", "")
             severity = alert.get("severity", 3)
             sev_map = {1: "CRITICAL", 2: "HIGH", 3: "MEDIUM", 4: "LOW"}
-            findings.append(self._make_finding(
-                "T1190", f"Suricata Alert: {signature}",
-                sev_map.get(severity, "MEDIUM"), 0.8, record,
-                f"Suricata signature: {signature}"
-            ))
+            findings.append(
+                self._make_finding(
+                    "T1190",
+                    f"Suricata Alert: {signature}",
+                    sev_map.get(severity, "MEDIUM"),
+                    0.8,
+                    record,
+                    f"Suricata signature: {signature}",
+                )
+            )
         return findings
 
-    def _make_finding(self, tech_id: str, rule_name: str, severity: str,
-                      confidence: float, evidence: Dict, description: str) -> Optional[DetectionFinding]:
+    def _make_finding(
+        self,
+        tech_id: str,
+        rule_name: str,
+        severity: str,
+        confidence: float,
+        evidence: Dict,
+        description: str,
+    ) -> Optional[DetectionFinding]:
         mapping = self._build_mapping(tech_id, confidence)
         if mapping is None:
             return None

@@ -1,11 +1,13 @@
-from typing import List, Any, Dict
+from typing import Any, Dict, List
+
+from attack_core.index import ATTACKIndex
+
+from .base import DetectionFinding
+from .behavior_detector import BehaviorDetector
+from .code_detector import CodeDetector
+from .event_detector import EventDetector
 from .log_detector import LogDetector
 from .traffic_detector import TrafficDetector
-from .behavior_detector import BehaviorDetector
-from .event_detector import EventDetector
-from .code_detector import CodeDetector
-from .base import DetectionFinding
-from attack_core.index import ATTACKIndex
 
 
 class DetectionPipeline:
@@ -50,6 +52,6 @@ class DetectionPipeline:
             "host": f.host,
             "timestamp": f.timestamp,
             "description": f.description,
-            "attack_mappings": [m.dict() for m in f.mappings],
+            "attack_mappings": [m.model_dump() for m in f.mappings],
             "evidence": f.raw_evidence,
         }

@@ -2,8 +2,9 @@
 EDR telemetry and SIEM event detection engine.
 """
 
-from typing import List, Dict, Any, Optional
 from collections import defaultdict, deque
+from typing import Any, Dict, List, Optional
+
 from .base import BaseDetector, DetectionFinding
 from .pattern_library import EVENT_PATTERNS
 
@@ -39,9 +40,12 @@ class EventDetector(BaseDetector):
 
         if technique:
             finding = self._make_finding(
-                technique, f"CrowdStrike: {event_type}",
-                "HIGH", 0.9, record,
-                f"CrowdStrike detection: {event_type} ({tactic})"
+                technique,
+                f"CrowdStrike: {event_type}",
+                "HIGH",
+                0.9,
+                record,
+                f"CrowdStrike detection: {event_type} ({tactic})",
             )
             if finding:
                 findings.append(finding)
@@ -56,9 +60,12 @@ class EventDetector(BaseDetector):
             technique = attack.get("techniqueId", "")
             if technique:
                 finding = self._make_finding(
-                    technique, f"SentinelOne: {threat.get('threatName', 'Threat')}",
-                    "HIGH", 0.9, record,
-                    f"SentinelOne threat: {threat.get('threatName')}"
+                    technique,
+                    f"SentinelOne: {threat.get('threatName', 'Threat')}",
+                    "HIGH",
+                    0.9,
+                    record,
+                    f"SentinelOne threat: {threat.get('threatName')}",
                 )
                 if finding:
                     findings.append(finding)
@@ -72,9 +79,12 @@ class EventDetector(BaseDetector):
             tid = tech.get("techniqueId", "")
             if tid:
                 finding = self._make_finding(
-                    tid, f"Defender: {alert.get('title', 'Alert')}",
-                    "HIGH", 0.85, record,
-                    f"Defender alert: {alert.get('description', '')[:200]}"
+                    tid,
+                    f"Defender: {alert.get('title', 'Alert')}",
+                    "HIGH",
+                    0.85,
+                    record,
+                    f"Defender alert: {alert.get('description', '')[:200]}",
                 )
                 if finding:
                     findings.append(finding)
@@ -89,9 +99,12 @@ class EventDetector(BaseDetector):
             tid = tech.get("id", "")
             if tid:
                 finding = self._make_finding(
-                    tid, f"Elastic: {rule.get('name', 'Rule')}",
-                    "MEDIUM", 0.8, record,
-                    f"Elastic rule: {rule.get('description', '')[:200]}"
+                    tid,
+                    f"Elastic: {rule.get('name', 'Rule')}",
+                    "MEDIUM",
+                    0.8,
+                    record,
+                    f"Elastic rule: {rule.get('description', '')[:200]}",
                 )
                 if finding:
                     findings.append(finding)
@@ -102,9 +115,12 @@ class EventDetector(BaseDetector):
         for pattern in EVENT_PATTERNS:
             if self._matches_pattern(record, pattern):
                 finding = self._make_finding(
-                    pattern["technique_ids"][0], pattern["rule_name"],
-                    pattern["severity"], pattern["confidence"], record,
-                    pattern["description"]
+                    pattern["technique_ids"][0],
+                    pattern["rule_name"],
+                    pattern["severity"],
+                    pattern["confidence"],
+                    record,
+                    pattern["description"],
                 )
                 if finding:
                     findings.append(finding)
@@ -120,8 +136,15 @@ class EventDetector(BaseDetector):
                     return False
         return True
 
-    def _make_finding(self, tech_id: str, rule_name: str, severity: str,
-                      confidence: float, evidence: Dict, description: str) -> Optional[DetectionFinding]:
+    def _make_finding(
+        self,
+        tech_id: str,
+        rule_name: str,
+        severity: str,
+        confidence: float,
+        evidence: Dict,
+        description: str,
+    ) -> Optional[DetectionFinding]:
         mapping = self._build_mapping(tech_id, confidence)
         if mapping is None:
             return None

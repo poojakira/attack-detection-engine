@@ -21,20 +21,21 @@ Key technique coverage (implement all):
   T1047   - Windows Management Instrumentation
   T1053   - Scheduled Task/Job (event_id 4698/4702, cron)
   T1059   - Command and Scripting Interpreter (powershell, cmd, bash, python)
-  T1070   - Indicator Removal (event_id 1102, auditd log deletion)
+  T1685.005 - Disable or Modify Tools: Clear Windows Event Logs
   T1078   - Valid Accounts (event_id 4625 repeated, then 4624)
   T1082   - System Information Discovery
   T1083   - File and Directory Discovery
   T1105   - Ingress Tool Transfer (curl/wget/bitsadmin in cmd)
   T1136   - Create Account (event_id 4720)
   T1543   - Create or Modify System Process (new service event_id 7045)
-  T1562   - Impair Defenses (defender disabled, audit policy cleared)
+  T1685   - Disable or Modify Tools (defender disabled, audit policy cleared)
   T1566   - Phishing (email header analysis)
   ... (all 222 techniques with available log data sources)
 """
 
 import re
-from typing import List, Any, Dict
+from typing import Any, Dict, List
+
 from .base import BaseDetector, DetectionFinding
 from .pattern_library import LOG_PATTERNS
 
@@ -49,8 +50,11 @@ class LogDetector(BaseDetector):
         for record in data:
             for pattern in LOG_PATTERNS:
                 if self._matches(record, pattern):
-                    mapping_list = [m for tid in pattern["technique_ids"]
-                                    if (m := self._build_mapping(tid, pattern["confidence"])) is not None]
+                    mapping_list = [
+                        m
+                        for tid in pattern["technique_ids"]
+                        if (m := self._build_mapping(tid, pattern["confidence"])) is not None
+                    ]
                     finding = DetectionFinding(
                         rule_id=pattern["rule_id"],
                         rule_name=pattern["rule_name"],
@@ -77,7 +81,9 @@ class LogDetector(BaseDetector):
                 if not re.search(condition["pattern"], field_val, re.IGNORECASE):
                     return False
             elif ctype == "message_contains":
-                if not any(kw.lower() in record.get("message", "").lower() for kw in condition["keywords"]):
+                if not any(
+                    kw.lower() in record.get("message", "").lower() for kw in condition["keywords"]
+                ):
                     return False
             elif ctype == "source_type":
                 if record.get("source_type") not in condition["values"]:

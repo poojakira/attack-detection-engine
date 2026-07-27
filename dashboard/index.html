@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ATT&amp;CK Detection Engine Operational Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+  <script type="module">import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js"; window.THREE = THREE;</script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0e1112;
+      --panel: #161b1d;
+      --panel-2: #20272a;
+      --line: #334047;
+      --text: #edf3ee;
+      --muted: #9eaaa7;
+      --critical: #ff6262;
+      --high: #efb54f;
+      --medium: #5bb5ff;
+      --low: #63d78d;
+      --purple: #b39cff;
+      --cyan: #4dd0d8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
+      padding: 14px 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.18;
+      font-weight: 760;
+    }
+
+    h2 {
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 720;
+    }
+
+    h3 {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      font-weight: 720;
+    }
+
+    .subline {
+      margin-top: 8px;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .stamp {
+      min-width: 230px;
+      border: 1px solid var(--line);
+      background: #121719;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--low);
+      box-shadow: 0 0 0 4px rgba(99, 215, 141, 0.14);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(130px, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .metric, .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+    }
+
+    .metric {
+      min-height: 92px;
+      padding: 12px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(24px, 4vw, 38px);
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.28fr) minmax(320px, 0.72fr);
+      gap: 12px;
+    }
+
+    .panel {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #14191b;
+    }
+
+    .panel-note {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .scene {
+      position: relative;
+      min-height: 430px;
+      background: #0b0f10;
+    }
+
+    #pipeline3d {
+      display: block;
+      width: 100%;
+      height: 430px;
+    }
+
+    .fallback {
+      display: none;
+      padding: 14px;
+    }
+
+    .fallback-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .flow-cell {
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--medium);
+      background: var(--panel-2);
+      padding: 9px;
+    }
+
+    .flow-cell b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .flow-cell small {
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .content {
+      padding: 14px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .row-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .chart-box {
+      height: 280px;
+      border: 1px solid var(--line);
+      background: #101517;
+      padding: 10px;
+    }
+
+    .chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .bar-fallback {
+      display: grid;
+      gap: 9px;
+      padding: 8px 0;
+    }
+
+    .bar-line {
+      display: grid;
+      grid-template-columns: 104px 1fr 42px;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .bar-track {
+      height: 12px;
+      background: #263036;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--medium);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      background: #14191b;
+      font-weight: 720;
+    }
+
+    td {
+      color: #dce7e2;
+      line-height: 1.35;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: #101517;
+      white-space: nowrap;
+    }
+
+    .ok {
+      color: var(--low);
+    }
+
+    .warn {
+      color: var(--high);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: var(--medium);
+    }
+
+    @media (max-width: 1080px) {
+      .metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      main {
+        padding: 12px;
+      }
+
+      header {
+        grid-template-columns: 1fr;
+      }
+
+      .stamp {
+        min-width: 0;
+      }
+
+      .metrics, .row-grid, .fallback-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-head {
+        display: grid;
+        align-items: start;
+      }
+
+      .panel-note {
+        text-align: left;
+      }
+
+      .scene, #pipeline3d {
+        min-height: 360px;
+        height: 360px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>ATT&amp;CK Detection Engine Operations</h1>
+        <p class="subline">Static operating view for rule coverage, telemetry sources, severity queue, ATT&amp;CK mapping provenance, and pipeline health.</p>
+      </div>
+      <div class="stamp"><span class="status-dot"></span>Snapshot: pattern_library.py + pipeline.py, July 27 2026</div>
+    </header>
+
+    <section class="metrics" aria-label="Detection engine metrics">
+      <div class="metric"><span>Total detection rules</span><strong>42</strong><span>Across log, traffic, behavior, event, and code detectors.</span></div>
+      <div class="metric"><span>Mapped ATT&amp;CK IDs</span><strong>56</strong><span>Unique technique and sub-technique IDs in rule mappings.</span></div>
+      <div class="metric"><span>Telemetry sources</span><strong>5</strong><span>Pipeline keys: logs, traffic, behaviors, events, code.</span></div>
+      <div class="metric"><span>Critical queue</span><strong>9</strong><span>Critical severity rules from central pattern library.</span></div>
+      <div class="metric"><span>High queue</span><strong>25</strong><span>Largest operational review band.</span></div>
+      <div class="metric"><span>Pipeline stages</span><strong>5</strong><span>All detectors initialized by DetectionPipeline.</span></div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>3D Detection Pipeline</h2>
+          <div class="panel-note">Height encodes rule volume; color encodes dominant severity.</div>
+        </div>
+        <div class="scene">
+          <canvas id="pipeline3d" aria-label="3D detection pipeline view"></canvas>
+          <div id="pipelineFallback" class="fallback" role="img" aria-label="Fallback detection pipeline flow"></div>
+        </div>
+        <div class="legend">
+          <span><i class="swatch" style="background:#ff6262"></i>Critical-heavy</span>
+          <span><i class="swatch" style="background:#efb54f"></i>High-heavy</span>
+          <span><i class="swatch" style="background:#5bb5ff"></i>Mixed/medium</span>
+          <span><i class="swatch" style="background:#63d78d"></i>Low present</span>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Rule Coverage by Source</h2>
+            <div class="panel-note">Counts derived from pattern_library.py.</div>
+          </div>
+          <div class="content">
+            <div class="chart-box"><canvas id="sourceChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Severity Queue</h2>
+            <div class="panel-note">Sorted operational triage bands.</div>
+          </div>
+          <div class="content">
+            <div class="chart-box"><canvas id="severityChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Mapping Provenance</h2>
+          <div class="panel-note">Where ATT&amp;CK IDs enter the finding path.</div>
+        </div>
+        <div class="content">
+          <table>
+            <thead><tr><th>Stage</th><th>Source of mapping</th><th>Operational note</th></tr></thead>
+            <tbody>
+              <tr><td>Pattern library</td><td>Each rule declares technique_ids.</td><td><span class="pill ok">primary source</span></td></tr>
+              <tr><td>Base detector</td><td>ATTACKMappingBuilder resolves IDs against ATTACKIndex.</td><td><span class="pill ok">validated path</span></td></tr>
+              <tr><td>Finding output</td><td>DetectionFinding carries mappings beside evidence.</td><td><span class="pill ok">traceable</span></td></tr>
+              <tr><td>Serialization</td><td>run_and_serialize emits attack_mappings dictionaries.</td><td><span class="pill ok">exportable</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Pipeline Health</h2>
+          <div class="panel-note">Static readiness checks from pipeline.py and tests.</div>
+        </div>
+        <div class="content">
+          <table>
+            <thead><tr><th>Check</th><th>Expected condition</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Detector fan-out</td><td>logs, traffic, behaviors, events, code branches are routed.</td><td><span class="pill ok">configured</span></td></tr>
+              <tr><td>Ordering</td><td>Findings sort by severity, then confidence descending.</td><td><span class="pill ok">configured</span></td></tr>
+              <tr><td>Evidence</td><td>Raw telemetry retained in each finding.</td><td><span class="pill ok">retained</span></td></tr>
+              <tr><td>Rule drift</td><td>Dashboard is a static snapshot, not live instrumentation.</td><td><span class="pill warn">snapshot</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const detectionData = {
+      sources: [
+        { name: "Logs", rules: 25, color: 0xefb54f, severities: { critical: 5, high: 15, medium: 3, low: 2 } },
+        { name: "Traffic", rules: 7, color: 0x5bb5ff, severities: { critical: 1, high: 4, medium: 2, low: 0 } },
+        { name: "Behavior", rules: 3, color: 0xefb54f, severities: { critical: 1, high: 2, medium: 0, low: 0 } },
+        { name: "Events", rules: 2, color: 0xff6262, severities: { critical: 2, high: 0, medium: 0, low: 0 } },
+        { name: "Code", rules: 5, color: 0xefb54f, severities: { critical: 0, high: 4, medium: 1, low: 0 } }
+      ],
+      severity: { Critical: 9, High: 25, Medium: 6, Low: 2 }
+    };
+
+    function hasWebGL() {
+      try {
+        const canvas = document.createElement("canvas");
+        return Boolean(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function renderPipelineFallback(reason) {
+      const canvas = document.getElementById("pipeline3d");
+      const fallback = document.getElementById("pipelineFallback");
+      canvas.style.display = "none";
+      fallback.style.display = "block";
+      fallback.innerHTML = `
+        <p style="color:#9eaaa7;margin:0 0 12px;">3D view unavailable: ${reason}. Showing static pipeline fallback.</p>
+        <div class="fallback-flow">
+          ${detectionData.sources.map((source) => `
+            <div class="flow-cell" style="border-top-color:#${source.color.toString(16).padStart(6, "0")}">
+              <b>${source.name}</b><small>${source.rules} rules routed into ATT&CK mapping builder.</small>
+            </div>`).join("")}
+        </div>`;
+    }
+
+    function renderPipeline3d() {
+      if (!window.THREE) {
+        renderPipelineFallback("Three.js CDN not loaded");
+        return;
+      }
+      if (!hasWebGL()) {
+        renderPipelineFallback("WebGL not available");
+        return;
+      }
+
+      const canvas = document.getElementById("pipeline3d");
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0b0f10);
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      const width = canvas.clientWidth || canvas.parentElement.clientWidth;
+      const height = canvas.clientHeight || 430;
+      renderer.setSize(width, height, false);
+
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.set(7.5, 7.2, 11);
+      camera.lookAt(0, 1.1, 0);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+      const key = new THREE.DirectionalLight(0xffffff, 0.9);
+      key.position.set(5, 9, 8);
+      scene.add(key);
+
+      const grid = new THREE.GridHelper(15, 15, 0x34424a, 0x20282d);
+      scene.add(grid);
+
+      detectionData.sources.forEach((source, index) => {
+        const x = (index - 2) * 2.1;
+        const h = Math.max(0.55, source.rules / 4.2);
+        const mat = new THREE.MeshStandardMaterial({ color: source.color, roughness: 0.46, metalness: 0.16 });
+        const block = new THREE.Mesh(new THREE.BoxGeometry(1.25, h, 1.25), mat);
+        block.position.set(x, h / 2, 0);
+        scene.add(block);
+
+        if (index < detectionData.sources.length - 1) {
+          const pipe = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.08, 0.08, 1.28, 18),
+            new THREE.MeshStandardMaterial({ color: 0x4dd0d8, roughness: 0.35 })
+          );
+          pipe.rotation.z = Math.PI / 2;
+          pipe.position.set(x + 1.05, 0.38, 0);
+          scene.add(pipe);
+        }
+      });
+
+      const queueColors = [0xff6262, 0xefb54f, 0x5bb5ff, 0x63d78d];
+      Object.values(detectionData.severity).forEach((value, index) => {
+        const sphere = new THREE.Mesh(
+          new THREE.SphereGeometry(Math.max(0.18, value / 38), 24, 16),
+          new THREE.MeshStandardMaterial({ color: queueColors[index], roughness: 0.42 })
+        );
+        sphere.position.set(-3.1 + index * 2.05, 0.45, 3.2);
+        scene.add(sphere);
+      });
+
+      function frame() {
+        scene.rotation.y += 0.0015;
+        renderer.render(scene, camera);
+        requestAnimationFrame(frame);
+      }
+      frame();
+    }
+
+    function renderBarFallback(container, labels, values, colors) {
+      const max = Math.max(...values);
+      container.innerHTML = `<div class="bar-fallback">${labels.map((label, i) => `
+        <div class="bar-line"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${(values[i] / max) * 100}%;background:${colors[i]};"></div></div><b>${values[i]}</b></div>
+      `).join("")}</div>`;
+    }
+
+    function renderCharts() {
+      const text = "#edf3ee";
+      const muted = "#9eaaa7";
+      const grid = "#334047";
+      if (!window.Chart) {
+        renderBarFallback(document.getElementById("sourceChart").parentElement, ["Logs", "Traffic", "Behavior", "Events", "Code"], [25, 7, 3, 2, 5], ["#efb54f", "#5bb5ff", "#efb54f", "#ff6262", "#efb54f"]);
+        renderBarFallback(document.getElementById("severityChart").parentElement, ["Critical", "High", "Medium", "Low"], [9, 25, 6, 2], ["#ff6262", "#efb54f", "#5bb5ff", "#63d78d"]);
+        return;
+      }
+
+      new Chart(document.getElementById("sourceChart"), {
+        type: "bar",
+        data: {
+          labels: ["Logs", "Traffic", "Behavior", "Events", "Code"],
+          datasets: [{ label: "Rules", data: [25, 7, 3, 2, 5], backgroundColor: ["#efb54f", "#5bb5ff", "#efb54f", "#ff6262", "#efb54f"] }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { color: muted }, grid: { color: "transparent" } },
+            y: { beginAtZero: true, ticks: { color: muted }, grid: { color: grid } }
+          },
+          plugins: { legend: { labels: { color: text, boxWidth: 12 } } }
+        }
+      });
+
+      new Chart(document.getElementById("severityChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["Critical", "High", "Medium", "Low"],
+          datasets: [{ data: [9, 25, 6, 2], backgroundColor: ["#ff6262", "#efb54f", "#5bb5ff", "#63d78d"], borderColor: "#161b1d" }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom", labels: { color: text, boxWidth: 12 } } }
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderPipeline3d();
+      renderCharts();
+    });
+  </script>
+</body>
+</html>

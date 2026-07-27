@@ -2,11 +2,11 @@
 Sigma rule compiler to ATT&CK-mapped detection rules.
 """
 
-import yaml
 import re
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass, field
-from attack_core.models import ATTACKMapping
+from dataclasses import dataclass
+from typing import Any, Dict, List
+
+import yaml
 from attack_core.index import ATTACKIndex
 
 
@@ -28,7 +28,7 @@ class RuleEngine:
         self.rules: List[SigmaRule] = []
 
     def load_sigma_file(self, file_path: str) -> List[SigmaRule]:
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             content = f.read()
 
         docs = list(yaml.safe_load_all(content))
@@ -53,10 +53,10 @@ class RuleEngine:
     def _extract_techniques(self, tags: List[str]) -> List[str]:
         techniques = []
         for tag in tags:
-            match = re.match(r'attack\.t(\d{4,5})', tag, re.IGNORECASE)
+            match = re.match(r"attack\.t(\d{4,5})", tag, re.IGNORECASE)
             if match:
                 techniques.append(f"T{match.group(1)}")
-            match = re.match(r'attack\.t(\d{4})\.(\d{3})', tag, re.IGNORECASE)
+            match = re.match(r"attack\.t(\d{4})\.(\d{3})", tag, re.IGNORECASE)
             if match:
                 techniques.append(f"T{match.group(1)}.{match.group(2)}")
         return techniques
