@@ -69,7 +69,14 @@ LOG_PATTERNS = [
             {"type": "event_id", "values": [4688, 4104]},
             {
                 "type": "message_contains",
-                "keywords": ["powershell", "pwsh", "-enc", "-encoded", "-nop", "-w hidden"],
+                "keywords": [
+                    "powershell",
+                    "pwsh",
+                    "-enc",
+                    "-encoded",
+                    "-nop",
+                    "-w hidden",
+                ],
             },
         ],
     },
@@ -85,7 +92,15 @@ LOG_PATTERNS = [
             {"type": "field_regex", "field": "Image", "pattern": r"cmd\.exe"},
             {
                 "type": "message_contains",
-                "keywords": ["/c", "/k", "&&", "||", "powershell", "wscript", "cscript"],
+                "keywords": [
+                    "/c",
+                    "/k",
+                    "&&",
+                    "||",
+                    "powershell",
+                    "wscript",
+                    "cscript",
+                ],
             },
         ],
     },
@@ -122,7 +137,13 @@ LOG_PATTERNS = [
             {"type": "event_id", "values": [4688]},
             {
                 "type": "message_contains",
-                "keywords": ["systeminfo", "whoami", "hostname", "ipconfig", "net config"],
+                "keywords": [
+                    "systeminfo",
+                    "whoami",
+                    "hostname",
+                    "ipconfig",
+                    "net config",
+                ],
             },
         ],
     },
@@ -216,7 +237,13 @@ LOG_PATTERNS = [
             {"type": "source_type", "values": ["email", "exchange", "o365"]},
             {
                 "type": "message_contains",
-                "keywords": ["phish", "malware", "credential", "verify account", "urgent action"],
+                "keywords": [
+                    "phish",
+                    "malware",
+                    "credential",
+                    "verify account",
+                    "urgent action",
+                ],
             },
         ],
     },
@@ -432,7 +459,10 @@ AI_TECHNIQUE_PATTERNS = [
         "technique_ids": ["T1683.001", "T1566"],
         "description": "Automated high-volume content generation via LLM API for use in phishing or disinformation. Pattern: rapid sequential LLM completions with variable substitution.",
         "conditions": [
-            {"type": "message_contains", "keywords": ["completion", "generate", "prompt"]},
+            {
+                "type": "message_contains",
+                "keywords": ["completion", "generate", "prompt"],
+            },
             {
                 "type": "field_regex",
                 "field": "request_count_per_min",
@@ -477,7 +507,11 @@ AI_TECHNIQUE_PATTERNS = [
                 "field": "from_header",
                 "pattern": r"([Cc][Ee][Oo]|[Cc][Ff][Oo]|[Hh][Rr]|[Ii][Tt] [Ss]upport)",
             },
-            {"type": "field_regex", "field": "reply_to", "pattern": r"@(?!yourdomain\.com)"},
+            {
+                "type": "field_regex",
+                "field": "reply_to",
+                "pattern": r"@(?!yourdomain\.com)",
+            },
         ],
     },
     {
@@ -489,7 +523,10 @@ AI_TECHNIQUE_PATTERNS = [
         "description": "Inbound email failed DMARC check with spoofed From: domain. T1684.002 Email Spoofing — new sub-technique in ATT&CK v19 (previously standalone T1566.003).",
         "conditions": [
             {"type": "field_regex", "field": "dmarc_result", "pattern": r"fail"},
-            {"type": "message_contains", "keywords": ["Authentication-Results", "dmarc=fail"]},
+            {
+                "type": "message_contains",
+                "keywords": ["Authentication-Results", "dmarc=fail"],
+            },
         ],
     },
     {
@@ -515,7 +552,11 @@ AI_TECHNIQUE_PATTERNS = [
         "technique_ids": ["T1689"],
         "description": "Network connection negotiated TLS 1.0 or SSL 3.0 after initial higher-version offer. T1689 Downgrade Attack — new in ATT&CK v19.",
         "conditions": [
-            {"type": "field_regex", "field": "tls_version", "pattern": r"(TLSv1\.0|SSLv3|TLSv1$)"},
+            {
+                "type": "field_regex",
+                "field": "tls_version",
+                "pattern": r"(TLSv1\.0|SSLv3|TLSv1$)",
+            },
             {
                 "type": "field_regex",
                 "field": "tls_negotiation_log",

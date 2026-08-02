@@ -26,12 +26,16 @@ def test_log_detector_powershell(pipeline):
             "host": "TEST-HOST",
             "timestamp": "2024-01-01T00:00:00Z",
             "source_type": "windows",
-            "fields": {"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"},
+            "fields": {
+                "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+            },
         }
     ]
     findings = pipeline.run({"logs": logs})
     assert len(findings) > 0
-    ps_findings = [f for f in findings if "T1059" in [m.technique_id for m in f.mappings]]
+    ps_findings = [
+        f for f in findings if "T1059" in [m.technique_id for m in f.mappings]
+    ]
     assert len(ps_findings) > 0
 
 
@@ -47,7 +51,9 @@ def test_log_detector_credential_dumping(pipeline):
         }
     ]
     findings = pipeline.run({"logs": logs})
-    cred_findings = [f for f in findings if any("T1003" in m.technique_id for m in f.mappings)]
+    cred_findings = [
+        f for f in findings if any("T1003" in m.technique_id for m in f.mappings)
+    ]
     assert len(cred_findings) > 0
 
 
@@ -70,7 +76,9 @@ def test_traffic_detector_beaconing(pipeline):
         )
     findings = pipeline.run({"traffic": traffic})
     beacon_findings = [
-        f for f in findings if any(m.technique_id.startswith("T1071") for m in f.mappings)
+        f
+        for f in findings
+        if any(m.technique_id.startswith("T1071") for m in f.mappings)
     ]
     assert len(beacon_findings) > 0
 
@@ -79,7 +87,10 @@ def test_traffic_detector_dns_tunneling(pipeline):
     import random
     import string
 
-    query = "".join(random.choices(string.ascii_letters + string.digits, k=60)) + ".evil.com"
+    query = (
+        "".join(random.choices(string.ascii_letters + string.digits, k=60))
+        + ".evil.com"
+    )
     traffic = [
         {
             "record_type": "dns",
@@ -91,7 +102,9 @@ def test_traffic_detector_dns_tunneling(pipeline):
     ]
     findings = pipeline.run({"traffic": traffic})
     dns_findings = [
-        f for f in findings if any(m.technique_id.startswith("T1048") for m in f.mappings)
+        f
+        for f in findings
+        if any(m.technique_id.startswith("T1048") for m in f.mappings)
     ]
     assert len(dns_findings) > 0
 
@@ -106,7 +119,9 @@ def test_code_detector_python_eval(pipeline):
         }
     ]
     findings = pipeline.run({"code": code})
-    eval_findings = [f for f in findings if "T1059" in [m.technique_id for m in f.mappings]]
+    eval_findings = [
+        f for f in findings if "T1059" in [m.technique_id for m in f.mappings]
+    ]
     assert len(eval_findings) > 0
 
 
@@ -119,7 +134,9 @@ def test_code_detector_powershell_iex(pipeline):
         }
     ]
     findings = pipeline.run({"code": code})
-    ps_findings = [f for f in findings if "T1059" in [m.technique_id for m in f.mappings]]
+    ps_findings = [
+        f for f in findings if "T1059" in [m.technique_id for m in f.mappings]
+    ]
     assert len(ps_findings) > 0
 
 

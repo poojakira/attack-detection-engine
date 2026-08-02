@@ -157,6 +157,7 @@ class EventDetector(BaseDetector):
             raw_evidence=evidence,
             mappings=[mapping],
             timestamp=str(evidence.get("timestamp", "")),
-            host=evidence.get("host", "") or evidence.get("agent", {}).get("hostname", ""),
+            host=evidence.get("host", "")
+            or evidence.get("agent", {}).get("hostname", ""),
             description=description,
         )

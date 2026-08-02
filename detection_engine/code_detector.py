@@ -19,7 +19,9 @@ class CodeDetector(BaseDetector):
         compiled = pattern.copy()
         if pattern.get("pattern"):
             try:
-                compiled["regex"] = re.compile(pattern["pattern"], re.IGNORECASE | re.MULTILINE)
+                compiled["regex"] = re.compile(
+                    pattern["pattern"], re.IGNORECASE | re.MULTILINE
+                )
             except re.error:
                 compiled["regex"] = None
         return compiled
@@ -46,7 +48,9 @@ class CodeDetector(BaseDetector):
 
     def _make_finding(self, pattern: Dict, record: Dict) -> Optional[DetectionFinding]:
         matches = (
-            pattern["regex"].findall(record.get("source_code", "")) if pattern.get("regex") else []
+            pattern["regex"].findall(record.get("source_code", ""))
+            if pattern.get("regex")
+            else []
         )
         evidence = {
             "file_path": record.get("file_path", ""),

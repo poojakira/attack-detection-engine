@@ -53,7 +53,8 @@ class LogDetector(BaseDetector):
                     mapping_list = [
                         m
                         for tid in pattern["technique_ids"]
-                        if (m := self._build_mapping(tid, pattern["confidence"])) is not None
+                        if (m := self._build_mapping(tid, pattern["confidence"]))
+                        is not None
                     ]
                     finding = DetectionFinding(
                         rule_id=pattern["rule_id"],
@@ -74,7 +75,9 @@ class LogDetector(BaseDetector):
         for condition in pattern.get("conditions", []):
             ctype = condition["type"]
             if ctype == "event_id":
-                if str(record.get("event_id")) not in [str(e) for e in condition["values"]]:
+                if str(record.get("event_id")) not in [
+                    str(e) for e in condition["values"]
+                ]:
                     return False
             elif ctype == "field_regex":
                 field_val = str(record.get("fields", {}).get(condition["field"], ""))
@@ -82,7 +85,8 @@ class LogDetector(BaseDetector):
                     return False
             elif ctype == "message_contains":
                 if not any(
-                    kw.lower() in record.get("message", "").lower() for kw in condition["keywords"]
+                    kw.lower() in record.get("message", "").lower()
+                    for kw in condition["keywords"]
                 ):
                     return False
             elif ctype == "source_type":

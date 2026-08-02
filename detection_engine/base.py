@@ -33,5 +33,7 @@ class BaseDetector(ABC):
         """
         pass
 
-    def _build_mapping(self, technique_id: str, confidence: float) -> Optional[ATTACKMapping]:
+    def _build_mapping(
+        self, technique_id: str, confidence: float
+    ) -> Optional[ATTACKMapping]:
         return self.mapping_builder.build(technique_id, confidence)

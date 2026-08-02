@@ -125,7 +125,9 @@ class TestRevokedIDHandling:
         actual_revocations = {k: v for k, v in V19_REVOCATION_MAP.items() if k != v}
         for old_id, new_id in actual_revocations.items():
             tech = self.index.get(new_id)
-            assert tech is not None, f"Revoked {old_id} maps to {new_id} but {new_id} not in index"
+            assert (
+                tech is not None
+            ), f"Revoked {old_id} maps to {new_id} but {new_id} not in index"
 
 
 class TestGracefulDegradation:
@@ -138,7 +140,17 @@ class TestGracefulDegradation:
             assert self.index.get(revoked_id) is not None
 
     def test_new_v19_ids_resolvable_if_stix_is_v19(self):
-        new_ids = ["T1682", "T1683", "T1684", "T1685", "T1686", "T1687", "T1688", "T1689", "T1690"]
+        new_ids = [
+            "T1682",
+            "T1683",
+            "T1684",
+            "T1685",
+            "T1686",
+            "T1687",
+            "T1688",
+            "T1689",
+            "T1690",
+        ]
         found = [tid for tid in new_ids if self.index.get(tid) is not None]
         assert len(found) >= 5
 

@@ -107,7 +107,10 @@ class BehaviorDetector(BaseDetector):
         proc.get("parent_image", "").lower()
 
         if "temp" in image_path or "appdata" in image_path:
-            if any(x in cmdline for x in ["powershell", "cmd", "wscript", "cscript", "rundll32"]):
+            if any(
+                x in cmdline
+                for x in ["powershell", "cmd", "wscript", "cscript", "rundll32"]
+            ):
                 finding = self._make_finding(
                     "T1059",
                     "Script Execution from Temp/AppData",
