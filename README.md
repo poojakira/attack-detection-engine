@@ -71,3 +71,9 @@ Known limits:
 - Security scans are build targets; dependency advisories can change after this local snapshot.
 - No production-readiness or benchmark-certification claim is made from local checks alone.
 <!-- /engineering-update-2026-07-27 -->
+
+## Repository Security Gate
+
+This repository uses an open-source security gate in CI instead of GitHub Advanced Security. The gate runs Bandit against `detection_engine`, audits installed Python dependencies with pip-audit, creates a CycloneDX SBOM, and uploads JSON and Markdown evidence as a workflow artifact. It fails for medium/high Bandit findings or dependency vulnerabilities unless a vulnerability ID is explicitly reviewed and added to `.github/security-allowlist.json`.
+
+The reports are downloadable workflow artifacts. They do not create GitHub Code Scanning alerts because that service is not enabled for this private repository.

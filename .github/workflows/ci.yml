@@ -106,30 +106,62 @@ jobs:
           fi
           echo "Collected $count tests"
 
-  codeql:
-    name: CodeQL Analysis
+  security-gate:
+    name: Repository Security Gate
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     permissions:
-      actions: read
-      security-events: write
       contents: read
     needs: lint
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['python']
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@192325c86100d080feab897ff886c34abd4c83a3
+      - name: Checkout attack-v19-core
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          languages: ${{ matrix.language }}
-          queries: +security-and-quality
+          repository: poojakira/attack-v19-core
+          path: attack-v19-core
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@192325c86100d080feab897ff886c34abd4c83a3
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          category: "/language:${{ matrix.language }}"
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install security tooling and project dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit==1.8.3 pip-audit==2.10.1 cyclonedx-bom==5.1.1
+          pip install -e ./attack-v19-core
+          pip install -e ".[dev]"
+
+      - name: Run Bandit SAST
+        run: |
+          mkdir -p security-reports
+          bandit -r detection_engine -ll -f json -o security-reports/bandit.json || true
+
+      - name: Audit Python dependencies
+        run: |
+          python -m pip_audit --format json --output security-reports/pip-audit.json || audit_exit=$?
+          test -f security-reports/pip-audit.json
+          echo "pip-audit exit code: ${audit_exit:-0}"
+
+      - name: Generate CycloneDX SBOM
+        run: cyclonedx-py environment --output-format JSON --outfile security-reports/sbom.json
+
+      - name: Enforce repository security policy
+        run: |
+          python .github/scripts/security_gate.py \
+            --bandit security-reports/bandit.json \
+            --pip-audit security-reports/pip-audit.json \
+            --allowlist .github/security-allowlist.json \
+            --summary security-reports/security-summary.md
+
+      - name: Upload repository security evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: repository-security-report
+          path: security-reports/
+          retention-days: 90
