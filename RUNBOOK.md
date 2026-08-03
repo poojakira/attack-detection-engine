@@ -1,5 +1,26 @@
 # Runbook
 
+## Important: Sibling Dependency
+
+This package depends on `attack-v19-core` which is NOT on PyPI. You must install it from the sibling repo first:
+
+```bash
+# Clone both repos side by side
+git clone https://github.com/poojakira/attack-v19-core.git
+git clone https://github.com/poojakira/attack-detection-engine.git
+
+# Install attack-v19-core first
+cd attack-v19-core
+pip install -e .
+cd ..
+
+# Then install this package
+cd attack-detection-engine
+pip install -e ".[dev]"
+```
+
+Running `pip install -e ".[dev]"` alone **will fail** with: `Could not find a version that satisfies the requirement attack-v19-core>=19.1.0`
+
 ## Build Commands
 
 | Command | What it does |
