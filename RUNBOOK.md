@@ -2,24 +2,17 @@
 
 ## Important: Sibling Dependency
 
-This package depends on `attack-v19-core` which is NOT on PyPI. You must install it from the sibling repo first:
+This package depends on the versioned `attack-v19-core` package. Install from PyPI for normal use; a sibling checkout is only needed when developing both repositories together:
 
 ```bash
-# Clone both repos side by side
-git clone https://github.com/poojakira/attack-v19-core.git
-git clone https://github.com/poojakira/attack-detection-engine.git
-
-# Install attack-v19-core first
-cd attack-v19-core
-pip install -e .
-cd ..
-
-# Then install this package
-cd attack-detection-engine
+pip install "attack-v19-core>=19.2,<20"
 pip install -e ".[dev]"
+
+# Optional: when developing both repositories together, install the sibling
+# checkout editable before installing this project.
 ```
 
-Running `pip install -e ".[dev]"` alone **will fail** with: `Could not find a version that satisfies the requirement attack-v19-core>=19.1.0`
+`pip install -e ".[dev]"` resolves `attack-v19-core` from the configured package index. CI may still use an explicit checkout when validating unreleased cross-repository changes.
 
 ## Build Commands
 
@@ -47,7 +40,7 @@ This starts a Python HTTP server on port 8080. The dashboard is a visualization 
 
 ## Dependencies
 
-- `attack-v19-core` is required at runtime. CI checks it out using `ATTACK_CORE_TOKEN`.
+- `attack-v19-core>=19.2,<20` is the runtime taxonomy dependency. Production images pin an immutable core source revision; normal package installs use the released package.
 - STIX data is downloaded and pinned during the `make data` step.
 
 ## What Has Been Validated Locally
