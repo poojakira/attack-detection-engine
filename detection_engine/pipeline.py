@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from attack_core.index import ATTACKIndex
+from attack_v19_core.index import ATTACKIndex
 
 from .base import DetectionFinding
 from .behavior_detector import BehaviorDetector
