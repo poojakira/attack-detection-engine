@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
-from attack_core.mapping import ATTACKMappingBuilder
-from attack_core.models import ATTACKMapping
+from attack_v19_core.mapping import ATTACKMappingBuilder
+from attack_v19_core.models import ATTACKMapping
 
 
 @dataclass
