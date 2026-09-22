@@ -7,7 +7,7 @@ if CORE.exists():
     sys.path.insert(0, str(CORE))
 sys.path.insert(0, str(ROOT))
 
-from attack_core import ATTACKIndex, ATTACKLoader  # noqa: E402
+from attack_v19_core import ATTACKIndex, ATTACKLoader  # noqa: E402
 from detection_engine import DetectionPipeline  # noqa: E402
 
 loader = ATTACKLoader()
