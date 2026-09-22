@@ -22,6 +22,7 @@ concurrency:
 env:
   PYTHON_VERSION: "3.12"
   RUFF_VERSION: "0.8.4"
+  ATTACK_CORE_REF: "81fe918cab319c77ddfaa7c091c851377028e716"
 
 jobs:
   lint:
@@ -64,6 +65,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: poojakira/attack-v19-core
+          ref: ${{ env.ATTACK_CORE_REF }}
           path: attack-v19-core
 
       - name: Set up Python ${{ matrix.python-version }}
@@ -121,6 +123,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: poojakira/attack-v19-core
+          ref: ${{ env.ATTACK_CORE_REF }}
           path: attack-v19-core
 
       - name: Set up Python
