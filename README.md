@@ -31,7 +31,7 @@ There are 5 detectors, each handling a different type of input:
 You pass a dictionary of telemetry to `DetectionPipeline.run()`. Each key corresponds to a detector:
 
 ```python
-from attack_core import ATTACKLoader, ATTACKIndex
+from attack_v19_core import ATTACKLoader, ATTACKIndex
 from detection_engine import DetectionPipeline
 
 loader = ATTACKLoader()
