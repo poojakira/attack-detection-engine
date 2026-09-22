@@ -7,10 +7,10 @@ import logging
 from unittest.mock import patch
 
 import pytest
-from attack_core.constants import V19_REVOCATION_MAP
-from attack_core.index import ATTACKIndex
-from attack_core.loader import ATTACKLoader
-from attack_core.models import ATTACKMapping, Domain
+from attack_v19_core.constants import V19_REVOCATION_MAP
+from attack_v19_core.index import ATTACKIndex
+from attack_v19_core.loader import ATTACKLoader
+from attack_v19_core.models import ATTACKMapping, Domain
 from detection_engine.base import BaseDetector
 
 
