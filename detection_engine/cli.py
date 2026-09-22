@@ -6,7 +6,7 @@ import sys
 from collections.abc import Iterable
 from typing import Any, TextIO
 
-from attack_core import ATTACKIndex, ATTACKLoader
+from attack_v19_core import ATTACKIndex, ATTACKLoader
 
 from .pipeline import DetectionPipeline
 
