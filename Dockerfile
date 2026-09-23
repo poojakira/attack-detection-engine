@@ -5,7 +5,8 @@ RUN test -n "$ATTACK_CORE_REF" || (echo "ATTACK_CORE_REF must be an immutable at
 
 WORKDIR /app
 RUN python -m pip install --no-cache-dir --upgrade pip \
-    && python -m pip install --no-cache-dir "git+https://github.com/poojakira/attack-v19-core.git@$ATTACK_CORE_REF"
+    && python -m pip install --no-cache-dir \
+      "attack-v19-core @ https://github.com/poojakira/attack-v19-core/archive/$ATTACK_CORE_REF.zip"
 
 COPY . /app
 RUN python -m pip install --no-cache-dir .
