@@ -27,7 +27,11 @@ class _Pipeline:
 
 def test_cli_processes_ndjson(monkeypatch, capsys):
     monkeypatch.setattr(cli, "build_pipeline", lambda: _Pipeline())
-    monkeypatch.setattr(cli.sys, "stdin", io.StringIO(json.dumps({"logs": [{"message": "test"}]}) + "\n"))
+    monkeypatch.setattr(
+        cli.sys,
+        "stdin",
+        io.StringIO(json.dumps({"logs": [{"message": "test"}]}) + "\n"),
+    )
 
     rc = cli.main(["--input", "-", "--output", "-", "--fail-on", "high"])
 

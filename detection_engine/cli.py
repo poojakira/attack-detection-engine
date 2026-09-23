@@ -25,13 +25,17 @@ def _iter_records(stream: TextIO) -> Iterable[tuple[int, dict[str, Any]]]:
         if not raw.strip():
             continue
         if len(raw.encode("utf-8")) > _MAX_RECORD_BYTES:
-            raise ValueError(f"line {line_number}: record exceeds {_MAX_RECORD_BYTES} bytes")
+            raise ValueError(
+                f"line {line_number}: record exceeds {_MAX_RECORD_BYTES} bytes"
+            )
         try:
             value = json.loads(raw)
         except json.JSONDecodeError as exc:
             raise ValueError(f"line {line_number}: invalid JSON: {exc.msg}") from exc
         if not isinstance(value, dict):
-            raise ValueError(f"line {line_number}: telemetry record must be a JSON object")
+            raise ValueError(
+                f"line {line_number}: telemetry record must be a JSON object"
+            )
         yield line_number, value
 
 
@@ -48,7 +52,9 @@ def main(argv: list[str] | None = None) -> int:
         description="Read telemetry as NDJSON and emit ATT&CK-mapped detection findings."
     )
     parser.add_argument("--input", default="-", help="NDJSON input path or - for stdin")
-    parser.add_argument("--output", default="-", help="NDJSON output path or - for stdout")
+    parser.add_argument(
+        "--output", default="-", help="NDJSON output path or - for stdout"
+    )
     parser.add_argument(
         "--fail-on",
         choices=("never", "critical", "high", "medium", "low", "info"),
@@ -71,7 +77,9 @@ def main(argv: list[str] | None = None) -> int:
             for line_number, telemetry in _iter_records(source):
                 findings = pipeline.run_and_serialize(telemetry)
                 for finding in findings:
-                    max_seen = max(max_seen, severity_rank.get(str(finding["severity"]).upper(), 0))
+                    max_seen = max(
+                        max_seen, severity_rank.get(str(finding["severity"]).upper(), 0)
+                    )
                 destination.write(
                     json.dumps(
                         {
