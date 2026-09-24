@@ -83,7 +83,7 @@ class TestRevokedIDHandling:
 
     def test_revoked_id_that_also_missing_returns_none(self, caplog):
         caplog.set_level(logging.ERROR)
-        with patch("attack_core.mapping.V19_REVOCATION_MAP", {"T9999": "T8888"}):
+        with patch("attack_v19_core.mapping.V19_REVOCATION_MAP", {"T9999": "T8888"}):
             result = self.detector._build_mapping("T9999", 0.5)
 
         assert result is None

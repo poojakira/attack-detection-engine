@@ -13,7 +13,7 @@ permissions:
   attestations: write
 
 env:
-  ATTACK_CORE_REF: "992275fadaa2338a2b3baf8cbc94d86e2ad9cf48"
+  ATTACK_CORE_REF: "274dd164690373072e7c84110b8d71c8419f1a12"
 
 jobs:
   container:

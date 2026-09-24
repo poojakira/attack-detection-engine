@@ -22,7 +22,7 @@ concurrency:
 env:
   PYTHON_VERSION: "3.12"
   RUFF_VERSION: "0.8.4"
-  ATTACK_CORE_REF: "992275fadaa2338a2b3baf8cbc94d86e2ad9cf48"
+  ATTACK_CORE_REF: "274dd164690373072e7c84110b8d71c8419f1a12"
 
 jobs:
   lint:
