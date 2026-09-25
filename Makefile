@@ -1,7 +1,7 @@
 PYTHON ?= python
 PIP ?= $(PYTHON) -m pip
 ATTACK_CORE_PATH ?= ../attack-v19-core
-SRC := detection_engine tests debug_beacon.py
+SRC := detection_engine tests
 
 .PHONY: install install-core data lint format test build security dashboard verify
 
