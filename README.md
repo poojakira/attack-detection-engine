@@ -88,7 +88,7 @@ The `attack-v19-core` package must be available. If you're developing locally wi
 ```bash
 make lint       # ruff check
 make format     # ruff format
-make test       # pytest (27 tests)
+make test       # pytest (23 test functions, 29 cases with parametrization)
 make build      # build wheel
 make security   # bandit + pip-audit
 make verify     # all of the above in sequence
@@ -96,9 +96,10 @@ make verify     # all of the above in sequence
 
 ## Tests
 
-There are 27 tests across 2 test files:
-- `tests/test_pipeline.py` — integration tests that pass telemetry through the pipeline and verify detections fire for powershell, credential dumping, beaconing, DNS tunneling, code eval, and serialization
-- `tests/test_revoked_id_handling.py` — tests that revoked ATT&CK technique IDs are correctly remapped
+There are 23 test functions across 3 test files (pytest collects 29 cases because one test is parametrized):
+- `tests/test_pipeline.py` (8) — integration tests that pass telemetry through the pipeline and verify detections fire for powershell, credential dumping, beaconing, DNS tunneling, code eval, and serialization
+- `tests/test_revoked_id_handling.py` (13) — tests that revoked ATT&CK technique IDs are correctly remapped
+- `tests/test_cli.py` (2) — tests that the CLI processes NDJSON input and rejects non-object records
 
 ## CI Security Gate
 

@@ -134,6 +134,10 @@ class TrafficDetector(BaseDetector):
         return cv < 0.3
 
     def _get_known_destinations(self, src_ip: str) -> set:
+        # Placeholder: no known-destination baseline is tracked yet, so this
+        # intentionally returns an empty set. As a result, the T1041 large-transfer
+        # check above treats every destination as "new". Wire up a real baseline
+        # (e.g. learned per-src_ip destinations) before relying on that heuristic.
         return set()
 
     def _track_port_scan(self, src_ip: str, dst_ip: str, dst_port: int, timestamp: str):
