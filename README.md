@@ -8,6 +8,49 @@
 [![Python >=3.10](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Overview
+
+`attack-detection-engine` takes telemetry (logs, network traffic, process behavior, EDR events, or source code), checks it against a rule library, and returns findings mapped to MITRE ATT&CK v19 technique IDs (via `attack-v19-core`). It exists to turn heterogeneous telemetry into ATT&CK-mapped detections through a single pipeline with five input-specific detectors.
+
+## Verified Snapshot
+
+| Metric | Current verified result |
+|---|---:|
+| Detectors | 5 (log, traffic, behavior, event, code) — verified: 5 detector modules present |
+| ATT&CK mapping | v19 via `attack-v19-core` dependency |
+| Detection rules | documented as 42 (not independently reproduced here — the package import requires the sibling `attack-v19-core`, unavailable on PyPI in this environment) |
+
+> Rule count is the repository's documented figure; it is labeled UNVERIFIED here because the package could not be imported in the audit environment (`attack-v19-core` sibling dependency). Reproduce with the sibling installed.
+
+## Security Problem
+
+Security telemetry arrives in many formats — logs, netflow, process trees, EDR events, source code — and mapping each signal to a consistent threat taxonomy is manual and error-prone. This engine applies input-specific detectors and maps every match to an ATT&CK v19 technique, so heterogeneous telemetry produces a normalized, framework-aligned finding stream.
+
+## Threat Model & Scope
+
+**In scope:** rule-based detection over supplied telemetry, mapped to ATT&CK v19 techniques, across five input types.
+
+**Out of scope / not claimed:** It is a detection/mapping engine over telemetry you provide; it is not a collection agent, EDR, or SIEM, and does not enforce. Detection is rule-based and only as complete as the rule library. Coverage claims (rule count) should be reproduced with the sibling `attack-v19-core` installed.
+
+## Architecture
+
+```text
+Telemetry dict {logs | traffic | behavior | events | code}
+      |
+      v
+DetectionPipeline.run()  -->  per-input detectors (Log/Traffic/Behavior/Event/Code)
+      |
+      v
+Rule matches  -->  ATT&CK v19 technique mapping (attack-v19-core)  -->  findings
+```
+
+## Core Capabilities
+
+- Five input-specific detectors: `LogDetector`, `TrafficDetector`, `BehaviorDetector`, `EventDetector`, `CodeDetector`
+- Rule library mapped to MITRE ATT&CK v19 technique IDs
+- Single `DetectionPipeline.run()` entry point over a telemetry dict
+- ATT&CK lookups via the `attack-v19-core` sibling library
+
 ## What This Is
 
 A detection engine that takes telemetry data (logs, network traffic, process behavior, EDR events, or source code) and checks it against a library of 42 detection rules. When a rule matches, the engine returns a finding mapped to a MITRE ATT&CK v19 technique ID.
