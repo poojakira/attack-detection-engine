@@ -16,7 +16,7 @@ license = {text = "MIT"}
 dependencies = [
     "attack-v19-core>=19.2,<20",
     "mitreattack-python==3.0.3",
-    "stix2==3.0.1",
+    "stix2==3.0.2",
     "taxii2-client==2.3.0",
     "networkx==3.3",
     "pandas==2.2.2",
