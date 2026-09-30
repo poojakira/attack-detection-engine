@@ -12,9 +12,11 @@
 
 `attack-detection-engine` takes telemetry (logs, network traffic, process behavior, EDR events, or source code), checks it against a rule library, and returns findings mapped to MITRE ATT&CK v19 technique IDs (via `attack-v19-core`). It exists to turn heterogeneous telemetry into ATT&CK-mapped detections through a single pipeline with five input-specific detectors.
 
-## Verified Snapshot
+## Repository Evidence Snapshot
 
-| Metric | Current verified result |
+Fresh hosted CI has not executed successfully on the newest private-repository `main`, so the table below distinguishes source-inspected state from figures that still require reproduction.
+
+| Metric | Current documented state |
 |---|---:|
 | Detectors | 5 (log, traffic, behavior, event, code) — verified: 5 detector modules present |
 | ATT&CK mapping | v19 via `attack-v19-core` dependency |
