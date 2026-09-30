@@ -29,3 +29,10 @@ Password reset, SQL tenant isolation, browser XSS, web rate limiting unless a se
 - **Security note:** Re-run CI after hosted-runner/account availability returns before changing the engine based on the current red badge.
 - **Evidence boundary:** This update records repository and GitHub Actions evidence observed during the pass. It is not a claim of independent penetration testing, production deployment, or zero residual risk.
 <!-- repo-verification:end -->
+
+## Verification checkpoint — 2026-09-30
+
+- **Snapshot commit:** `cd871b22a7ae6282539f9645fb9f9de1bd0bed02`
+- **Status:** EXTERNAL ACTION REQUIRED
+- **Evidence:** The GitHub Actions lint job failed before a runner was assigned (`runner_id: 0`) and executed zero steps; dependent test/security jobs were skipped. This is not verified evidence of a code failure.
+- This checkpoint is intentionally date-bounded. It does not claim zero vulnerabilities or universal production readiness.
