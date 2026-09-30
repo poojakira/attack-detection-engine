@@ -23,9 +23,12 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Checkout attack-v19-core
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          persist-credentials: false
           repository: poojakira/attack-v19-core
           ref: ${{ env.ATTACK_CORE_REF }}
           path: attack-v19-core
