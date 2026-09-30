@@ -36,3 +36,12 @@ Password reset, SQL tenant isolation, browser XSS, web rate limiting unless a se
 - **Status:** EXTERNAL ACTION REQUIRED
 - **Evidence:** The GitHub Actions lint job failed before a runner was assigned (`runner_id: 0`) and executed zero steps; dependent test/security jobs were skipped. This is not verified evidence of a code failure.
 - This checkpoint is intentionally date-bounded. It does not claim zero vulnerabilities or universal production readiness.
+
+<!-- hardening-followup-20260930:start -->
+## Follow-up hardening — 2026-09-30
+
+- The checked-in security gate fails closed for missing or malformed scanner JSON and validates the expected pip-audit report structure before evaluating findings.
+- The current dependency-vulnerability allowlist is empty, so no vulnerability IDs are suppressed by repository policy at this snapshot.
+- The repository workflow-policy scanner was hardened on `main` to correctly recognize immutable nested action paths and reject dangerous workflow triggers.
+- Container/runtime isolation and release-environment verification remain deployment evidence requirements; no claim of zero residual risk is made.
+<!-- hardening-followup-20260930:end -->
