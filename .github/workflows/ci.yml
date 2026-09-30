@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
@@ -60,10 +62,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
 
       - name: Checkout attack-v19-core
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
+          persist-credentials: false
           repository: poojakira/attack-v19-core
           ref: ${{ env.ATTACK_CORE_REF }}
           path: attack-v19-core
@@ -118,10 +123,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
 
       - name: Checkout attack-v19-core
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
+          persist-credentials: false
           repository: poojakira/attack-v19-core
           ref: ${{ env.ATTACK_CORE_REF }}
           path: attack-v19-core
