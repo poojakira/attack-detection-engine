@@ -153,3 +153,13 @@ CI runs Bandit against the `detection_engine` package, audits dependencies with 
 ## License
 
 MIT
+
+<!-- repo-verification:start -->
+## Verification update — 2026-09-30
+
+- **Scope:** Account-wide `poojakira` repository pass covering source/configuration, CI/release workflows, security-hygiene gates, dependency/SAST controls, and documentation consistency.
+- **Remediation:** Reviewed the engine’s pinned ATT&CK-core dependency, repository security gate, and release configuration.
+- **Verification state:** Hosted Actions is currently blocked before runner assignment: the latest CI failure contained zero executed steps, so no lint, test, or repository-security step actually ran.
+- **Security note:** Re-run CI after hosted-runner/account availability returns before changing the engine based on the current red badge.
+- **Evidence boundary:** This update records repository and GitHub Actions evidence observed during the pass. It is not a claim of independent penetration testing, production deployment, or zero residual risk.
+<!-- repo-verification:end -->
