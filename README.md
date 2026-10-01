@@ -189,3 +189,9 @@ If a real credential is ever exposed, revoke or rotate it at the provider first,
 - Do not copy or reuse any credential that appears in repository history, examples, tests, screenshots, logs, or documentation. Test strings are not intended to be usable credentials.
 - If a real credential is ever committed, **revoke or rotate it at the credential provider first**, then remove it from the current tree and reachable Git history. Deleting a key from GitHub does not revoke it.
 <!-- security-local-config:end -->
+
+## Cost-safe CI execution
+
+This private repository keeps GitHub Actions workflows on manual workflow dispatch only so ordinary pushes, pull requests, schedules, and tags do not consume hosted-runner minutes unexpectedly.
+
+Local validation is the default. To guarantee zero cost, do not dispatch hosted workflows unless the run is covered by a no-charge allowance or a self-hosted runner; no routine validation should provision cloud infrastructure, call paid external APIs, or publish containers/packages.

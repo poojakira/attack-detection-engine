@@ -1,14 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-  schedule:
-    - cron: '0 2 * * 1'
-
+  # Manual-only in this private repository to avoid unplanned hosted-runner charges.
 permissions:
   contents: read
   security-events: write

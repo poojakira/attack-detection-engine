@@ -1,12 +1,8 @@
 name: Security Hygiene
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-
+  # Manual-only in this private repository to avoid unplanned hosted-runner charges.
 permissions:
   contents: read
 

@@ -1,11 +1,8 @@
 name: Detection Engine Container
 
 on:
-  push:
-    branches: [main]
-    tags: ["v*"]
   workflow_dispatch:
-
+  # Manual-only in this private repository to avoid unplanned hosted-runner charges.
 permissions:
   contents: read
   packages: write
