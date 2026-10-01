@@ -6,7 +6,6 @@ permissions:
   contents: read
   security-events: write
   actions: read
-  id-token: write
 
 concurrency:
   group: ci-${{ github.ref }}
