@@ -14,15 +14,15 @@
 
 ## Repository Evidence Snapshot
 
-Fresh hosted CI has not executed successfully on the newest private-repository `main`, so the table below distinguishes source-inspected state from figures that still require reproduction.
+Hosted CI is intentionally manual-dispatch only for zero-cost operation, so the table below reports locally reproduced source/test evidence rather than implying an automatic hosted run.
 
 | Metric | Current documented state |
 |---|---:|
 | Detectors | 5 (log, traffic, behavior, event, code) — verified: 5 detector modules present |
 | ATT&CK mapping | v19 via `attack-v19-core` dependency |
-| Detection rules | documented as 42 (not independently reproduced here — the package import requires the sibling `attack-v19-core`, unavailable on PyPI in this environment) |
+| Detection rules | 42, reproduced directly from `detection_engine/pattern_library.py`: 15 log + 7 traffic + 3 behavior + 2 event + 5 code + 10 AI-specific patterns |
 
-> Rule count is the repository's documented figure; it is labeled UNVERIFIED here because the package could not be imported in the audit environment (`attack-v19-core` sibling dependency). Reproduce with the sibling installed.
+> The 42-rule count is source-reproduced without importing the sibling package; runtime ATT&CK-ID resolution still depends on the pinned `attack-v19-core` dependency.
 
 ## Security Problem
 
@@ -32,7 +32,7 @@ Security telemetry arrives in many formats — logs, netflow, process trees, EDR
 
 **In scope:** rule-based detection over supplied telemetry, mapped to ATT&CK v19 techniques, across five input types.
 
-**Out of scope / not claimed:** It is a detection/mapping engine over telemetry you provide; it is not a collection agent, EDR, or SIEM, and does not enforce. Detection is rule-based and only as complete as the rule library. Coverage claims (rule count) should be reproduced with the sibling `attack-v19-core` installed.
+**Out of scope / not claimed:** It is a detection/mapping engine over telemetry you provide; it is not a collection agent, EDR, or SIEM, and does not enforce. Detection is rule-based and only as complete as the 42-pattern library; a rule count is not a detection-rate or coverage guarantee.
 
 ## Architecture
 
