@@ -1,4 +1,4 @@
-attack-v19-core @ git+https://github.com/poojakira/attack-v19-core.git@main
+attack-v19-core @ git+https://github.com/poojakira/attack-v19-core.git@087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b
 mitreattack-python==3.0.3
 stix2==3.0.1
 taxii2-client==2.3.0
