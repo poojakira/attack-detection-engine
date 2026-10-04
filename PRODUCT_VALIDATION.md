@@ -33,6 +33,6 @@ The ATT&CK taxonomy/mapping dependency is pinned to immutable commit `087accffc7
 
 ## Pilot corpus: mixed telemetry replay
 
-The committed `tests/fixtures/product_telemetry_corpus.json` and its executable contract test replay representative Windows process events, periodic HTTPS connection records, Python code telemetry, and an empty benign batch through the real detection pipeline. The test requires the expected ATT&CK technique family to be emitted for the malicious-shaped cases and zero findings for the empty control.
+The committed `tests/fixtures/product_telemetry_corpus.json` and its executable regression test replay representative Windows process events, periodic HTTPS connection records, Python code telemetry, and an empty benign batch through the real detection pipeline. The corpus test uses a deterministic minimal ATT&CK index so detector regressions stay fast and offline; the separate `tests/test_product_contract.py` path retains the pinned full ATT&CK v19 integration check. The corpus requires the expected ATT&CK technique family to be emitted for malicious-shaped cases and zero findings for the empty control.
 
 This corpus is deterministic regression evidence, not a detection-rate benchmark. It does not measure false-positive/false-negative performance on arbitrary enterprise telemetry, and the reserved documentation/test addresses in the fixture are not live threat infrastructure.
