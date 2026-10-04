@@ -25,3 +25,8 @@ Attack Detection Engine is a rule-based detection and ATT&CK-mapping engine for 
 ## Evidence boundary
 
 Passing these gates proves deterministic behavior for the committed rules and tested telemetry shapes. It does not establish real-world detection efficacy, false-positive rates across arbitrary enterprise environments, or equivalence to a SIEM/EDR product.
+
+
+## Dependency provenance
+
+The ATT&CK taxonomy/mapping dependency is pinned to immutable commit `087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b` from `poojakira/attack-v19-core`. That revision's CI, Production Gate, Documentation Integrity, and Security Hygiene workflows are green. This prevents a stale or behaviorally different package build from silently changing mapping semantics during installation.
