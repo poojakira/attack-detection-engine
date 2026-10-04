@@ -11,18 +11,43 @@ from .traffic_detector import TrafficDetector
 
 
 class DetectionPipeline:
-    def __init__(self, index: ATTACKIndex):
+    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code"}
+
+    def __init__(self, index: ATTACKIndex, max_records_per_source: int = 10_000):
+        if max_records_per_source < 1:
+            raise ValueError("max_records_per_source must be positive")
+        self.max_records_per_source = max_records_per_source
         self.log = LogDetector(index)
         self.traffic = TrafficDetector(index)
         self.behavior = BehaviorDetector(index)
         self.event = EventDetector(index)
         self.code = CodeDetector(index)
 
+    def _validate_telemetry(self, telemetry: Dict[str, Any]) -> None:
+        if not isinstance(telemetry, dict):
+            raise TypeError("telemetry must be an object keyed by source type")
+
+        unknown = sorted(set(telemetry) - self.ALLOWED_SOURCES)
+        if unknown:
+            raise ValueError(f"unsupported telemetry source(s): {', '.join(unknown)}")
+
+        for source, records in telemetry.items():
+            if not isinstance(records, list):
+                raise TypeError(f"telemetry source {source!r} must contain a list of records")
+            if len(records) > self.max_records_per_source:
+                raise ValueError(
+                    f"telemetry source {source!r} exceeds max_records_per_source="
+                    f"{self.max_records_per_source}"
+                )
+            if any(not isinstance(record, dict) for record in records):
+                raise TypeError(f"telemetry source {source!r} contains a non-object record")
+
     def run(self, telemetry: Dict[str, Any]) -> List[DetectionFinding]:
         """
         telemetry keys: logs, traffic, behaviors, events, code
         Returns findings sorted by severity then confidence descending.
         """
+        self._validate_telemetry(telemetry)
         findings = []
         if "logs" in telemetry:
             findings += self.log.detect(telemetry["logs"])
