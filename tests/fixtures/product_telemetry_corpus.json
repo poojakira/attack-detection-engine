@@ -1,0 +1,76 @@
+[
+  {
+    "name": "windows_powershell_encoded_command",
+    "telemetry": {
+      "logs": [
+        {
+          "event_id": 4688,
+          "message": "powershell.exe -enc SGVsbG8=",
+          "host": "workstation-01",
+          "timestamp": "2026-10-03T12:00:00Z",
+          "source_type": "windows",
+          "fields": {"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"}
+        }
+      ]
+    },
+    "expected_technique_prefix": "T1059"
+  },
+  {
+    "name": "credential_dumping_command",
+    "telemetry": {
+      "logs": [
+        {
+          "event_id": 4688,
+          "message": "mimikatz.exe sekurlsa::logonpasswords",
+          "host": "workstation-02",
+          "timestamp": "2026-10-03T12:01:00Z",
+          "source_type": "windows",
+          "fields": {"Image": "mimikatz.exe"}
+        }
+      ]
+    },
+    "expected_technique_prefix": "T1003"
+  },
+  {
+    "name": "periodic_https_beacon",
+    "telemetry": {
+      "traffic": [
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067200.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067260.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067320.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067380.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067440.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067500.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067560.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067620.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067680.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067740.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067800.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067860.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067920.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704067980.0},
+        {"record_type": "conn", "src_ip": "10.0.0.5", "dst_ip": "203.0.113.8", "dst_port": 443, "proto": "tcp", "bytes_out": 1024, "bytes_in": 512, "duration": 0.1, "timestamp": 1704068040.0}
+      ]
+    },
+    "expected_technique_prefix": "T1071"
+  },
+  {
+    "name": "dynamic_python_execution",
+    "telemetry": {
+      "code": [
+        {
+          "source_code": "eval(base64.b64decode('ZXZhbCgxKQ=='))",
+          "file_path": "loader.py",
+          "language": "python",
+          "timestamp": "2026-10-03T12:02:00Z"
+        }
+      ]
+    },
+    "expected_technique_prefix": "T1059"
+  },
+  {
+    "name": "empty_benign_batch",
+    "telemetry": {"logs": [], "traffic": [], "behaviors": [], "events": [], "code": []},
+    "expected_findings": 0
+  }
+]
