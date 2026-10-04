@@ -195,3 +195,7 @@ If a real credential is ever exposed, revoke or rotate it at the provider first,
 This private repository keeps GitHub Actions workflows on manual workflow dispatch only so ordinary pushes, pull requests, schedules, and tags do not consume hosted-runner minutes unexpectedly.
 
 Local validation is the default. To guarantee zero cost, do not dispatch hosted workflows unless the run is covered by a no-charge allowance or a self-hosted runner; no routine validation should provision cloud infrastructure, call paid external APIs, or publish containers/packages.
+
+## Pilot validation corpus
+
+A committed mixed-telemetry corpus exercises the real detection pipeline with Windows/Sysmon-like process records, Zeek/NetFlow-like periodic connection records, code telemetry, and an empty benign control. It is a deterministic mapping/regression check, **not** an enterprise detection-rate claim. See `PRODUCT_VALIDATION.md`.
