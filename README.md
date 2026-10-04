@@ -199,3 +199,8 @@ Local validation is the default. To guarantee zero cost, do not dispatch hosted 
 ## Pilot validation corpus
 
 A committed mixed-telemetry corpus exercises the real detection pipeline with Windows/Sysmon-like process records, Zeek/NetFlow-like periodic connection records, code telemetry, and an empty benign control. It is a deterministic mapping/regression check, **not** an enterprise detection-rate claim. See `PRODUCT_VALIDATION.md`.
+
+
+## Verification snapshot — 2026-10-03
+
+The committed mixed-telemetry pilot corpus completed **5/5 cases passing** after being separated from the slower full ATT&CK bundle integration path. Existing full-index contract tests remain the integration boundary for the pinned `attack-v19-core` dependency.
