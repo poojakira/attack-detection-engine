@@ -37,7 +37,7 @@ Security telemetry arrives in many formats — logs, netflow, process trees, EDR
 ## Architecture
 
 ```text
-Telemetry dict {logs | traffic | behavior | events | code}
+Telemetry dict {logs | traffic | behaviors | events | code}
       |
       v
 DetectionPipeline.run()  -->  per-input detectors (Log/Traffic/Behavior/Event/Code)
@@ -50,7 +50,7 @@ Rule matches  -->  ATT&CK v19 technique mapping (attack-v19-core)  -->  findings
 
 - Five input-specific detectors: `LogDetector`, `TrafficDetector`, `BehaviorDetector`, `EventDetector`, `CodeDetector`
 - Rule library mapped to MITRE ATT&CK v19 technique IDs
-- Single `DetectionPipeline.run()` entry point over a telemetry dict
+- Single `DetectionPipeline.run()` entry point over a strictly validated telemetry envelope
 - ATT&CK lookups via the `attack-v19-core` sibling library
 
 ## What This Is
@@ -96,7 +96,7 @@ for f in findings:
     print(f"{f.rule_name} [{f.severity}] -> {[m.technique_id for m in f.mappings]}")
 ```
 
-You can omit any key you don't have data for. The pipeline only runs detectors for keys present in the dict.
+You can omit any supported key you do not have data for. Supported keys are exactly `logs`, `traffic`, `behaviors`, `events`, and `code`. Unknown source keys, non-list source values, non-object records, and batches above the configured per-source ceiling fail loudly instead of being silently ignored.
 
 ## Output Format
 
