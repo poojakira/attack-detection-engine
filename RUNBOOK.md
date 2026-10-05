@@ -45,9 +45,10 @@ This starts a Python HTTP server on port 8080. The dashboard is a visualization 
 
 ## What Has Been Validated Locally
 
-- Ruff linting passes
-- 27 pytest tests pass
-- Wheel build succeeds
+- Ruff linting passed at the documented local-validation snapshot.
+- The older local snapshot recorded 27 pytest cases passing.
+- Current source contains 23 test functions and pytest collects 29 cases (because one test is parametrized); do not describe all 29 as passing until the current suite is rerun.
+- Wheel build succeeded at the documented local-validation snapshot.
 
 ## What Has NOT Been Validated Locally
 
