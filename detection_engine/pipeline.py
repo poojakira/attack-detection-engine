@@ -33,14 +33,18 @@ class DetectionPipeline:
 
         for source, records in telemetry.items():
             if not isinstance(records, list):
-                raise TypeError(f"telemetry source {source!r} must contain a list of records")
+                raise TypeError(
+                    f"telemetry source {source!r} must contain a list of records"
+                )
             if len(records) > self.max_records_per_source:
                 raise ValueError(
                     f"telemetry source {source!r} exceeds max_records_per_source="
                     f"{self.max_records_per_source}"
                 )
             if any(not isinstance(record, dict) for record in records):
-                raise TypeError(f"telemetry source {source!r} contains a non-object record")
+                raise TypeError(
+                    f"telemetry source {source!r} contains a non-object record"
+                )
 
     def run(self, telemetry: Dict[str, Any]) -> List[DetectionFinding]:
         """

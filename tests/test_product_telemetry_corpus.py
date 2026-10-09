@@ -60,10 +60,8 @@ def test_product_telemetry_corpus(pipeline, case):
 
     prefix = case["expected_technique_prefix"]
     mapped = {
-        mapping.technique_id
-        for finding in findings
-        for mapping in finding.mappings
+        mapping.technique_id for finding in findings for mapping in finding.mappings
     }
-    assert any(technique.startswith(prefix) for technique in mapped), (
-        f"{case['name']} did not map to expected ATT&CK prefix {prefix}; got {sorted(mapped)}"
-    )
+    assert any(
+        technique.startswith(prefix) for technique in mapped
+    ), f"{case['name']} did not map to expected ATT&CK prefix {prefix}; got {sorted(mapped)}"
