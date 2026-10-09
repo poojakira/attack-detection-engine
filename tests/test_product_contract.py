@@ -63,9 +63,7 @@ def test_mixed_sysmon_and_zeek_style_batch_is_detected(pipeline):
 
     findings = pipeline.run(telemetry)
     mapped = {
-        mapping.technique_id
-        for finding in findings
-        for mapping in finding.mappings
+        mapping.technique_id for finding in findings for mapping in finding.mappings
     }
     assert any(value.startswith("T1059") for value in mapped)
     assert any(value.startswith("T1071") for value in mapped)

@@ -133,7 +133,7 @@ The `attack-v19-core` package must be available. If you're developing locally wi
 ```bash
 make lint       # ruff check
 make format     # ruff format
-make test       # pytest (23 test functions, 29 cases with parametrization)
+make test       # pytest; parametrized cases exceed source function counts
 make build      # build wheel
 make security   # bandit + pip-audit
 make verify     # all of the above in sequence
@@ -141,10 +141,12 @@ make verify     # all of the above in sequence
 
 ## Tests
 
-There are 23 test functions across 3 test files (pytest collects 29 cases because one test is parametrized):
+The current source declares 29 test functions across 5 test files. This is an AST count, not a collected or passing-test total:
 - `tests/test_pipeline.py` (8) — integration tests that pass telemetry through the pipeline and verify detections fire for powershell, credential dumping, beaconing, DNS tunneling, code eval, and serialization
 - `tests/test_revoked_id_handling.py` (13) — tests that revoked ATT&CK technique IDs are correctly remapped
 - `tests/test_cli.py` (2) — tests that the CLI processes NDJSON input and rejects non-object records
+- `tests/test_product_contract.py` (5) - telemetry validation and mixed-batch mapping against the pinned index
+- `tests/test_product_telemetry_corpus.py` (1 parametrized function) - committed deterministic telemetry regression fixtures
 
 ## CI Security Gate
 
@@ -204,3 +206,10 @@ A committed mixed-telemetry corpus exercises the real detection pipeline with Wi
 ## Verification snapshot — 2026-10-03
 
 The committed mixed-telemetry pilot corpus completed **5/5 cases passing** after being separated from the slower full ATT&CK bundle integration path. Existing full-index contract tests remain the integration boundary for the pinned `attack-v19-core` dependency.
+
+
+## Maintenance verification - October 9, 2026
+
+Ruff 0.8.4 checked and format-checked all 18 available Python files; both passed after formatting maintained source, helper and test files. CI covers repository-wide Python discovery, and Makefile lint/format includes scripts.
+
+Full ATT&CK integration tests were not run in this pass because the pinned sibling dependency/data were not installed. The 29 source test functions are static inventory, not a passing-test claim.
