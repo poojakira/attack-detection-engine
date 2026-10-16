@@ -1,12 +1,11 @@
 import pytest
-from attack_v19_core import ATTACKIndex, ATTACKLoader
 
 from detection_engine import DetectionPipeline
 
 
 @pytest.fixture
-def pipeline():
-    return DetectionPipeline(ATTACKIndex(ATTACKLoader()))
+def pipeline(attack_index):
+    return DetectionPipeline(attack_index)
 
 
 def test_rejects_unknown_telemetry_source(pipeline):
@@ -24,8 +23,8 @@ def test_rejects_non_object_record(pipeline):
         pipeline.run({"events": ["raw string event"]})
 
 
-def test_rejects_unbounded_batch():
-    pipeline = DetectionPipeline(ATTACKIndex(ATTACKLoader()), max_records_per_source=2)
+def test_rejects_unbounded_batch(attack_index):
+    pipeline = DetectionPipeline(attack_index, max_records_per_source=2)
     with pytest.raises(ValueError, match="exceeds max_records_per_source"):
         pipeline.run({"logs": [{}, {}, {}]})
 

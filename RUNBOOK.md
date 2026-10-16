@@ -75,3 +75,7 @@ Full-suite tests that load the ATT&CK STIX dataset repeatedly may be
 substantially slower than the focused suite. Do not equate a slow,
 unfinished run with success or a code defect; always record completion,
 exit code and failures separately.
+
+## Full suite performance and repeatability, October 15, 2026
+
+Legacy tests now use a session-scoped shared ttack_index fixture in 	ests/conftest.py rather than repeatedly rebuilding large ATT&CK indexes. Run python -m pytest -q; a Windows Python 3.12.13 full-suite execution passed **68/68 in 25.92 seconds**. This supersedes earlier notes that full-suite completion was unverified. Hardware ECU testing remains unperformed because no CAN, serial or debug adapter was detected on the connected Windows machine.

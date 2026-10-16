@@ -54,3 +54,7 @@ clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_fixed.c
 ## Repository-wide test boundary
 
 At the October 15, 2026 checkout, pytest collected 68 tests, and the focused automotive/embedded subset passed 29/29. The full 68-test run remains unverified; the ATT&CK-dependent historical test classes repeatedly load a large STIX index. Do not treat focused results as repository-wide certification. No hardware ECU penetration test, firmware emulation, or production CAN detection-effectiveness benchmark has been performed.
+
+## Updated regression and hardware verification, October 15, 2026
+
+The **full 68-test suite passed in 25.92 seconds** on Windows Python 3.12.13 after session-scoped ATT&CK index fixture reuse. Physical ECU hardware was **not** connected; local Windows PnP/serial and WSL CAN checks did not identify a usable CAN bus adapter or ECU debug probe. No physical ECU result is claimed.

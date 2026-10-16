@@ -1,13 +1,10 @@
 import pytest
-from attack_v19_core import ATTACKIndex, ATTACKLoader
 from detection_engine import DetectionPipeline
 
 
 @pytest.fixture
-def pipeline():
-    loader = ATTACKLoader()
-    index = ATTACKIndex(loader)
-    return DetectionPipeline(index)
+def pipeline(attack_index):
+    return DetectionPipeline(attack_index)
 
 
 def test_pipeline_initialization(pipeline):
