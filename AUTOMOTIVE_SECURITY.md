@@ -33,3 +33,20 @@ This is a prototype offline extension and not a completed embedded firmware audi
 
 ## Planned upgrades
 Integrate real SocketCAN trace ingestion, documented CAN log parsers, embedded C/C++ AST analysis, compiled Cortex-M samples, ARM disassembly, structured penetration test lab reports, and benchmarked false-positive/negative rates. Validate all of these before claiming them.
+
+## Reproduced engineering evidence (October 15, 2026)
+- `examples/ecu/cortexm_lab.c` was cross-compiled in Ubuntu WSL2 using `arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -Os -ffreestanding -nostdlib -Wl,--gc-sections -T examples/ecu/linker.ld`. The committed `examples/ecu/cortexm_lab.elf` is a real ARM ELF32 binary. `arm-none-eabi-readelf` showed an executable flash segment and a writable RAM segment. Analyzer regression tests use this artifact and intentionally modified segment permissions.
+- The isolated `examples/ecu/ecu_vulnerable.c` training fixture was compiled with Clang AddressSanitizer on WSL2. A 16-character synthetic argument produced `AddressSanitizer: stack-buffer-overflow` in `strcpy` (exit 1). `examples/ecu/ecu_fixed.c` rejected the identical input (exit 3). This is a deliberately introduced lab bug, **not** a previously unknown production vulnerability.
+- Two reproducible offline timestamped CAN fixtures (`examples/can/normal.candump` and `anomalous.candump`) were parsed using `parse_candump_text`. The synthetic attack trace exercises an unauthorized ID and excessive message frequency. No real CAN bus or vehicle was accessed.
+- 29 focused tests passed on Python 3.12.13. Full legacy regression suite is separately tracked. The tools remain **offline lab prototypes** and do not establish deployed automotive intrusion detection, ECU compromise, commercial penetration-testing work, or full firmware reverse engineering.
+
+### Repeat locally
+```bash
+arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -Os -ffreestanding -nostdlib \
+  -Wl,--gc-sections -T examples/ecu/linker.ld examples/ecu/cortexm_lab.c -o /tmp/cortexm.elf
+arm-none-eabi-readelf -h -l /tmp/cortexm.elf
+clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_vulnerable.c -o /tmp/vulnerable
+clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_fixed.c -o /tmp/fixed
+/tmp/vulnerable AAAAAAAAAAAAAAAA  # Expected AddressSanitizer stack-buffer-overflow
+/tmp/fixed AAAAAAAAAAAAAAAA       # Expected safe rejection (exit code 3)
+```
