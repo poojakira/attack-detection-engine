@@ -8,10 +8,13 @@ from .code_detector import CodeDetector
 from .event_detector import EventDetector
 from .log_detector import LogDetector
 from .traffic_detector import TrafficDetector
+from .automotive_can_detector import AutomotiveCANDetector
+from .firmware_auditor import FirmwareAuditor
+from .arm_binary_analyzer import ARMBinaryAnalyzer
 
 
 class DetectionPipeline:
-    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code"}
+    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code", "automotive_can", "firmware", "arm_binary"}
 
     def __init__(self, index: ATTACKIndex, max_records_per_source: int = 10_000):
         if max_records_per_source < 1:
@@ -22,6 +25,9 @@ class DetectionPipeline:
         self.behavior = BehaviorDetector(index)
         self.event = EventDetector(index)
         self.code = CodeDetector(index)
+        self.automotive_can = AutomotiveCANDetector(index)
+        self.firmware = FirmwareAuditor()
+        self.arm_binary = ARMBinaryAnalyzer()
 
     def _validate_telemetry(self, telemetry: Dict[str, Any]) -> None:
         if not isinstance(telemetry, dict):
@@ -63,6 +69,12 @@ class DetectionPipeline:
             findings += self.event.detect(telemetry["events"])
         if "code" in telemetry:
             findings += self.code.detect(telemetry["code"])
+        if "automotive_can" in telemetry:
+            findings += self.automotive_can.detect(telemetry["automotive_can"])
+        if "firmware" in telemetry:
+            findings += self.firmware.detect(telemetry["firmware"])
+        if "arm_binary" in telemetry:
+            findings += self.arm_binary.detect(telemetry["arm_binary"])
 
         severity_order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "INFO": 4}
         findings.sort(key=lambda f: (severity_order.get(f.severity, 9), -f.confidence))
