@@ -229,3 +229,7 @@ Full ATT&CK integration tests were not run in this pass because the pinned sibli
 ## October 15, 2026 post-merge automotive verification
 
 On Windows Python 3.12, **29/29 focused automotive/embedded test cases passed**, Ruff lint passed, and pytest **collected 68 tests overall**. The full historical suite is *not yet confirmed passing*. The firmware evidence includes a genuine ARM Cortex-M3 ELF cross-compiled using rm-none-eabi-gcc in WSL and an intentional C memory-safety lab defect reproduced with Clang AddressSanitizer and subsequently fixed. All security inputs were synthetic or locally authored; no real vehicle or production ECU was tested. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md).
+
+## Full-suite performance verification (October 15, 2026)
+
+The complete repository suite passed **68/68 tests in 25.92 seconds** on Windows Python 3.12.13 after reusing a session-scoped ATT&CK index in the legacy integration fixtures. The test assertions remain unchanged. This is a local full-suite result, **not** a real-ECU hardware certification or a production effectiveness measurement.
