@@ -12,7 +12,7 @@
 
 ## Overview
 
-`attack-detection-engine` takes telemetry (logs, network traffic, process behavior, EDR events, or source code), checks it against a rule library, and returns findings mapped to MITRE ATT&CK v19 technique IDs (via `attack-v19-core`). It exists to turn heterogeneous telemetry into ATT&CK-mapped detections through a single pipeline with five input-specific detectors.
+`attack-detection-engine` takes telemetry (logs, network traffic, process behavior, EDR events, source code, and offline automotive/embedded lab inputs), checks it against a rule library, and returns findings mapped to MITRE ATT&CK v19 technique IDs (via `attack-v19-core`). It exists to turn heterogeneous telemetry into ATT&CK-mapped detections through a single pipeline with five original ATT&CK-oriented detectors and three separate offline lab analysis sources.
 
 ## Repository Evidence Snapshot
 
@@ -20,7 +20,7 @@ Hosted CI is intentionally manual-dispatch only for zero-cost operation, so the 
 
 | Metric | Current documented state |
 |---|---:|
-| Detectors | 5 (log, traffic, behavior, event, code) — verified: 5 detector modules present |
+| Original ATT&CK-oriented detectors | 5 (log, traffic, behavior, event, code) — verified: 5 detector modules present |
 | ATT&CK mapping | v19 via `attack-v19-core` dependency |
 | Detection rules | 42, reproduced directly from `detection_engine/pattern_library.py`: 15 log + 7 traffic + 3 behavior + 2 event + 5 code + 10 AI-specific patterns |
 
@@ -32,20 +32,20 @@ Security telemetry arrives in many formats — logs, netflow, process trees, EDR
 
 ## Threat Model & Scope
 
-**In scope:** rule-based detection over supplied telemetry, mapped to ATT&CK v19 techniques, across five input types.
+**In scope:** rule-based detection over supplied telemetry, mapped to ATT&CK v19 techniques, across eight accepted input types (five original telemetry sources and three offline lab sources).
 
 **Out of scope / not claimed:** It is a detection/mapping engine over telemetry you provide; it is not a collection agent, EDR, or SIEM, and does not enforce. Detection is rule-based and only as complete as the 42-pattern library; a rule count is not a detection-rate or coverage guarantee.
 
 ## Architecture
 
 ```text
-Telemetry dict {logs | traffic | behaviors | events | code}
+Telemetry dict {logs | traffic | behaviors | events | code | automotive_can | firmware | arm_binary}
       |
       v
-DetectionPipeline.run()  -->  per-input detectors (Log/Traffic/Behavior/Event/Code)
+DetectionPipeline.run()  -->  five ATT&CK detectors plus three offline security-analysis modules
       |
       v
-Rule matches  -->  ATT&CK v19 technique mapping (attack-v19-core)  -->  findings
+Findings  -->  ATT&CK v19 when applicable; CWE evidence for some firmware findings
 ```
 
 ## Core Capabilities
@@ -63,7 +63,7 @@ It depends on `attack-v19-core` for ATT&CK technique lookups and mapping.
 
 ## Detectors
 
-There are 5 detectors, each handling a different type of input:
+There are five original ATT&CK-oriented detectors and three additional offline lab analysis sources:
 
 | Detector | Input | What It Detects |
 |----------|-------|-----------------|
@@ -72,6 +72,16 @@ There are 5 detectors, each handling a different type of input:
 | `BehaviorDetector` | Process trees and API call sequences | Process injection (T1055), suspicious parent-child chains (T1059), API abuse (T1106) |
 | `EventDetector` | EDR/SIEM events (CrowdStrike, etc.) | Credential access (T1003), defense impairment (T1562), plus vendor-specific event mappings |
 | `CodeDetector` | Source code files | Obfuscated code (T1027), eval/exec patterns (T1059), masquerading (T1036), indirect execution (T1202), signed binary abuse (T1218), permission changes (T1222), sandbox evasion (T1497), code signing bypass (T1553), reflective loading (T1620) |
+
+### Additional offline embedded-security inputs (implemented October 2026)
+
+| Input source | Implementation | Evidence and limitations |
+|---|---|---|
+| `automotive_can` | `AutomotiveCANDetector` checks decoded frame ID allowlists and per-ID rate limits | Synthetic timestamped candump fixtures only; no real bus capture, replay attribution, or live blocking |
+| `firmware` | `FirmwareAuditor` flags selected C/C++ string and format hazards | Regex-based CWE *candidates*, not proof of exploitability or full static analysis |
+| `arm_binary` | `ARMBinaryAnalyzer` checks ARM ELF32 structures and risky W+X/stack flags | Reproducible cross-compiled Cortex-M3 example; not instruction disassembly, real ECU extraction, or reverse engineering |
+
+The extra sources keep the pipeline finding contract but **do not invent ATT&CK technique mappings** for unrelated firmware or CAN findings. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md) for compiler commands, evidence fixtures, scoped assessment and repeatable tests.
 
 ## How It Works
 
@@ -215,3 +225,7 @@ The committed mixed-telemetry pilot corpus completed **5/5 cases passing** after
 Ruff 0.8.4 checked and format-checked all 18 available Python files; both passed after formatting maintained source, helper and test files. CI covers repository-wide Python discovery, and Makefile lint/format includes scripts.
 
 Full ATT&CK integration tests were not run in this pass because the pinned sibling dependency/data were not installed. The 29 source test functions are static inventory, not a passing-test claim.
+
+## October 15, 2026 post-merge automotive verification
+
+On Windows Python 3.12, **29/29 focused automotive/embedded test cases passed**, Ruff lint passed, and pytest **collected 68 tests overall**. The full historical suite is *not yet confirmed passing*. The firmware evidence includes a genuine ARM Cortex-M3 ELF cross-compiled using rm-none-eabi-gcc in WSL and an intentional C memory-safety lab defect reproduced with Clang AddressSanitizer and subsequently fixed. All security inputs were synthetic or locally authored; no real vehicle or production ECU was tested. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md).

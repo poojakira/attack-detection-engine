@@ -47,7 +47,7 @@ This starts a Python HTTP server on port 8080. The dashboard is a visualization 
 
 - Ruff linting passed at the documented local-validation snapshot.
 - The older local snapshot recorded 27 pytest cases passing.
-- Current source contains 23 test functions and pytest collects 29 cases (because one test is parametrized); do not describe all 29 as passing until the current suite is rerun.
+- The automotive-focused suite (`tests/test_automotive_embedded.py`, `tests/test_automotive_evidence.py`, `tests/test_automotive_pipeline.py`) passed **29 cases** on Windows Python 3.12 after the merge, October 15, 2026. This is *not* the full repository test count. Previously noted 23-function/29-case totals are superseded by later code additions.
 - Wheel build succeeded at the documented local-validation snapshot.
 
 ## What Has NOT Been Validated Locally
@@ -56,3 +56,22 @@ This starts a Python HTTP server on port 8080. The dashboard is a visualization 
 - Full CI pipeline results (GitHub Actions)
 - Dependency vulnerability status may change after any local snapshot
 - No runtime or production testing has been done — this is a library, not a deployed service
+
+## Embedded/automotive offline regression (October 2026)
+
+```bash
+python -m pytest -q tests/test_automotive_embedded.py tests/test_automotive_evidence.py tests/test_automotive_pipeline.py
+python -m pytest -q
+python -m ruff check detection_engine tests
+```
+
+Cortex-M3 reproducible build and intentional sanitizer overflow/remediation evidence:
+[AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md). The ELF example was built with
+`arm-none-eabi-gcc` in Ubuntu WSL2; an isolated deliberately vulnerable native
+C fixture was confirmed by AddressSanitizer. No tests were performed against
+a production ECU, live vehicle network, or customer system.
+
+Full-suite tests that load the ATT&CK STIX dataset repeatedly may be
+substantially slower than the focused suite. Do not equate a slow,
+unfinished run with success or a code defect; always record completion,
+exit code and failures separately.

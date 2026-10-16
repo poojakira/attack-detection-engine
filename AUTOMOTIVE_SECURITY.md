@@ -50,3 +50,7 @@ clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_fixed.c
 /tmp/vulnerable AAAAAAAAAAAAAAAA  # Expected AddressSanitizer stack-buffer-overflow
 /tmp/fixed AAAAAAAAAAAAAAAA       # Expected safe rejection (exit code 3)
 ```
+
+## Repository-wide test boundary
+
+At the October 15, 2026 checkout, pytest collected 68 tests, and the focused automotive/embedded subset passed 29/29. The full 68-test run remains unverified; the ATT&CK-dependent historical test classes repeatedly load a large STIX index. Do not treat focused results as repository-wide certification. No hardware ECU penetration test, firmware emulation, or production CAN detection-effectiveness benchmark has been performed.

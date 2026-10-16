@@ -41,3 +41,23 @@ This corpus is deterministic regression evidence, not a detection-rate benchmark
 ## Verification snapshot — 2026-10-03
 
 The pilot corpus passed 5/5 deterministic regression cases covering Windows process telemetry, credential-dumping command telemetry, periodic HTTPS beacon-shaped traffic, Python dynamic-execution telemetry, and an empty benign batch. This is regression evidence, not an enterprise detection-rate benchmark.
+
+
+## Automotive and embedded-security scope update (October 15, 2026)
+
+The repository also accepts `automotive_can`, `firmware`, and `arm_binary`
+offline inputs through `DetectionPipeline`. Verified scope is limited to
+synthetic CAN trace parsing and policy findings, selected C/C++ CWE-pattern
+candidate findings, and inspection of a locally cross-compiled ARM Cortex-M3
+ELF32 sample. A controlled native C fixture produced a reproducible
+AddressSanitizer stack-buffer-overflow finding; a separate fixed fixture
+rejected the same oversized input. This is an intentionally inserted lab
+vulnerability, not a discovery in a production ECU.
+
+For exact sample code, compiler commands, regression tests and unsupported
+claims, consult [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md). This
+update does not retroactively change historical snapshots and does not claim
+hardware testing, live vehicle penetration testing, full firmware reverse
+engineering, production efficacy, or independent security certification.
+The targeted post-merge Windows Python 3.12 run passed 29 tests; that
+number must not be presented as a full-repository test total.
