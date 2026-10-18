@@ -228,8 +228,18 @@ Full ATT&CK integration tests were not run in this pass because the pinned sibli
 
 ## October 15, 2026 post-merge automotive verification
 
-On Windows Python 3.12, **29/29 focused automotive/embedded test cases passed**, Ruff lint passed, and pytest **collected 68 tests overall**. The full historical suite is *not yet confirmed passing*. The firmware evidence includes a genuine ARM Cortex-M3 ELF cross-compiled using rm-none-eabi-gcc in WSL and an intentional C memory-safety lab defect reproduced with Clang AddressSanitizer and subsequently fixed. All security inputs were synthetic or locally authored; no real vehicle or production ECU was tested. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md).
+On Windows Python 3.12, **29/29 focused automotive/embedded test cases passed**, Ruff lint passed, and pytest **collected 68 tests overall**. (Superseded by the October 17, 2026 entry below, which adds two regression tests: the focused subset is now 31/31 and the full suite collects 70.) The full historical suite is *not yet confirmed passing*. The firmware evidence includes a genuine ARM Cortex-M3 ELF cross-compiled using arm-none-eabi-gcc in WSL and an intentional C memory-safety lab defect reproduced with Clang AddressSanitizer and subsequently fixed. All security inputs were synthetic or locally authored; no real vehicle or production ECU was tested. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md).
 
 ## Full-suite performance verification (October 15, 2026)
 
 The complete repository suite passed **68/68 tests in 25.92 seconds** on Windows Python 3.12.13 after reusing a session-scoped ATT&CK index in the legacy integration fixtures. The test assertions remain unchanged. This is a local full-suite result, **not** a real-ECU hardware certification or a production effectiveness measurement.
+
+## ARM ELF analyzer hardening and firmware CI (October 17, 2026)
+
+Verified in a clean `python:3.11` + `gcc:13` Docker environment (numpy pinned `<2`, `attack-v19-core` installed, repository installed via `.[dev]`):
+
+- **Two new regression tests** in `tests/test_automotive_evidence.py` cover previously-untested `ARMBinaryAnalyzer` detection paths: executable-stack (`ARM-ELF-EXECSTACK`, PT_GNU_STACK with PF_X) and entry-point-outside-executable-segment (`ARM-ELF-ENTRY`). The focused automotive/firmware/ARM subset now passes **31/31** (was 29/29); full-suite collection is **70 tests** (was 68). Coverage of `detection_engine/arm_binary_analyzer.py` rose from 88% to 94%.
+- **Linker hardening** in `examples/ecu/linker.ld`: RAM region changed from `(rwx)` to `(rw)`. The fixture executes only from FLASH, so RAM needs no execute permission; this aligns the linker intent with a W^X policy and with the repository's own `ARM-ELF-WX` (CWE-732) detector. `arm-none-eabi-readelf -l` on the recompiled fixture confirms a FLASH `R E` segment and a RAM `RW` segment, with **no writable+executable (RWE)** segment. Machine `ARM`, Class `ELF32`, Thumb entry point.
+- **New workflow** `.github/workflows/arm-firmware.yml` (manual dispatch): installs `arm-none-eabi-gcc`, cross-compiles `examples/ecu/cortexm_lab.c`, runs `readelf -h -S -l`, asserts ELF32 / ARM / no-RWE, uploads the ELF and readelf output as artifacts, and runs the offline automotive/firmware/ARM test subset. The workflow is hardware-independent and makes no claim of physical-hardware or emulator execution.
+
+This is a local, Docker-reproducible result, **not** a real-ECU hardware certification or a production effectiveness measurement.

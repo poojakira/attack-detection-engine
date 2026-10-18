@@ -79,5 +79,6 @@ claims, consult [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md). This
 update does not retroactively change historical snapshots and does not claim
 hardware testing, live vehicle penetration testing, full firmware reverse
 engineering, production efficacy, or independent security certification.
-The targeted post-merge Windows Python 3.12 run passed 29 tests; that
-number must not be presented as a full-repository test total.
+The targeted post-merge Windows Python 3.12 run passed 29 tests; a later
+Python 3.11 Docker run (October 17, 2026) with two added ARM-ELF regression
+tests passed 31 focused tests. Neither number is a full-repository test total.
