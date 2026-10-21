@@ -14,7 +14,16 @@ from .arm_binary_analyzer import ARMBinaryAnalyzer
 
 
 class DetectionPipeline:
-    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code", "automotive_can", "firmware", "arm_binary"}
+    ALLOWED_SOURCES = {
+        "logs",
+        "traffic",
+        "behaviors",
+        "events",
+        "code",
+        "automotive_can",
+        "firmware",
+        "arm_binary",
+    }
 
     def __init__(self, index: ATTACKIndex, max_records_per_source: int = 10_000):
         if max_records_per_source < 1:
