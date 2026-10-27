@@ -103,6 +103,34 @@ See **[HEALTHCARE_SECURITY.md](HEALTHCARE_SECURITY.md)** for the rule table,
 privacy properties, a runnable end-to-end example, limitations, and verified test
 evidence, and **[PROVENANCE.md](PROVENANCE.md)** for MIMIC-IV attribution.
 
+## Investigation platform (Milestone C)
+
+Beyond the detection library, the repository includes an end-to-end security
+**investigation platform** under `detection_engine/platform/` that implements:
+
+```
+ingest (FastAPI, authenticated) → normalize → detect (real pipeline) →
+correlate → persist (PostgreSQL) → incident → investigate → resolve → audit
+```
+
+- FastAPI API with JWT auth, RBAC (administrator / security_analyst /
+  read_only_auditor) and organization isolation on every endpoint.
+- PostgreSQL persistence (SQLAlchemy 2.x + Alembic migrations) with idempotent
+  ingestion and incident creation, optimistic concurrency, and durable audit.
+- Deterministic correlation of findings into incidents with an explainable
+  reason and ATT&CK techniques where justified.
+- A React/TypeScript SOC dashboard (`dashboard-ui/`) — Security Overview,
+  Incident Queue, and Incident Investigation — wired only to real backend APIs.
+- Docker Compose deployment (`deploy/`) with health/readiness checks, migration
+  startup, and verified restart persistence.
+
+The complete workflow (ingest → investigate → resolve → restart → verify) is
+covered by an automated end-to-end acceptance test against real PostgreSQL and
+the real detector. See **[PLATFORM.md](PLATFORM.md)** for architecture, the full
+route list, the database schema, deployment commands, security controls, and
+verified test evidence. No HIPAA certification or production-readiness is
+claimed.
+
 ## How It Works
 
 You pass a dictionary of telemetry to `DetectionPipeline.run()`. Each key corresponds to a detector:
