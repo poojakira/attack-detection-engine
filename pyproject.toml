@@ -51,6 +51,7 @@ platform = [
     "python-jose[cryptography]>=3.3",
     "passlib[bcrypt]>=1.7",
     "python-multipart>=0.0.9",
+    "argon2-cffi>=23.1",
 ]
 
 [tool.setuptools.packages.find]

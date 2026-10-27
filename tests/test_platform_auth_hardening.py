@@ -44,15 +44,19 @@ def _deps_available() -> bool:
 # --- unit: password safety (bcrypt truncation fix) -------------------------
 
 class TestPasswordSafety:
-    def test_roundtrip_v2(self):
+    def test_roundtrip_argon2id(self):
         h = auth.hash_password("Sü@h3!-pâsswörd")
-        assert h.startswith("v2$")
+        assert h.startswith("argon2$")
         assert auth.verify_password("Sü@h3!-pâsswörd", h)
         assert not auth.verify_password("wrong", h)
 
+    def test_argon2_is_default_and_no_rehash_needed(self):
+        h = auth.hash_password("x")
+        assert auth.needs_rehash(h) is False
+
     def test_long_passwords_sharing_72_byte_prefix_differ(self):
-        # This is the bug being fixed: legacy bcrypt truncated at 72 bytes, so
-        # these two would have been EQUIVALENT. The v2 SHA-256 pre-hash fixes it.
+        # Legacy bcrypt truncated at 72 bytes, so these two would have been
+        # EQUIVALENT. Argon2id (and the v2 bcrypt+sha256 path) fix it.
         base = "A" * 72
         h = auth.hash_password(base + "DIFFERENT_TAIL_ONE")
         assert not auth.verify_password(base + "DIFFERENT_TAIL_TWO", h)
@@ -63,15 +67,33 @@ class TestPasswordSafety:
         h = auth.hash_password(pw)
         assert auth.verify_password(pw, h)
 
-    def test_legacy_hash_still_verifies(self):
-        # Simulate a Milestone C legacy hash (raw bcrypt of first 72 bytes).
+    def test_wrong_password_rejected(self):
+        h = auth.hash_password("correct-horse")
+        assert not auth.verify_password("Correct-Horse", h)
+
+    def test_legacy_bcrypt_hash_still_verifies_and_flagged(self):
         import bcrypt
 
         legacy = bcrypt.hashpw("oldpassword".encode()[:72], bcrypt.gensalt()).decode()
-        assert not legacy.startswith("v2$")
+        assert legacy.startswith("$2")
         assert auth.verify_password("oldpassword", legacy)
         assert auth.needs_rehash(legacy) is True
-        assert auth.needs_rehash(auth.hash_password("x")) is False
+
+    def test_v2_bcrypt_prehash_still_verifies_and_flagged(self):
+        import base64
+        import hashlib
+
+        import bcrypt
+
+        pre = base64.b64encode(hashlib.sha256("interim".encode()).digest())
+        v2 = "v2$" + bcrypt.hashpw(pre, bcrypt.gensalt()).decode()
+        assert auth.verify_password("interim", v2)
+        assert auth.needs_rehash(v2) is True
+
+    def test_malformed_hash_fails_closed(self):
+        # No unsafe fallback: garbage stored value must not accept any password.
+        assert auth.verify_password("anything", "not-a-real-hash") is False
+        assert auth.verify_password("", "") is False
 
 
 # --- unit: JWT validation ---------------------------------------------------
@@ -263,3 +285,30 @@ class TestRevocationAndDisable:
         r2 = c.post("/api/v1/auth/token", json={"username": "ana", "password": "wrong"})
         assert r1.status_code == 401 and r2.status_code == 401
         assert r1.json()["detail"] == r2.json()["detail"] == "invalid credentials"
+
+    def test_legacy_hash_migrates_to_argon2_on_login(self, client):
+        c, eng = client
+        import bcrypt
+
+        from detection_engine.platform import db as _db
+
+        # Seed a user whose password is stored as a LEGACY raw-bcrypt hash.
+        legacy = bcrypt.hashpw("legacy-pw-123".encode()[:72], bcrypt.gensalt()).decode()
+        s = _db.make_session_factory(eng)()
+        s.add(_db.UserRow(
+            id="u-legacy", username="legacy", password_hash=legacy,
+            role="security_analyst", organization_id="org-a", is_active=True,
+            token_version=0,
+        ))
+        s.commit()
+        s.close()
+        # Login succeeds...
+        r = c.post("/api/v1/auth/token", json={"username": "legacy", "password": "legacy-pw-123"})
+        assert r.status_code == 200
+        # ...and the stored hash is upgraded to Argon2id (verify-then-upgrade).
+        s = _db.make_session_factory(eng)()
+        migrated = s.get(_db.UserRow, "u-legacy").password_hash
+        s.close()
+        assert migrated.startswith("argon2$")
+        # And the migrated hash still authenticates the same password.
+        assert c.post("/api/v1/auth/token", json={"username": "legacy", "password": "legacy-pw-123"}).status_code == 200

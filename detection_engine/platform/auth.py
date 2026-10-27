@@ -30,6 +30,7 @@ from enum import Enum
 from typing import Optional
 
 import bcrypt
+import argon2
 from jose import JWTError, jwt
 
 JWT_ALGORITHM = "HS256"
@@ -80,42 +81,72 @@ _CAN_INGEST = {Role.ADMINISTRATOR, Role.SECURITY_ANALYST}
 _CAN_MANAGE_USERS = {Role.ADMINISTRATOR}
 
 
-# --- password hashing -------------------------------------------------------
+# --- password hashing (OWASP Password Storage Cheat Sheet aligned) ----------
+#
+# Versioned, self-describing hash formats (newest first). New passwords are
+# hashed with Argon2id (OWASP's first recommendation). Older formats verify so
+# existing accounts keep working and migrate on next successful login:
+#   argon2$<argon2id-phc>   — current (argon2-cffi, argon2id)
+#   v2$<bcrypt>             — bcrypt over SHA-256+base64 pre-hash (no 72-byte
+#                             truncation); Milestone D interim
+#   <raw bcrypt>            — legacy Milestone C (raw bcrypt of first 72 bytes)
+#
+# Migration is verify-then-upgrade: a legacy/interim hash is only replaced AFTER
+# the supplied password verifies against it (see needs_rehash + the login path,
+# which re-hashes on success). There is no unsafe fallback: an unrecognized or
+# malformed stored value fails verification closed.
 
 _V2_PREFIX = "v2$"
+_ARGON2_PREFIX = "argon2$"
+
+_argon2_hasher = argon2.PasswordHasher()  # argon2id defaults (OWASP-aligned)
 
 
 def _prehash(password: str) -> bytes:
     """SHA-256 of the UTF-8 password, base64-encoded (44 bytes, < 72).
 
-    This removes bcrypt's 72-byte truncation ambiguity: the entire password
-    contributes to the digest, so two long passwords that share a 72-byte prefix
-    produce different hashes.
+    Used only by the legacy ``v2$`` bcrypt path so the entire password
+    contributes entropy without bcrypt's 72-byte truncation ambiguity.
     """
     digest = hashlib.sha256(password.encode("utf-8")).digest()
     return base64.b64encode(digest)
 
 
 def hash_password(password: str) -> str:
-    bcrypt_hash = bcrypt.hashpw(_prehash(password), bcrypt.gensalt()).decode("utf-8")
-    return _V2_PREFIX + bcrypt_hash
+    """Hash a new password with Argon2id, stored with an ``argon2$`` prefix."""
+    return _ARGON2_PREFIX + _argon2_hasher.hash(password)
 
 
 def verify_password(password: str, stored: str) -> bool:
+    """Verify against any supported stored format. Fails closed on anything
+    unrecognized or malformed; never falls back to accepting the password."""
     try:
+        if stored.startswith(_ARGON2_PREFIX):
+            phc = stored[len(_ARGON2_PREFIX):]
+            try:
+                return _argon2_hasher.verify(phc, password)
+            except argon2.exceptions.VerifyMismatchError:
+                return False
         if stored.startswith(_V2_PREFIX):
             bcrypt_hash = stored[len(_V2_PREFIX):].encode("utf-8")
             return bcrypt.checkpw(_prehash(password), bcrypt_hash)
-        # Legacy (Milestone C) hash: raw bcrypt of the first 72 password bytes.
-        # Still verifies so existing accounts work; re-hash on next password set.
-        return bcrypt.checkpw(password.encode("utf-8")[:72], stored.encode("utf-8"))
+        # Legacy raw bcrypt (Milestone C): verifies the first 72 password bytes.
+        if stored.startswith("$2"):
+            return bcrypt.checkpw(password.encode("utf-8")[:72], stored.encode("utf-8"))
+        return False
     except Exception:
         return False
 
 
 def needs_rehash(stored: str) -> bool:
-    """True if a stored hash uses the legacy scheme and should be upgraded."""
-    return not stored.startswith(_V2_PREFIX)
+    """True if a stored hash is not current (should be upgraded to Argon2id on
+    the next successful verification)."""
+    if not stored.startswith(_ARGON2_PREFIX):
+        return True
+    try:
+        return _argon2_hasher.check_needs_rehash(stored[len(_ARGON2_PREFIX):])
+    except Exception:
+        return True
 
 
 # --- tokens -----------------------------------------------------------------

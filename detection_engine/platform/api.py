@@ -164,6 +164,14 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
             raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid credentials")
 
         login_throttle.record_success(body.username, client_ip)
+        # Migrate legacy/interim password hashes to Argon2id, but ONLY after a
+        # successful verification (verify-then-upgrade). Never weakens security.
+        if auth.needs_rehash(user.password_hash):
+            try:
+                user.password_hash = auth.hash_password(body.password)
+                session.commit()
+            except Exception:
+                session.rollback()  # migration is best-effort; auth already OK
         token = auth.create_access_token(
             user_id=user.id, username=user.username, role=user.role,
             organization_id=user.organization_id,
