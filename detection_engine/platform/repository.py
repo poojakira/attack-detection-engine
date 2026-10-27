@@ -273,9 +273,53 @@ class Repository:
         )
         return list(self.session.execute(stmt).scalars().all())
 
-    # --- Investigation audit ------------------------------------------------
+    # --- Investigation audit (tamper-evident hash chain) --------------------
+
+    @staticmethod
+    def _canonical_action(row_like) -> str:
+        """Deterministic serialization of the security-relevant fields that the
+        hash commits to. Changing any of these for a persisted row will break
+        the chain at that point and every entry after it."""
+        import json
+
+        ts = row_like.timestamp
+        ts_s = ts.isoformat() if hasattr(ts, "isoformat") else str(ts)
+        return json.dumps(
+            {
+                "action_id": row_like.action_id,
+                "incident_id": row_like.incident_id,
+                "analyst_id": row_like.analyst_id,
+                "action_type": row_like.action_type,
+                "previous_value": row_like.previous_value,
+                "updated_value": row_like.updated_value,
+                "note": row_like.note,
+                "timestamp": ts_s,
+                "organization_id": row_like.organization_id,
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+
+    @classmethod
+    def _entry_hash(cls, prev_hash: str, row_like) -> str:
+        import hashlib
+
+        basis = (prev_hash or "") + "|" + cls._canonical_action(row_like)
+        return hashlib.sha256(basis.encode("utf-8")).hexdigest()
+
+    def _last_chain_row(self, organization_id: str):
+        return self.session.execute(
+            select(db.InvestigationActionRow)
+            .where(db.InvestigationActionRow.organization_id == organization_id)
+            .order_by(db.InvestigationActionRow.chain_seq.desc())
+            .limit(1)
+        ).scalar_one_or_none()
 
     def add_action(self, action: InvestigationAction) -> db.InvestigationActionRow:
+        # Chain is per-organization: link to the org's latest audit entry.
+        last = self._last_chain_row(action.organization_id)
+        prev_hash = last.entry_hash if last else ""
+        chain_seq = (last.chain_seq + 1) if last else 1
         row = db.InvestigationActionRow(
             action_id=action.action_id,
             incident_id=action.incident_id,
@@ -286,10 +330,33 @@ class Repository:
             note=action.note,
             timestamp=action.timestamp,
             organization_id=action.organization_id,
+            chain_seq=chain_seq,
+            prev_hash=prev_hash,
         )
+        row.entry_hash = self._entry_hash(prev_hash, row)
         self.session.add(row)
         self.session.flush()
         return row
+
+    def verify_audit_chain(self, organization_id: str) -> bool:
+        """Recompute the org's audit hash chain in order and confirm every
+        entry_hash matches. Returns False if any record was altered/removed/
+        reordered (tamper-evident)."""
+        rows = list(self.session.execute(
+            select(db.InvestigationActionRow)
+            .where(db.InvestigationActionRow.organization_id == organization_id)
+            .order_by(db.InvestigationActionRow.chain_seq.asc())
+        ).scalars().all())
+        prev = ""
+        for i, row in enumerate(rows, start=1):
+            if row.chain_seq != i:
+                return False
+            if row.prev_hash != prev:
+                return False
+            if row.entry_hash != self._entry_hash(prev, row):
+                return False
+            prev = row.entry_hash
+        return True
 
     def incident_actions(self, incident_id: str) -> List[db.InvestigationActionRow]:
         stmt = (

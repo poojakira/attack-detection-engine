@@ -208,6 +208,15 @@ class InvestigationActionRow(Base):
     note: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow, index=True)
     organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    # Tamper-evident hash chain (per organization). entry_hash =
+    # sha256(prev_hash + canonical(record)). Breaking any earlier record
+    # invalidates every subsequent entry_hash. Trust limitations documented in
+    # SECURITY/PLATFORM: a party with DB write access could recompute the whole
+    # chain, so this is tamper-EVIDENT (detects casual/partial tampering), not
+    # tamper-PROOF without an external/append-only trust anchor.
+    chain_seq: Mapped[int] = mapped_column(Integer, index=True, default=0)
+    prev_hash: Mapped[str] = mapped_column(String(64), default="")
+    entry_hash: Mapped[str] = mapped_column(String(64), default="")
 
     incident: Mapped[IncidentRow] = relationship(back_populates="actions")
 

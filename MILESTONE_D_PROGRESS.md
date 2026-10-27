@@ -12,7 +12,7 @@ then `. .venv/bin/activate && AEGIS_DATABASE_URL=postgresql+psycopg://aegis:aegi
 - [x] Phase 3 RBAC + cross-org adversarial
 - [x] Phase 4 Docker secrets/least-privilege
 - [x] Phase 5 FastAPI headers/CORS/body limits/safe errors
-- [ ] Phase 6 DB integrity + tamper-evident audit chain + backup/restore
+- [x] Phase 6 DB integrity + tamper-evident audit chain + backup/restore
 - [ ] Phase 7 detection quality
 - [ ] Phase 8 HIPAA gap assessment
 - [ ] Phase 9 supply chain (pip-audit/bandit/npm audit/SBOM)
