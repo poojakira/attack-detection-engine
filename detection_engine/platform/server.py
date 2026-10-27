@@ -10,8 +10,13 @@ from __future__ import annotations
 
 import os
 
-from . import db
+from . import auth, db
 from .bootstrap import build_app, ensure_schema, seed_user
+
+# Fail closed on insecure configuration when running as a deployment. Gated by
+# AEGIS_REQUIRE_SECURE_CONFIG so local dev/tests are unaffected unless opted in.
+if os.environ.get("AEGIS_REQUIRE_SECURE_CONFIG", "0") == "1":
+    auth.require_secure_config()
 
 
 def _maybe_seed_admin() -> None:
@@ -20,6 +25,12 @@ def _maybe_seed_admin() -> None:
     org = os.environ.get("AEGIS_ADMIN_ORG", "default")
     if not username or not password:
         return
+    # Reject a trivially weak bootstrap admin password when secure config is
+    # required; a weak admin is a backdoor (threat-model E3).
+    if os.environ.get("AEGIS_REQUIRE_SECURE_CONFIG", "0") == "1" and len(password) < 12:
+        raise RuntimeError(
+            "AEGIS_ADMIN_PASSWORD must be at least 12 characters in a deployment."
+        )
     engine = db.make_engine()
     session = db.make_session_factory(engine)()
     try:

@@ -10,7 +10,7 @@ then `. .venv/bin/activate && AEGIS_DATABASE_URL=postgresql+psycopg://aegis:aegi
 - [x] Phase 2 auth/JWT hardening — commit ff93cf4 (then Argon2id upgrade)
 - [ ] Phase 2.5 Argon2id password upgrade (OWASP review)
 - [x] Phase 3 RBAC + cross-org adversarial
-- [ ] Phase 4 Docker secrets/least-privilege
+- [x] Phase 4 Docker secrets/least-privilege
 - [ ] Phase 5 FastAPI headers/CORS/body limits/safe errors
 - [ ] Phase 6 DB integrity + tamper-evident audit chain + backup/restore
 - [ ] Phase 7 detection quality
