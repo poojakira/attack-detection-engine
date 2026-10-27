@@ -9,7 +9,7 @@ then `. .venv/bin/activate && AEGIS_DATABASE_URL=postgresql+psycopg://aegis:aegi
 - [x] Phase 0+1 baseline + THREAT_MODEL.md — commit 26b9a94
 - [x] Phase 2 auth/JWT hardening — commit ff93cf4 (then Argon2id upgrade)
 - [ ] Phase 2.5 Argon2id password upgrade (OWASP review)
-- [ ] Phase 3 RBAC + cross-org adversarial
+- [x] Phase 3 RBAC + cross-org adversarial
 - [ ] Phase 4 Docker secrets/least-privilege
 - [ ] Phase 5 FastAPI headers/CORS/body limits/safe errors
 - [ ] Phase 6 DB integrity + tamper-evident audit chain + backup/restore
