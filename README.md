@@ -131,6 +131,38 @@ route list, the database schema, deployment commands, security controls, and
 verified test evidence. No HIPAA certification or production-readiness is
 claimed.
 
+### Telemetry connector support matrix
+
+Connectors normalize a source format into the platform's `SecurityEvent` and
+feed the existing detection → correlation → persistence flow. Status reflects
+what is actually implemented and tested on the development branches (not yet
+merged to `main`).
+
+| Source | Status | Evidence |
+|---|---|---:|
+| **FHIR R4 AuditEvent** (single resource, Bundle, list) | **VERIFIED** | `detection_engine/platform/connectors/fhir_auditevent.py`; `tests/test_connector_fhir.py` (16 tests incl. real-PG e2e) on `feat/milestone-e-connectors` |
+| AWS CloudTrail | PLANNED | not implemented |
+| Windows Sysmon | PLANNED | not implemented |
+| Linux auditd | PLANNED | not implemented |
+| Clinical-access (native platform schema) | VERIFIED | `POST /api/v1/events`; healthcare detector tests |
+
+Multi-language static analysis (Ruby/Go/Swift/Java/.NET): **PLANNED** — not yet
+implemented as language-aware AST/Semgrep analysis. The existing regex
+`CodeDetector` is **not** advertised as mature per-language SAST.
+
+### Branch / release status (2026-10-27)
+
+| Branch / PR | Scope | Local tests | Status |
+|---|---|---:|---|
+| Milestone C (`feat/milestone-c-platform`, PR #48) | Investigation platform | 212 | open, hosted CI BLOCKED |
+| Milestone D (`feat/milestone-d-hardening`, PR #49) | Security hardening | 280 | open, verdict **BLOCKED** (Actions disabled) |
+| Milestone E (`feat/milestone-e-connectors`) | FHIR connector | 296 | in progress |
+
+Hosted GitHub Actions is disabled at the repository level, so these numbers are
+**local / containerized** verification (Python 3.12, real PostgreSQL 15, pinned
+`attack-v19-core@087accffc7`), not hosted CI. Do not read a branch feature as
+available on `main` until its PR is merged.
+
 ## How It Works
 
 You pass a dictionary of telemetry to `DetectionPipeline.run()`. Each key corresponds to a detector:
