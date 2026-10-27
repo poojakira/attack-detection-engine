@@ -43,13 +43,13 @@ dev = [
     "pytest-cov>=5.0",
 ]
 platform = [
-    "fastapi==0.111.0",
+    "fastapi==0.116.2",
+    "starlette==0.48.0",
     "uvicorn[standard]>=0.29",
     "sqlalchemy>=2.0",
     "alembic>=1.13",
     "psycopg[binary]>=3.1",
-    "python-jose[cryptography]>=3.3",
-    "passlib[bcrypt]>=1.7",
+    "PyJWT>=2.8",
     "python-multipart>=0.0.9",
     "argon2-cffi>=23.1",
 ]

@@ -12,7 +12,7 @@ import time
 from datetime import datetime, timedelta, timezone
 
 import pytest
-from jose import jwt
+import jwt
 
 os.environ.setdefault("AEGIS_JWT_SECRET", "milestone-d-test-secret-at-least-32-chars")
 

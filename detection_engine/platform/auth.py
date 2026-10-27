@@ -31,7 +31,8 @@ from typing import Optional
 
 import bcrypt
 import argon2
-from jose import JWTError, jwt
+import jwt  # PyJWT (maintained; no python-jose/ecdsa CVE exposure)
+from jwt import PyJWTError
 
 JWT_ALGORITHM = "HS256"
 JWT_ISSUER = os.environ.get("AEGIS_JWT_ISSUER", "aegis-healthsec")
@@ -201,9 +202,12 @@ def decode_token(token: str) -> Optional[Principal]:
             algorithms=[JWT_ALGORITHM],
             audience=JWT_AUDIENCE,
             issuer=JWT_ISSUER,
-            options={"require": ["exp", "iat", "sub", "role", "org"]},
+            options={"require": ["exp", "iat"]},
         )
-    except JWTError:
+    except PyJWTError:
+        return None
+    # Custom claims are not covered by PyJWT's "require"; enforce explicitly.
+    if "role" not in payload or "sub" not in payload or "org" not in payload:
         return None
     try:
         role = Role(payload["role"])
