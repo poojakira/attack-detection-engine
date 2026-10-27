@@ -192,6 +192,41 @@ class TestInvestigationAudit:
         assert [a.action_type for a in actions] == ["acknowledge", "add_note"]
 
 
+class TestCorrelationPersistenceIdempotency:
+    def test_rerun_correlation_does_not_duplicate_incident(self, pg_session):
+        from detection_engine.platform.correlation import CorrelationEngine
+
+        repo = Repository(pg_session)
+        # Two findings for same identity -> one correlated incident
+        findings = []
+        for rid, sev in [("HC-ACCESS-BULK", IncidentSeverity.HIGH),
+                         ("HC-EXFIL-BULKEXPORT", IncidentSeverity.CRITICAL)]:
+            rec = DetectionFindingRecord(
+                rule_id=rid, severity=sev, confidence=0.8,
+                affected_identity="clin-9", affected_resource="res-1",
+                organization_id="org-a",
+                detection_timestamp=datetime(2026, 10, 27, 10, 0, tzinfo=timezone.utc),
+            )
+            repo.add_finding(rec)
+            findings.append(rec)
+        pg_session.commit()
+
+        engine = CorrelationEngine()
+        # First correlation run -> create
+        for ci in engine.correlate(findings):
+            repo.upsert_incident(ci.incident, finding_ids=ci.finding_ids)
+        pg_session.commit()
+        # Second identical run -> must NOT duplicate (same correlation_key)
+        for ci in engine.correlate(findings):
+            repo.upsert_incident(ci.incident, finding_ids=ci.finding_ids)
+        pg_session.commit()
+
+        incidents = pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        assert len(incidents) == 1
+        assert incidents[0].severity == "CRITICAL"
+        assert len(repo.incident_findings(incidents[0].incident_id)) == 2
+
+
 class TestRestartPersistence:
     def test_data_survives_engine_restart(self, pg_engine):
         # Write with one engine/session, dispose, then read with a fresh engine.
