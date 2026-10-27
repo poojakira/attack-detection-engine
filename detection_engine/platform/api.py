@@ -74,6 +74,59 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
 
     app = FastAPI(title="Aegis HealthSec Investigation API", version="1.0")
 
+    # --- security middleware ------------------------------------------------
+    from starlette.middleware.base import BaseHTTPMiddleware
+    from starlette.responses import JSONResponse, Response
+
+    _ALLOWED_ORIGINS = [
+        o.strip()
+        for o in os.environ.get("AEGIS_CORS_ORIGINS", "http://localhost:8080").split(",")
+        if o.strip()
+    ]
+
+    class SecurityMiddleware(BaseHTTPMiddleware):
+        """Adds security headers and enforces a hard request-body-size limit by
+        reading the actual bytes (not trusting the Content-Length header)."""
+
+        async def dispatch(self, request: Request, call_next):
+            # Enforce body size independently of a client-supplied Content-Length.
+            body = await request.body()
+            if len(body) > MAX_BODY_BYTES:
+                return JSONResponse(
+                    status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                    content={"detail": "request body too large"},
+                )
+            response: Response = await call_next(request)
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            response.headers["X-Frame-Options"] = "DENY"
+            response.headers["Referrer-Policy"] = "no-referrer"
+            response.headers["Content-Security-Policy"] = "default-src 'none'; frame-ancestors 'none'"
+            response.headers["Cache-Control"] = "no-store"
+            response.headers["Permissions-Policy"] = "geolocation=(), camera=(), microphone=()"
+            return response
+
+    app.add_middleware(SecurityMiddleware)
+
+    from fastapi.middleware.cors import CORSMiddleware
+
+    # Restrictive CORS: explicit allowlist only (never "*" with credentials).
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PATCH"],
+        allow_headers=["Authorization", "Content-Type"],
+    )
+
+    # Generic error handler: never leak internal/DB exception detail to clients.
+    from fastapi import HTTPException as _HTTPExc
+
+    @app.exception_handler(Exception)
+    async def _unhandled(request: Request, exc: Exception):
+        if isinstance(exc, _HTTPExc):
+            raise exc
+        return JSONResponse(status_code=500, content={"detail": "internal server error"})
+
     engine = db.make_engine()
     SessionFactory = db.make_session_factory(engine)
 

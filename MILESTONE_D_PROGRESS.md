@@ -11,7 +11,7 @@ then `. .venv/bin/activate && AEGIS_DATABASE_URL=postgresql+psycopg://aegis:aegi
 - [ ] Phase 2.5 Argon2id password upgrade (OWASP review)
 - [x] Phase 3 RBAC + cross-org adversarial
 - [x] Phase 4 Docker secrets/least-privilege
-- [ ] Phase 5 FastAPI headers/CORS/body limits/safe errors
+- [x] Phase 5 FastAPI headers/CORS/body limits/safe errors
 - [ ] Phase 6 DB integrity + tamper-evident audit chain + backup/restore
 - [ ] Phase 7 detection quality
 - [ ] Phase 8 HIPAA gap assessment
