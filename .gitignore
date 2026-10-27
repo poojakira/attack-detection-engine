@@ -12,6 +12,9 @@ venv/
 env/
 *.egg-info/
 
+# MIMIC-IV demo dataset (download locally per PROVENANCE; do not commit data)
+mimic_data/
+
 
 # Local secrets and credentials
 .env
