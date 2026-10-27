@@ -82,3 +82,47 @@ engineering, production efficacy, or independent security certification.
 The targeted post-merge Windows Python 3.12 run passed 29 tests; a later
 Python 3.11 Docker run (October 17, 2026) with two added ARM-ELF regression
 tests passed 31 focused tests. Neither number is a full-repository test total.
+
+
+## Healthcare dataset provenance — MIMIC-IV Demo v2.2 (October 27, 2026)
+
+This update is additive and does not alter any snapshot above.
+
+### Dataset attribution
+
+The healthcare detection module's legitimate clinical context is derived from:
+
+> Johnson, A., Bulgarelli, L., Pollard, T., Horng, S., Celi, L. A., & Mark, R.
+> (2023). **MIMIC-IV Clinical Database Demo** (version 2.2). PhysioNet.
+> RRID:SCR_007345. https://doi.org/10.13026/dp1f-ex47
+
+- **License:** Open Data Commons Open Database License (ODbL) v1.0.
+- **Access:** Open Access — the 100-patient demo subset is publicly downloadable
+  (no credentialing required for the demo). Source:
+  https://physionet.org/content/mimic-iv-demo/2.2/
+- **DOI:** 10.13026/dp1f-ex47
+
+### Provenance verification performed
+
+The five tables the adapter consumes (`hosp/patients.csv.gz`,
+`hosp/admissions.csv.gz`, `hosp/transfers.csv.gz`, `hosp/services.csv.gz`,
+`icu/icustays.csv.gz`) were downloaded from PhysioNet and their SHA256 digests
+verified **OK** against the authoritative published `SHA256SUMS.txt`. The
+adapter (`detection_engine/healthcare/mimic/adapter.py`) re-verifies these
+checksums at load time and refuses to parse a file whose digest does not match
+`detection_engine/healthcare/mimic/provenance.py`. Observed load on the real
+demo: 100 patients, 275 admissions, 170 providers, 0 skipped rows.
+
+### Critical data-separation statement
+
+MIMIC-IV Demo is **de-identified CLINICAL data** (HIPAA Safe Harbor, no free-text
+notes). It contains **no security audit telemetry and no cyberattack labels**.
+This project uses it **only** to model *legitimate* provider→patient
+relationships that give benign context to the detectors.
+
+All security events — benign and attack — are produced by a **separate, clearly
+labeled synthetic generator** (`detection_engine/healthcare/synthetic.py`,
+`data_origin="synthetic"`). Generated events are fictional. They are **not**
+real hospital security incidents, **not** derived from MIMIC patients, and are
+**never** represented as supplied by PhysioNet. The downloaded dataset files are
+git-ignored (`mimic_data/`) and are not committed to this repository.

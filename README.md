@@ -83,6 +83,26 @@ There are five original ATT&CK-oriented detectors and three additional offline l
 
 The extra sources keep the pipeline finding contract but **do not invent ATT&CK technique mappings** for unrelated firmware or CAN findings. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md) for compiler commands, evidence fixtures, scoped assessment and repeatable tests.
 
+### Healthcare clinical-access detection (added October 2026)
+
+The engine also accepts a `clinical_access` source: a modular healthcare
+detection component that shares the pipeline but is code-decoupled from the
+automotive detectors (it lives under `detection_engine/healthcare/`).
+
+| Component | What it does |
+|---|---|
+| `ClinicalAccessEvent` schema | Normalized, UTC, correlation-ready clinical-access event. PII-rejecting and `extra`-forbidden by design; carries pseudonymous identifiers and access metadata only — never patient record content. Includes a FHIR R4 `AuditEvent` normalizer. |
+| `PatientAccessDetector` | Seven deterministic, explainable rules: bulk patient access, off-shift unassigned access, unassigned-access review, break-glass review, repeated-denial-then-success, service-account scope violation, and bulk export. Uses authorization context (assignments, scopes, shifts) so legitimate multi-patient and documented emergency access are **not** treated as malicious. |
+| Synthetic generator | Seed-deterministic, clearly labeled **synthetic** benign and attack scenarios. Fictional — not real incidents, not derived from any patient dataset. |
+| MIMIC-IV Demo adapter | Verifies the ODbL demo dataset against published SHA256 sums and derives *legitimate* provider→patient context from real admissions. De-identified clinical data is used only for benign context and is kept strictly separate from synthetic security events. |
+
+ATT&CK is attached only where justified (bulk export → **T1567**); access-pattern
+anomalies emit no invented mapping. This is a detection component, not a
+compliance tool — **no HIPAA certification or production-readiness is claimed.**
+See **[HEALTHCARE_SECURITY.md](HEALTHCARE_SECURITY.md)** for the rule table,
+privacy properties, a runnable end-to-end example, limitations, and verified test
+evidence, and **[PROVENANCE.md](PROVENANCE.md)** for MIMIC-IV attribution.
+
 ## How It Works
 
 You pass a dictionary of telemetry to `DetectionPipeline.run()`. Each key corresponds to a detector:
@@ -108,7 +128,7 @@ for f in findings:
     print(f"{f.rule_name} [{f.severity}] -> {[m.technique_id for m in f.mappings]}")
 ```
 
-You can omit any supported key you do not have data for. Supported keys are exactly `logs`, `traffic`, `behaviors`, `events`, and `code`. Unknown source keys, non-list source values, non-object records, and batches above the configured per-source ceiling fail loudly instead of being silently ignored.
+You can omit any supported key you do not have data for. Supported keys are exactly `logs`, `traffic`, `behaviors`, `events`, `code`, `automotive_can`, `firmware`, `arm_binary`, and `clinical_access`. Unknown source keys, non-list source values, non-object records, and batches above the configured per-source ceiling fail loudly instead of being silently ignored.
 
 ## Output Format
 
