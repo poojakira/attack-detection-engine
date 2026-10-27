@@ -63,6 +63,9 @@ class UserRow(Base):
     role: Mapped[str] = mapped_column(String(32), index=True)  # see platform.auth roles
     organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    # Bumped to revoke all previously-issued tokens for this user (forced logout,
+    # role/org change). Tokens carry the version they were minted with.
+    token_version: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
 
 

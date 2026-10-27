@@ -11,7 +11,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Query, status
+from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request, status
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 
@@ -79,6 +79,9 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
 
     # Lazily-built singletons.
     state: Dict[str, Any] = {"pipeline": None, "clinical_detector": None}
+    # Per-process login throttle (documented limitation: resets on restart;
+    # back with a shared store for multi-process deployments).
+    login_throttle = auth.LoginThrottle()
 
     def get_session():
         s = SessionFactory()
@@ -103,13 +106,21 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
             state["clinical_detector"] = clinical_detector_factory()
         return state["clinical_detector"]
 
-    def current_principal(authorization: str = Header(default="")) -> Principal:
+    def current_principal(
+        authorization: str = Header(default=""), session=Depends(get_session)
+    ) -> Principal:
         if not authorization.lower().startswith("bearer "):
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "missing bearer token")
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "not authenticated")
         token = authorization.split(" ", 1)[1].strip()
-        principal = auth.decode_token(token)
+        claims = auth.decode_token(token)
+        if claims is None:
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "not authenticated")
+        # DB-backed resolution: re-validate against the authoritative user row so
+        # disabled accounts and stale role/org/token_version fail closed.
+        user_row = session.get(db.UserRow, claims.user_id)
+        principal = auth.resolve_principal(token, user_row)
         if principal is None:
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid or expired token")
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "not authenticated")
         return principal
 
     # --- health -------------------------------------------------------------
@@ -124,21 +135,39 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
             return {"status": "ready", "database": "ok"}
-        except Exception as exc:  # DB down must NOT report healthy
+        except Exception:
+            # DB down must NOT report healthy, and must NOT leak the connection
+            # string or driver error detail to the caller.
             raise HTTPException(
-                status.HTTP_503_SERVICE_UNAVAILABLE, f"database unavailable: {exc}"
+                status.HTTP_503_SERVICE_UNAVAILABLE, "database unavailable"
             )
 
     # --- auth ---------------------------------------------------------------
 
     @app.post("/api/v1/auth/token", response_model=TokenResponse)
-    def login(body: LoginRequest, session=Depends(get_session)):
-        user = session.query(db.UserRow).filter_by(username=body.username, is_active=True).one_or_none()
-        if user is None or not auth.verify_password(body.password, user.password_hash):
+    def login(body: LoginRequest, request: Request, session=Depends(get_session)):
+        client_ip = request.client.host if request.client else "unknown"
+        # Throttle brute-force / credential-stuffing by (username, ip). A locked
+        # key returns the same generic 401 as a bad credential (no enumeration).
+        if login_throttle.is_locked(body.username, client_ip):
             raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid credentials")
+
+        user = session.query(db.UserRow).filter_by(username=body.username).one_or_none()
+        if (
+            user is None
+            or not user.is_active
+            or not auth.verify_password(body.password, user.password_hash)
+        ):
+            # Record failure and return a GENERIC error (no user enumeration,
+            # no distinction between unknown user / disabled / bad password).
+            login_throttle.record_failure(body.username, client_ip)
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid credentials")
+
+        login_throttle.record_success(body.username, client_ip)
         token = auth.create_access_token(
             user_id=user.id, username=user.username, role=user.role,
             organization_id=user.organization_id,
+            token_version=getattr(user, "token_version", 0),
         )
         return TokenResponse(access_token=token, role=user.role, organization_id=user.organization_id)
 
