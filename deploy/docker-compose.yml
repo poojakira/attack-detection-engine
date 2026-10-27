@@ -1,0 +1,64 @@
+# Aegis HealthSec — controlled local deployment.
+#
+# Usage:
+#   export AEGIS_JWT_SECRET=$(openssl rand -hex 32)
+#   docker compose -f deploy/docker-compose.yml up --build
+#
+# Services: postgres (durable volume), backend (migrations + API), frontend
+# (nginx serving the dashboard and proxying /api). The backend waits for a
+# healthy database and applies Alembic migrations before serving.
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: aegis
+      POSTGRES_PASSWORD: ${AEGIS_DB_PASSWORD:-aegis}
+      POSTGRES_DB: aegis
+    volumes:
+      - aegis_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aegis -d aegis"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.backend
+    environment:
+      AEGIS_DATABASE_URL: postgresql+psycopg://aegis:${AEGIS_DB_PASSWORD:-aegis}@postgres:5432/aegis
+      AEGIS_JWT_SECRET: ${AEGIS_JWT_SECRET:?set AEGIS_JWT_SECRET}
+      AEGIS_ADMIN_USER: ${AEGIS_ADMIN_USER:-admin}
+      AEGIS_ADMIN_PASSWORD: ${AEGIS_ADMIN_PASSWORD:-}
+      AEGIS_ADMIN_ORG: ${AEGIS_ADMIN_ORG:-default}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
+volumes:
+  aegis_pgdata:

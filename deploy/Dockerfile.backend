@@ -1,0 +1,40 @@
+# Backend image: Aegis investigation API (FastAPI + detection engine).
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+# Build deps for psycopg/bcrypt wheels are generally prebuilt; keep image slim.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install runtime + platform dependencies. attack-v19-core is pinned by commit
+# in pyproject; numpy<2 avoids ABI issues with the pinned scientific stack.
+COPY pyproject.toml requirements.txt /app/
+COPY detection_engine /app/detection_engine
+COPY README.md LICENSE /app/
+
+RUN pip install "numpy<2" && \
+    pip install . && \
+    pip install \
+        "fastapi==0.111.0" "uvicorn[standard]>=0.29" "sqlalchemy>=2.0" \
+        "alembic>=1.13" "psycopg[binary]>=3.1" "python-jose[cryptography]>=3.3" \
+        "bcrypt>=4.0" "python-multipart>=0.0.9"
+
+# Download the pinned MITRE ATT&CK v19 STIX bundles into the image cache so the
+# detection pipeline can load the index at runtime (no network needed at run).
+RUN python -m attack_v19_core.download
+
+COPY deploy/backend-entrypoint.sh /app/deploy/backend-entrypoint.sh
+RUN chmod +x /app/deploy/backend-entrypoint.sh
+
+EXPOSE 8000
+
+# Container healthcheck hits readiness (503 when DB is down).
+HEALTHCHECK --interval=15s --timeout=5s --start-period=40s --retries=5 \
+    CMD curl -fsS http://localhost:8000/readiness || exit 1
+
+ENTRYPOINT ["/app/deploy/backend-entrypoint.sh"]
