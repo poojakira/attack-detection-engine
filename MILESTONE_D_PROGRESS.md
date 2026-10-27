@@ -16,7 +16,7 @@ then `. .venv/bin/activate && AEGIS_DATABASE_URL=postgresql+psycopg://aegis:aegi
 - [ ] Phase 7 detection quality
 - [ ] Phase 8 HIPAA gap assessment
 - [x] Phase 9 supply chain (pip-audit/bandit/npm audit/SBOM)
-- [ ] Phase 10 resilience/failure injection
+- [x] Phase 10 resilience/failure injection
 - [ ] Phase 11 performance
 - [ ] Phase 12 independent pentest review
 - [ ] Phase 13+14 CI (BLOCKED) + clean-machine
