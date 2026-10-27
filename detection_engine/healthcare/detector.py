@@ -140,7 +140,12 @@ class PatientAccessDetector:
     def _rule_unassigned_access(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
         """Successful access to a patient outside the actor's panel, on-shift,
         without break-glass. Lower severity: could be legitimate cross-coverage,
-        so this is a MEDIUM review signal, not a malicious verdict."""
+        so this is a review signal, not a malicious verdict.
+
+        A documented care relationship (e.g. a recorded admission link) is
+        treated as a MITIGATING signal: it lowers severity/confidence and is
+        recorded in the evidence. It is explicitly NOT treated as proof of
+        access authorization — only ``assigned_patients`` grants clear it."""
         findings = []
         for e in events:
             if e.break_glass or e.outcome != AccessOutcome.SUCCESS:
@@ -148,19 +153,32 @@ class PatientAccessDetector:
             prof = self.context.profile(e.actor_id)
             if prof is None or prof.actor_type == "service_account":
                 continue
-            if prof.is_on_shift(e.timestamp) and not prof.is_assigned(e.patient_ref):
+            if prof.is_assigned(e.patient_ref):
+                continue
+            if prof.is_on_shift(e.timestamp):
+                has_rel = prof.has_care_relationship(e.patient_ref)
+                severity = "LOW" if has_rel else "MEDIUM"
+                confidence = 0.35 if has_rel else 0.5
+                rel_note = (
+                    "a documented care relationship exists (admission link), which "
+                    "lowers but does not clear this signal; the relationship is not "
+                    "proof of access authorization"
+                    if has_rel
+                    else "no documented care relationship was found"
+                )
                 findings.append(
                     self._finding(
                         rule_id="HC-ACCESS-UNASSIGNED",
                         rule_name="Access to Unassigned Patient (Review)",
-                        severity="MEDIUM",
-                        confidence=0.5,
+                        severity=severity,
+                        confidence=confidence,
                         event=e,
                         description=(
                             f"Actor {e.actor_id} accessed patient {e.patient_ref} "
-                            "outside their assigned panel (may be legitimate "
-                            "cross-coverage; flagged for review)."
+                            f"outside their authorized panel; {rel_note}. Flagged "
+                            "for review."
                         ),
+                        extra={"care_relationship": has_rel},
                     )
                 )
         return findings

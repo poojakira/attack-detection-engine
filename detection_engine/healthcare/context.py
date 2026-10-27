@@ -25,6 +25,10 @@ class ActorProfile:
     role: str
     department: str
     assigned_patients: Set[str] = field(default_factory=set)
+    # Documented care relationships (e.g. the provider was recorded on the
+    # patient's admission). This is EVIDENCE of a clinical relationship, NOT a
+    # grant of access authorization. Kept separate from ``assigned_patients``.
+    care_relationships: Set[str] = field(default_factory=set)
     # Resource-id prefixes this (service) account is authorized to touch.
     authorized_resource_prefixes: Set[str] = field(default_factory=set)
     # Shift window in UTC hours [start, end); crosses midnight if start > end.
@@ -39,6 +43,12 @@ class ActorProfile:
 
     def is_assigned(self, patient_ref: str) -> bool:
         return patient_ref in self.assigned_patients
+
+    def has_care_relationship(self, patient_ref: str) -> bool:
+        """Whether a documented care relationship exists. Does NOT imply the
+        actor is authorized to access the record — only that the source data
+        records a clinical association (e.g. an admission)."""
+        return patient_ref in self.care_relationships
 
     def is_resource_in_scope(self, resource_id: str) -> bool:
         if not self.authorized_resource_prefixes:

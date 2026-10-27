@@ -94,7 +94,7 @@ automotive detectors (it lives under `detection_engine/healthcare/`).
 | `ClinicalAccessEvent` schema | Normalized, UTC, correlation-ready clinical-access event. PII-rejecting and `extra`-forbidden by design; carries pseudonymous identifiers and access metadata only — never patient record content. Includes a FHIR R4 `AuditEvent` normalizer. |
 | `PatientAccessDetector` | Seven deterministic, explainable rules: bulk patient access, off-shift unassigned access, unassigned-access review, break-glass review, repeated-denial-then-success, service-account scope violation, and bulk export. Uses authorization context (assignments, scopes, shifts) so legitimate multi-patient and documented emergency access are **not** treated as malicious. |
 | Synthetic generator | Seed-deterministic, clearly labeled **synthetic** benign and attack scenarios. Fictional — not real incidents, not derived from any patient dataset. |
-| MIMIC-IV Demo adapter | Verifies the ODbL demo dataset against published SHA256 sums and derives *legitimate* provider→patient context from real admissions. De-identified clinical data is used only for benign context and is kept strictly separate from synthetic security events. |
+| MIMIC-IV Demo adapter | Verifies the ODbL demo dataset against published SHA256 sums and records documented `provider → patient` **care relationships** from real admissions. An admission link is modelled as a mitigating context signal, **not** as access authorization. De-identified clinical data is used only for benign context and is kept strictly separate from synthetic security events. |
 
 ATT&CK is attached only where justified (bulk export → **T1567**); access-pattern
 anomalies emit no invented mapping. This is a detection component, not a

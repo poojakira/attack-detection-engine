@@ -78,7 +78,10 @@ authorization ground truth. It can come from:
 
 - the synthetic generator (`ClinicalContext.from_synthetic_org`), or
 - the MIMIC-IV Demo adapter (`MimicDemoAdapter.build_clinical_context`), which
-  derives legitimate `provider → patient` panels from real admission data, or
+  records documented `provider → patient` **care relationships** from real
+  admission data (populating `care_relationships`, a mitigating contextual
+  signal — **not** `assigned_patients`, because an admission link is not proof
+  of access authorization), or
 - (future) an authoritative HR/IAM/scheduling feed.
 
 ## End-to-end: run it yourself
@@ -122,21 +125,24 @@ wget -r -N -c -np https://physionet.org/files/mimic-iv-demo/2.2/
 from detection_engine.healthcare.mimic import MimicDemoAdapter
 
 adapter = MimicDemoAdapter("mimic_data")        # verifies SHA256 before parsing
-ctx = adapter.build_clinical_context()           # real provider->patient panels
+ctx = adapter.build_clinical_context()           # documented care relationships
 print(adapter.load_report())                      # PHI-free provenance report
 ```
 
-Then build the pipeline with `clinical_context=ctx` and run synthetic access
-events as in example A. A real provider reading their own admitted patients
-produces no findings; the same provider bulk-reading unassigned patients fires
-`HC-ACCESS-BULK`.
+Then build the pipeline with `clinical_context=ctx` and run **synthetic** access
+events as in example A. Because an admission link is modelled as a care
+relationship (not an authorization grant), a provider reading a care-related
+patient yields a LOW review signal that records the relationship; the same
+provider bulk-reading many unrelated patients fires `HC-ACCESS-BULK`. Note: the
+access events here are simulated — this is **not** a real clinician accessing
+real records.
 
 ## Verified test evidence (2026-10-27)
 
 Isolated venv, pinned `attack-v19-core` `087accffc7`, Python 3.12.3:
 
-- Full suite: **115 passed** (70 pre-existing + 45 healthcare: 37 schema/detector/
-  pipeline + 8 MIMIC adapter).
+- Full suite: **116 passed** (70 pre-existing + 46 healthcare: 37 schema/detector/
+  pipeline + 9 MIMIC adapter).
 - `ruff 0.8.4` check: **All checks passed**.
 - Real MIMIC-IV Demo load: 100 patients / 275 admissions / 170 providers,
   all five consumed files SHA256-verified against the published sums.

@@ -134,12 +134,21 @@ class MimicDemoAdapter:
         return f"pt-{subject_id}"
 
     def build_clinical_context(self) -> ClinicalContext:
-        """Build a ClinicalContext of legitimate provider -> patient assignments
-        from real MIMIC-IV admission relationships.
+        """Build a ClinicalContext from real MIMIC-IV admission data.
 
-        Each ``admit_provider_id`` becomes an actor legitimately associated with
-        the patients they admitted. This models benign authorization reality
-        against which the security detectors can distinguish anomalies.
+        IMPORTANT SEMANTICS
+        -------------------
+        MIMIC's ``admissions.admit_provider_id`` records that a provider was the
+        *admitting provider* for an admission. This establishes a DOCUMENTED CARE
+        RELATIONSHIP between provider and patient. It does **not** by itself prove
+        the provider is authorized to access that patient's records at any later
+        time, and it is the only provider→patient link the demo tables directly
+        support (there is no access-control list in the dataset).
+
+        Accordingly this method populates ``ActorProfile.care_relationships`` — a
+        contextual, mitigating signal — and leaves ``assigned_patients`` (the
+        hard authorization grant) empty. Deployments with a real authorization
+        source can populate ``assigned_patients`` from that source instead.
         """
         patients = self._read_rows("hosp/patients.csv.gz")
         admissions = self._read_rows("hosp/admissions.csv.gz")
@@ -149,7 +158,7 @@ class MimicDemoAdapter:
         }
         self.report.patient_count = len(valid_subjects)
 
-        provider_panels: Dict[str, Set[str]] = {}
+        provider_relationships: Dict[str, Set[str]] = {}
         admission_count = 0
         for adm in admissions:
             subject = adm.get("subject_id", "")
@@ -159,21 +168,22 @@ class MimicDemoAdapter:
             admission_count += 1
             if not provider:
                 continue
-            provider_panels.setdefault(provider, set()).add(
+            provider_relationships.setdefault(provider, set()).add(
                 self._patient_token(subject)
             )
 
         self.report.admission_count = admission_count
-        self.report.provider_count = len(provider_panels)
+        self.report.provider_count = len(provider_relationships)
 
         actors: Dict[str, ActorProfile] = {}
-        for provider, panel in provider_panels.items():
+        for provider, related in provider_relationships.items():
             actors[provider] = ActorProfile(
                 actor_id=provider,
                 actor_type="clinician",
                 role="admitting_provider",
                 department="",
-                assigned_patients=panel,
+                assigned_patients=set(),  # dataset does not establish authorization
+                care_relationships=related,  # documented admission relationship only
                 shift=(0, 24),  # demo data gives no shift info; no shift restriction
             )
         return ClinicalContext(actors=actors)

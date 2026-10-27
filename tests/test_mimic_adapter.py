@@ -94,17 +94,27 @@ class TestSchemaAndParsing:
         tmp_path, _, _ = fixture_dir
         adapter = MimicDemoAdapter(tmp_path, verify_checksums=False)
         ctx = adapter.build_clinical_context()
-        # PROV-A admitted subjects 1001 and 1002
-        assert ctx.actors["PROV-A"].assigned_patients == {"pt-1001", "pt-1002"}
-        # PROV-B admitted 1003 and 1001
-        assert ctx.actors["PROV-B"].assigned_patients == {"pt-1003", "pt-1001"}
+        # PROV-A was the admitting provider for subjects 1001 and 1002 -> care
+        # relationships (NOT authorization assignments).
+        assert ctx.actors["PROV-A"].care_relationships == {"pt-1001", "pt-1002"}
+        assert ctx.actors["PROV-B"].care_relationships == {"pt-1003", "pt-1001"}
+
+    def test_admission_link_does_not_imply_authorization(self, fixture_dir):
+        tmp_path, _, _ = fixture_dir
+        adapter = MimicDemoAdapter(tmp_path, verify_checksums=False)
+        ctx = adapter.build_clinical_context()
+        # The dataset establishes a care relationship, never an access grant.
+        prof = ctx.actors["PROV-A"]
+        assert prof.assigned_patients == set()
+        assert prof.is_assigned("pt-1001") is False
+        assert prof.has_care_relationship("pt-1001") is True
 
     def test_patients_are_pseudonymized(self, fixture_dir):
         tmp_path, _, _ = fixture_dir
         adapter = MimicDemoAdapter(tmp_path, verify_checksums=False)
         ctx = adapter.build_clinical_context()
         for prof in ctx.actors.values():
-            for pt in prof.assigned_patients:
+            for pt in prof.care_relationships:
                 assert pt.startswith("pt-")  # tokenized, not a bare id
 
     def test_report_counts(self, fixture_dir):
@@ -129,4 +139,4 @@ class TestSchemaAndParsing:
         adapter = MimicDemoAdapter(tmp_path, verify_checksums=False)
         ctx = adapter.build_clinical_context()
         assert "PROV-Z" not in ctx.actors
-        assert ctx.actors["PROV-A"].assigned_patients == {"pt-1001"}
+        assert ctx.actors["PROV-A"].care_relationships == {"pt-1001"}

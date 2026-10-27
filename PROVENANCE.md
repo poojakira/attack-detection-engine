@@ -117,8 +117,13 @@ demo: 100 patients, 275 admissions, 170 providers, 0 skipped rows.
 
 MIMIC-IV Demo is **de-identified CLINICAL data** (HIPAA Safe Harbor, no free-text
 notes). It contains **no security audit telemetry and no cyberattack labels**.
-This project uses it **only** to model *legitimate* provider→patient
-relationships that give benign context to the detectors.
+This project uses it **only** to model documented *provider→patient care
+relationships* (from the `admissions` table's `admit_provider_id`) that give
+benign context to the detectors. An admission link establishes that a provider
+was recorded on a patient's admission; it is **not** proof that the provider is
+authorized to access that record, and the adapter stores it as a mitigating
+`care_relationships` signal rather than an authorization grant. Simulated access
+events are never described as a real clinician accessing actual patient records.
 
 All security events — benign and attack — are produced by a **separate, clearly
 labeled synthetic generator** (`detection_engine/healthcare/synthetic.py`,
