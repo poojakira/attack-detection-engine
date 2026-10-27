@@ -11,12 +11,13 @@ from .traffic_detector import TrafficDetector
 from .automotive_can_detector import AutomotiveCANDetector
 from .firmware_auditor import FirmwareAuditor
 from .arm_binary_analyzer import ARMBinaryAnalyzer
+from .healthcare.detector import PatientAccessDetector
 
 
 class DetectionPipeline:
-    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code", "automotive_can", "firmware", "arm_binary"}
+    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code", "automotive_can", "firmware", "arm_binary", "clinical_access"}
 
-    def __init__(self, index: ATTACKIndex, max_records_per_source: int = 10_000):
+    def __init__(self, index: ATTACKIndex, max_records_per_source: int = 10_000, clinical_context=None):
         if max_records_per_source < 1:
             raise ValueError("max_records_per_source must be positive")
         self.max_records_per_source = max_records_per_source
@@ -28,6 +29,7 @@ class DetectionPipeline:
         self.automotive_can = AutomotiveCANDetector(index)
         self.firmware = FirmwareAuditor()
         self.arm_binary = ARMBinaryAnalyzer()
+        self.clinical_access = PatientAccessDetector(context=clinical_context, index=index)
 
     def _validate_telemetry(self, telemetry: Dict[str, Any]) -> None:
         if not isinstance(telemetry, dict):
@@ -75,6 +77,8 @@ class DetectionPipeline:
             findings += self.firmware.detect(telemetry["firmware"])
         if "arm_binary" in telemetry:
             findings += self.arm_binary.detect(telemetry["arm_binary"])
+        if "clinical_access" in telemetry:
+            findings += self.clinical_access.detect(telemetry["clinical_access"])
 
         severity_order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "INFO": 4}
         findings.sort(key=lambda f: (severity_order.get(f.severity, 9), -f.confidence))
