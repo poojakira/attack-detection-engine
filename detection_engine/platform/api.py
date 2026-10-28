@@ -256,6 +256,39 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
         result = svc.ingest_clinical_batch(body.events, organization_id=principal.organization_id)
         return result.as_dict()
 
+    @app.post("/api/v1/connectors/fhir/auditevent", status_code=status.HTTP_202_ACCEPTED)
+    def ingest_fhir_auditevent(
+        body: Dict[str, Any],
+        principal: Principal = Depends(current_principal),
+        session=Depends(get_session),
+    ):
+        """Ingest HL7 FHIR R4 AuditEvent(s): a single resource, a Bundle, or a
+        {"resources": [...]} list. Parsed + normalized by the FHIR connector,
+        then run through the existing detection -> correlation -> persistence
+        flow. Organization is taken from the caller's token."""
+        if not principal.can_ingest():
+            raise HTTPException(status.HTTP_403_FORBIDDEN, "role may not ingest events")
+        from .connectors.fhir_auditevent import FhirAuditEventConnector
+        from .connectors.base import ConnectorError
+
+        payload = body.get("resources", body) if isinstance(body, dict) and "resources" in body else body
+        connector = FhirAuditEventConnector()
+        try:
+            parsed = connector.parse(
+                payload, organization_id=principal.organization_id, max_items=MAX_BATCH
+            )
+        except ConnectorError as exc:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, str(exc))
+        svc = IngestionService(
+            session, get_pipeline(),
+            correlation_engine=CorrelationEngine(),
+            clinical_detector=get_clinical_detector(),
+        )
+        result = svc.ingest_normalized_events(parsed.events, organization_id=principal.organization_id)
+        out = result.as_dict()
+        out["connector"] = parsed.as_summary()  # per-item parse errors surfaced
+        return out
+
     # --- incidents ----------------------------------------------------------
 
     def _incident_dict(row) -> Dict[str, Any]:
