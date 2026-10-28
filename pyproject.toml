@@ -44,7 +44,7 @@ dev = [
 ]
 platform = [
     "fastapi==0.116.2",
-    "starlette==0.48.0",
+    "starlette==1.3.1",
     "uvicorn[standard]>=0.29",
     "sqlalchemy>=2.0",
     "alembic>=1.13",
