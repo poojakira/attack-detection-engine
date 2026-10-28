@@ -1,0 +1,129 @@
+# ARM firmware fixture CI.
+#
+# Scope / honesty note
+# --------------------
+# This workflow cross-compiles the SYNTHETIC Cortex-M3 lab fixture
+# (examples/ecu/cortexm_lab.c) with arm-none-eabi-gcc and inspects the
+# resulting ELF with readelf. It does NOT execute firmware on physical
+# hardware and makes no claim of hardware validation. It also runs the
+# offline automotive / firmware / ARM-ELF Python test subset, which uses
+# no network and no ATT&CK STIX data.
+
+name: ARM Firmware
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: arm-firmware-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cross-compile-and-inspect:
+    name: Cross-compile Cortex-M3 fixture and inspect ELF
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Install ARM bare-metal toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi
+          arm-none-eabi-gcc --version | head -1
+          arm-none-eabi-readelf --version | head -1
+
+      - name: Cross-compile cortexm_lab.c for Cortex-M3
+        working-directory: examples/ecu
+        run: |
+          arm-none-eabi-gcc \
+            -mcpu=cortex-m3 -mthumb \
+            -ffreestanding -nostartfiles -O2 \
+            -Wall -Wextra \
+            -T linker.ld cortexm_lab.c -o cortexm_lab_ci.elf
+          ls -l cortexm_lab_ci.elf
+
+      - name: Inspect ELF (readelf -h -S -l)
+        working-directory: examples/ecu
+        run: |
+          arm-none-eabi-readelf -h -S -l cortexm_lab_ci.elf \
+            | tee cortexm_lab_ci.readelf.txt
+
+      - name: Assert ELF architecture, class, and memory permissions
+        working-directory: examples/ecu
+        run: |
+          set -e
+          # 1. Must be an ARM ELF32 object.
+          arm-none-eabi-readelf -h cortexm_lab_ci.elf | grep -q 'Class:.*ELF32'
+          arm-none-eabi-readelf -h cortexm_lab_ci.elf | grep -q 'Machine:.*ARM'
+          # 2. No PT_LOAD segment may be simultaneously writable and executable
+          #    (W^X). The linker places code in FLASH (R E) and data in RAM (RW).
+          if arm-none-eabi-readelf -l cortexm_lab_ci.elf \
+               | grep -E '^\s+LOAD' | grep -q 'RWE'; then
+            echo "FAIL: a writable+executable (RWE) LOAD segment is present" >&2
+            exit 1
+          fi
+          echo "PASS: ARM ELF32, no writable+executable LOAD segment (W^X holds)"
+
+      - name: Upload ELF and readelf evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: arm-firmware-elf-${{ github.sha }}
+          path: |
+            examples/ecu/cortexm_lab_ci.elf
+            examples/ecu/cortexm_lab_ci.readelf.txt
+          retention-days: 30
+
+  offline-automotive-tests:
+    name: Offline automotive / firmware / ARM-ELF tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ATTACK_CORE_REF: "087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Checkout attack-v19-core
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          repository: poojakira/attack-v19-core
+          ref: ${{ env.ATTACK_CORE_REF }}
+          path: attack-v19-core
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          pip install -e ./attack-v19-core
+          pip install -e ".[dev]"
+
+      - name: Run offline automotive / firmware / ARM-ELF tests
+        run: |
+          PYTHONPATH=.:attack-v19-core pytest \
+            tests/test_automotive_embedded.py \
+            tests/test_automotive_evidence.py \
+            tests/test_automotive_pipeline.py \
+            -v --tb=short \
+            --cov=detection_engine.arm_binary_analyzer \
+            --cov=detection_engine.automotive_can_detector \
+            --cov=detection_engine.candump_parser \
+            --cov=detection_engine.firmware_auditor \
+            --cov-report=term-missing

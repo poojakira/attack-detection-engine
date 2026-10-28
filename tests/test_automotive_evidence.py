@@ -30,6 +30,29 @@ def test_writable_executable_segment_is_flagged():
     assert "ARM-ELF-WX" in {x.rule_id for x in results}
 
 
+def test_executable_stack_segment_is_flagged():
+    """A PT_GNU_STACK program header requesting execute permission must raise
+    ARM-ELF-EXECSTACK (CWE-732). Builds on the real fixture by retyping its
+    first program header to PT_GNU_STACK (0x6474E551) with PF_R|PF_X."""
+    original = bytearray((ROOT / "examples/ecu/cortexm_lab.elf").read_bytes())
+    phoff = struct.unpack_from("<I", original, 28)[0]
+    struct.pack_into("<I", original, phoff + 0, 0x6474E551)  # p_type = PT_GNU_STACK
+    struct.pack_into("<I", original, phoff + 24, 5)  # p_flags = PF_R | PF_X
+    results = ARMBinaryAnalyzer().detect([{"binary": bytes(original)}])
+    assert "ARM-ELF-EXECSTACK" in {x.rule_id for x in results}
+
+
+def test_entry_point_outside_executable_segment_is_flagged():
+    """If the ELF entry point does not fall inside any executable PT_LOAD
+    range, the analyzer must raise ARM-ELF-ENTRY. We move the entry point far
+    outside the fixture's single flash LOAD segment while keeping that segment
+    executable so parsing still succeeds."""
+    original = bytearray((ROOT / "examples/ecu/cortexm_lab.elf").read_bytes())
+    struct.pack_into("<I", original, 24, 0x40000000)  # entry well outside flash LOAD
+    results = ARMBinaryAnalyzer().detect([{"binary": bytes(original)}])
+    assert "ARM-ELF-ENTRY" in {x.rule_id for x in results}
+
+
 @pytest.mark.parametrize("tamper", ["truncated", "bad-header", "bad-segment"])
 def test_corrupted_elf_rejected(tamper):
     binary = bytearray((ROOT / "examples/ecu/cortexm_lab.elf").read_bytes())

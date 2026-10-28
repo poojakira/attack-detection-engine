@@ -6,6 +6,15 @@ __pycache__/
 htmlcov/
 coverage.xml
 
+# Virtual environments
+.venv/
+venv/
+env/
+*.egg-info/
+
+# MIMIC-IV demo dataset (download locally per PROVENANCE; do not commit data)
+mimic_data/
+
 
 # Local secrets and credentials
 .env
@@ -46,3 +55,5 @@ terraform.tfvars
 *.jks
 *.keystore
 *.pkcs12
+dashboard-ui/node_modules/
+dashboard-ui/dist/

@@ -1,0 +1,48 @@
+# Backend image: Aegis investigation API (FastAPI + detection engine).
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+# Build deps for psycopg/bcrypt wheels are generally prebuilt; keep image slim.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install runtime + platform dependencies. attack-v19-core is pinned by commit
+# in pyproject; numpy<2 avoids ABI issues with the pinned scientific stack.
+COPY pyproject.toml requirements.txt /app/
+COPY detection_engine /app/detection_engine
+COPY README.md LICENSE /app/
+
+RUN pip install "numpy<2" && \
+    pip install . && \
+    pip install \
+        "fastapi==0.116.2" "starlette==0.48.0" "uvicorn[standard]>=0.29" "sqlalchemy>=2.0" \
+        "alembic>=1.13" "psycopg[binary]>=3.1" "PyJWT>=2.8" \
+        "bcrypt>=4.0" "argon2-cffi>=23.1" "python-multipart>=0.0.9"
+
+# Download the pinned MITRE ATT&CK v19 STIX bundles into a fixed, world-readable
+# path so the non-root runtime user can load the index (no network at run).
+ENV ATTACK_DATA_DIR=/opt/attack_data
+RUN python -m attack_v19_core.download && \
+    mkdir -p /opt/attack_data && \
+    cp -r /root/attack_data/. /opt/attack_data/ && \
+    chmod -R a+rX /opt/attack_data
+
+COPY deploy/backend-entrypoint.sh /app/deploy/backend-entrypoint.sh
+RUN chmod +x /app/deploy/backend-entrypoint.sh
+
+# Run as a non-root user (uid matches the compose `user:` directive).
+RUN useradd -u 10001 -m -s /usr/sbin/nologin aegis && chown -R aegis:aegis /app
+USER 10001
+
+EXPOSE 8000
+
+# Container healthcheck hits readiness (503 when DB is down).
+HEALTHCHECK --interval=15s --timeout=5s --start-period=40s --retries=5 \
+    CMD curl -fsS http://localhost:8000/readiness || exit 1
+
+ENTRYPOINT ["/app/deploy/backend-entrypoint.sh"]

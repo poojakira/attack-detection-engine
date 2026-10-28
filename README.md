@@ -83,6 +83,86 @@ There are five original ATT&CK-oriented detectors and three additional offline l
 
 The extra sources keep the pipeline finding contract but **do not invent ATT&CK technique mappings** for unrelated firmware or CAN findings. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md) for compiler commands, evidence fixtures, scoped assessment and repeatable tests.
 
+### Healthcare clinical-access detection (added October 2026)
+
+The engine also accepts a `clinical_access` source: a modular healthcare
+detection component that shares the pipeline but is code-decoupled from the
+automotive detectors (it lives under `detection_engine/healthcare/`).
+
+| Component | What it does |
+|---|---|
+| `ClinicalAccessEvent` schema | Normalized, UTC, correlation-ready clinical-access event. PII-rejecting and `extra`-forbidden by design; carries pseudonymous identifiers and access metadata only — never patient record content. Includes a FHIR R4 `AuditEvent` normalizer. |
+| `PatientAccessDetector` | Seven deterministic, explainable rules: bulk patient access, off-shift unassigned access, unassigned-access review, break-glass review, repeated-denial-then-success, service-account scope violation, and bulk export. Uses authorization context (assignments, scopes, shifts) so legitimate multi-patient and documented emergency access are **not** treated as malicious. |
+| Synthetic generator | Seed-deterministic, clearly labeled **synthetic** benign and attack scenarios. Fictional — not real incidents, not derived from any patient dataset. |
+| MIMIC-IV Demo adapter | Verifies the ODbL demo dataset against published SHA256 sums and records documented `provider → patient` **care relationships** from real admissions. An admission link is modelled as a mitigating context signal, **not** as access authorization. De-identified clinical data is used only for benign context and is kept strictly separate from synthetic security events. |
+
+ATT&CK is attached only where justified (bulk export → **T1567**); access-pattern
+anomalies emit no invented mapping. This is a detection component, not a
+compliance tool — **no HIPAA certification or production-readiness is claimed.**
+See **[HEALTHCARE_SECURITY.md](HEALTHCARE_SECURITY.md)** for the rule table,
+privacy properties, a runnable end-to-end example, limitations, and verified test
+evidence, and **[PROVENANCE.md](PROVENANCE.md)** for MIMIC-IV attribution.
+
+## Investigation platform (Milestone C)
+
+Beyond the detection library, the repository includes an end-to-end security
+**investigation platform** under `detection_engine/platform/` that implements:
+
+```
+ingest (FastAPI, authenticated) → normalize → detect (real pipeline) →
+correlate → persist (PostgreSQL) → incident → investigate → resolve → audit
+```
+
+- FastAPI API with JWT auth, RBAC (administrator / security_analyst /
+  read_only_auditor) and organization isolation on every endpoint.
+- PostgreSQL persistence (SQLAlchemy 2.x + Alembic migrations) with idempotent
+  ingestion and incident creation, optimistic concurrency, and durable audit.
+- Deterministic correlation of findings into incidents with an explainable
+  reason and ATT&CK techniques where justified.
+- A React/TypeScript SOC dashboard (`dashboard-ui/`) — Security Overview,
+  Incident Queue, and Incident Investigation — wired only to real backend APIs.
+- Docker Compose deployment (`deploy/`) with health/readiness checks, migration
+  startup, and verified restart persistence.
+
+The complete workflow (ingest → investigate → resolve → restart → verify) is
+covered by an automated end-to-end acceptance test against real PostgreSQL and
+the real detector. See **[PLATFORM.md](PLATFORM.md)** for architecture, the full
+route list, the database schema, deployment commands, security controls, and
+verified test evidence. No HIPAA certification or production-readiness is
+claimed.
+
+### Telemetry connector support matrix
+
+Connectors normalize a source format into the platform's `SecurityEvent` and
+feed the existing detection → correlation → persistence flow. Status reflects
+what is actually implemented and tested on the development branches (not yet
+merged to `main`).
+
+| Source | Status | Evidence |
+|---|---|---:|
+| **FHIR R4 AuditEvent** (single resource, Bundle, list) | **VERIFIED** | `detection_engine/platform/connectors/fhir_auditevent.py`; `tests/test_connector_fhir.py` (16 tests incl. real-PG e2e) on `feat/milestone-e-connectors` |
+| AWS CloudTrail | PLANNED | not implemented |
+| Windows Sysmon | PLANNED | not implemented |
+| Linux auditd | PLANNED | not implemented |
+| Clinical-access (native platform schema) | VERIFIED | `POST /api/v1/events`; healthcare detector tests |
+
+Multi-language static analysis (Ruby/Go/Swift/Java/.NET): **PLANNED** — not yet
+implemented as language-aware AST/Semgrep analysis. The existing regex
+`CodeDetector` is **not** advertised as mature per-language SAST.
+
+### Branch / release status (2026-10-27)
+
+| Branch / PR | Scope | Local tests | Status |
+|---|---|---:|---|
+| Milestone C (`feat/milestone-c-platform`, PR #48) | Investigation platform | 212 | open, hosted CI BLOCKED |
+| Milestone D (`feat/milestone-d-hardening`, PR #49) | Security hardening | 280 | open, verdict **BLOCKED** (Actions disabled) |
+| Milestone E (`feat/milestone-e-connectors`) | FHIR connector | 296 | in progress |
+
+Hosted GitHub Actions is disabled at the repository level, so these numbers are
+**local / containerized** verification (Python 3.12, real PostgreSQL 15, pinned
+`attack-v19-core@087accffc7`), not hosted CI. Do not read a branch feature as
+available on `main` until its PR is merged.
+
 ## How It Works
 
 You pass a dictionary of telemetry to `DetectionPipeline.run()`. Each key corresponds to a detector:
@@ -108,7 +188,7 @@ for f in findings:
     print(f"{f.rule_name} [{f.severity}] -> {[m.technique_id for m in f.mappings]}")
 ```
 
-You can omit any supported key you do not have data for. Supported keys are exactly `logs`, `traffic`, `behaviors`, `events`, and `code`. Unknown source keys, non-list source values, non-object records, and batches above the configured per-source ceiling fail loudly instead of being silently ignored.
+You can omit any supported key you do not have data for. Supported keys are exactly `logs`, `traffic`, `behaviors`, `events`, `code`, `automotive_can`, `firmware`, `arm_binary`, and `clinical_access`. Unknown source keys, non-list source values, non-object records, and batches above the configured per-source ceiling fail loudly instead of being silently ignored.
 
 ## Output Format
 
@@ -228,8 +308,18 @@ Full ATT&CK integration tests were not run in this pass because the pinned sibli
 
 ## October 15, 2026 post-merge automotive verification
 
-On Windows Python 3.12, **29/29 focused automotive/embedded test cases passed**, Ruff lint passed, and pytest **collected 68 tests overall**. The full historical suite is *not yet confirmed passing*. The firmware evidence includes a genuine ARM Cortex-M3 ELF cross-compiled using rm-none-eabi-gcc in WSL and an intentional C memory-safety lab defect reproduced with Clang AddressSanitizer and subsequently fixed. All security inputs were synthetic or locally authored; no real vehicle or production ECU was tested. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md).
+On Windows Python 3.12, **29/29 focused automotive/embedded test cases passed**, Ruff lint passed, and pytest **collected 68 tests overall**. (Superseded by the October 17, 2026 entry below, which adds two regression tests: the focused subset is now 31/31 and the full suite collects 70.) The full historical suite is *not yet confirmed passing*. The firmware evidence includes a genuine ARM Cortex-M3 ELF cross-compiled using arm-none-eabi-gcc in WSL and an intentional C memory-safety lab defect reproduced with Clang AddressSanitizer and subsequently fixed. All security inputs were synthetic or locally authored; no real vehicle or production ECU was tested. See [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md).
 
 ## Full-suite performance verification (October 15, 2026)
 
 The complete repository suite passed **68/68 tests in 25.92 seconds** on Windows Python 3.12.13 after reusing a session-scoped ATT&CK index in the legacy integration fixtures. The test assertions remain unchanged. This is a local full-suite result, **not** a real-ECU hardware certification or a production effectiveness measurement.
+
+## ARM ELF analyzer hardening and firmware CI (October 17, 2026)
+
+Verified in a clean `python:3.11` + `gcc:13` Docker environment (numpy pinned `<2`, `attack-v19-core` installed, repository installed via `.[dev]`):
+
+- **Two new regression tests** in `tests/test_automotive_evidence.py` cover previously-untested `ARMBinaryAnalyzer` detection paths: executable-stack (`ARM-ELF-EXECSTACK`, PT_GNU_STACK with PF_X) and entry-point-outside-executable-segment (`ARM-ELF-ENTRY`). The focused automotive/firmware/ARM subset now passes **31/31** (was 29/29); full-suite collection is **70 tests** (was 68). Coverage of `detection_engine/arm_binary_analyzer.py` rose from 88% to 94%.
+- **Linker hardening** in `examples/ecu/linker.ld`: RAM region changed from `(rwx)` to `(rw)`. The fixture executes only from FLASH, so RAM needs no execute permission; this aligns the linker intent with a W^X policy and with the repository's own `ARM-ELF-WX` (CWE-732) detector. `arm-none-eabi-readelf -l` on the recompiled fixture confirms a FLASH `R E` segment and a RAM `RW` segment, with **no writable+executable (RWE)** segment. Machine `ARM`, Class `ELF32`, Thumb entry point.
+- **New workflow** `.github/workflows/arm-firmware.yml` (manual dispatch): installs `arm-none-eabi-gcc`, cross-compiles `examples/ecu/cortexm_lab.c`, runs `readelf -h -S -l`, asserts ELF32 / ARM / no-RWE, uploads the ELF and readelf output as artifacts, and runs the offline automotive/firmware/ARM test subset. The workflow is hardware-independent and makes no claim of physical-hardware or emulator execution.
+
+This is a local, Docker-reproducible result, **not** a real-ECU hardware certification or a production effectiveness measurement.

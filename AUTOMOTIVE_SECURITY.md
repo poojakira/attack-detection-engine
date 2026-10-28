@@ -38,7 +38,7 @@ Integrate real SocketCAN trace ingestion, documented CAN log parsers, embedded C
 - `examples/ecu/cortexm_lab.c` was cross-compiled in Ubuntu WSL2 using `arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -Os -ffreestanding -nostdlib -Wl,--gc-sections -T examples/ecu/linker.ld`. The committed `examples/ecu/cortexm_lab.elf` is a real ARM ELF32 binary. `arm-none-eabi-readelf` showed an executable flash segment and a writable RAM segment. Analyzer regression tests use this artifact and intentionally modified segment permissions.
 - The isolated `examples/ecu/ecu_vulnerable.c` training fixture was compiled with Clang AddressSanitizer on WSL2. A 16-character synthetic argument produced `AddressSanitizer: stack-buffer-overflow` in `strcpy` (exit 1). `examples/ecu/ecu_fixed.c` rejected the identical input (exit 3). This is a deliberately introduced lab bug, **not** a previously unknown production vulnerability.
 - Two reproducible offline timestamped CAN fixtures (`examples/can/normal.candump` and `anomalous.candump`) were parsed using `parse_candump_text`. The synthetic attack trace exercises an unauthorized ID and excessive message frequency. No real CAN bus or vehicle was accessed.
-- 29 focused tests passed on Python 3.12.13. Full legacy regression suite is separately tracked. The tools remain **offline lab prototypes** and do not establish deployed automotive intrusion detection, ECU compromise, commercial penetration-testing work, or full firmware reverse engineering.
+- 29 focused tests passed on Python 3.12.13. (As of the October 17, 2026 update below, two ARM-ELF regression tests were added, bringing the focused subset to 31, verified on Python 3.11 in Docker.) Full legacy regression suite is separately tracked. The tools remain **offline lab prototypes** and do not establish deployed automotive intrusion detection, ECU compromise, commercial penetration-testing work, or full firmware reverse engineering.
 
 ### Repeat locally
 ```bash
@@ -53,7 +53,7 @@ clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_fixed.c
 
 ## Repository-wide test boundary
 
-At the October 15, 2026 checkout, pytest collected 68 tests, and the focused automotive/embedded subset passed 29/29. The full 68-test run remains unverified; the ATT&CK-dependent historical test classes repeatedly load a large STIX index. Do not treat focused results as repository-wide certification. No hardware ECU penetration test, firmware emulation, or production CAN detection-effectiveness benchmark has been performed.
+At the October 15, 2026 checkout, pytest collected 68 tests, and the focused automotive/embedded subset passed 29/29. As of the October 17, 2026 update, two ARM-ELF regression tests were added: pytest now collects 70 tests and the focused subset passes 31/31 (verified on Python 3.11 in Docker). The full run remains unverified in that sandbox because the ATT&CK-dependent historical test classes require the STIX index to be downloaded; CI performs that download. Do not treat focused results as repository-wide certification. No hardware ECU penetration test, firmware emulation, or production CAN detection-effectiveness benchmark has been performed.
 
 ## Updated regression and hardware verification, October 15, 2026
 

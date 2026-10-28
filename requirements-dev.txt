@@ -1,0 +1,9 @@
+# Development / CI tooling, version-pinned for reproducible lint and test runs.
+# Runtime dependencies (including the immutable attack-v19-core commit pin) live
+# in requirements.txt / pyproject.toml. Install those first, then these.
+ruff==0.8.4
+pytest==9.0.3
+pytest-cov>=5.0
+bandit>=1.7
+pip-audit>=2.7
+build>=1.2

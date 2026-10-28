@@ -79,3 +79,58 @@ exit code and failures separately.
 ## Full suite performance and repeatability, October 15, 2026
 
 Legacy tests now use a session-scoped shared ttack_index fixture in 	ests/conftest.py rather than repeatedly rebuilding large ATT&CK indexes. Run python -m pytest -q; a Windows Python 3.12.13 full-suite execution passed **68/68 in 25.92 seconds**. This supersedes earlier notes that full-suite completion was unverified. Hardware ECU testing remains unperformed because no CAN, serial or debug adapter was detected on the connected Windows machine.
+
+
+## Milestone C: Investigation platform runbook (October 27, 2026)
+
+### Local development (API + PostgreSQL)
+
+```bash
+# 1. Install the platform extras into a venv with the pinned core
+python3 -m venv .venv && . .venv/bin/activate
+pip install .            # pulls the pinned attack-v19-core commit
+pip install ".[platform]" "ruff==0.8.4"
+
+# 2. Start a PostgreSQL for development/tests
+docker run -d --name aegis-pg -e POSTGRES_PASSWORD=aegis -e POSTGRES_USER=aegis \
+  -e POSTGRES_DB=aegis -p 55432:5432 postgres:15
+
+# 3. Apply migrations
+export AEGIS_DATABASE_URL="postgresql+psycopg://aegis:aegis@127.0.0.1:55432/aegis"
+( cd detection_engine/platform && alembic upgrade head )
+
+# 4. Run the platform tests (real PostgreSQL)
+export AEGIS_JWT_SECRET="dev-secret"
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH= python -m pytest -q \
+  tests/test_platform_db.py tests/test_platform_api_e2e.py
+```
+
+### Full containerized deployment
+
+```bash
+export AEGIS_JWT_SECRET=$(openssl rand -hex 32)
+export AEGIS_ADMIN_USER=admin AEGIS_ADMIN_PASSWORD=choose-a-password
+docker compose -f deploy/docker-compose.yml up --build
+# API http://localhost:8000 (/docs), dashboard http://localhost:8080
+```
+
+### Frontend build
+
+```bash
+cd dashboard-ui && npm ci && npm run build   # outputs dist/
+```
+
+### Operational note: stuck PostgreSQL locks
+
+A cancelled test run can leave a Python process holding an
+`idle in transaction` lock, which blocks `DROP TABLE` in the next test's setup
+indefinitely. If DB tests appear to hang, clear lingering backends:
+
+```bash
+PGPASSWORD=aegis psql -U aegis -h 127.0.0.1 -p 55432 -d aegis -c \
+ "SELECT pg_terminate_backend(pid) FROM pg_stat_activity \
+  WHERE datname='aegis' AND pid<>pg_backend_pid();"
+```
+
+The ATT&CK index parse is ~9s; it is cached per process. A slow full-suite run
+is expected — record completion, exit code, and failures separately.
