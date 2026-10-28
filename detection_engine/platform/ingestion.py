@@ -251,3 +251,66 @@ class IngestionService:
 
         self.session.commit()
         return result
+
+    def ingest_normalized_events(
+        self, events: List[SecurityEvent], *, organization_id: str
+    ) -> IngestResult:
+        """Ingest pre-normalized SecurityEvents produced by a connector.
+
+        Persists idempotently, runs the batch clinical detector over events whose
+        source maps to clinical-access detection (clinical_access / FHIR
+        AuditEvent), correlates, and persists incidents. Organization is forced
+        to the caller's org (connectors must not set it from the payload)."""
+        result = IngestResult()
+        persisted: List[tuple] = []  # (event_row, normalized_attributes)
+        for idx, event in enumerate(events):
+            if event.organization_id != organization_id:
+                # Defense in depth: never persist a connector event for another org.
+                event = event.model_copy(update={"organization_id": organization_id})
+            try:
+                row, created = self.repo.upsert_event(event)
+            except Exception as exc:
+                result.rejected += 1
+                result.errors.append({"index": idx, "error": str(exc)})
+                continue
+            if not created:
+                result.duplicates += 1
+                continue
+            result.accepted += 1
+            result.event_ids.append(row.event_id)
+            persisted.append((row, event))
+
+        detected: List[DetectionFindingRecord] = []
+        event_ids_by_finding: Dict[str, List[str]] = {}
+        clinical = [
+            (row, ev)
+            for row, ev in persisted
+            if ev.source_type in (_HEALTHCARE_SOURCE, "fhir_audit_event")
+        ]
+        if self.clinical_detector is not None and clinical:
+            detector_input = [_clinical_fields(dict(ev.normalized_attributes)) for _, ev in clinical]
+            findings = self.clinical_detector.detect(detector_input)
+            actor_to_events: Dict[str, List[str]] = {}
+            for row, ev in clinical:
+                actor_to_events.setdefault(
+                    ev.normalized_attributes.get("actor_id", ""), []
+                ).append(row.event_id)
+            for f in findings:
+                rec = DetectionFindingRecord.from_engine_finding(
+                    f, organization_id=organization_id
+                )
+                self.repo.add_finding(rec)
+                detected.append(rec)
+                result.finding_ids.append(rec.finding_id)
+                actor = (f.raw_evidence or {}).get("actor_id", "")
+                event_ids_by_finding[rec.finding_id] = actor_to_events.get(actor, [])
+
+        for ci in self.correlation.correlate(detected, event_ids_by_finding=event_ids_by_finding):
+            inc_row, _ = self.repo.upsert_incident(
+                ci.incident, finding_ids=ci.finding_ids, event_ids=ci.event_ids
+            )
+            if inc_row.incident_id not in result.incident_ids:
+                result.incident_ids.append(inc_row.incident_id)
+
+        self.session.commit()
+        return result

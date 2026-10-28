@@ -11,7 +11,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Query, status
+from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request, status
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 
@@ -74,11 +74,67 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
 
     app = FastAPI(title="Aegis HealthSec Investigation API", version="1.0")
 
+    # --- security middleware ------------------------------------------------
+    from starlette.middleware.base import BaseHTTPMiddleware
+    from starlette.responses import JSONResponse, Response
+
+    _ALLOWED_ORIGINS = [
+        o.strip()
+        for o in os.environ.get("AEGIS_CORS_ORIGINS", "http://localhost:8080").split(",")
+        if o.strip()
+    ]
+
+    class SecurityMiddleware(BaseHTTPMiddleware):
+        """Adds security headers and enforces a hard request-body-size limit by
+        reading the actual bytes (not trusting the Content-Length header)."""
+
+        async def dispatch(self, request: Request, call_next):
+            # Enforce body size independently of a client-supplied Content-Length.
+            body = await request.body()
+            if len(body) > MAX_BODY_BYTES:
+                return JSONResponse(
+                    status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                    content={"detail": "request body too large"},
+                )
+            response: Response = await call_next(request)
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            response.headers["X-Frame-Options"] = "DENY"
+            response.headers["Referrer-Policy"] = "no-referrer"
+            response.headers["Content-Security-Policy"] = "default-src 'none'; frame-ancestors 'none'"
+            response.headers["Cache-Control"] = "no-store"
+            response.headers["Permissions-Policy"] = "geolocation=(), camera=(), microphone=()"
+            return response
+
+    app.add_middleware(SecurityMiddleware)
+
+    from fastapi.middleware.cors import CORSMiddleware
+
+    # Restrictive CORS: explicit allowlist only (never "*" with credentials).
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PATCH"],
+        allow_headers=["Authorization", "Content-Type"],
+    )
+
+    # Generic error handler: never leak internal/DB exception detail to clients.
+    from fastapi import HTTPException as _HTTPExc
+
+    @app.exception_handler(Exception)
+    async def _unhandled(request: Request, exc: Exception):
+        if isinstance(exc, _HTTPExc):
+            raise exc
+        return JSONResponse(status_code=500, content={"detail": "internal server error"})
+
     engine = db.make_engine()
     SessionFactory = db.make_session_factory(engine)
 
     # Lazily-built singletons.
     state: Dict[str, Any] = {"pipeline": None, "clinical_detector": None}
+    # Per-process login throttle (documented limitation: resets on restart;
+    # back with a shared store for multi-process deployments).
+    login_throttle = auth.LoginThrottle()
 
     def get_session():
         s = SessionFactory()
@@ -103,13 +159,21 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
             state["clinical_detector"] = clinical_detector_factory()
         return state["clinical_detector"]
 
-    def current_principal(authorization: str = Header(default="")) -> Principal:
+    def current_principal(
+        authorization: str = Header(default=""), session=Depends(get_session)
+    ) -> Principal:
         if not authorization.lower().startswith("bearer "):
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "missing bearer token")
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "not authenticated")
         token = authorization.split(" ", 1)[1].strip()
-        principal = auth.decode_token(token)
+        claims = auth.decode_token(token)
+        if claims is None:
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "not authenticated")
+        # DB-backed resolution: re-validate against the authoritative user row so
+        # disabled accounts and stale role/org/token_version fail closed.
+        user_row = session.get(db.UserRow, claims.user_id)
+        principal = auth.resolve_principal(token, user_row)
         if principal is None:
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid or expired token")
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "not authenticated")
         return principal
 
     # --- health -------------------------------------------------------------
@@ -124,21 +188,47 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
             return {"status": "ready", "database": "ok"}
-        except Exception as exc:  # DB down must NOT report healthy
+        except Exception:
+            # DB down must NOT report healthy, and must NOT leak the connection
+            # string or driver error detail to the caller.
             raise HTTPException(
-                status.HTTP_503_SERVICE_UNAVAILABLE, f"database unavailable: {exc}"
+                status.HTTP_503_SERVICE_UNAVAILABLE, "database unavailable"
             )
 
     # --- auth ---------------------------------------------------------------
 
     @app.post("/api/v1/auth/token", response_model=TokenResponse)
-    def login(body: LoginRequest, session=Depends(get_session)):
-        user = session.query(db.UserRow).filter_by(username=body.username, is_active=True).one_or_none()
-        if user is None or not auth.verify_password(body.password, user.password_hash):
+    def login(body: LoginRequest, request: Request, session=Depends(get_session)):
+        client_ip = request.client.host if request.client else "unknown"
+        # Throttle brute-force / credential-stuffing by (username, ip). A locked
+        # key returns the same generic 401 as a bad credential (no enumeration).
+        if login_throttle.is_locked(body.username, client_ip):
             raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid credentials")
+
+        user = session.query(db.UserRow).filter_by(username=body.username).one_or_none()
+        if (
+            user is None
+            or not user.is_active
+            or not auth.verify_password(body.password, user.password_hash)
+        ):
+            # Record failure and return a GENERIC error (no user enumeration,
+            # no distinction between unknown user / disabled / bad password).
+            login_throttle.record_failure(body.username, client_ip)
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid credentials")
+
+        login_throttle.record_success(body.username, client_ip)
+        # Migrate legacy/interim password hashes to Argon2id, but ONLY after a
+        # successful verification (verify-then-upgrade). Never weakens security.
+        if auth.needs_rehash(user.password_hash):
+            try:
+                user.password_hash = auth.hash_password(body.password)
+                session.commit()
+            except Exception:
+                session.rollback()  # migration is best-effort; auth already OK
         token = auth.create_access_token(
             user_id=user.id, username=user.username, role=user.role,
             organization_id=user.organization_id,
+            token_version=getattr(user, "token_version", 0),
         )
         return TokenResponse(access_token=token, role=user.role, organization_id=user.organization_id)
 
@@ -165,6 +255,39 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
         )
         result = svc.ingest_clinical_batch(body.events, organization_id=principal.organization_id)
         return result.as_dict()
+
+    @app.post("/api/v1/connectors/fhir/auditevent", status_code=status.HTTP_202_ACCEPTED)
+    def ingest_fhir_auditevent(
+        body: Dict[str, Any],
+        principal: Principal = Depends(current_principal),
+        session=Depends(get_session),
+    ):
+        """Ingest HL7 FHIR R4 AuditEvent(s): a single resource, a Bundle, or a
+        {"resources": [...]} list. Parsed + normalized by the FHIR connector,
+        then run through the existing detection -> correlation -> persistence
+        flow. Organization is taken from the caller's token."""
+        if not principal.can_ingest():
+            raise HTTPException(status.HTTP_403_FORBIDDEN, "role may not ingest events")
+        from .connectors.fhir_auditevent import FhirAuditEventConnector
+        from .connectors.base import ConnectorError
+
+        payload = body.get("resources", body) if isinstance(body, dict) and "resources" in body else body
+        connector = FhirAuditEventConnector()
+        try:
+            parsed = connector.parse(
+                payload, organization_id=principal.organization_id, max_items=MAX_BATCH
+            )
+        except ConnectorError as exc:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, str(exc))
+        svc = IngestionService(
+            session, get_pipeline(),
+            correlation_engine=CorrelationEngine(),
+            clinical_detector=get_clinical_detector(),
+        )
+        result = svc.ingest_normalized_events(parsed.events, organization_id=principal.organization_id)
+        out = result.as_dict()
+        out["connector"] = parsed.as_summary()  # per-item parse errors surfaced
+        return out
 
     # --- incidents ----------------------------------------------------------
 

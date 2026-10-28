@@ -63,6 +63,9 @@ class UserRow(Base):
     role: Mapped[str] = mapped_column(String(32), index=True)  # see platform.auth roles
     organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    # Bumped to revoke all previously-issued tokens for this user (forced logout,
+    # role/org change). Tokens carry the version they were minted with.
+    token_version: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
 
 
@@ -205,6 +208,15 @@ class InvestigationActionRow(Base):
     note: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow, index=True)
     organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    # Tamper-evident hash chain (per organization). entry_hash =
+    # sha256(prev_hash + canonical(record)). Breaking any earlier record
+    # invalidates every subsequent entry_hash. Trust limitations documented in
+    # SECURITY/PLATFORM: a party with DB write access could recompute the whole
+    # chain, so this is tamper-EVIDENT (detects casual/partial tampering), not
+    # tamper-PROOF without an external/append-only trust anchor.
+    chain_seq: Mapped[int] = mapped_column(Integer, index=True, default=0)
+    prev_hash: Mapped[str] = mapped_column(String(64), default="")
+    entry_hash: Mapped[str] = mapped_column(String(64), default="")
 
     incident: Mapped[IncidentRow] = relationship(back_populates="actions")
 
