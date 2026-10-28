@@ -103,6 +103,66 @@ See **[HEALTHCARE_SECURITY.md](HEALTHCARE_SECURITY.md)** for the rule table,
 privacy properties, a runnable end-to-end example, limitations, and verified test
 evidence, and **[PROVENANCE.md](PROVENANCE.md)** for MIMIC-IV attribution.
 
+## Investigation platform (Milestone C)
+
+Beyond the detection library, the repository includes an end-to-end security
+**investigation platform** under `detection_engine/platform/` that implements:
+
+```
+ingest (FastAPI, authenticated) → normalize → detect (real pipeline) →
+correlate → persist (PostgreSQL) → incident → investigate → resolve → audit
+```
+
+- FastAPI API with JWT auth, RBAC (administrator / security_analyst /
+  read_only_auditor) and organization isolation on every endpoint.
+- PostgreSQL persistence (SQLAlchemy 2.x + Alembic migrations) with idempotent
+  ingestion and incident creation, optimistic concurrency, and durable audit.
+- Deterministic correlation of findings into incidents with an explainable
+  reason and ATT&CK techniques where justified.
+- A React/TypeScript SOC dashboard (`dashboard-ui/`) — Security Overview,
+  Incident Queue, and Incident Investigation — wired only to real backend APIs.
+- Docker Compose deployment (`deploy/`) with health/readiness checks, migration
+  startup, and verified restart persistence.
+
+The complete workflow (ingest → investigate → resolve → restart → verify) is
+covered by an automated end-to-end acceptance test against real PostgreSQL and
+the real detector. See **[PLATFORM.md](PLATFORM.md)** for architecture, the full
+route list, the database schema, deployment commands, security controls, and
+verified test evidence. No HIPAA certification or production-readiness is
+claimed.
+
+### Telemetry connector support matrix
+
+Connectors normalize a source format into the platform's `SecurityEvent` and
+feed the existing detection → correlation → persistence flow. Status reflects
+what is actually implemented and tested on the development branches (not yet
+merged to `main`).
+
+| Source | Status | Evidence |
+|---|---|---:|
+| **FHIR R4 AuditEvent** (single resource, Bundle, list) | **VERIFIED** | `detection_engine/platform/connectors/fhir_auditevent.py`; `tests/test_connector_fhir.py` (16 tests incl. real-PG e2e) on `feat/milestone-e-connectors` |
+| AWS CloudTrail | PLANNED | not implemented |
+| Windows Sysmon | PLANNED | not implemented |
+| Linux auditd | PLANNED | not implemented |
+| Clinical-access (native platform schema) | VERIFIED | `POST /api/v1/events`; healthcare detector tests |
+
+Multi-language static analysis (Ruby/Go/Swift/Java/.NET): **PLANNED** — not yet
+implemented as language-aware AST/Semgrep analysis. The existing regex
+`CodeDetector` is **not** advertised as mature per-language SAST.
+
+### Branch / release status (2026-10-27)
+
+| Branch / PR | Scope | Local tests | Status |
+|---|---|---:|---|
+| Milestone C (`feat/milestone-c-platform`, PR #48) | Investigation platform | 212 | open, hosted CI BLOCKED |
+| Milestone D (`feat/milestone-d-hardening`, PR #49) | Security hardening | 280 | open, verdict **BLOCKED** (Actions disabled) |
+| Milestone E (`feat/milestone-e-connectors`) | FHIR connector | 296 | in progress |
+
+Hosted GitHub Actions is disabled at the repository level, so these numbers are
+**local / containerized** verification (Python 3.12, real PostgreSQL 15, pinned
+`attack-v19-core@087accffc7`), not hosted CI. Do not read a branch feature as
+available on `main` until its PR is merged.
+
 ## How It Works
 
 You pass a dictionary of telemetry to `DetectionPipeline.run()`. Each key corresponds to a detector:
