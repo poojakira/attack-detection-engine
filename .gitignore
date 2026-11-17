@@ -57,3 +57,8 @@ terraform.tfvars
 *.pkcs12
 dashboard-ui/node_modules/
 dashboard-ui/dist/
+
+# Local workbench PostgreSQL password, caches and runtime state
+.aegis-local/
+build/
+dist/

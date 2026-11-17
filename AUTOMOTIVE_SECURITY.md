@@ -1,3 +1,5 @@
+> Historical / secondary workflow reference. This document predates the 1.1.0 local workbench candidate; its metrics and branch/status claims are not current release evidence. See [the current workbench guide](docs/WORKBENCH.md) for the supported browser workflow and limits. Original dates and content below are preserved.
+
 # Automotive and Embedded Security Extension
 
 This extension adds offline, owner-authorized lab analysis. No supplied binary is executed and no frames are transmitted to a physical vehicle.

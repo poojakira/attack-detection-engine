@@ -83,7 +83,9 @@ class PatientAccessDetector:
 
     # --- Rules --------------------------------------------------------------
 
-    def _rule_bulk_access(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_bulk_access(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """High number of distinct patients read by one actor in the batch."""
         by_actor: Dict[str, set] = defaultdict(set)
         sample: Dict[str, ClinicalAccessEvent] = {}
@@ -111,7 +113,9 @@ class PatientAccessDetector:
                 )
         return findings
 
-    def _rule_off_shift_unassigned(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_off_shift_unassigned(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """Access outside the actor's shift AND outside their assigned panel,
         without break-glass."""
         findings = []
@@ -121,7 +125,9 @@ class PatientAccessDetector:
             prof = self.context.profile(e.actor_id)
             if prof is None:
                 continue
-            if not prof.is_on_shift(e.timestamp) and not prof.is_assigned(e.patient_ref):
+            if not prof.is_on_shift(e.timestamp) and not prof.is_assigned(
+                e.patient_ref
+            ):
                 findings.append(
                     self._finding(
                         rule_id="HC-ACCESS-OFFSHIFT",
@@ -137,7 +143,9 @@ class PatientAccessDetector:
                 )
         return findings
 
-    def _rule_unassigned_access(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_unassigned_access(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """Successful access to a patient outside the actor's panel, on-shift,
         without break-glass. Lower severity: could be legitimate cross-coverage,
         so this is a review signal, not a malicious verdict.
@@ -183,7 +191,9 @@ class PatientAccessDetector:
                 )
         return findings
 
-    def _rule_break_glass_review(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_break_glass_review(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """Break-glass usage is a documented emergency procedure. Surface it for
         review as INFO/LOW — explicitly NOT treated as malicious."""
         findings = []
@@ -204,7 +214,9 @@ class PatientAccessDetector:
                 )
         return findings
 
-    def _rule_denied_then_success(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_denied_then_success(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """>= N consecutive denials for an (actor, resource) followed by a
         success — possible authorization probing."""
         seq: Dict[tuple, List[ClinicalAccessEvent]] = defaultdict(list)
@@ -236,7 +248,9 @@ class PatientAccessDetector:
                     denials = 0
         return findings
 
-    def _rule_service_account_scope(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_service_account_scope(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """Service account touching a resource outside its authorized prefix."""
         findings = []
         for e in events:
@@ -260,13 +274,18 @@ class PatientAccessDetector:
                 )
         return findings
 
-    def _rule_bulk_export(self, events: List[ClinicalAccessEvent]) -> List[DetectionFinding]:
+    def _rule_bulk_export(
+        self, events: List[ClinicalAccessEvent]
+    ) -> List[DetectionFinding]:
         """High-volume export. This is exfiltration-shaped, so it is the one
         rule that attaches an ATT&CK technique (T1567 Exfiltration Over Web
         Service) when a mapping builder is available."""
         findings = []
         for e in events:
-            if e.action == AccessAction.EXPORT and e.record_count >= self.bulk_export_record_threshold:
+            if (
+                e.action == AccessAction.EXPORT
+                and e.record_count >= self.bulk_export_record_threshold
+            ):
                 findings.append(
                     self._finding(
                         rule_id="HC-EXFIL-BULKEXPORT",

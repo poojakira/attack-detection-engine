@@ -38,7 +38,9 @@ class TestPasswordHashing:
 class TestTokens:
     def test_decode_roundtrip(self):
         tok = auth.create_access_token(
-            user_id="u1", username="analyst", role="security_analyst",
+            user_id="u1",
+            username="analyst",
+            role="security_analyst",
             organization_id="org-a",
         )
         p = auth.decode_token(tok)

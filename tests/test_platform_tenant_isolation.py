@@ -37,15 +37,20 @@ def _deps_available() -> bool:
         return False
 
 
-pytestmark = pytest.mark.skipif(not _deps_available(), reason="requires PostgreSQL + fastapi + core")
+pytestmark = pytest.mark.skipif(
+    not _deps_available(), reason="requires PostgreSQL + fastapi + core"
+)
 
 
 def _suspicious_batch(actor="clin-7"):
     base = datetime(2026, 10, 27, 10, 0, tzinfo=timezone.utc)
     return [
         {
-            "actor_id": actor, "patient_ref": f"pt-9{i:03d}", "resource_id": f"res-9{i:03d}",
-            "action": "read", "outcome": "success",
+            "actor_id": actor,
+            "patient_ref": f"pt-9{i:03d}",
+            "resource_id": f"res-9{i:03d}",
+            "action": "read",
+            "outcome": "success",
             "timestamp": (base + timedelta(seconds=10 * i)).isoformat(),
             "data_origin": "synthetic",
         }
@@ -64,12 +69,30 @@ def two_org_client():
     _db.Base.metadata.drop_all(eng)
     _db.Base.metadata.create_all(eng)
     s = _db.make_session_factory(eng)()
-    seed_user(s, user_id="a-a", username="ana_a", password="pw-strong-aaaa",
-              role="security_analyst", organization_id="org-a")
-    seed_user(s, user_id="a-b", username="ana_b", password="pw-strong-bbbb",
-              role="security_analyst", organization_id="org-b")
-    seed_user(s, user_id="aud-a", username="aud_a", password="pw-strong-cccc",
-              role="read_only_auditor", organization_id="org-a")
+    seed_user(
+        s,
+        user_id="a-a",
+        username="ana_a",
+        password="pw-strong-aaaa",
+        role="security_analyst",
+        organization_id="org-a",
+    )
+    seed_user(
+        s,
+        user_id="a-b",
+        username="ana_b",
+        password="pw-strong-bbbb",
+        role="security_analyst",
+        organization_id="org-b",
+    )
+    seed_user(
+        s,
+        user_id="aud-a",
+        username="aud_a",
+        password="pw-strong-cccc",
+        role="read_only_auditor",
+        organization_id="org-a",
+    )
     s.close()
     c = TestClient(build_app())
     yield c, eng
@@ -77,7 +100,9 @@ def two_org_client():
 
 
 def _tok(c, u, p):
-    return c.post("/api/v1/auth/token", json={"username": u, "password": p}).json()["access_token"]
+    return c.post("/api/v1/auth/token", json={"username": u, "password": p}).json()[
+        "access_token"
+    ]
 
 
 def _h(t):
@@ -106,43 +131,73 @@ class TestCrossOrgIsolationEveryEndpoint:
 
     def test_evidence_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        assert c.get(f"/api/v1/incidents/{inc}/evidence", headers=_h(tok_b)).status_code == 404
+        assert (
+            c.get(f"/api/v1/incidents/{inc}/evidence", headers=_h(tok_b)).status_code
+            == 404
+        )
 
     def test_timeline_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        assert c.get(f"/api/v1/incidents/{inc}/timeline", headers=_h(tok_b)).status_code == 404
+        assert (
+            c.get(f"/api/v1/incidents/{inc}/timeline", headers=_h(tok_b)).status_code
+            == 404
+        )
 
     def test_history_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        assert c.get(f"/api/v1/incidents/{inc}/history", headers=_h(tok_b)).status_code == 404
+        assert (
+            c.get(f"/api/v1/incidents/{inc}/history", headers=_h(tok_b)).status_code
+            == 404
+        )
 
     def test_export_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        assert c.get(f"/api/v1/incidents/{inc}/export", headers=_h(tok_b)).status_code == 404
+        assert (
+            c.get(f"/api/v1/incidents/{inc}/export", headers=_h(tok_b)).status_code
+            == 404
+        )
 
     def test_assign_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        r = c.post(f"/api/v1/incidents/{inc}/assign", json={"analyst_id": "x"}, headers=_h(tok_b))
+        r = c.post(
+            f"/api/v1/incidents/{inc}/assign",
+            json={"analyst_id": "x"},
+            headers=_h(tok_b),
+        )
         assert r.status_code == 404
 
     def test_notes_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        r = c.post(f"/api/v1/incidents/{inc}/notes", json={"note": "intrusion"}, headers=_h(tok_b))
+        r = c.post(
+            f"/api/v1/incidents/{inc}/notes",
+            json={"note": "intrusion"},
+            headers=_h(tok_b),
+        )
         assert r.status_code == 404
 
     def test_status_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        r = c.patch(f"/api/v1/incidents/{inc}", json={"status": "INVESTIGATING"}, headers=_h(tok_b))
+        r = c.patch(
+            f"/api/v1/incidents/{inc}",
+            json={"status": "INVESTIGATING"},
+            headers=_h(tok_b),
+        )
         assert r.status_code == 404
 
     def test_disposition_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        r = c.post(f"/api/v1/incidents/{inc}/disposition", json={"disposition": "x"}, headers=_h(tok_b))
+        r = c.post(
+            f"/api/v1/incidents/{inc}/disposition",
+            json={"disposition": "x"},
+            headers=_h(tok_b),
+        )
         assert r.status_code == 404
 
     def test_close_cross_org_404(self, setup):
         c, _, tok_b, inc = setup
-        r = c.post(f"/api/v1/incidents/{inc}/close", json={"reason": "x"}, headers=_h(tok_b))
+        r = c.post(
+            f"/api/v1/incidents/{inc}/close", json={"reason": "x"}, headers=_h(tok_b)
+        )
         assert r.status_code == 404
 
     def test_list_excludes_other_org(self, setup):
@@ -152,8 +207,15 @@ class TestCrossOrgIsolationEveryEndpoint:
     def test_org_b_cannot_affect_org_a_incident_state(self, setup):
         c, tok_a, tok_b, inc = setup
         # Org-B's blocked attempts must not change Org-A's incident.
-        c.patch(f"/api/v1/incidents/{inc}", json={"status": "INVESTIGATING"}, headers=_h(tok_b))
-        assert c.get(f"/api/v1/incidents/{inc}", headers=_h(tok_a)).json()["status"] == "NEW"
+        c.patch(
+            f"/api/v1/incidents/{inc}",
+            json={"status": "INVESTIGATING"},
+            headers=_h(tok_b),
+        )
+        assert (
+            c.get(f"/api/v1/incidents/{inc}", headers=_h(tok_a)).json()["status"]
+            == "NEW"
+        )
 
 
 class TestRoleEnforcementEveryWriteEndpoint:
@@ -169,32 +231,75 @@ class TestRoleEnforcementEveryWriteEndpoint:
 
     def test_auditor_cannot_ingest(self, setup):
         c, tok_aud, _ = setup
-        assert c.post("/api/v1/events", json={"events": []}, headers=_h(tok_aud)).status_code == 403
+        assert (
+            c.post(
+                "/api/v1/events", json={"events": []}, headers=_h(tok_aud)
+            ).status_code
+            == 403
+        )
 
     def test_auditor_cannot_assign(self, setup):
         c, tok_aud, inc = setup
-        assert c.post(f"/api/v1/incidents/{inc}/assign", json={"analyst_id": "x"}, headers=_h(tok_aud)).status_code == 403
+        assert (
+            c.post(
+                f"/api/v1/incidents/{inc}/assign",
+                json={"analyst_id": "x"},
+                headers=_h(tok_aud),
+            ).status_code
+            == 403
+        )
 
     def test_auditor_cannot_note(self, setup):
         c, tok_aud, inc = setup
-        assert c.post(f"/api/v1/incidents/{inc}/notes", json={"note": "x"}, headers=_h(tok_aud)).status_code == 403
+        assert (
+            c.post(
+                f"/api/v1/incidents/{inc}/notes",
+                json={"note": "x"},
+                headers=_h(tok_aud),
+            ).status_code
+            == 403
+        )
 
     def test_auditor_cannot_change_status(self, setup):
         c, tok_aud, inc = setup
-        assert c.patch(f"/api/v1/incidents/{inc}", json={"status": "INVESTIGATING"}, headers=_h(tok_aud)).status_code == 403
+        assert (
+            c.patch(
+                f"/api/v1/incidents/{inc}",
+                json={"status": "INVESTIGATING"},
+                headers=_h(tok_aud),
+            ).status_code
+            == 403
+        )
 
     def test_auditor_cannot_disposition(self, setup):
         c, tok_aud, inc = setup
-        assert c.post(f"/api/v1/incidents/{inc}/disposition", json={"disposition": "x"}, headers=_h(tok_aud)).status_code == 403
+        assert (
+            c.post(
+                f"/api/v1/incidents/{inc}/disposition",
+                json={"disposition": "x"},
+                headers=_h(tok_aud),
+            ).status_code
+            == 403
+        )
 
     def test_auditor_cannot_close(self, setup):
         c, tok_aud, inc = setup
-        assert c.post(f"/api/v1/incidents/{inc}/close", json={"reason": "x"}, headers=_h(tok_aud)).status_code == 403
+        assert (
+            c.post(
+                f"/api/v1/incidents/{inc}/close",
+                json={"reason": "x"},
+                headers=_h(tok_aud),
+            ).status_code
+            == 403
+        )
 
     def test_auditor_can_read(self, setup):
         c, tok_aud, inc = setup
         assert c.get(f"/api/v1/incidents/{inc}", headers=_h(tok_aud)).status_code == 200
-        assert c.get(f"/api/v1/incidents/{inc}/evidence", headers=_h(tok_aud)).status_code == 200
+        assert (
+            c.get(f"/api/v1/incidents/{inc}/evidence", headers=_h(tok_aud)).status_code
+            == 200
+        )
 
 
 class TestServerSideOrgBinding:

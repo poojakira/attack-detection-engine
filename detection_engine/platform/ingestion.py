@@ -19,6 +19,7 @@ from sqlalchemy.orm import Session
 
 from .correlation import CorrelationEngine
 from .models import (
+    DataOrigin,
     DetectionFindingRecord,
     SecurityEvent,
 )
@@ -109,7 +110,9 @@ class IngestionService:
                     self.repo.add_finding(rec)
                     detected_findings.append(rec)
                     result.finding_ids.append(rec.finding_id)
-                    event_ids_by_finding.setdefault(rec.finding_id, []).append(row.event_id)
+                    event_ids_by_finding.setdefault(rec.finding_id, []).append(
+                        row.event_id
+                    )
 
         # Correlate the batch's findings and persist incidents idempotently.
         for ci in self.correlation.correlate(
@@ -132,7 +135,9 @@ class IngestionService:
         data["organization_id"] = organization_id  # org from the authenticated caller
         # Accept a FHIR AuditEvent envelope and normalize it.
         if data.get("source_type") == "fhir_audit_event" and "fhir" in data:
-            return self._from_fhir(data["fhir"], organization_id, data.get("source_event_id"))
+            return self._from_fhir(
+                data["fhir"], organization_id, data.get("source_event_id")
+            )
         return SecurityEvent.model_validate(data)
 
     def _from_fhir(self, fhir: Dict[str, Any], organization_id: str, source_event_id):
@@ -150,7 +155,7 @@ class IngestionService:
             action=cae.action.value,
             outcome=cae.outcome.value,
             organization_id=organization_id,
-            data_origin="demo_derived",
+            data_origin=DataOrigin.UNSPECIFIED,
             normalized_attributes=cae.redacted_evidence(),
         )
 
@@ -172,8 +177,8 @@ class IngestionService:
         clinical_record.setdefault("actor_id", event.identity_id or "unknown")
         clinical_record.setdefault("patient_ref", event.resource_reference or "unknown")
         clinical_record.setdefault("resource_id", event.resource_reference or "unknown")
-        clinical_record.setdefault("action", event.action or "read")
-        clinical_record.setdefault("outcome", event.outcome or "success")
+        clinical_record.setdefault("action", event.action or "unknown")
+        clinical_record.setdefault("outcome", event.outcome or "unknown")
         clinical_record.setdefault("timestamp", event.event_timestamp.isoformat())
         findings = self.clinical_detector.detect([clinical_record])
         return [
@@ -205,7 +210,7 @@ class IngestionService:
                     action=rec.get("action"),
                     outcome=rec.get("outcome"),
                     organization_id=organization_id,
-                    data_origin=rec.get("data_origin", "synthetic"),
+                    data_origin=rec.get("data_origin", "unspecified"),
                     normalized_attributes=rec,
                 )
             except Exception as exc:
@@ -230,7 +235,9 @@ class IngestionService:
             # deterministic) so the incident links real event ids.
             actor_to_events: Dict[str, List[str]] = {}
             for row, rec in persisted:
-                actor_to_events.setdefault(rec.get("actor_id", ""), []).append(row.event_id)
+                actor_to_events.setdefault(rec.get("actor_id", ""), []).append(
+                    row.event_id
+                )
             for f in findings:
                 rec = DetectionFindingRecord.from_engine_finding(
                     f, organization_id=organization_id
@@ -242,7 +249,9 @@ class IngestionService:
                 event_ids_by_finding[rec.finding_id] = actor_to_events.get(actor, [])
 
         # 3. Correlate + persist incidents
-        for ci in self.correlation.correlate(detected, event_ids_by_finding=event_ids_by_finding):
+        for ci in self.correlation.correlate(
+            detected, event_ids_by_finding=event_ids_by_finding
+        ):
             inc_row, _ = self.repo.upsert_incident(
                 ci.incident, finding_ids=ci.finding_ids, event_ids=ci.event_ids
             )
@@ -288,7 +297,9 @@ class IngestionService:
             if ev.source_type in (_HEALTHCARE_SOURCE, "fhir_audit_event")
         ]
         if self.clinical_detector is not None and clinical:
-            detector_input = [_clinical_fields(dict(ev.normalized_attributes)) for _, ev in clinical]
+            detector_input = [
+                _clinical_fields(dict(ev.normalized_attributes)) for _, ev in clinical
+            ]
             findings = self.clinical_detector.detect(detector_input)
             actor_to_events: Dict[str, List[str]] = {}
             for row, ev in clinical:
@@ -305,7 +316,9 @@ class IngestionService:
                 actor = (f.raw_evidence or {}).get("actor_id", "")
                 event_ids_by_finding[rec.finding_id] = actor_to_events.get(actor, [])
 
-        for ci in self.correlation.correlate(detected, event_ids_by_finding=event_ids_by_finding):
+        for ci in self.correlation.correlate(
+            detected, event_ids_by_finding=event_ids_by_finding
+        ):
             inc_row, _ = self.repo.upsert_incident(
                 ci.incident, finding_ids=ci.finding_ids, event_ids=ci.event_ids
             )

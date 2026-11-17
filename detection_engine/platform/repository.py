@@ -66,7 +66,9 @@ class Repository:
         self.session.flush()
         return row, True
 
-    def get_event(self, event_id: str, organization_id: str) -> Optional[db.SecurityEventRow]:
+    def get_event(
+        self, event_id: str, organization_id: str
+    ) -> Optional[db.SecurityEventRow]:
         return self.session.execute(
             select(db.SecurityEventRow).where(
                 db.SecurityEventRow.event_id == event_id,
@@ -148,9 +150,14 @@ class Repository:
             # Escalate severity if the new evidence is more severe; refresh window.
             from .models import IncidentSeverity
 
-            if IncidentSeverity(incident.severity.value).rank > IncidentSeverity(row.severity).rank:
+            if (
+                IncidentSeverity(incident.severity.value).rank
+                > IncidentSeverity(row.severity).rank
+            ):
                 row.severity = incident.severity.value
-            if incident.last_seen and (row.last_seen is None or incident.last_seen > row.last_seen):
+            if incident.last_seen and (
+                row.last_seen is None or incident.last_seen > row.last_seen
+            ):
                 row.last_seen = incident.last_seen
             row.updated_at = incident.updated_at
             created = False
@@ -186,7 +193,9 @@ class Repository:
                     db.IncidentEventRow(incident_id=incident_id, event_id=eid)
                 )
 
-    def get_incident(self, incident_id: str, organization_id: str) -> Optional[db.IncidentRow]:
+    def get_incident(
+        self, incident_id: str, organization_id: str
+    ) -> Optional[db.IncidentRow]:
         return self.session.execute(
             select(db.IncidentRow).where(
                 db.IncidentRow.incident_id == incident_id,
@@ -209,7 +218,9 @@ class Repository:
         """
         row = self.get_incident(incident_id, organization_id)
         if row is None:
-            raise LookupError(f"incident {incident_id} not found in org {organization_id}")
+            raise LookupError(
+                f"incident {incident_id} not found in org {organization_id}"
+            )
         if expected_version is not None and row.row_version != expected_version:
             raise ConcurrencyError(
                 f"incident {incident_id} changed (expected v{expected_version}, "
@@ -247,7 +258,9 @@ class Repository:
         if since:
             stmt = stmt.where(db.IncidentRow.created_at >= since)
         total = len(self.session.execute(stmt).scalars().all())
-        stmt = stmt.order_by(db.IncidentRow.created_at.desc()).limit(limit).offset(offset)
+        stmt = (
+            stmt.order_by(db.IncidentRow.created_at.desc()).limit(limit).offset(offset)
+        )
         rows = list(self.session.execute(stmt).scalars().all())
         return rows, total
 
@@ -342,11 +355,15 @@ class Repository:
         """Recompute the org's audit hash chain in order and confirm every
         entry_hash matches. Returns False if any record was altered/removed/
         reordered (tamper-evident)."""
-        rows = list(self.session.execute(
-            select(db.InvestigationActionRow)
-            .where(db.InvestigationActionRow.organization_id == organization_id)
-            .order_by(db.InvestigationActionRow.chain_seq.asc())
-        ).scalars().all())
+        rows = list(
+            self.session.execute(
+                select(db.InvestigationActionRow)
+                .where(db.InvestigationActionRow.organization_id == organization_id)
+                .order_by(db.InvestigationActionRow.chain_seq.asc())
+            )
+            .scalars()
+            .all()
+        )
         prev = ""
         for i, row in enumerate(rows, start=1):
             if row.chain_seq != i:

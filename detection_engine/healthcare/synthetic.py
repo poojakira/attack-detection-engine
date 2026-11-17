@@ -105,8 +105,13 @@ class SyntheticAccessGenerator:
             dept = self._rng.choice(departments)
             aid = f"clin-{i:03d}"
             actors[aid] = SyntheticActor(
-                aid, ActorType.CLINICIAN, f"{dept}_attending", dept, assign_panel(),
-                shift_start_hour=7, shift_end_hour=19,
+                aid,
+                ActorType.CLINICIAN,
+                f"{dept}_attending",
+                dept,
+                assign_panel(),
+                shift_start_hour=7,
+                shift_end_hour=19,
             )
         for i in range(n_nurses):
             dept = self._rng.choice(departments)
@@ -114,15 +119,24 @@ class SyntheticAccessGenerator:
             # mix of day and night shifts
             day = self._rng.random() < 0.6
             actors[aid] = SyntheticActor(
-                aid, ActorType.NURSE, f"{dept}_rn", dept, assign_panel(),
+                aid,
+                ActorType.NURSE,
+                f"{dept}_rn",
+                dept,
+                assign_panel(),
                 shift_start_hour=7 if day else 19,
                 shift_end_hour=19 if day else 7,
             )
         for i in range(n_admins):
             aid = f"admin-{i:03d}"
             actors[aid] = SyntheticActor(
-                aid, ActorType.ADMIN, "it_admin", "it", set(),
-                shift_start_hour=8, shift_end_hour=18,
+                aid,
+                ActorType.ADMIN,
+                "it_admin",
+                "it",
+                set(),
+                shift_start_hour=8,
+                shift_end_hour=18,
             )
 
         service_account_scopes = {
@@ -131,8 +145,13 @@ class SyntheticAccessGenerator:
         }
         for sid in service_account_scopes:
             actors[sid] = SyntheticActor(
-                sid, ActorType.SERVICE_ACCOUNT, "integration", "platform", set(),
-                shift_start_hour=0, shift_end_hour=24,
+                sid,
+                ActorType.SERVICE_ACCOUNT,
+                "integration",
+                "platform",
+                set(),
+                shift_start_hour=0,
+                shift_end_hour=24,
             )
 
         return SyntheticOrg(actors, patients, service_account_scopes)
@@ -180,7 +199,9 @@ class SyntheticAccessGenerator:
 
     # --- Benign scenarios ---------------------------------------------------
 
-    def benign_rounds(self, org: SyntheticOrg, day: datetime | None = None) -> List[ClinicalAccessEvent]:
+    def benign_rounds(
+        self, org: SyntheticOrg, day: datetime | None = None
+    ) -> List[ClinicalAccessEvent]:
         """Legitimate clinicians/nurses accessing their assigned patients
         during their shift. Expected: no malicious finding."""
         base = (day or datetime(2026, 10, 27, tzinfo=timezone.utc)).replace(
@@ -195,8 +216,13 @@ class SyntheticAccessGenerator:
             ts = base.replace(hour=on_shift_hour % 24)
             for j, pt in enumerate(sorted(actor.assigned_patients)[:4]):
                 events.append(
-                    self._event(org, actor_id, pt, AccessAction.READ,
-                                ts + timedelta(minutes=5 * j))
+                    self._event(
+                        org,
+                        actor_id,
+                        pt,
+                        AccessAction.READ,
+                        ts + timedelta(minutes=5 * j),
+                    )
                 )
         return events
 
@@ -207,11 +233,20 @@ class SyntheticAccessGenerator:
         clinician = next(
             a for a in org.actors.values() if a.actor_type == ActorType.CLINICIAN
         )
-        unassigned = next(p for p in org.patients if p not in clinician.assigned_patients)
+        unassigned = next(
+            p for p in org.patients if p not in clinician.assigned_patients
+        )
         ts = datetime(2026, 10, 27, 11, 0, tzinfo=timezone.utc)
         return [
-            self._event(org, clinician.actor_id, unassigned, AccessAction.READ, ts,
-                        break_glass=True, resource_type="Encounter")
+            self._event(
+                org,
+                clinician.actor_id,
+                unassigned,
+                AccessAction.READ,
+                ts,
+                break_glass=True,
+                resource_type="Encounter",
+            )
         ]
 
     def benign_service_account(self, org: SyntheticOrg) -> List[ClinicalAccessEvent]:
@@ -220,15 +255,23 @@ class SyntheticAccessGenerator:
         events = []
         for i in range(5):
             events.append(
-                self._event(org, "svc-lab-interface", org.patients[i],
-                            AccessAction.READ, ts + timedelta(minutes=i),
-                            resource_id=f"res-lab-{i:04d}", resource_type="Observation")
+                self._event(
+                    org,
+                    "svc-lab-interface",
+                    org.patients[i],
+                    AccessAction.READ,
+                    ts + timedelta(minutes=i),
+                    resource_id=f"res-lab-{i:04d}",
+                    resource_type="Observation",
+                )
             )
         return events
 
     # --- Attack scenarios (clearly labeled synthetic) -----------------------
 
-    def attack_bulk_access(self, org: SyntheticOrg, count: int = 60) -> List[ClinicalAccessEvent]:
+    def attack_bulk_access(
+        self, org: SyntheticOrg, count: int = 60
+    ) -> List[ClinicalAccessEvent]:
         """One identity reads an unusually large number of unrelated patients
         in a short window. Expected: reviewable anomaly."""
         clinician = next(
@@ -239,23 +282,35 @@ class SyntheticAccessGenerator:
         for i in range(count):
             pt = org.patients[i % len(org.patients)]
             events.append(
-                self._event(org, clinician.actor_id, pt, AccessAction.READ,
-                            ts + timedelta(seconds=10 * i))
+                self._event(
+                    org,
+                    clinician.actor_id,
+                    pt,
+                    AccessAction.READ,
+                    ts + timedelta(seconds=10 * i),
+                )
             )
         return events
 
-    def attack_off_shift_unassigned(self, org: SyntheticOrg) -> List[ClinicalAccessEvent]:
+    def attack_off_shift_unassigned(
+        self, org: SyntheticOrg
+    ) -> List[ClinicalAccessEvent]:
         """A day-shift actor accesses an unassigned patient in the middle of the
         night, no break-glass. Expected: off-hours + off-assignment anomaly."""
         day_actor = next(
-            a for a in org.actors.values()
+            a
+            for a in org.actors.values()
             if a.actor_type == ActorType.NURSE and a.shift_start_hour == 7
         )
-        unassigned = next(p for p in org.patients if p not in day_actor.assigned_patients)
+        unassigned = next(
+            p for p in org.patients if p not in day_actor.assigned_patients
+        )
         ts = datetime(2026, 10, 27, 3, 0, tzinfo=timezone.utc)  # 03:00 UTC, off shift
         return [self._event(org, day_actor.actor_id, unassigned, AccessAction.READ, ts)]
 
-    def attack_denied_then_success(self, org: SyntheticOrg) -> List[ClinicalAccessEvent]:
+    def attack_denied_then_success(
+        self, org: SyntheticOrg
+    ) -> List[ClinicalAccessEvent]:
         """Repeated access denials for a resource followed by a success — a
         possible authorization-probing pattern. Expected: anomaly."""
         actor = next(a for a in org.actors.values() if a.actor_type == ActorType.NURSE)
@@ -264,37 +319,65 @@ class SyntheticAccessGenerator:
         events = []
         for i in range(4):
             events.append(
-                self._event(org, actor.actor_id, target, AccessAction.READ,
-                            ts + timedelta(seconds=30 * i),
-                            outcome=AccessOutcome.DENIED,
-                            resource_id=f"res-{target}-enc")
+                self._event(
+                    org,
+                    actor.actor_id,
+                    target,
+                    AccessAction.READ,
+                    ts + timedelta(seconds=30 * i),
+                    outcome=AccessOutcome.DENIED,
+                    resource_id=f"res-{target}-enc",
+                )
             )
         events.append(
-            self._event(org, actor.actor_id, target, AccessAction.READ,
-                        ts + timedelta(seconds=150),
-                        outcome=AccessOutcome.SUCCESS,
-                        resource_id=f"res-{target}-enc")
+            self._event(
+                org,
+                actor.actor_id,
+                target,
+                AccessAction.READ,
+                ts + timedelta(seconds=150),
+                outcome=AccessOutcome.SUCCESS,
+                resource_id=f"res-{target}-enc",
+            )
         )
         return events
 
-    def attack_service_account_scope_violation(self, org: SyntheticOrg) -> List[ClinicalAccessEvent]:
+    def attack_service_account_scope_violation(
+        self, org: SyntheticOrg
+    ) -> List[ClinicalAccessEvent]:
         """A service account touches resources outside its authorized prefix.
         Expected: scope-violation anomaly."""
         ts = datetime(2026, 10, 27, 4, 0, tzinfo=timezone.utc)
         return [
-            self._event(org, "svc-billing", org.patients[0], AccessAction.READ, ts,
-                        resource_id="res-clinical-note-0001",
-                        resource_type="DocumentReference")
+            self._event(
+                org,
+                "svc-billing",
+                org.patients[0],
+                AccessAction.READ,
+                ts,
+                resource_id="res-clinical-note-0001",
+                resource_type="DocumentReference",
+            )
         ]
 
-    def attack_bulk_export(self, org: SyntheticOrg, records: int = 5000) -> List[ClinicalAccessEvent]:
+    def attack_bulk_export(
+        self, org: SyntheticOrg, records: int = 5000
+    ) -> List[ClinicalAccessEvent]:
         """A single high-volume export event outside established policy.
         Expected: investigable data-access alert."""
-        actor = next(a for a in org.actors.values() if a.actor_type == ActorType.SERVICE_ACCOUNT)
+        actor = next(
+            a for a in org.actors.values() if a.actor_type == ActorType.SERVICE_ACCOUNT
+        )
         ts = datetime(2026, 10, 27, 5, 0, tzinfo=timezone.utc)
         return [
-            self._event(org, actor.actor_id, org.patients[0], AccessAction.EXPORT, ts,
-                        resource_id="res-bulk-export-0001",
-                        resource_type="Bundle",
-                        record_count=records)
+            self._event(
+                org,
+                actor.actor_id,
+                org.patients[0],
+                AccessAction.EXPORT,
+                ts,
+                resource_id="res-bulk-export-0001",
+                resource_type="Bundle",
+                record_count=records,
+            )
         ]

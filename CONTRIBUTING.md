@@ -21,7 +21,11 @@ Rights already validly granted under earlier MIT, Apache-2.0, or other terms (wh
 For licensing requests, contact poojakiranbhardwaj@gmail.com. No permission is implied from silence.
 
 
-## Automotive and embedded-security scope update (October 15, 2026)
+## Current authorized development
+
+The current local workflow and test prerequisites are in [docs/WORKBENCH.md](docs/WORKBENCH.md). The testing section requires an explicitly disposable PostgreSQL database; fixtures drop all tables. Historical test totals below are not current candidate evidence.
+
+## Historical automotive and embedded-security scope update (October 15, 2026)
 
 The repository also accepts `automotive_can`, `firmware`, and `arm_binary`
 offline inputs through `DetectionPipeline`. Verified scope is limited to

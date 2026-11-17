@@ -41,18 +41,35 @@ pytestmark = pytest.mark.skipif(not _pg(), reason="requires PostgreSQL")
 
 
 def _incident(repo, org="org-a", key="K1"):
-    inc = SecurityIncident(title="t", severity=IncidentSeverity.HIGH,
-                           organization_id=org, correlation_key=key)
+    inc = SecurityIncident(
+        title="t",
+        severity=IncidentSeverity.HIGH,
+        organization_id=org,
+        correlation_key=key,
+    )
     row, _ = repo.upsert_incident(inc)
     return row
 
 
-def _action(repo, incident_id, org="org-a", atype=InvestigationActionType.ADD_NOTE, note="n", analyst="a1", ts_min=0):
-    return repo.add_action(InvestigationAction(
-        incident_id=incident_id, analyst_id=analyst, action_type=atype,
-        note=note, organization_id=org,
-        timestamp=datetime(2026, 10, 27, 10, ts_min, tzinfo=timezone.utc),
-    ))
+def _action(
+    repo,
+    incident_id,
+    org="org-a",
+    atype=InvestigationActionType.ADD_NOTE,
+    note="n",
+    analyst="a1",
+    ts_min=0,
+):
+    return repo.add_action(
+        InvestigationAction(
+            incident_id=incident_id,
+            analyst_id=analyst,
+            action_type=atype,
+            note=note,
+            organization_id=org,
+            timestamp=datetime(2026, 10, 27, 10, ts_min, tzinfo=timezone.utc),
+        )
+    )
 
 
 class TestAuditHashChain:
@@ -140,11 +157,15 @@ class TestTransactionalIntegrity:
         rA, rB = Repository(sA), Repository(sB)
         vA = rA.get_incident(inc.incident_id, "org-a").row_version
         vB = rB.get_incident(inc.incident_id, "org-a").row_version
-        rA.update_incident(inc.incident_id, "org-a", expected_version=vA, status="TRIAGED")
+        rA.update_incident(
+            inc.incident_id, "org-a", expected_version=vA, status="TRIAGED"
+        )
         sA.commit()
         # B's stale-version write must be rejected (no silent lost update).
         with pytest.raises(ConcurrencyError):
-            rB.update_incident(inc.incident_id, "org-a", expected_version=vB, status="CLOSED")
+            rB.update_incident(
+                inc.incident_id, "org-a", expected_version=vB, status="CLOSED"
+            )
         sA.close()
         sB.close()
         s.close()
@@ -154,5 +175,7 @@ class TestTransactionalIntegrity:
         _incident(repo, key="DUP")
         _incident(repo, key="DUP")  # same correlation_key -> idempotent
         pg_session.commit()
-        rows = pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        rows = (
+            pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        )
         assert len(rows) == 1

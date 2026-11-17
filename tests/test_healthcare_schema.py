@@ -29,7 +29,9 @@ class TestSchemaValid:
     def test_minimal_valid_event(self):
         e = ClinicalAccessEvent(**_base())
         assert e.action == AccessAction.READ
-        assert e.outcome == AccessOutcome.SUCCESS
+        # Missing outcome is not evidence of success; do not manufacture the
+        # explicit READ+SUCCESS signal used by bulk detection.
+        assert e.outcome == AccessOutcome.UNKNOWN
         assert e.actor_type == ActorType.UNKNOWN
 
     def test_timestamp_forced_to_utc_from_naive(self):
@@ -40,7 +42,9 @@ class TestSchemaValid:
         from datetime import timedelta
 
         tz = timezone(timedelta(hours=5))
-        e = ClinicalAccessEvent(**_base(timestamp=datetime(2026, 10, 27, 14, 0, tzinfo=tz)))
+        e = ClinicalAccessEvent(
+            **_base(timestamp=datetime(2026, 10, 27, 14, 0, tzinfo=tz))
+        )
         # 14:00 +05:00 == 09:00 UTC
         assert e.timestamp.hour == 9
         assert e.timestamp.tzinfo == timezone.utc
@@ -104,12 +108,16 @@ class TestPIIGuard:
 class TestFHIRNormalization:
     def test_fhir_audit_event_maps_to_pseudonymous_tokens(self):
         fhir = {
+            "resourceType": "AuditEvent",
             "action": "R",
             "outcome": "0",
             "recorded": "2026-10-27T15:30:00Z",
             "agent": [
                 {
-                    "who": {"reference": "Practitioner/prac-55", "display": "Dr Real Name"},
+                    "who": {
+                        "reference": "Practitioner/prac-55",
+                        "display": "Dr Real Name",
+                    },
                     "network": {"address": "10.0.0.9"},
                 }
             ],
@@ -117,7 +125,7 @@ class TestFHIRNormalization:
                 {"what": {"reference": "Patient/pat-88"}},
                 {"what": {"reference": "Observation/obs-3"}},
             ],
-            "source": {"reference": "Device/dev-1"},
+            "source": {"observer": {"reference": "Device/dev-1"}},
         }
         e = ClinicalAccessEvent.from_fhir_audit_event(fhir)
         assert e.actor_id == "prac-55"
@@ -132,6 +140,7 @@ class TestFHIRNormalization:
 
     def test_fhir_denied_outcome_maps(self):
         fhir = {
+            "resourceType": "AuditEvent",
             "action": "R",
             "outcome": "8",
             "recorded": "2026-10-27T15:30:00Z",

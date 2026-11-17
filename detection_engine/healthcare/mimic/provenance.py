@@ -46,6 +46,4 @@ PUBLISHED_SHA256 = {
 }
 
 # Download command documented for users (no credentials required for the demo).
-WGET_COMMAND = (
-    "wget -r -N -c -np https://physionet.org/files/mimic-iv-demo/2.2/"
-)
+WGET_COMMAND = "wget -r -N -c -np https://physionet.org/files/mimic-iv-demo/2.2/"

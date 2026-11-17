@@ -35,6 +35,7 @@ def _to_utc(value: datetime) -> datetime:
 
 # --- enums ------------------------------------------------------------------
 
+
 class DataOrigin(str, Enum):
     """Distinguishes the provenance of telemetry. Never overstated."""
 
@@ -75,6 +76,7 @@ class InvestigationActionType(str, Enum):
 
 
 # --- SecurityEvent ----------------------------------------------------------
+
 
 class SecurityEvent(BaseModel):
     """Normalized security event accepted by the ingestion service.
@@ -134,6 +136,7 @@ class SecurityEvent(BaseModel):
 
 
 # --- DetectionFinding record (compat adapter) -------------------------------
+
 
 class DetectionFindingRecord(BaseModel):
     """Persisted, platform-level view of a detector finding.
@@ -210,6 +213,7 @@ class DetectionFindingRecord(BaseModel):
 
 # --- SecurityIncident -------------------------------------------------------
 
+
 class SecurityIncident(BaseModel):
     model_config = {"extra": "forbid"}
 
@@ -241,6 +245,7 @@ class SecurityIncident(BaseModel):
 
 
 # --- InvestigationAction ----------------------------------------------------
+
 
 class InvestigationAction(BaseModel):
     """Durable audit record of an analyst action on an incident."""

@@ -37,7 +37,9 @@ def _default_clinical_detector_factory(clinical_context=None):
 def build_app(clinical_context=None):
     return create_app(
         pipeline_factory=_default_pipeline_factory,
-        clinical_detector_factory=lambda: _default_clinical_detector_factory(clinical_context),
+        clinical_detector_factory=lambda: _default_clinical_detector_factory(
+            clinical_context
+        ),
     )
 
 

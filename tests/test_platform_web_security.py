@@ -31,7 +31,9 @@ def _deps_available() -> bool:
         return False
 
 
-pytestmark = pytest.mark.skipif(not _deps_available(), reason="requires PostgreSQL + fastapi + core")
+pytestmark = pytest.mark.skipif(
+    not _deps_available(), reason="requires PostgreSQL + fastapi + core"
+)
 
 
 @pytest.fixture()
@@ -45,8 +47,14 @@ def client():
     _db.Base.metadata.drop_all(eng)
     _db.Base.metadata.create_all(eng)
     s = _db.make_session_factory(eng)()
-    seed_user(s, user_id="u1", username="ana", password="pw-strong-xyz1",
-              role="security_analyst", organization_id="org-a")
+    seed_user(
+        s,
+        user_id="u1",
+        username="ana",
+        password="pw-strong-xyz1",
+        role="security_analyst",
+        organization_id="org-a",
+    )
     s.close()
     c = TestClient(build_app(), raise_server_exceptions=False)
     yield c
@@ -54,7 +62,9 @@ def client():
 
 
 def _tok(c):
-    return c.post("/api/v1/auth/token", json={"username": "ana", "password": "pw-strong-xyz1"}).json()["access_token"]
+    return c.post(
+        "/api/v1/auth/token", json={"username": "ana", "password": "pw-strong-xyz1"}
+    ).json()["access_token"]
 
 
 def _h(t):
@@ -83,10 +93,19 @@ class TestBodyLimits:
         tok = _tok(client)
         # Small enough body, but too many events -> 413 from batch cap.
         import os as _os
+
         maxb = int(_os.environ.get("AEGIS_MAX_BATCH", "1000"))
-        evts = [{"actor_id": "a", "patient_ref": "p", "resource_id": "r",
-                 "action": "read", "outcome": "success",
-                 "timestamp": "2026-10-27T10:00:00+00:00"} for _ in range(maxb + 1)]
+        evts = [
+            {
+                "actor_id": "a",
+                "patient_ref": "p",
+                "resource_id": "r",
+                "action": "read",
+                "outcome": "success",
+                "timestamp": "2026-10-27T10:00:00+00:00",
+            }
+            for _ in range(maxb + 1)
+        ]
         r = client.post("/api/v1/events", json={"events": evts}, headers=_h(tok))
         assert r.status_code in (413, 422)
 
@@ -94,8 +113,11 @@ class TestBodyLimits:
 class TestSafeErrors:
     def test_malformed_json_handled(self, client):
         tok = _tok(client)
-        r = client.post("/api/v1/events", data="{not valid json",
-                        headers={**_h(tok), "Content-Type": "application/json"})
+        r = client.post(
+            "/api/v1/events",
+            data="{not valid json",
+            headers={**_h(tok), "Content-Type": "application/json"},
+        )
         assert r.status_code == 422  # FastAPI validation, not a 500
 
     def test_readiness_no_secret_leak(self, client):
@@ -122,12 +144,18 @@ class TestInjectionSafety:
     def test_sqlish_strings_do_not_break(self, client):
         tok = _tok(client)
         # A malicious-looking identity string must be treated as data, not SQL.
-        evt = {"events": [{
-            "actor_id": "robert'); DROP TABLE incidents;--",
-            "patient_ref": "pt-1", "resource_id": "res-1",
-            "action": "read", "outcome": "success",
-            "timestamp": "2026-10-27T10:00:00+00:00",
-        }]}
+        evt = {
+            "events": [
+                {
+                    "actor_id": "robert'); DROP TABLE incidents;--",
+                    "patient_ref": "pt-1",
+                    "resource_id": "res-1",
+                    "action": "read",
+                    "outcome": "success",
+                    "timestamp": "2026-10-27T10:00:00+00:00",
+                }
+            ]
+        }
         r = client.post("/api/v1/events", json=evt, headers=_h(tok))
         assert r.status_code == 202
         # Table still exists / queries still work.

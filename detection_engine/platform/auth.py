@@ -123,13 +123,13 @@ def verify_password(password: str, stored: str) -> bool:
     unrecognized or malformed; never falls back to accepting the password."""
     try:
         if stored.startswith(_ARGON2_PREFIX):
-            phc = stored[len(_ARGON2_PREFIX):]
+            phc = stored[len(_ARGON2_PREFIX) :]
             try:
                 return _argon2_hasher.verify(phc, password)
             except argon2.exceptions.VerifyMismatchError:
                 return False
         if stored.startswith(_V2_PREFIX):
-            bcrypt_hash = stored[len(_V2_PREFIX):].encode("utf-8")
+            bcrypt_hash = stored[len(_V2_PREFIX) :].encode("utf-8")
             return bcrypt.checkpw(_prehash(password), bcrypt_hash)
         # Legacy raw bcrypt (Milestone C): verifies the first 72 password bytes.
         if stored.startswith("$2"):
@@ -145,15 +145,21 @@ def needs_rehash(stored: str) -> bool:
     if not stored.startswith(_ARGON2_PREFIX):
         return True
     try:
-        return _argon2_hasher.check_needs_rehash(stored[len(_ARGON2_PREFIX):])
+        return _argon2_hasher.check_needs_rehash(stored[len(_ARGON2_PREFIX) :])
     except Exception:
         return True
 
 
 # --- tokens -----------------------------------------------------------------
 
+
 def create_access_token(
-    *, user_id: str, username: str, role: str, organization_id: str, token_version: int = 0
+    *,
+    user_id: str,
+    username: str,
+    role: str,
+    organization_id: str,
+    token_version: int = 0,
 ) -> str:
     now = datetime.now(timezone.utc)
     payload = {
@@ -174,7 +180,14 @@ class Principal:
     """The authenticated caller. ``token_version`` reflects the token's claim;
     ``resolve_principal`` validates it against the database."""
 
-    def __init__(self, user_id: str, username: str, role: Role, organization_id: str, token_version: int = 0):
+    def __init__(
+        self,
+        user_id: str,
+        username: str,
+        role: Role,
+        organization_id: str,
+        token_version: int = 0,
+    ):
         self.user_id = user_id
         self.username = username
         self.role = role
@@ -256,6 +269,7 @@ def resolve_principal(token: str, user_row) -> Optional[Principal]:
 
 
 # --- login throttle ---------------------------------------------------------
+
 
 class LoginThrottle:
     """In-memory sliding-window login limiter with temporary lockout.

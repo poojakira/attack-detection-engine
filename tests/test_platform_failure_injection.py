@@ -37,7 +37,9 @@ def _deps() -> bool:
         return False
 
 
-pytestmark = pytest.mark.skipif(not _deps(), reason="requires PostgreSQL + fastapi + core")
+pytestmark = pytest.mark.skipif(
+    not _deps(), reason="requires PostgreSQL + fastapi + core"
+)
 
 
 @pytest.fixture()
@@ -51,8 +53,14 @@ def client_and_ctx():
     _db.Base.metadata.drop_all(eng)
     _db.Base.metadata.create_all(eng)
     s = _db.make_session_factory(eng)()
-    seed_user(s, user_id="u1", username="ana", password="pw-strong-1234",
-              role="security_analyst", organization_id="org-a")
+    seed_user(
+        s,
+        user_id="u1",
+        username="ana",
+        password="pw-strong-1234",
+        role="security_analyst",
+        organization_id="org-a",
+    )
     s.close()
     app = build_app()
     yield TestClient(app, raise_server_exceptions=False), eng
@@ -60,15 +68,25 @@ def client_and_ctx():
 
 
 def _tok(c):
-    return c.post("/api/v1/auth/token", json={"username": "ana", "password": "pw-strong-1234"}).json()["access_token"]
+    return c.post(
+        "/api/v1/auth/token", json={"username": "ana", "password": "pw-strong-1234"}
+    ).json()["access_token"]
 
 
 def _batch(n=3):
     base = datetime(2026, 10, 27, 10, 0, tzinfo=timezone.utc)
-    return [{"actor_id": "clin-7", "patient_ref": f"pt-{i}", "resource_id": f"res-{i}",
-             "action": "read", "outcome": "success",
-             "timestamp": (base + timedelta(seconds=i)).isoformat(),
-             "data_origin": "synthetic"} for i in range(n)]
+    return [
+        {
+            "actor_id": "clin-7",
+            "patient_ref": f"pt-{i}",
+            "resource_id": f"res-{i}",
+            "action": "read",
+            "outcome": "success",
+            "timestamp": (base + timedelta(seconds=i)).isoformat(),
+            "data_origin": "synthetic",
+        }
+        for i in range(n)
+    ]
 
 
 class TestDatabaseOutage:
@@ -97,7 +115,11 @@ class TestDatabaseOutage:
             raise RuntimeError("simulated persistence failure")
 
         monkeypatch.setattr(_ing.IngestionService, "ingest_clinical_batch", boom)
-        r = c.post("/api/v1/events", json={"events": _batch()}, headers={"Authorization": f"Bearer {tok}"})
+        r = c.post(
+            "/api/v1/events",
+            json={"events": _batch()},
+            headers={"Authorization": f"Bearer {tok}"},
+        )
         # The failure must surface as an error, never a 202 "accepted".
         assert r.status_code >= 500
         assert r.status_code != 202
@@ -121,7 +143,11 @@ class TestDetectorFailureNotSilent:
         import detection_engine.healthcare.detector as _det
 
         monkeypatch.setattr(_det.PatientAccessDetector, "detect", exploding_detect)
-        r = c.post("/api/v1/events", json={"events": _batch()}, headers={"Authorization": f"Bearer {tok}"})
+        r = c.post(
+            "/api/v1/events",
+            json={"events": _batch()},
+            headers={"Authorization": f"Bearer {tok}"},
+        )
         assert r.status_code >= 500  # surfaced, not a clean 202 with 0 findings
         _ = orig  # keep reference
 
@@ -134,11 +160,23 @@ class TestTokenFailures:
 
         c, _ = client_and_ctx
         expired = jwt.encode(
-            {"sub": "u1", "username": "ana", "role": "security_analyst", "org": "org-a",
-             "tv": 0, "aud": auth.JWT_AUDIENCE, "iss": auth.JWT_ISSUER,
-             "iat": int((datetime.now(timezone.utc) - timedelta(hours=2)).timestamp()),
-             "exp": int((datetime.now(timezone.utc) - timedelta(hours=1)).timestamp())},
-            auth.JWT_SECRET, algorithm=auth.JWT_ALGORITHM,
+            {
+                "sub": "u1",
+                "username": "ana",
+                "role": "security_analyst",
+                "org": "org-a",
+                "tv": 0,
+                "aud": auth.JWT_AUDIENCE,
+                "iss": auth.JWT_ISSUER,
+                "iat": int(
+                    (datetime.now(timezone.utc) - timedelta(hours=2)).timestamp()
+                ),
+                "exp": int(
+                    (datetime.now(timezone.utc) - timedelta(hours=1)).timestamp()
+                ),
+            },
+            auth.JWT_SECRET,
+            algorithm=auth.JWT_ALGORITHM,
         )
         r = c.get("/api/v1/incidents", headers={"Authorization": f"Bearer {expired}"})
         assert r.status_code == 401
@@ -153,11 +191,20 @@ class TestDuplicateIngestionBounded:
     def test_repeated_same_event_no_uncontrolled_duplicates(self, client_and_ctx):
         c, _ = client_and_ctx
         tok = _tok(c)
-        batch = {"events": [{
-            "actor_id": "clin-7", "patient_ref": "pt-1", "resource_id": "res-1",
-            "action": "read", "outcome": "success", "source_event_id": "FIXED-1",
-            "timestamp": "2026-10-27T10:00:00+00:00", "data_origin": "synthetic",
-        }]}
+        batch = {
+            "events": [
+                {
+                    "actor_id": "clin-7",
+                    "patient_ref": "pt-1",
+                    "resource_id": "res-1",
+                    "action": "read",
+                    "outcome": "success",
+                    "source_event_id": "FIXED-1",
+                    "timestamp": "2026-10-27T10:00:00+00:00",
+                    "data_origin": "synthetic",
+                }
+            ]
+        }
         h = {"Authorization": f"Bearer {tok}"}
         r1 = c.post("/api/v1/events", json=batch, headers=h).json()
         r2 = c.post("/api/v1/events", json=batch, headers=h).json()

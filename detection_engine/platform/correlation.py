@@ -96,7 +96,9 @@ class CorrelationEngine:
         for (org, axis, bucket), group in groups.items():
             if len(group) < self.config.min_findings:
                 continue
-            incidents.append(self._build_incident(org, axis, bucket, group, event_ids_by_finding))
+            incidents.append(
+                self._build_incident(org, axis, bucket, group, event_ids_by_finding)
+            )
         return incidents
 
     def _build_incident(

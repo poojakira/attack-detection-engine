@@ -1,3 +1,5 @@
+> Historical / secondary workflow reference. This document predates the 1.1.0 local workbench candidate; its metrics and branch/status claims are not current release evidence. See [the current workbench guide](docs/WORKBENCH.md) for the supported browser workflow and limits. Original dates and content below are preserved.
+
 # Milestone D — Progress (resumable)
 
 Branch: `feat/milestone-d-hardening` (off `feat/milestone-c-platform`).

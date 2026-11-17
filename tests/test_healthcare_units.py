@@ -27,6 +27,7 @@ from detection_engine.healthcare.mimic.adapter import (
 
 # --- schema helpers ---------------------------------------------------------
 
+
 class TestSchemaHelpers:
     def test_looks_like_pii_email(self):
         assert schema_mod._looks_like_pii("a@b.co") is not None
@@ -64,13 +65,17 @@ class TestSchemaHelpers:
     def test_export_zero_records_rejected(self):
         with pytest.raises(Exception):
             ClinicalAccessEvent(
-                actor_id="a", patient_ref="p", resource_id="r",
-                action="export", record_count=0,
+                actor_id="a",
+                patient_ref="p",
+                resource_id="r",
+                action="export",
+                record_count=0,
                 timestamp=datetime(2026, 10, 27),
             )
 
 
 # --- context ----------------------------------------------------------------
+
 
 class TestContextFunctions:
     def _profile(self, **kw):
@@ -121,6 +126,7 @@ class TestContextFunctions:
 
 # --- synthetic --------------------------------------------------------------
 
+
 class TestSyntheticFunctions:
     def test_session_token_is_pseudonymous_and_stable(self):
         ts = datetime(2026, 10, 27, 9, tzinfo=timezone.utc)
@@ -138,7 +144,9 @@ class TestSyntheticFunctions:
 
     def test_build_org_has_service_accounts(self):
         org = SyntheticAccessGenerator(seed=1).build_org()
-        svc = [a for a in org.actors.values() if a.actor_type.value == "service_account"]
+        svc = [
+            a for a in org.actors.values() if a.actor_type.value == "service_account"
+        ]
         assert svc
 
     @pytest.mark.parametrize(
@@ -168,11 +176,15 @@ class TestSyntheticFunctions:
 
 # --- detector ---------------------------------------------------------------
 
+
 class TestDetectorFunctions:
     def test_coerce_accepts_objects_and_dicts(self):
         det = PatientAccessDetector()
         ev = ClinicalAccessEvent(
-            actor_id="a", patient_ref="p", resource_id="r", action="read",
+            actor_id="a",
+            patient_ref="p",
+            resource_id="r",
+            action="read",
             timestamp=datetime(2026, 10, 27),
         )
         coerced = det._coerce([ev, ev.model_dump(mode="json")])
@@ -185,8 +197,12 @@ class TestDetectorFunctions:
     def test_break_glass_rule_isolated(self):
         det = PatientAccessDetector()
         ev = ClinicalAccessEvent(
-            actor_id="a", patient_ref="p", resource_id="r", action="read",
-            break_glass=True, timestamp=datetime(2026, 10, 27),
+            actor_id="a",
+            patient_ref="p",
+            resource_id="r",
+            action="read",
+            break_glass=True,
+            timestamp=datetime(2026, 10, 27),
         )
         findings = det.detect([ev.model_dump(mode="json")])
         assert any(f.rule_id == "HC-ACCESS-BREAKGLASS" for f in findings)
@@ -196,18 +212,32 @@ class TestDetectorFunctions:
         base = dict(actor_id="a", patient_ref="p", resource_id="r")
         evs = []
         for i in range(2):  # only 2 denials < threshold
-            evs.append(ClinicalAccessEvent(action="read", outcome="denied",
-                       timestamp=datetime(2026, 10, 27, 0, i), **base).model_dump(mode="json"))
-        evs.append(ClinicalAccessEvent(action="read", outcome="success",
-                   timestamp=datetime(2026, 10, 27, 0, 5), **base).model_dump(mode="json"))
+            evs.append(
+                ClinicalAccessEvent(
+                    action="read",
+                    outcome="denied",
+                    timestamp=datetime(2026, 10, 27, 0, i),
+                    **base,
+                ).model_dump(mode="json")
+            )
+        evs.append(
+            ClinicalAccessEvent(
+                action="read",
+                outcome="success",
+                timestamp=datetime(2026, 10, 27, 0, 5),
+                **base,
+            ).model_dump(mode="json")
+        )
         assert not [f for f in det.detect(evs) if f.rule_id == "HC-ACCESS-DENYSUCCESS"]
 
 
 # --- mimic adapter helpers --------------------------------------------------
 
+
 class TestAdapterHelpers:
     def test_compute_sha256_matches_hashlib(self):
         import hashlib
+
         data = b"hello"
         assert compute_sha256(data) == hashlib.sha256(data).hexdigest()
 
@@ -215,6 +245,7 @@ class TestAdapterHelpers:
         import csv
         import gzip
         import io
+
         blob = gzip_csv_bytes(["a", "b"], [["1", "2"]])
         rows = list(csv.reader(io.StringIO(gzip.decompress(blob).decode())))
         assert rows[0] == ["a", "b"]

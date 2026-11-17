@@ -13,7 +13,7 @@ Include:
 - expected impact
 - any suggested remediation
 
-## Response Targets
+## Maintainer response goals (not a service guarantee)
 
 - **48 hours:** acknowledge receipt
 - **5 days:** initial assessment and severity classification
@@ -32,7 +32,13 @@ Please avoid accessing, modifying, or exfiltrating data that is not necessary to
 <!-- credential-response:end -->
 
 
-## Automotive and embedded-security scope update (October 15, 2026)
+## Local workbench candidate 1.1.0
+
+Use synthetic data only. See [the current threat model and limitations](docs/WORKBENCH.md) for retained source JSON, boundaries, negative checks and operational gaps. There is no authorization for public deployment or real patient data. No provider credentials are needed. Local authentication and database credentials are generated only for the local workspace and must not be published.
+
+## Historical automotive and embedded-security scope update (October 15, 2026)
+
+The following records earlier scope; metrics and verification claims are not current candidate results.
 
 The repository also accepts `automotive_can`, `firmware`, and `arm_binary`
 offline inputs through `DetectionPipeline`. Verified scope is limited to

@@ -1,0 +1,108 @@
+name: Local Workbench Acceptance
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: workbench-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17-alpine@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7
+        env:
+          POSTGRES_USER: aegis
+          POSTGRES_PASSWORD: synthetic-ci-database-only
+          POSTGRES_DB: aegis
+        ports: ['55432:5432']
+        options: --health-cmd 'pg_isready -U aegis -d aegis' --health-interval 5s --health-retries 10
+    env:
+      AEGIS_DATABASE_URL: postgresql+psycopg://aegis:synthetic-ci-database-only@127.0.0.1:55432/aegis
+      AEGIS_TEST_DATABASE_URL: postgresql+psycopg://aegis:synthetic-ci-database-only@127.0.0.1:55432/aegis
+      AEGIS_REQUIRE_SECURE_CONFIG: '0'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Install locked dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock -e '.[platform]'
+          pip install playwright==1.65.2 pyright==1.1.388
+          export ATTACK_DATA_DIR="$RUNNER_TEMP/attack-data"
+          echo "ATTACK_DATA_DIR=$ATTACK_DATA_DIR" >> "$GITHUB_ENV"
+          python -m attack_v19_core.download
+          npm --prefix dashboard-ui ci
+      - name: Quality and security
+        run: |
+          ruff check .
+          ruff format --check .
+          pyright detection_engine
+          pip check
+          bandit -r detection_engine -ll
+          pip-audit
+          npm --prefix dashboard-ui audit
+          python scripts/security_scan.py
+      - name: Real PostgreSQL regression, coverage and builds
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          pytest tests --cov=detection_engine --cov-fail-under=53 --cov-report="xml:$RUNNER_TEMP/evidence/coverage.xml" --junitxml="$RUNNER_TEMP/evidence/junit.xml"
+          npm --prefix dashboard-ui run build
+          python -m build --outdir "$RUNNER_TEMP/evidence/packages"
+      - name: Real browser journey
+        env:
+          SYNTHETIC_PASSWORD: SyntheticLocalEvaluation-42
+          CHROMIUM_EXECUTABLE: '' 
+        run: |
+          python - <<'PY'
+          from detection_engine.platform import db
+          engine = db.make_engine()
+          db.Base.metadata.drop_all(engine)
+          with engine.begin() as conn:
+              conn.exec_driver_sql('DROP TABLE IF EXISTS alembic_version')
+          PY
+          printf '%s\n' "$SYNTHETIC_PASSWORD" | python -m detection_engine.platform.local --dashboard dashboard-ui/dist --username synthetic-analyst --password-stdin > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          python - <<'PY'
+          import time, urllib.request
+          for _ in range(60):
+              try:
+                  urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=1)
+                  break
+              except OSError:
+                  time.sleep(.5)
+          else:
+              raise SystemExit('local server did not start')
+          PY
+          python -m playwright install --with-deps chromium
+          python scripts/browser-workbench.py --evidence "$RUNNER_TEMP/evidence/browser"
+      - name: Record actual source and artifact checksums
+        if: always()
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          out = Path(os.environ['RUNNER_TEMP']) / 'evidence'
+          out.mkdir(exist_ok=True)
+          manifest = {'source': subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(), 'status': subprocess.check_output(['git','status','--porcelain'],text=True), 'artifacts': {p.relative_to(out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in out.rglob('*') if p.is_file()}}
+          (out/'manifest.json').write_text(json.dumps(manifest,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: workbench-evidence-${{ github.sha }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 14

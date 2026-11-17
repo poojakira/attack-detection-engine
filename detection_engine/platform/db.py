@@ -54,6 +54,7 @@ def _utcnow() -> datetime:
 
 # --- Identity / RBAC --------------------------------------------------------
 
+
 class UserRow(Base):
     __tablename__ = "users"
 
@@ -61,15 +62,20 @@ class UserRow(Base):
     username: Mapped[str] = mapped_column(String(128), unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(255))
     role: Mapped[str] = mapped_column(String(32), index=True)  # see platform.auth roles
-    organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    organization_id: Mapped[str] = mapped_column(
+        String(64), index=True, default="default"
+    )
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     # Bumped to revoke all previously-issued tokens for this user (forced logout,
     # role/org change). Tokens carry the version they were minted with.
     token_version: Mapped[int] = mapped_column(Integer, default=0)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
 
 
 # --- Events -----------------------------------------------------------------
+
 
 class SecurityEventRow(Base):
     __tablename__ = "security_events"
@@ -78,15 +84,25 @@ class SecurityEventRow(Base):
     schema_version: Mapped[str] = mapped_column(String(16), default="1.0")
     source_event_id: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
     source_type: Mapped[str] = mapped_column(String(64), index=True)
-    event_timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
-    ingestion_timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
-    identity_id: Mapped[Optional[str]] = mapped_column(String(128), index=True, nullable=True)
+    event_timestamp: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), index=True
+    )
+    ingestion_timestamp: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
+    identity_id: Mapped[Optional[str]] = mapped_column(
+        String(128), index=True, nullable=True
+    )
     session_id: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
     host_id: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
-    resource_reference: Mapped[Optional[str]] = mapped_column(String(256), index=True, nullable=True)
+    resource_reference: Mapped[Optional[str]] = mapped_column(
+        String(256), index=True, nullable=True
+    )
     action: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
     outcome: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
-    organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    organization_id: Mapped[str] = mapped_column(
+        String(64), index=True, default="default"
+    )
     data_origin: Mapped[str] = mapped_column(String(32), default="unspecified")
     source_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
     normalized_attributes: Mapped[dict] = mapped_column(JSON, default=dict)
@@ -100,6 +116,7 @@ class SecurityEventRow(Base):
 
 # --- Findings ---------------------------------------------------------------
 
+
 class DetectionFindingRow(Base):
     __tablename__ = "detection_findings"
 
@@ -112,15 +129,22 @@ class DetectionFindingRow(Base):
     description: Mapped[str] = mapped_column(Text, default="")
     evidence_references: Mapped[dict] = mapped_column(JSON, default=dict)
     mapped_attack_techniques: Mapped[list] = mapped_column(JSON, default=list)
-    detection_timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
-    affected_identity: Mapped[Optional[str]] = mapped_column(String(128), index=True, nullable=True)
+    detection_timestamp: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
+    affected_identity: Mapped[Optional[str]] = mapped_column(
+        String(128), index=True, nullable=True
+    )
     affected_resource: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
     disposition: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
-    organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    organization_id: Mapped[str] = mapped_column(
+        String(64), index=True, default="default"
+    )
     source_event_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
 
 
 # --- Incidents --------------------------------------------------------------
+
 
 class IncidentRow(Base):
     __tablename__ = "incidents"
@@ -131,16 +155,28 @@ class IncidentRow(Base):
     description: Mapped[str] = mapped_column(Text, default="")
     severity: Mapped[str] = mapped_column(String(16), index=True)
     status: Mapped[str] = mapped_column(String(32), index=True, default="NEW")
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
-    first_seen: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
-    last_seen: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
-    assigned_analyst: Mapped[Optional[str]] = mapped_column(String(128), index=True, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
+    first_seen: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    last_seen: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    assigned_analyst: Mapped[Optional[str]] = mapped_column(
+        String(128), index=True, nullable=True
+    )
     correlation_reason: Mapped[str] = mapped_column(Text, default="")
     affected_entities: Mapped[dict] = mapped_column(JSON, default=dict)
     resolution_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     close_reason: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
-    organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    organization_id: Mapped[str] = mapped_column(
+        String(64), index=True, default="default"
+    )
     correlation_key: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
     # Optimistic-concurrency version to prevent lost updates.
     row_version: Mapped[int] = mapped_column(Integer, default=1)
@@ -154,7 +190,9 @@ class IncidentRow(Base):
 
     __table_args__ = (
         # Idempotent incident creation per (org, correlation_key).
-        UniqueConstraint("organization_id", "correlation_key", name="uq_incident_org_corr"),
+        UniqueConstraint(
+            "organization_id", "correlation_key", name="uq_incident_org_corr"
+        ),
         Index("ix_incident_org_status", "organization_id", "status"),
     )
 
@@ -194,6 +232,7 @@ class IncidentEventRow(Base):
 
 # --- Investigation audit ----------------------------------------------------
 
+
 class InvestigationActionRow(Base):
     __tablename__ = "investigation_actions"
 
@@ -206,8 +245,12 @@ class InvestigationActionRow(Base):
     previous_value: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     updated_value: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     note: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow, index=True)
-    organization_id: Mapped[str] = mapped_column(String(64), index=True, default="default")
+    timestamp: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow, index=True
+    )
+    organization_id: Mapped[str] = mapped_column(
+        String(64), index=True, default="default"
+    )
     # Tamper-evident hash chain (per organization). entry_hash =
     # sha256(prev_hash + canonical(record)). Breaking any earlier record
     # invalidates every subsequent entry_hash. Trust limitations documented in
@@ -223,6 +266,7 @@ class InvestigationActionRow(Base):
 
 # --- Rule versions ----------------------------------------------------------
 
+
 class RuleVersionRow(Base):
     __tablename__ = "rule_versions"
 
@@ -230,15 +274,49 @@ class RuleVersionRow(Base):
     rule_id: Mapped[str] = mapped_column(String(64), index=True)
     version: Mapped[str] = mapped_column(String(32))
     description: Mapped[str] = mapped_column(Text, default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
 
     __table_args__ = (UniqueConstraint("rule_id", "version", name="uq_rule_version"),)
 
 
+# --- Immutable local workbench datasets and runs -----------------------------
+
+
+class WorkbenchCaseRow(Base):
+    __tablename__ = "workbench_cases"
+    case_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    organization_id: Mapped[str] = mapped_column(String(64), index=True)
+    title: Mapped[str] = mapped_column(String(160))
+    input_text: Mapped[str] = mapped_column(Text)
+    input_sha256: Mapped[str] = mapped_column(String(64))
+    origin: Mapped[str] = mapped_column(String(32))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
+
+
+class WorkbenchRunRow(Base):
+    __tablename__ = "workbench_runs"
+    run_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    case_id: Mapped[str] = mapped_column(
+        ForeignKey("workbench_cases.case_id", ondelete="CASCADE"), index=True
+    )
+    organization_id: Mapped[str] = mapped_column(String(64), index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_utcnow
+    )
+    report: Mapped[dict] = mapped_column(JSON)
+
+
 # --- Engine / session -------------------------------------------------------
 
+
 def make_engine(url: Optional[str] = None, *, echo: bool = False):
-    return create_engine(url or get_database_url(), echo=echo, future=True, pool_pre_ping=True)
+    return create_engine(
+        url or get_database_url(), echo=echo, future=True, pool_pre_ping=True
+    )
 
 
 def make_session_factory(engine):

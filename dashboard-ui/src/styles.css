@@ -38,3 +38,20 @@ table.grid th, table.grid td { text-align: left; padding: 8px 10px; border-botto
 .tl.event { border-left: 3px solid #718096; padding-left: 8px; }
 .actions .row { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
 .actions input { flex: 1; padding: 8px; }
+
+.workbench { max-width: 1120px; margin: auto; }
+.workbench section { background: white; padding: 22px; border-radius: 10px; margin: 18px 0; border: 1px solid #dce3ed; }
+.workbench h1 { font-size: clamp(25px, 3vw, 36px); margin: 8px 0; color: #152c46; }
+.workbench h2 { font-size: 21px; }
+.eyebrow { color: #206b64; font-size: 12px; font-weight: 700; letter-spacing: .1em; }
+.workbench label { display: block; font-weight: 600; margin: 10px 0; }
+.workbench input, .workbench textarea, .workbench select { display: block; padding: 8px; border: 1px solid #a0aec0; border-radius: 4px; margin-top: 5px; max-width: 100%; }
+.workbench textarea { width: 100%; font-family: monospace; resize: vertical; }
+.workbench-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.workbench pre { max-height: 360px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; background: #f4f6f9; padding: 14px; }
+.workbench .finding { padding: 14px; border: 1px solid #e2b78a; border-radius: 6px; margin: 16px 0; }
+.workbench summary { cursor: pointer; overflow-wrap: anywhere; }
+.hash { font-family: monospace; overflow-wrap: anywhere; font-size: 12px; }
+.workbench footer { font-size: 12px; padding: 16px 0; color: #475569; }
+:focus-visible { outline: 3px solid #b7791f; outline-offset: 3px; }
+@media (max-width: 720px) { .shell { display: block; } .sidebar { width: 100%; } .sidebar .spacer { display: none; } .content { padding: 12px; min-width: 0; } .workbench section { padding: 14px; } .card { min-width: 100px; } }
