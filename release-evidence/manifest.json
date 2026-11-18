@@ -499,6 +499,10 @@
       "bytes": 53248,
       "sha256": "43fc96b5c257d2f1d8dfabc116a28280ab775f9aa3df2a75a9acd324fd4850c6"
     },
+    "ARCHIVE_STATUS.md": {
+      "bytes": 750,
+      "sha256": "6948db45a09fab9f5437ba237df58cec8b4d9227c68760e3c1c638aeded784dd"
+    },
     "ASSESSMENT.md": {
       "bytes": 4795,
       "sha256": "3ceec7d594cc0744e55199bed58ff7d549f323f4a20cdd418ff908e9bb1b8788"
@@ -654,6 +658,10 @@
     "independent-review/independent-review.py": {
       "bytes": 17444,
       "sha256": "3df57df6df244410b5b3c7292e1c4b8f6897e90720e5d96dae4edeb2287b77db"
+    },
+    "independent-review/manifest.json": {
+      "bytes": 2789,
+      "sha256": "00fec094a1804574894aaf2b9731594fa34b702a746d4ed07a0d846f390dca99"
     },
     "independent-review/optional-semantics.json": {
       "bytes": 63064,
@@ -1098,5 +1106,14 @@
     "deleted": 6,
     "held_merged": 1,
     "remaining": 14
+  },
+  "archive_packaging_correction": {
+    "utc": "2026-11-18T04:15:51.748605+00:00",
+    "initial_archive_commit": "3594586a388bf63ce539f779cc91992e569492c2",
+    "initial_tag": "evidence/local-workbench-20261116",
+    "complete_tag": "evidence/local-workbench-20261116-complete",
+    "source_unchanged": true,
+    "cause": "Git ignore rules omitted some already-reviewed artifacts; caught by fresh public hash verification",
+    "resolution": "Explicitly stage all reviewed release-evidence files, retain original immutable tag, publish complete follow-up tag"
   }
 }
