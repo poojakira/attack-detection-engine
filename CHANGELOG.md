@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 candidate remediation — 2026-11-18
+
+- Fixed AEGIS-QA-01: every saved-case refresh now shares a monotonic request sequence, so a delayed initial response cannot overwrite a newer post-import list. Both success and error callbacks discard obsolete/unmounted completions; editor changes do not discard the initial list.
+- Added an actual-browser regression that holds real API list response bytes across an actual synthetic import, then releases the older response and verifies that the new persisted case remains selectable.
+
 ## 1.1.0 — Local workbench candidate, 2026-11-17
 
 - Added authenticated React FHIR import, real PostgreSQL case/run evidence, source/normalized timeline, case-level threshold rerun, finding delta and checksummed JSON export.

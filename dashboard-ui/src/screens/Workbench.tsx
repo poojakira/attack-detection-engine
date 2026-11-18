@@ -16,7 +16,26 @@ export function Workbench() {
   const revision = useRef(0);
   const pending = useRef<AbortController | null>(null);
   const mounted = useRef(true);
-  useEffect(() => { mounted.current = true; void listCases().then(x => {if (mounted.current) setCases(x.items);}).catch(e => setError(String(e))); return () => {mounted.current = false; pending.current?.abort(); revision.current++;}; }, []);
+  const caseListSequence = useRef(0);
+  async function refreshCases() {
+    const sequence = ++caseListSequence.current;
+    try {
+      const data = await listCases();
+      if (mounted.current && caseListSequence.current === sequence) setCases(data.items);
+    } catch (err) {
+      if (mounted.current && caseListSequence.current === sequence) setError(String(err));
+    }
+  }
+  useEffect(() => {
+    mounted.current = true;
+    void refreshCases();
+    return () => {
+      mounted.current = false;
+      caseListSequence.current++;
+      pending.current?.abort();
+      revision.current++;
+    };
+  }, []);
   function invalidate(clear = true) {
     revision.current++; pending.current?.abort(); pending.current = null;
     setBusy(false); setError(''); setNotice('');
@@ -49,7 +68,7 @@ export function Workbench() {
       if (revision.current !== id) return;
       setReport(result); setRuns(old => rerun ? [...old, result] : [result]);
       setNotice('Run persisted in PostgreSQL. Findings are review signals, not a verdict.');
-      void listCases().then(x => {if (revision.current === id) setCases(x.items);});
+      void refreshCases();
     } catch(e) {if (revision.current === id) setError(`${String(e)}. A cancelled response may still have committed; reload saved cases before retrying.`);} finally {if (revision.current === id) setBusy(false);}
   }
   async function download() {

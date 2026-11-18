@@ -33,6 +33,25 @@ async def verify(base_url: str, evidence: Path):
         )
         page = await browser.new_page(viewport={"width": 1440, "height": 1050})
         page.on("pageerror", lambda error: errors.append(str(error)))
+        # AEGIS-QA-01: retain the actual initial list response while a later
+        # import and authoritative refresh complete. No detector/API mock.
+        initial_list_fetched = asyncio.Event()
+        release_initial_list = asyncio.Event()
+        first_list = True
+
+        async def delay_initial_list(route):
+            nonlocal first_list
+            if not first_list:
+                await route.continue_()
+                return
+            first_list = False
+            actual_response = await route.fetch()
+            initial_list_fetched.set()
+            await release_initial_list.wait()
+            await route.fulfill(response=actual_response)
+
+        list_url = base_url + "/api/v1/workbench/cases"
+        await page.route(list_url, delay_initial_list)
         await page.goto(base_url)
         await page.get_by_label("Username", exact=True).fill("synthetic-analyst")
         await page.get_by_label("Password", exact=True).fill(
@@ -42,12 +61,49 @@ async def verify(base_url: str, evidence: Path):
         await page.get_by_role(
             "heading", name="Security Investigation Workbench"
         ).wait_for()
+        await asyncio.wait_for(initial_list_fetched.wait(), timeout=10)
+        # Editing before the first list arrives must not invalidate the list's
+        # independent request sequence.
+        await page.get_by_label("Investigation title").fill(
+            "Synthetic delayed-list regression"
+        )
         await page.get_by_role("button", name="Load synthetic sample").click()
         await expect(page.get_by_label("FHIR JSON", exact=True)).to_have_value(
             re.compile("synthetic-access-29", re.S)
         )
-        await page.get_by_role("button", name="Import and investigate").click()
+        async with page.expect_response(
+            lambda response: response.url == list_url
+            and response.request.method == "POST"
+        ) as imported_info:
+            await page.get_by_role("button", name="Import and investigate").click()
+        imported_report = await (await imported_info.value).json()
+        new_case_id = imported_report["case_id"]
         await page.get_by_test_id("finding-count").filter(has_text="1").wait_for()
+        # The fresh list contains a newly generated case id, not an older case
+        # sharing its title. Read the real report's id from the import response.
+        await expect(
+            page.get_by_label("Saved investigation").locator(
+                f'option[value="{new_case_id}"]'
+            )
+        ).to_have_count(1)
+        async with page.expect_response(
+            lambda response: response.url == list_url
+            and response.request.method == "GET"
+        ) as old_response_info:
+            release_initial_list.set()
+        await (await old_response_info.value).finished()
+        await page.evaluate(
+            "() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))"
+        )
+        await expect(
+            page.get_by_label("Saved investigation").locator(
+                f'option[value="{new_case_id}"]'
+            )
+        ).to_have_count(1)
+        await page.unroute(list_url, delay_initial_list)
+        results.append(
+            "AEGIS-QA-01: delayed initial real case list cannot hide a freshly imported persisted case"
+        )
         await page.get_by_text("HC-ACCESS-BULK", exact=True).click()
         assert await page.get_by_text(
             "Related persisted events: 30", exact=True
@@ -177,6 +233,11 @@ async def verify(base_url: str, evidence: Path):
         "base_url": base_url,
         "checks": results,
         "page_errors": errors,
+        "case_list_race": {
+            "new_case_id": new_case_id,
+            "new_case_visible_after_old_list": True,
+            "held_actual_initial_api_response": True,
+        },
         "report_sha256": hashlib.sha256(
             (evidence / "report.json").read_bytes()
         ).hexdigest(),
