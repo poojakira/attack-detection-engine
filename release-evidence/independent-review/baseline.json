@@ -1,0 +1,25 @@
+{
+  "utc": "2026-11-18T04:06:20.132052+00:00",
+  "commit": "8ae9090b560871d1e584d717734693bb570fffae",
+  "branch": "codex/local-workbench-20261116",
+  "status": "",
+  "artifact_count": 74,
+  "artifact_mismatches": [],
+  "manifest_sha256": "a427b9706c28c204eb7eb79eff1d29b91d9651f97eaee29c85946e0345829d2f",
+  "wheel_python_files": 47,
+  "wheel_source_mismatches": [],
+  "wheel_migration_files": 6,
+  "junit_suites": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "327",
+      "time": "105.860",
+      "timestamp": "2026-11-18T04:01:58.146882+00:00",
+      "hostname": "574c83fb9110"
+    }
+  ],
+  "coverage_line_rate": "0.8247"
+}

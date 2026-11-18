@@ -1,0 +1,387 @@
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools>=68
+  - wheel
+* Getting build dependencies for sdist...
+running egg_info
+writing attack_detection_engine.egg-info/PKG-INFO
+writing dependency_links to attack_detection_engine.egg-info/dependency_links.txt
+writing entry points to attack_detection_engine.egg-info/entry_points.txt
+writing requirements to attack_detection_engine.egg-info/requires.txt
+writing top-level names to attack_detection_engine.egg-info/top_level.txt
+reading manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+* Installed build dependency versions:
+  - setuptools==84.2.1
+  - wheel==0.48.0
+* Building sdist...
+running sdist
+running egg_info
+writing attack_detection_engine.egg-info/PKG-INFO
+writing dependency_links to attack_detection_engine.egg-info/dependency_links.txt
+writing entry points to attack_detection_engine.egg-info/entry_points.txt
+writing requirements to attack_detection_engine.egg-info/requires.txt
+writing top-level names to attack_detection_engine.egg-info/top_level.txt
+reading manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+running check
+creating attack_detection_engine-1.1.0
+creating attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+creating attack_detection_engine-1.1.0/detection_engine
+creating attack_detection_engine-1.1.0/detection_engine/healthcare
+creating attack_detection_engine-1.1.0/detection_engine/healthcare/mimic
+creating attack_detection_engine-1.1.0/detection_engine/platform
+creating attack_detection_engine-1.1.0/detection_engine/platform/connectors
+creating attack_detection_engine-1.1.0/detection_engine/platform/migrations
+creating attack_detection_engine-1.1.0/detection_engine/platform/migrations/versions
+creating attack_detection_engine-1.1.0/tests
+copying files to attack_detection_engine-1.1.0...
+copying LICENSE -> attack_detection_engine-1.1.0
+copying README.md -> attack_detection_engine-1.1.0
+copying pyproject.toml -> attack_detection_engine-1.1.0
+copying attack_detection_engine.egg-info/PKG-INFO -> attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+copying attack_detection_engine.egg-info/SOURCES.txt -> attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+copying attack_detection_engine.egg-info/dependency_links.txt -> attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+copying attack_detection_engine.egg-info/entry_points.txt -> attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+copying attack_detection_engine.egg-info/requires.txt -> attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+copying attack_detection_engine.egg-info/top_level.txt -> attack_detection_engine-1.1.0/attack_detection_engine.egg-info
+copying detection_engine/__init__.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/arm_binary_analyzer.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/automotive_can_detector.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/base.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/behavior_detector.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/candump_parser.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/cli.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/code_detector.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/event_detector.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/firmware_auditor.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/log_detector.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/pattern_library.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/pipeline.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/rule_engine.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/traffic_detector.py -> attack_detection_engine-1.1.0/detection_engine
+copying detection_engine/healthcare/__init__.py -> attack_detection_engine-1.1.0/detection_engine/healthcare
+copying detection_engine/healthcare/context.py -> attack_detection_engine-1.1.0/detection_engine/healthcare
+copying detection_engine/healthcare/detector.py -> attack_detection_engine-1.1.0/detection_engine/healthcare
+copying detection_engine/healthcare/schema.py -> attack_detection_engine-1.1.0/detection_engine/healthcare
+copying detection_engine/healthcare/synthetic.py -> attack_detection_engine-1.1.0/detection_engine/healthcare
+copying detection_engine/healthcare/mimic/__init__.py -> attack_detection_engine-1.1.0/detection_engine/healthcare/mimic
+copying detection_engine/healthcare/mimic/adapter.py -> attack_detection_engine-1.1.0/detection_engine/healthcare/mimic
+copying detection_engine/healthcare/mimic/provenance.py -> attack_detection_engine-1.1.0/detection_engine/healthcare/mimic
+copying detection_engine/platform/__init__.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/alembic.ini -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/api.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/auth.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/body_limit.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/bootstrap.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/correlation.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/db.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/ingestion.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/investigation.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/local.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/models.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/provenance.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/repository.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/sample.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/server.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/workbench.py -> attack_detection_engine-1.1.0/detection_engine/platform
+copying detection_engine/platform/connectors/__init__.py -> attack_detection_engine-1.1.0/detection_engine/platform/connectors
+copying detection_engine/platform/connectors/base.py -> attack_detection_engine-1.1.0/detection_engine/platform/connectors
+copying detection_engine/platform/connectors/fhir_auditevent.py -> attack_detection_engine-1.1.0/detection_engine/platform/connectors
+copying detection_engine/platform/migrations/env.py -> attack_detection_engine-1.1.0/detection_engine/platform/migrations
+copying detection_engine/platform/migrations/script.py.mako -> attack_detection_engine-1.1.0/detection_engine/platform/migrations
+copying detection_engine/platform/migrations/versions/4295fbcefb96_initial_platform_schema.py -> attack_detection_engine-1.1.0/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/53fef2dbf01d_add_user_token_version_for_revocation.py -> attack_detection_engine-1.1.0/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/a1b2c3d4e5f6_add_audit_hash_chain.py -> attack_detection_engine-1.1.0/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/b2c3d4e5f6a7_workbench.py -> attack_detection_engine-1.1.0/detection_engine/platform/migrations/versions
+copying tests/test_automotive_embedded.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_automotive_evidence.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_automotive_pipeline.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_cli.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_connector_fhir.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_healthcare_detector.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_healthcare_pipeline.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_healthcare_schema.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_healthcare_units.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_mimic_adapter.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_pipeline.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_api_e2e.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_audit_integrity.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_auth.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_auth_hardening.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_correlation.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_db.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_failure_injection.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_models.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_tenant_isolation.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_platform_web_security.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_product_contract.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_product_telemetry_corpus.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_revoked_id_handling.py -> attack_detection_engine-1.1.0/tests
+copying tests/test_workbench.py -> attack_detection_engine-1.1.0/tests
+Writing attack_detection_engine-1.1.0/setup.cfg
+Creating tar archive
+removing 'attack_detection_engine-1.1.0' (and everything under it)
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+* Building wheel from sdist
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools>=68
+  - wheel
+* Getting build dependencies for wheel...
+running egg_info
+writing attack_detection_engine.egg-info/PKG-INFO
+writing dependency_links to attack_detection_engine.egg-info/dependency_links.txt
+writing entry points to attack_detection_engine.egg-info/entry_points.txt
+writing requirements to attack_detection_engine.egg-info/requires.txt
+writing top-level names to attack_detection_engine.egg-info/top_level.txt
+reading manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+* Installed build dependency versions:
+  - setuptools==84.2.1
+  - wheel==0.48.0
+* Building wheel...
+running bdist_wheel
+running build
+running build_py
+creating build/lib/detection_engine
+copying detection_engine/traffic_detector.py -> build/lib/detection_engine
+copying detection_engine/automotive_can_detector.py -> build/lib/detection_engine
+copying detection_engine/__init__.py -> build/lib/detection_engine
+copying detection_engine/rule_engine.py -> build/lib/detection_engine
+copying detection_engine/firmware_auditor.py -> build/lib/detection_engine
+copying detection_engine/base.py -> build/lib/detection_engine
+copying detection_engine/pipeline.py -> build/lib/detection_engine
+copying detection_engine/candump_parser.py -> build/lib/detection_engine
+copying detection_engine/event_detector.py -> build/lib/detection_engine
+copying detection_engine/pattern_library.py -> build/lib/detection_engine
+copying detection_engine/arm_binary_analyzer.py -> build/lib/detection_engine
+copying detection_engine/behavior_detector.py -> build/lib/detection_engine
+copying detection_engine/cli.py -> build/lib/detection_engine
+copying detection_engine/code_detector.py -> build/lib/detection_engine
+copying detection_engine/log_detector.py -> build/lib/detection_engine
+creating build/lib/detection_engine/platform
+copying detection_engine/platform/__init__.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/provenance.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/ingestion.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/sample.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/repository.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/investigation.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/bootstrap.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/workbench.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/auth.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/correlation.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/db.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/models.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/body_limit.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/server.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/local.py -> build/lib/detection_engine/platform
+copying detection_engine/platform/api.py -> build/lib/detection_engine/platform
+creating build/lib/detection_engine/healthcare
+copying detection_engine/healthcare/detector.py -> build/lib/detection_engine/healthcare
+copying detection_engine/healthcare/__init__.py -> build/lib/detection_engine/healthcare
+copying detection_engine/healthcare/synthetic.py -> build/lib/detection_engine/healthcare
+copying detection_engine/healthcare/context.py -> build/lib/detection_engine/healthcare
+copying detection_engine/healthcare/schema.py -> build/lib/detection_engine/healthcare
+creating build/lib/detection_engine/platform/connectors
+copying detection_engine/platform/connectors/fhir_auditevent.py -> build/lib/detection_engine/platform/connectors
+copying detection_engine/platform/connectors/__init__.py -> build/lib/detection_engine/platform/connectors
+copying detection_engine/platform/connectors/base.py -> build/lib/detection_engine/platform/connectors
+creating build/lib/detection_engine/platform/migrations
+copying detection_engine/platform/migrations/env.py -> build/lib/detection_engine/platform/migrations
+creating build/lib/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/4295fbcefb96_initial_platform_schema.py -> build/lib/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/53fef2dbf01d_add_user_token_version_for_revocation.py -> build/lib/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/b2c3d4e5f6a7_workbench.py -> build/lib/detection_engine/platform/migrations/versions
+copying detection_engine/platform/migrations/versions/a1b2c3d4e5f6_add_audit_hash_chain.py -> build/lib/detection_engine/platform/migrations/versions
+creating build/lib/detection_engine/healthcare/mimic
+copying detection_engine/healthcare/mimic/__init__.py -> build/lib/detection_engine/healthcare/mimic
+copying detection_engine/healthcare/mimic/provenance.py -> build/lib/detection_engine/healthcare/mimic
+copying detection_engine/healthcare/mimic/adapter.py -> build/lib/detection_engine/healthcare/mimic
+running egg_info
+writing attack_detection_engine.egg-info/PKG-INFO
+writing dependency_links to attack_detection_engine.egg-info/dependency_links.txt
+writing entry points to attack_detection_engine.egg-info/entry_points.txt
+writing requirements to attack_detection_engine.egg-info/requires.txt
+writing top-level names to attack_detection_engine.egg-info/top_level.txt
+reading manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'attack_detection_engine.egg-info/SOURCES.txt'
+copying detection_engine/platform/alembic.ini -> build/lib/detection_engine/platform
+copying detection_engine/platform/migrations/script.py.mako -> build/lib/detection_engine/platform/migrations
+installing to build/bdist.linux-x86_64/wheel
+running install
+running install_lib
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/detection_engine
+copying build/lib/detection_engine/traffic_detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/automotive_can_detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/__init__.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/rule_engine.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/firmware_auditor.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/base.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/pipeline.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/candump_parser.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/event_detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/pattern_library.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/arm_binary_analyzer.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/behavior_detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/cli.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/code_detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+copying build/lib/detection_engine/log_detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine
+creating build/bdist.linux-x86_64/wheel/detection_engine/platform
+copying build/lib/detection_engine/platform/__init__.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/provenance.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/ingestion.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/sample.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/repository.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/investigation.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+creating build/bdist.linux-x86_64/wheel/detection_engine/platform/connectors
+copying build/lib/detection_engine/platform/connectors/fhir_auditevent.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/connectors
+copying build/lib/detection_engine/platform/connectors/__init__.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/connectors
+copying build/lib/detection_engine/platform/connectors/base.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/connectors
+copying build/lib/detection_engine/platform/alembic.ini -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/bootstrap.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/workbench.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/auth.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+creating build/bdist.linux-x86_64/wheel/detection_engine/platform/migrations
+copying build/lib/detection_engine/platform/migrations/env.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/migrations
+creating build/bdist.linux-x86_64/wheel/detection_engine/platform/migrations/versions
+copying build/lib/detection_engine/platform/migrations/versions/4295fbcefb96_initial_platform_schema.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/migrations/versions
+copying build/lib/detection_engine/platform/migrations/versions/53fef2dbf01d_add_user_token_version_for_revocation.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/migrations/versions
+copying build/lib/detection_engine/platform/migrations/versions/b2c3d4e5f6a7_workbench.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/migrations/versions
+copying build/lib/detection_engine/platform/migrations/versions/a1b2c3d4e5f6_add_audit_hash_chain.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/migrations/versions
+copying build/lib/detection_engine/platform/migrations/script.py.mako -> build/bdist.linux-x86_64/wheel/./detection_engine/platform/migrations
+copying build/lib/detection_engine/platform/correlation.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/db.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/models.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/body_limit.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/server.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/local.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+copying build/lib/detection_engine/platform/api.py -> build/bdist.linux-x86_64/wheel/./detection_engine/platform
+creating build/bdist.linux-x86_64/wheel/detection_engine/healthcare
+copying build/lib/detection_engine/healthcare/detector.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare
+copying build/lib/detection_engine/healthcare/__init__.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare
+copying build/lib/detection_engine/healthcare/synthetic.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare
+copying build/lib/detection_engine/healthcare/context.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare
+creating build/bdist.linux-x86_64/wheel/detection_engine/healthcare/mimic
+copying build/lib/detection_engine/healthcare/mimic/__init__.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare/mimic
+copying build/lib/detection_engine/healthcare/mimic/provenance.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare/mimic
+copying build/lib/detection_engine/healthcare/mimic/adapter.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare/mimic
+copying build/lib/detection_engine/healthcare/schema.py -> build/bdist.linux-x86_64/wheel/./detection_engine/healthcare
+running install_egg_info
+Copying attack_detection_engine.egg-info to build/bdist.linux-x86_64/wheel/./attack_detection_engine-1.1.0-py3.12.egg-info
+running install_scripts
+creating build/bdist.linux-x86_64/wheel/attack_detection_engine-1.1.0.dist-info/WHEEL
+creating '/workspace/work/evidence/attack-detection-engine/final/packages/.tmp-jyqghcn1/attack_detection_engine-1.1.0-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+adding 'attack_detection_engine-1.1.0.dist-info/licenses/LICENSE'
+adding 'detection_engine/__init__.py'
+adding 'detection_engine/arm_binary_analyzer.py'
+adding 'detection_engine/automotive_can_detector.py'
+adding 'detection_engine/base.py'
+adding 'detection_engine/behavior_detector.py'
+adding 'detection_engine/candump_parser.py'
+adding 'detection_engine/cli.py'
+adding 'detection_engine/code_detector.py'
+adding 'detection_engine/event_detector.py'
+adding 'detection_engine/firmware_auditor.py'
+adding 'detection_engine/log_detector.py'
+adding 'detection_engine/pattern_library.py'
+adding 'detection_engine/pipeline.py'
+adding 'detection_engine/rule_engine.py'
+adding 'detection_engine/traffic_detector.py'
+adding 'detection_engine/healthcare/__init__.py'
+adding 'detection_engine/healthcare/context.py'
+adding 'detection_engine/healthcare/detector.py'
+adding 'detection_engine/healthcare/schema.py'
+adding 'detection_engine/healthcare/synthetic.py'
+adding 'detection_engine/healthcare/mimic/__init__.py'
+adding 'detection_engine/healthcare/mimic/adapter.py'
+adding 'detection_engine/healthcare/mimic/provenance.py'
+adding 'detection_engine/platform/__init__.py'
+adding 'detection_engine/platform/alembic.ini'
+adding 'detection_engine/platform/api.py'
+adding 'detection_engine/platform/auth.py'
+adding 'detection_engine/platform/body_limit.py'
+adding 'detection_engine/platform/bootstrap.py'
+adding 'detection_engine/platform/correlation.py'
+adding 'detection_engine/platform/db.py'
+adding 'detection_engine/platform/ingestion.py'
+adding 'detection_engine/platform/investigation.py'
+adding 'detection_engine/platform/local.py'
+adding 'detection_engine/platform/models.py'
+adding 'detection_engine/platform/provenance.py'
+adding 'detection_engine/platform/repository.py'
+adding 'detection_engine/platform/sample.py'
+adding 'detection_engine/platform/server.py'
+adding 'detection_engine/platform/workbench.py'
+adding 'detection_engine/platform/connectors/__init__.py'
+adding 'detection_engine/platform/connectors/base.py'
+adding 'detection_engine/platform/connectors/fhir_auditevent.py'
+adding 'detection_engine/platform/migrations/env.py'
+adding 'detection_engine/platform/migrations/script.py.mako'
+adding 'detection_engine/platform/migrations/versions/4295fbcefb96_initial_platform_schema.py'
+adding 'detection_engine/platform/migrations/versions/53fef2dbf01d_add_user_token_version_for_revocation.py'
+adding 'detection_engine/platform/migrations/versions/a1b2c3d4e5f6_add_audit_hash_chain.py'
+adding 'detection_engine/platform/migrations/versions/b2c3d4e5f6a7_workbench.py'
+adding 'attack_detection_engine-1.1.0.dist-info/METADATA'
+adding 'attack_detection_engine-1.1.0.dist-info/WHEEL'
+adding 'attack_detection_engine-1.1.0.dist-info/entry_points.txt'
+adding 'attack_detection_engine-1.1.0.dist-info/top_level.txt'
+adding 'attack_detection_engine-1.1.0.dist-info/RECORD'
+removing build/bdist.linux-x86_64/wheel
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+Successfully built attack_detection_engine-1.1.0.tar.gz and attack_detection_engine-1.1.0-py3-none-any.whl

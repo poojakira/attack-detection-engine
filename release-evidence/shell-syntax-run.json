@@ -1,0 +1,13 @@
+{
+  "name": "shell-syntax",
+  "command": [
+    "bash",
+    "-n",
+    "scripts/local-workbench.sh"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:21.418982+00:00",
+  "finished_at": "2026-11-18T04:02:21.420749+00:00",
+  "exit_code": 0,
+  "log": "shell-syntax.log"
+}

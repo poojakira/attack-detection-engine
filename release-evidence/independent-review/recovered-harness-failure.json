@@ -1,0 +1,7 @@
+{
+  "scope": "review harness, not product defect",
+  "command": "/workspace/work/envs/hf/bin/python supplementary-closure.py",
+  "initial_exit_code": 1,
+  "cause": "The supplementary wheel check looked up X-Report-SHA256 with case-sensitive dict access. HTTP header names are case-insensitive and urllib retained different response casing.",
+  "correction": "Normalize response header names to lowercase before comparing the actual report-byte digest. Preserve existing disposable DB and repeat the bounded supplementary checks."
+}

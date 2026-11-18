@@ -1,0 +1,13 @@
+{
+  "name": "ruff-check",
+  "command": [
+    "/workspace/work/envs/attack/bin/ruff",
+    "check",
+    "."
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:01:53.575902+00:00",
+  "finished_at": "2026-11-18T04:01:53.597094+00:00",
+  "exit_code": 0,
+  "log": "ruff-check.log"
+}

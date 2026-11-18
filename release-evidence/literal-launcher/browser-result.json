@@ -1,0 +1,20 @@
+{
+  "source_commit": "8ae9090b560871d1e584d717734693bb570fffae",
+  "utc_start": "2026-11-18T04:11:10.411017+00:00",
+  "utc_end": "2026-11-18T04:11:13.020104+00:00",
+  "result": "PASS",
+  "browser": "156.0.8078.79",
+  "case_id": "case-f56c67ec02ac42349bdc69901f008251",
+  "run_id": "run-76fda5d512b249b0961f4e63ebdb1d0d",
+  "report_sha256": "9e5c6501ab5ef89cf71e1d472744d5cf8a759aa1e0c7a96c18deaabe9bad276f",
+  "checks": [
+    "literal launcher login and actual migrations",
+    "30 source events normalized and persisted; actual bulk finding",
+    "same stored dataset re-evaluated at threshold40 with real finding delta",
+    "actual checksum-verified UTF8 report with non-ASCII title",
+    "saved case/two immutable runs restored on reload",
+    "source commit matches clean candidate",
+    "no page errors"
+  ],
+  "page_errors": []
+}

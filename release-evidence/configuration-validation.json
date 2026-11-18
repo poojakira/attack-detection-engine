@@ -1,0 +1,74 @@
+[
+  {
+    "path": ".github/dependabot.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/security-allowlist.json",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/arm-firmware.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/ci.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/container.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/production-gate.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/production-policy.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/security-hygiene.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".github/workflows/workbench.yml",
+    "status": "parsed"
+  },
+  {
+    "path": ".pre-commit-config.yaml",
+    "status": "parsed"
+  },
+  {
+    "path": "dashboard-ui/package-lock.json",
+    "status": "parsed"
+  },
+  {
+    "path": "dashboard-ui/package.json",
+    "status": "parsed"
+  },
+  {
+    "path": "dashboard-ui/tsconfig.json",
+    "status": "parsed"
+  },
+  {
+    "path": "deploy/docker-compose.yml",
+    "status": "parsed"
+  },
+  {
+    "path": "detection_engine/platform/alembic.ini",
+    "status": "parsed"
+  },
+  {
+    "path": "pyproject.toml",
+    "status": "parsed"
+  },
+  {
+    "path": "security_scans/sbom-aegis.json",
+    "status": "parsed"
+  },
+  {
+    "path": "tests/fixtures/product_telemetry_corpus.json",
+    "status": "parsed"
+  }
+]

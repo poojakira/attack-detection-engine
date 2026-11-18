@@ -1,0 +1,1102 @@
+{
+  "repository": "poojakira/attack-detection-engine",
+  "generated_at": "2026-11-18T04:05:38.471341+00:00",
+  "decision": "PARTIAL",
+  "source": {
+    "repository": "poojakira/attack-detection-engine",
+    "commit": "8ae9090b560871d1e584d717734693bb570fffae",
+    "branch": "codex/local-workbench-20261116",
+    "status": ""
+  },
+  "current_source_status": "",
+  "app_version": "1.1.0",
+  "rule_version": "clinical-access-1.1",
+  "core_revision": "087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b",
+  "versions": {
+    "attack-detection-engine": "1.1.0",
+    "attack-v19-core": "19.2.0",
+    "pydantic": "2.7.4",
+    "fastapi": "0.134.0",
+    "starlette": "1.3.1",
+    "sqlalchemy": "2.1.9",
+    "pytest": "9.0.3",
+    "pytest-cov": "7.1.0",
+    "bcrypt": "5.0.0",
+    "argon2-cffi": "25.1.0"
+  },
+  "hashes": {
+    "python_lock_sha256": "fcb8856c72458b5ffe5c872590c3ff686cf78cda522638ef6bae9a9f92c32cf6",
+    "frontend_lock_sha256": "7bf2a9f79e7fe0bcb97af89682780b6bd59191ff52c5c6361868ae2b6ce66945",
+    "input_sha256": "8b1bddfdcd34b59a8ee35c6440fca9916c142b40caa7b6b5a28e9706eb461004",
+    "config_sha256": "9efbe04b9b62baa5e3efdb83757d1f22f2c912d1608044b3a2d5f7923a6decc7",
+    "python_source_sha256": "da72e5cd872fb18abce645970fdf83ef74a9699918ceca8238c0ac9ee5b2faa4"
+  },
+  "environment": {
+    "host_python": "3.12.14",
+    "host_platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "node": "v24.22.1",
+    "docker_server": "29.9.2",
+    "test_image": "local/hf-optional-verification:20261117",
+    "test_image_id": "sha256:5fdc90be02864ceb9c58f1083247dc31460f109468b8409c34526c59a55a9741",
+    "test_python": "3.12.16",
+    "test_user": "verifier UID1000; cap-drop ALL; read-only source/dependencies; writable tmpfs at unchanged default HOME",
+    "database": "Disposable PostgreSQL17 Docker tmpfs, isolated Docker network; no user database",
+    "browser": "System Chromium with Playwright1.65.2; controlled loopback target, no product CSP bypass"
+  },
+  "tests": {
+    "testcases": 327,
+    "passed": 327,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "native_subtests": 0,
+    "skip_details": []
+  },
+  "coverage": {
+    "line_rate": 0.8247,
+    "lines_valid": 3018,
+    "lines_covered": 2489,
+    "preserved_gate_percent": 53
+  },
+  "browser": {
+    "base_url": "http://127.0.0.1:8000",
+    "checks": [
+      "AEGIS-QA-01: delayed initial real case list cannot hide a freshly imported persisted case",
+      "Actual synthetic import: 30 persisted events, canonical HC-ACCESS-BULK finding, source/normalized evidence",
+      "Same exact dataset rerun: threshold 40, removed 1 finding, checksum-verified JSON export",
+      "Page reload: saved case and both immutable run reports restored from PostgreSQL",
+      "Obsolete checksum completion cannot download a report after new input",
+      "Delayed File.text cannot overwrite a later manual edit",
+      "XSS-shaped title/reference render as text; mixed unsupported Bundle resource counted, origin unspecified",
+      "Malformed JSON displays an error and clears obsolete results",
+      "390px mobile layout has no horizontal overflow"
+    ],
+    "page_errors": [],
+    "case_list_race": {
+      "new_case_id": "case-1be51bd0bdbd43ed9c7af121463040d2",
+      "new_case_visible_after_old_list": true,
+      "held_actual_initial_api_response": true
+    },
+    "report_sha256": "149d533aba5f68af5c407f867f12a13e88944206b29147f1a0b585e39d581c61"
+  },
+  "installed_wheel": {
+    "status": "passed",
+    "started_at": "2026-11-18T04:03:36.013203+00:00",
+    "finished_at": "2026-11-18T04:03:42.155506+00:00",
+    "module": {
+      "module": "/workspace/work/attack-wheel-smoke-parent/venv/lib/python3.12/site-packages/detection_engine/__init__.py",
+      "version": "1.1.0"
+    },
+    "unrelated_parent_head": "72738d1ea2bb1c9adc36ba73830cc68739231a09",
+    "installed_health": {
+      "status": "ok",
+      "time": "2026-11-18T04:03:41.777547+00:00",
+      "version": "1.1.0",
+      "rule_version": "clinical-access-1.1",
+      "core_revision": "087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b",
+      "source": {
+        "commit": "UNKNOWN",
+        "clean": null
+      }
+    },
+    "checks": [
+      "wheel imported outside source",
+      "packaged migrations clean startup",
+      "canonical detector/correlation and PostgreSQL persistence",
+      "same-input configuration rerun delta",
+      "actual API process restart and migration idempotency",
+      "saved case and export after restart",
+      "UNKNOWN installed provenance despite unrelated enclosing Git HEAD"
+    ],
+    "input_sha256": "8b1bddfdcd34b59a8ee35c6440fca9916c142b40caa7b6b5a28e9706eb461004",
+    "config_sha256": "9efbe04b9b62baa5e3efdb83757d1f22f2c912d1608044b3a2d5f7923a6decc7"
+  },
+  "audits": {
+    "npm": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "python_vulnerability_records": 0,
+    "bandit_medium_high": 0,
+    "bandit_all_severities": 6,
+    "detect_secrets_candidates": 51,
+    "secret_scan_review": "secret-scan-review.json"
+  },
+  "commands": [
+    {
+      "name": "actionlint",
+      "command": [
+        "/workspace/work/tooling/actionlint/actionlint"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:07.689279+00:00",
+      "finished_at": "2026-11-18T04:02:07.700948+00:00",
+      "exit_code": 0,
+      "log": "actionlint.log"
+    },
+    {
+      "name": "bandit-all",
+      "command": [
+        "/workspace/work/envs/attack/bin/bandit",
+        "-r",
+        "detection_engine",
+        "-f",
+        "json",
+        "-o",
+        "/workspace/work/evidence/attack-detection-engine/final/bandit-all.json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:33.793215+00:00",
+      "finished_at": "2026-11-18T04:02:34.447986+00:00",
+      "exit_code": 1,
+      "log": "bandit-all.log"
+    },
+    {
+      "name": "bandit",
+      "command": [
+        "/workspace/work/envs/attack/bin/bandit",
+        "-r",
+        "detection_engine",
+        "-ll",
+        "-f",
+        "json",
+        "-o",
+        "/workspace/work/evidence/attack-detection-engine/final/bandit.json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:20.753034+00:00",
+      "finished_at": "2026-11-18T04:02:21.301599+00:00",
+      "exit_code": 0,
+      "log": "bandit.log"
+    },
+    {
+      "name": "browser",
+      "command": [
+        "/workspace/work/tooling/venv/bin/python",
+        "/workspace/work/candidates/attack-detection-engine/scripts/browser-workbench.py",
+        "--evidence",
+        "/workspace/work/evidence/attack-detection-engine/final/browser"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:03:36.850868+00:00",
+      "finished_at": "2026-11-18T04:03:43.028794+00:00",
+      "exit_code": 0,
+      "log": "browser.log"
+    },
+    {
+      "name": "build-python",
+      "command": [
+        "/workspace/work/envs/attack/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "/workspace/work/evidence/attack-detection-engine/final/packages"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:24.262511+00:00",
+      "finished_at": "2026-11-18T04:02:30.804873+00:00",
+      "exit_code": 0,
+      "log": "build-python.log"
+    },
+    {
+      "name": "build-ui",
+      "command": [
+        "npm",
+        "--prefix",
+        "dashboard-ui",
+        "run",
+        "build"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:21.445597+00:00",
+      "finished_at": "2026-11-18T04:02:24.231403+00:00",
+      "exit_code": 0,
+      "log": "build-ui.log"
+    },
+    {
+      "name": "detect-secrets",
+      "command": [
+        "python",
+        "/workspace/work/evidence/attack-detection-engine/final/scan-secrets.py"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:31.029208+00:00",
+      "finished_at": "2026-11-18T04:02:33.766085+00:00",
+      "exit_code": 0,
+      "log": "detect-secrets.log"
+    },
+    {
+      "name": "installed-wheel",
+      "command": [
+        "python",
+        "/workspace/work/evidence/attack-detection-engine/final/verify-wheel.py"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:03:35.746860+00:00",
+      "finished_at": "2026-11-18T04:03:42.318734+00:00",
+      "exit_code": 0,
+      "log": "installed-wheel.log"
+    },
+    {
+      "name": "inventory",
+      "command": [
+        "python",
+        "/workspace/work/validate_inventory.py",
+        ".",
+        "/workspace/work/evidence/attack-detection-engine/final/inventory.json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:30.838838+00:00",
+      "finished_at": "2026-11-18T04:02:31.003706+00:00",
+      "exit_code": 0,
+      "log": "inventory.log"
+    },
+    {
+      "name": "npm-audit",
+      "command": [
+        "npm",
+        "--prefix",
+        "dashboard-ui",
+        "audit",
+        "--json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:20.246990+00:00",
+      "finished_at": "2026-11-18T04:02:20.724965+00:00",
+      "exit_code": 0,
+      "log": "npm-audit.log"
+    },
+    {
+      "name": "pip-audit",
+      "command": [
+        "/workspace/work/envs/attack/bin/pip-audit",
+        "--format",
+        "json",
+        "--output",
+        "/workspace/work/evidence/attack-detection-engine/final/pip-audit.json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:08.164243+00:00",
+      "finished_at": "2026-11-18T04:02:20.212508+00:00",
+      "exit_code": 0,
+      "log": "pip-audit.log"
+    },
+    {
+      "name": "pip-check",
+      "command": [
+        "/workspace/work/envs/attack/bin/pip",
+        "check"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:07.728807+00:00",
+      "finished_at": "2026-11-18T04:02:08.134637+00:00",
+      "exit_code": 0,
+      "log": "pip-check.log"
+    },
+    {
+      "name": "pyright",
+      "command": [
+        "/workspace/work/security-tools/bin/pyright",
+        "--pythonpath",
+        "/workspace/work/envs/attack/bin/python",
+        "detection_engine"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:01:53.702500+00:00",
+      "finished_at": "2026-11-18T04:02:07.654992+00:00",
+      "exit_code": 0,
+      "log": "pyright.log"
+    },
+    {
+      "name": "ruff-check",
+      "command": [
+        "/workspace/work/envs/attack/bin/ruff",
+        "check",
+        "."
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:01:53.575902+00:00",
+      "finished_at": "2026-11-18T04:01:53.597094+00:00",
+      "exit_code": 0,
+      "log": "ruff-check.log"
+    },
+    {
+      "name": "ruff-format",
+      "command": [
+        "/workspace/work/envs/attack/bin/ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:01:53.630333+00:00",
+      "finished_at": "2026-11-18T04:01:53.646722+00:00",
+      "exit_code": 0,
+      "log": "ruff-format.log"
+    },
+    {
+      "name": "security-scan",
+      "command": [
+        "python",
+        "scripts/security_scan.py"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:21.328930+00:00",
+      "finished_at": "2026-11-18T04:02:21.386957+00:00",
+      "exit_code": 0,
+      "log": "security-scan.log"
+    },
+    {
+      "name": "shell-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/local-workbench.sh"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:02:21.418982+00:00",
+      "finished_at": "2026-11-18T04:02:21.420749+00:00",
+      "exit_code": 0,
+      "log": "shell-syntax.log"
+    },
+    {
+      "name": "source-browser",
+      "command": [
+        "python",
+        "/workspace/work/evidence/attack-detection-engine/final/verify-source-browser.py"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:03:34.517695+00:00",
+      "finished_at": "2026-11-18T04:03:43.259181+00:00",
+      "exit_code": 0,
+      "log": "source-browser.log"
+    },
+    {
+      "command": [
+        "/workspace/work/envs/attack/bin/python",
+        "-m",
+        "detection_engine.platform.local",
+        "--dashboard",
+        "/workspace/work/candidates/attack-detection-engine/dashboard-ui/dist",
+        "--username",
+        "synthetic-analyst",
+        "--password-stdin"
+      ],
+      "started_at": "2026-11-18T04:03:34.819780+00:00",
+      "finished_at": "2026-11-18T04:03:43.249855+00:00",
+      "expected_shutdown": true,
+      "exit_code": -15
+    },
+    {
+      "name": "tests",
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "attack-regression-final",
+        "--network",
+        "attack-verification-20261117",
+        "--read-only",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--memory",
+        "1500m",
+        "--cpus",
+        "2",
+        "--pids-limit",
+        "128",
+        "--tmpfs",
+        "/home/verifier:rw,noexec,nosuid,nodev,size=16m,uid=1000,gid=1000,mode=0700",
+        "--tmpfs",
+        "/tmp:rw,noexec,nosuid,nodev,size=64m,uid=1000,gid=1000",
+        "--mount",
+        "type=bind,src=/workspace/work/envs/attack,dst=/deps,readonly",
+        "--mount",
+        "type=bind,src=/workspace/work/candidates/attack-detection-engine,dst=/app,readonly",
+        "--mount",
+        "type=bind,src=/workspace/work/references/attack-v19.2,dst=/data,readonly",
+        "--mount",
+        "type=bind,src=/workspace/work/evidence/attack-detection-engine/final,dst=/evidence",
+        "-e",
+        "PYTHONPATH=/app:/deps/lib/python3.12/site-packages",
+        "-e",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "-e",
+        "ATTACK_DATA_DIR=/data",
+        "-e",
+        "COVERAGE_FILE=/evidence/.coverage",
+        "-e",
+        "AEGIS_DATABASE_URL=postgresql+psycopg://aegis:synthetic-local-db-only@attack-pg:5432/aegis",
+        "-e",
+        "AEGIS_TEST_DATABASE_URL=postgresql+psycopg://aegis:synthetic-local-db-only@attack-pg:5432/aegis",
+        "local/hf-optional-verification:20261117",
+        "python",
+        "-m",
+        "pytest",
+        "-p",
+        "no:cacheprovider",
+        "tests",
+        "-q",
+        "--tb=short",
+        "--cov=detection_engine",
+        "--cov-report=term-missing",
+        "--cov-report=xml:/evidence/coverage.xml",
+        "--cov-fail-under=53",
+        "--junitxml=/evidence/junit.xml"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:01:53.568020+00:00",
+      "finished_at": "2026-11-18T04:03:46.742495+00:00",
+      "exit_code": 0,
+      "log": "tests.log"
+    },
+    {
+      "name": "wheel-install",
+      "command": [
+        "/workspace/work/envs/attack/bin/python",
+        "-m",
+        "pip",
+        "--python",
+        "/workspace/work/attack-wheel-smoke-parent/venv/bin/python",
+        "install",
+        "--force-reinstall",
+        "--no-deps",
+        "/workspace/work/evidence/attack-detection-engine/final/packages/attack_detection_engine-1.1.0-py3-none-any.whl"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "started_at": "2026-11-18T04:03:34.494641+00:00",
+      "finished_at": "2026-11-18T04:03:35.641966+00:00",
+      "exit_code": 0,
+      "log": "wheel-install.log"
+    }
+  ],
+  "cleanup": {
+    "utc": "2026-11-18T04:05:38.541935+00:00",
+    "source_and_wheel_servers": "stopped after fresh proof",
+    "original_test_container": "/attack-workbench-pg-20261117 running",
+    "independent_database": "aegis_independent retained untouched",
+    "launcher_container_and_private_state": "untouched; retained per parent instruction",
+    "removed": "Only disposable npm content-addressed download cache after npm tasks completed, reclaiming187178688 bytes under disk pressure. No source/evidence/image/installed dependency/database/user volume deleted."
+  },
+  "literal_launcher": "Parent independently executed launcher/restart/persistence on source50b8d82, separately scoped in launcher-orchestration. Current8ae UI-only remediation has fresh source browser and installed-wheel startup/restart proof; no new literal orchestration claimed.",
+  "recovered_failures": [],
+  "limitations": [
+    "Master contract remains PARTIAL pending independent remediation closure, remote governance/publication, exhaustive historical documentation and environment-specific operational/privacy signoff.",
+    "No real patient data, field detection efficacy, public deployment or production readiness established.",
+    "Full FHIR conformance, parser process sandbox/hard detector kill deadline, multi-process quotas, externally anchored report integrity, backup/restore and production privacy lifecycle are not established.",
+    "Historical/secondary Docker deployments and continuous monitoring are not verified by these local checks.",
+    "Source/config/input provenance is reproducible; per-run UUIDs/timestamps/incident identifiers vary. Related-event links are actor-based context."
+  ],
+  "artifacts": {
+    ".coverage": {
+      "bytes": 53248,
+      "sha256": "43fc96b5c257d2f1d8dfabc116a28280ab775f9aa3df2a75a9acd324fd4850c6"
+    },
+    "ASSESSMENT.md": {
+      "bytes": 4795,
+      "sha256": "3ceec7d594cc0744e55199bed58ff7d549f323f4a20cdd418ff908e9bb1b8788"
+    },
+    "RELEASE_ASSESSMENT.md": {
+      "bytes": 9328,
+      "sha256": "93755e1a9ddfd0bf22dc1bac68982c8845224a36a9befc9efa2594f202c3b95e"
+    },
+    "actionlint-run.json": {
+      "bytes": 312,
+      "sha256": "a35ad0c496ad742d04657590af4bc97e3eab28bf1035d9409960bd3807850a13"
+    },
+    "actionlint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "assemble-evidence.py": {
+      "bytes": 7433,
+      "sha256": "2faf74b5b9bd282f48d658b0e04b9ab90584019bf86c5d1cb3741dde3ff23099"
+    },
+    "bandit-all-run.json": {
+      "bytes": 449,
+      "sha256": "bd91dd021a66d168aad27432debfdaad07f83324ffcf5941bbccfbbdadca7e3f"
+    },
+    "bandit-all.json": {
+      "bytes": 21635,
+      "sha256": "341819c3f6d6839d832d58745e2d02f27f75722df9e4f38f0ac395066f417e2b"
+    },
+    "bandit-all.log": {
+      "bytes": 264,
+      "sha256": "e09d4efeed369078917ffb7508698d615ed35d7445c6bf8ec3ba00443df8748d"
+    },
+    "bandit-review.json": {
+      "bytes": 1548,
+      "sha256": "ccc435f498abd32ac270f280dec64fd13def4671caf4aa9b365b05693e49b7bb"
+    },
+    "bandit-run.json": {
+      "bytes": 448,
+      "sha256": "3e01d11f6a54ee656e1c3354ec8ca8266d7d58af8e7c7541ae08f3b500c1cddd"
+    },
+    "bandit.json": {
+      "bytes": 16702,
+      "sha256": "78f24c5485712708fc04dd5671aa5dc382a77d46dea166dae8ceeba74a5c7686"
+    },
+    "bandit.log": {
+      "bytes": 260,
+      "sha256": "35215c984ffafadaf720180afc2a828b9ab5320d09925d49c56de24da2906dcd"
+    },
+    "branch-content-proofs.json": {
+      "bytes": 24453,
+      "sha256": "736ea69f786592d00a001d962b5cef39e604b61408ebba9ec4a212f07965eaf2"
+    },
+    "branch-disposition.json": {
+      "bytes": 5956,
+      "sha256": "23227790ba2515a861a08b7f1f6444d83978831b07f0ca1d619e8eecf7cb04ac"
+    },
+    "browser/browser.json": {
+      "bytes": 1112,
+      "sha256": "c683d3049ba0d3ac48eda9c46a3feba69c6e0792e90e2dabc81f1144c9a8e308"
+    },
+    "browser/desktop.png": {
+      "bytes": 118600,
+      "sha256": "ce03df670c1904c1c26c63ac03364ba046fa0c4524702b1c7069bd6579299e65"
+    },
+    "browser/mobile.png": {
+      "bytes": 126468,
+      "sha256": "378280ee8d243143ca00102e2a2581151564509aaf42f1a7fa6910848512b954"
+    },
+    "browser/report.json": {
+      "bytes": 42464,
+      "sha256": "149d533aba5f68af5c407f867f12a13e88944206b29147f1a0b585e39d581c61"
+    },
+    "browser-run.json": {
+      "bytes": 475,
+      "sha256": "72928d467284cf70c7378e65f5708bbe38313c617c2dab1ca07a191364901a51"
+    },
+    "browser.log": {
+      "bytes": 39,
+      "sha256": "2265d5b3dd1ebad926e72f9bb4f36d00a1b69b364550bb98ac81c351fe57eca5"
+    },
+    "build-python-run.json": {
+      "bytes": 419,
+      "sha256": "cb0bda49a9e0c8f43de95ae1b0b3d38889e463fb5a0a9615b31b791e8d89daff"
+    },
+    "build-python.log": {
+      "bytes": 29387,
+      "sha256": "dd7f3ad13b108b8c5438368ba3aebfc693fe001ae6c27b10472ee08f6f2b3e14"
+    },
+    "build-ui-run.json": {
+      "bytes": 326,
+      "sha256": "48106ac0d5aad225062d61432f499b9546aa6564cdeb8b8467f1db4b665689ce"
+    },
+    "build-ui.log": {
+      "bytes": 75,
+      "sha256": "7d856d3f7840a9b16f23e361eb00cf439860771ca544180326b457dc2a0d8459"
+    },
+    "cleanup.json": {
+      "bytes": 549,
+      "sha256": "db55885934814868baa8f1a5fa5b2b68e33a3ee43fe67668fa233b616f8e116b"
+    },
+    "configuration-validation.json": {
+      "bytes": 1407,
+      "sha256": "98c407612337e715145a8cd8ffbebe0c70c8a878a387e73feb3933fa49935a36"
+    },
+    "coverage.xml": {
+      "bytes": 116626,
+      "sha256": "7ce1a3045198c9bce038e9853209d02b2a8234a17d85a5bfce3e8c003e38d447"
+    },
+    "detect-secrets-run.json": {
+      "bytes": 359,
+      "sha256": "9f21e314754250b6f689c0552f443d46274fd4c73986e3d4bb1a70e6993e4988"
+    },
+    "detect-secrets.log": {
+      "bytes": 16369,
+      "sha256": "d85d0176e53d0bf5dd3ff04f837666fb50839b9161d8897bf688b3d68e705136"
+    },
+    "frontend-build/assets/app.css": {
+      "bytes": 3558,
+      "sha256": "497acb56163aa798735395b8df599f3eea2b09fd32906af4030f15e69ab161cc"
+    },
+    "frontend-build/assets/app.css.map": {
+      "bytes": 7651,
+      "sha256": "e437fd1c08f2c233812a5e64a596d682c59d1f95099fa76bddae922e785d9701"
+    },
+    "frontend-build/assets/app.js": {
+      "bytes": 208505,
+      "sha256": "3ade7d1b71a2d39972e26860b3dd7c7f4d1065f50e1a18d1a3a30a46653536f3"
+    },
+    "frontend-build/assets/app.js.map": {
+      "bytes": 865273,
+      "sha256": "c54e11db975c5a3f9985d095a19bffcce445616e18ac4a50731079261730e969"
+    },
+    "frontend-build/index.html": {
+      "bytes": 359,
+      "sha256": "8d5b943576929271866c12858aa9b350e834a0e2907631c617c6f70540296574"
+    },
+    "health.json": {
+      "bytes": 287,
+      "sha256": "4163583a545435cadaf07d236e9ce988b61ecf1cda252555a2d09dbc7e9b4f60"
+    },
+    "independent-review/ASSESSMENT.md": {
+      "bytes": 7160,
+      "sha256": "067fc11d035b1ea7bb83ae7e06c6b35aadb857853c505d5ba1761651d9a3ef38"
+    },
+    "independent-review/baseline.json": {
+      "bytes": 695,
+      "sha256": "5e9a8640a58e9dd1b3629d517b7bbcd59b30f99dce4342b1f2fee98d9c3bc4b4"
+    },
+    "independent-review/health.json": {
+      "bytes": 288,
+      "sha256": "158e2d375b56cfaebd9aee22bae048488d848d9153b78012ab78c5c1f0f585f9"
+    },
+    "independent-review/independent-review.py": {
+      "bytes": 17444,
+      "sha256": "3df57df6df244410b5b3c7292e1c4b8f6897e90720e5d96dae4edeb2287b77db"
+    },
+    "independent-review/optional-semantics.json": {
+      "bytes": 63064,
+      "sha256": "a5fb9410064fad338131f7659f933d772c183ae0b84cdb125271732fe2d8a9b9"
+    },
+    "independent-review/provenance-review.py": {
+      "bytes": 1977,
+      "sha256": "be5e25fb2d5cad00c2cf8507daaaa183af0cea971e01738f67553e9dd6b98710"
+    },
+    "independent-review/provenance.json": {
+      "bytes": 1970,
+      "sha256": "afe0858817b89833ba52e7e0ab36034a57f341415f175fec204f768b045ebc8f"
+    },
+    "independent-review/recovered-harness-failure.json": {
+      "bytes": 532,
+      "sha256": "408d8590da1713c4e0c9698bed14d1d6c1d1337a0a7bec7f6f32588e1ab811e7"
+    },
+    "independent-review/run-first.json": {
+      "bytes": 68069,
+      "sha256": "6c165e631267d2e7d19fb0231d2cafd97263e0615f91e0fc97f8af0cee9d7554"
+    },
+    "independent-review/runtime-progress.json": {
+      "bytes": 3386,
+      "sha256": "40cb96e6cd8d7f259fb34762ad9b78d1ef36d5d9723ba556ad6ffafffcd01e3f"
+    },
+    "independent-review/runtime-results.json": {
+      "bytes": 3500,
+      "sha256": "624c30debd7e3b4704c6f809288192f83391806ac9b5364e65dc576ccabfa16b"
+    },
+    "independent-review/server.log": {
+      "bytes": 14788,
+      "sha256": "5dcb666bdf005656465c8283940d7363de475bb4ea8ea42f1d02f033036da94e"
+    },
+    "independent-review/supplementary-closure.py": {
+      "bytes": 7144,
+      "sha256": "a6b0765e7704e2f92d4f21dd7b2c16a35182e487fa8bc00d7b4ed8808a86620f"
+    },
+    "independent-review/supplementary-results.json": {
+      "bytes": 1493,
+      "sha256": "6cb981ae4a1a230edead1333eeb78f3a04dcd2a311746caf07dfb6862cd2180e"
+    },
+    "independent-review/unicode-report.json": {
+      "bytes": 42472,
+      "sha256": "a1ccc390042d222d970ee8bee10f01ff2f7c4bab9d4f48e76e276d615cacc4f2"
+    },
+    "independent-review/verify-baseline.py": {
+      "bytes": 1857,
+      "sha256": "1b65c3dd0a55388ed9dff3cc1c9449d48fd1ce5dca3d1da57ac6433b396e243a"
+    },
+    "independent-review/workflow.png": {
+      "bytes": 118980,
+      "sha256": "0c366d7cc5a4b4f3f9acdf85abaa6e3e6b02f59b40fdde55eec539aa7ecced65"
+    },
+    "installed-wheel-run.json": {
+      "bytes": 361,
+      "sha256": "b1c4c5cb606c4f4ef98d9e13cc578df51d5e4603e6a9471842a0033dca4e4da5"
+    },
+    "installed-wheel.json": {
+      "bytes": 1216,
+      "sha256": "ece344ea0ada3cc09356080f88a88bbffa0ecdacf83be55873f4de794a5ec043"
+    },
+    "installed-wheel.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "inventory-run.json": {
+      "bytes": 402,
+      "sha256": "bb96ca1145863ea21f1cbc3ee7fe2714cb8f30ab12fa1c48a40d88bb2ae65e1e"
+    },
+    "inventory.json": {
+      "bytes": 43954,
+      "sha256": "e3be6a7af87b133209272224e003fddf656934bdfca1157a25686fe073fff398"
+    },
+    "inventory.log": {
+      "bytes": 127,
+      "sha256": "e1f7e2221629f945825acf82c30165c0844a6db112d799a3477083bac9ee9b86"
+    },
+    "junit.xml": {
+      "bytes": 41831,
+      "sha256": "efec70da69105464b64b98cac002f49de3facce81ee7a677a1638af9af4b6fc7"
+    },
+    "literal-launcher/browser-result.json": {
+      "bytes": 837,
+      "sha256": "548f38da89a230880adc5537563ed62cf746976c0c04690e3083d14015edba43"
+    },
+    "literal-launcher/launcher.log": {
+      "bytes": 26541,
+      "sha256": "984d8f916b6b47e76d3821ffc91d10bdf2ead069a0fa3015079d5e45770df402"
+    },
+    "literal-launcher/literal-browser.png": {
+      "bytes": 372139,
+      "sha256": "0bd3ba8c256daaed04a9b6abff71f3c1b451793e12c171431ab5188fa279bcc6"
+    },
+    "literal-launcher/literal-report.json": {
+      "bytes": 42477,
+      "sha256": "9e5c6501ab5ef89cf71e1d472744d5cf8a759aa1e0c7a96c18deaabe9bad276f"
+    },
+    "literal-launcher/restart-launcher.log": {
+      "bytes": 25531,
+      "sha256": "8da4f7ec8f64521790c58a9c6486bf62e7110cb30724ad4793ff5ed122608edd"
+    },
+    "literal-launcher/restart-result.json": {
+      "bytes": 907,
+      "sha256": "a6d5e98c008a3680d50a331653856de2724db727d76ea7b6b78b576321df3bdb"
+    },
+    "literal-launcher/restart-stop.json": {
+      "bytes": 172,
+      "sha256": "97905b6daab437b6b6633cefffdfee2b010eb53bb4c7b74733bbab189ec028c0"
+    },
+    "literal-launcher/review-database-preservation.json": {
+      "bytes": 317,
+      "sha256": "5b952b4bba208fa36bcae14430a0da7c954860852ec8c6fd42baa6389fd29253"
+    },
+    "literal-launcher/stop.json": {
+      "bytes": 172,
+      "sha256": "a704dd3766c0fbc67acd3991b8eb7d52423eae0731658cbe68a9375307e0ab4c"
+    },
+    "npm-audit-run.json": {
+      "bytes": 331,
+      "sha256": "fb9c5b88f4c17f6188ffe565332871dcb6a0f17140765703b381a157d6daa974"
+    },
+    "npm-audit.log": {
+      "bytes": 362,
+      "sha256": "c1bf89db966aac9a3b03e7b1b8419952aceb1f696c2958f0c01e4ddf3c7c3f51"
+    },
+    "packages/attack_detection_engine-1.1.0-py3-none-any.whl": {
+      "bytes": 104058,
+      "sha256": "10f1ce6ad7dcd466d224e41651594d6e9a49214270ca1e90c3a450cbf4b57a39"
+    },
+    "packages/attack_detection_engine-1.1.0.tar.gz": {
+      "bytes": 119648,
+      "sha256": "9b75ba92fee48eef8aadb6e9465daab119a6cefa6deef24c1a4f85911c483a67"
+    },
+    "pip-audit-run.json": {
+      "bytes": 427,
+      "sha256": "935f9dac2591f2e4b0534ed77f2f082f54fbb26660c5a9be79864cc3d5070152"
+    },
+    "pip-audit.json": {
+      "bytes": 7895,
+      "sha256": "408c27174683652e60fb6a44a83b098515640bb8e6b141e1cea4d1496be6a762"
+    },
+    "pip-audit.log": {
+      "bytes": 31,
+      "sha256": "15950a68a7ed99c59779717acefdceb3f69cfd31bde67d2c954f2a3cea4d7955"
+    },
+    "pip-check-run.json": {
+      "bytes": 313,
+      "sha256": "8216aba9bfa9c0615f4b1573e6a9c1364f35c1cd5e1ab04ed36cdec64dc456e2"
+    },
+    "pip-check.log": {
+      "bytes": 30,
+      "sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    },
+    "post-cleanup/.coverage": {
+      "bytes": 53248,
+      "sha256": "43fc96b5c257d2f1d8dfabc116a28280ab775f9aa3df2a75a9acd324fd4850c6"
+    },
+    "post-cleanup/coverage.xml": {
+      "bytes": 116626,
+      "sha256": "4eb83abd3ba5a40709eaa1f893ef8e10b19b9eb6372f141d6356e7d3af38dd11"
+    },
+    "post-cleanup/junit.xml": {
+      "bytes": 41830,
+      "sha256": "2478f47954cb89f3a29e817c718db8aee1d07e4075591d03efff4a6f059c7f83"
+    },
+    "post-cleanup/run.json": {
+      "bytes": 2154,
+      "sha256": "63f11feed80b719907e6928a9ec9e1154903f6fe5674f4501f27b87704e957f2"
+    },
+    "post-cleanup/tests.log": {
+      "bytes": 10130,
+      "sha256": "069a901885d6012ab148515049b666c67490ee375222e8767c8424d81f1c77e9"
+    },
+    "product-matrix.json": {
+      "bytes": 2982,
+      "sha256": "e55595a2360a1e2b06a2c71d5ee5e6f9cf037b39657d16e941a5e8516a7df6d1"
+    },
+    "pyright-run.json": {
+      "bytes": 393,
+      "sha256": "3c74a8574320ef9ad483066fcf7cd4ce5e57b0630e207a1c346a44cb50a20826"
+    },
+    "pyright.log": {
+      "bytes": 38,
+      "sha256": "1d044deee37a17d52f4dd31d7de6ebd21c68eb5d08e8b3b0822f58940a3392bb"
+    },
+    "remote-ci/status.json": {
+      "bytes": 1679,
+      "sha256": "351f4598bd13ffa2a50dde7425b3c27bc84ba9b4acd4b9e76b3121f0c5d0eaa3"
+    },
+    "ruff-check-run.json": {
+      "bytes": 325,
+      "sha256": "0c928b57305acbd2eb387cdd25df0baa30aa57f66a2f66b5ae2b6a1379ae09da"
+    },
+    "ruff-check.log": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "ruff-format-run.json": {
+      "bytes": 343,
+      "sha256": "a3c80b5a4b9938e85a90792b95b9f03150083e5d8dafa6849a922c884c2ce7ed"
+    },
+    "ruff-format.log": {
+      "bytes": 27,
+      "sha256": "ea2969fd741733e33c490fb6696583f5d6e29e16cae5e536952236a31cf615b1"
+    },
+    "run-command.py": {
+      "bytes": 720,
+      "sha256": "afb16c994d17eb0ed4cb7e9243eb7d4411991bdd9bc2ee17361eab3beb9a7623"
+    },
+    "scan-secrets.py": {
+      "bytes": 251,
+      "sha256": "f0f0874483877e21b3a40c34c5a79328af9ee56f43502cfd01c9732481f4ab25"
+    },
+    "secret-scan-review.json": {
+      "bytes": 17540,
+      "sha256": "b6bce3aac736d722892c6fd99875ce6ec6b57cbdf8581f94f9d327d70fd874f6"
+    },
+    "security-scan-run.json": {
+      "bytes": 311,
+      "sha256": "c98e7686df368da49d8f2c6b1118a55659f01e485f034a5f7baeaa4b75aa7d15"
+    },
+    "security-scan.log": {
+      "bytes": 38,
+      "sha256": "f71dbebc48b5c072923efef7ced205cd98c6b99d14b8669372d83df3312af9a6"
+    },
+    "shell-syntax-run.json": {
+      "bytes": 319,
+      "sha256": "5bbc731e405a9a4d0ed840855d8ca32d9d99807ac110de0531f27d50dbef2d25"
+    },
+    "shell-syntax.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source-browser-run.json": {
+      "bytes": 368,
+      "sha256": "583c54c8576f6429f4fbcf4a0eec29667fe4d5e9b5fb7873b6de8038aa2f1dcb"
+    },
+    "source-browser.log": {
+      "bytes": 137,
+      "sha256": "b2b38d700142b1b0eff708823b242b26a8455a4363762c83080947eec32e1d30"
+    },
+    "source-server-run.json": {
+      "bytes": 432,
+      "sha256": "a06346797f92a1b7d01829fc88ed53b720000d94f938cea02332fa9f73743aae"
+    },
+    "source-server.log": {
+      "bytes": 3173,
+      "sha256": "13c7eedfbd706c6a99139355892122294c211de8285908d807075122fc4e77e0"
+    },
+    "source.json": {
+      "bytes": 173,
+      "sha256": "d9b95da469e6a54e3bb499eb8f96484aa92df85f33bdb084089bb8a8b17387d4"
+    },
+    "support/aegis_literal_browser_8ae.py": {
+      "bytes": 3581,
+      "sha256": "84363f4d17ea234ef5d523400b492a1e7f491bb87ff1fd38486a9815a3b3a4a3"
+    },
+    "support/aegis_literal_current.py": {
+      "bytes": 4060,
+      "sha256": "9d680994cd187735d2240a59552b398902936c0a941f95c7a0cf6b89b11cbfb0"
+    },
+    "support/aegis_literal_restart_8ae.py": {
+      "bytes": 3578,
+      "sha256": "27d05531f98630c2302dd7bf3dedd3a605ba6c2c695e42da13daeebef135de93"
+    },
+    "support/aegis_post_cleanup.py": {
+      "bytes": 1851,
+      "sha256": "44a44a515645e72ff0b25d0c93b5b360cc843caee1ea1535a8760d19f501eb47"
+    },
+    "tests-run.json": {
+      "bytes": 1881,
+      "sha256": "565477c69e4265d3b9cc6068a1ece45ddb6f6e04e4913c0779899fd6cfe070de"
+    },
+    "tests.log": {
+      "bytes": 10131,
+      "sha256": "9a585e749ecf38ce783dccefe7235cf29ee420a9a752ba0229eb5b93f450ab16"
+    },
+    "verify-source-browser.py": {
+      "bytes": 1978,
+      "sha256": "8f231d4bbdf27bf79735dbd6c65c13fc71ee6622cbff4cfeaeedeeee6d549678"
+    },
+    "verify-wheel.py": {
+      "bytes": 3896,
+      "sha256": "d5591cacccca8828cfebde61ca7af0eb45dec750f0d7e7d6d61b8bf3e27761f9"
+    },
+    "wheel-install-run.json": {
+      "bytes": 588,
+      "sha256": "f070a471a38421624fcbfec323227f43958e801482447753c187ac6df3725da0"
+    },
+    "wheel-install.log": {
+      "bytes": 450,
+      "sha256": "8f5e821a93b21ef54579cb14fba8217b772050309cb0fe162834a4575e6dd126"
+    },
+    "wheel-server.log": {
+      "bytes": 2379,
+      "sha256": "b492c2f3877b6b7c3b9b7bc95e0044543b1a26bac4b5050a0f70f2d86a9be3cf"
+    }
+  },
+  "superseded_evidence": {
+    "source": "50b8d8260c4c822c2bbcc75605a176d97bca72ec",
+    "directory": "/workspace/work/evidence/attack-detection-engine/superseded-50b8d82-before-QA01",
+    "manifest_sha256": "83a06849687424b83a66575b453221c393dd76ba41052645ead599ae1ba37a89",
+    "reason": "Independent review reproduced AEGIS-QA-01; current source fixes it and all required gates were rerun."
+  },
+  "remediation": {
+    "id": "AEGIS-QA-01",
+    "independent_review": "/workspace/work/reviews/attack-detection-engine/ASSESSMENT.md",
+    "implementation": "Shared monotonic case-list request sequence guarding all success/error callbacks and unmount, independently of editor revision.",
+    "regression": {
+      "new_case_id": "case-1be51bd0bdbd43ed9c7af121463040d2",
+      "new_case_visible_after_old_list": true,
+      "held_actual_initial_api_response": true
+    },
+    "status": "TESTED/OBSERVED, pending independent closure"
+  },
+  "parent_finalized_utc": "2026-11-18T04:13:27.393150+00:00",
+  "parent_independent_closure": {
+    "source": "8ae9090b560871d1e584d717734693bb570fffae",
+    "status": "QA01 VERIFIED CLOSED;18 focused observations passed",
+    "reviewer_manifest_sha256": "00fec094a1804574894aaf2b9731594fa34b702a746d4ed07a0d846f390dca99",
+    "engineering_then_verified_artifacts": 74
+  },
+  "parent_literal_launcher": {
+    "source": "8ae9090b560871d1e584d717734693bb570fffae",
+    "actual_script": true,
+    "browser_observations": 7,
+    "restart_observations": 6,
+    "after_branch_cleanup": true,
+    "clean_download_environment": false
+  },
+  "parent_post_cleanup": {
+    "source_commit": "8ae9090b560871d1e584d717734693bb570fffae",
+    "source_clean": true,
+    "utc_start": "2026-11-18T04:11:25.996154+00:00",
+    "utc_end": "2026-11-18T04:13:02.509504+00:00",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--name",
+      "attack-regression-post-cleanup",
+      "--network",
+      "attack-verification-20261117",
+      "--read-only",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "1500m",
+      "--cpus",
+      "2",
+      "--pids-limit",
+      "128",
+      "--tmpfs",
+      "/home/verifier:rw,noexec,nosuid,nodev,size=16m,uid=1000,gid=1000,mode=0700",
+      "--tmpfs",
+      "/tmp:rw,noexec,nosuid,nodev,size=64m,uid=1000,gid=1000",
+      "--mount",
+      "type=bind,src=/workspace/work/envs/attack,dst=/deps,readonly",
+      "--mount",
+      "type=bind,src=/workspace/work/candidates/attack-detection-engine,dst=/app,readonly",
+      "--mount",
+      "type=bind,src=/workspace/work/references/attack-v19.2,dst=/data,readonly",
+      "--mount",
+      "type=bind,src=/workspace/work/evidence/attack-detection-engine/post-cleanup,dst=/evidence",
+      "-e",
+      "PYTHONPATH=/app:/deps/lib/python3.12/site-packages",
+      "-e",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "-e",
+      "ATTACK_DATA_DIR=/data",
+      "-e",
+      "COVERAGE_FILE=/evidence/.coverage",
+      "-e",
+      "AEGIS_DATABASE_URL=postgresql+psycopg://aegis:synthetic-local-db-only@attack-pg:5432/aegis",
+      "-e",
+      "AEGIS_TEST_DATABASE_URL=postgresql+psycopg://aegis:synthetic-local-db-only@attack-pg:5432/aegis",
+      "local/hf-optional-verification:20261117",
+      "python",
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "tests",
+      "-q",
+      "--tb=short",
+      "--cov=detection_engine",
+      "--cov-report=term-missing",
+      "--cov-report=xml:/evidence/coverage.xml",
+      "--cov-fail-under=53",
+      "--junitxml=/evidence/junit.xml"
+    ],
+    "exit_code": 0,
+    "scope": "Full relevant regression after six remote merged-branch deletions. Literal launcher/browser/restart repeated immediately before this run; hosted CI separately queued, not passing.",
+    "tests": {
+      "total": 327,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "parent_remote_ci": {
+    "checked_utc": "2026-11-18T04:13:27.392440+00:00",
+    "source_commit": "8ae9090b560871d1e584d717734693bb570fffae",
+    "run": {
+      "id": 44234954330,
+      "head_sha": "8ae9090b560871d1e584d717734693bb570fffae",
+      "head_branch": "codex/local-workbench-20261116",
+      "status": "queued",
+      "conclusion": null,
+      "created_at": "2026-11-18T04:06:01Z",
+      "updated_at": "2026-11-18T04:06:01Z",
+      "html_url": "https://github.com/poojakira/attack-detection-engine/actions/runs/44234954330"
+    },
+    "jobs": [],
+    "decision": "NOT VERIFIED unless completed successfully; no artifact or hosted pass is asserted",
+    "new_workflow_dispatch": {
+      "command": "gh workflow run workbench.yml --repo poojakira/attack-detection-engine --ref codex/local-workbench-20261116",
+      "exit_code": 1,
+      "result": "HTTP404: workflow is not registered on unchanged main; actual PR produced no recorded run"
+    },
+    "actions_settings_read": "HTTP403 Resource not accessible by integration; no settings changed",
+    "old_queue_cancellation": {
+      "run_id": 40562530813,
+      "observed_status": "queued",
+      "head_branch": "feat/healthsec-detection",
+      "head_sha": "cfdb5c9ef7bb5ffd347a627fb6dba0e7b13c0ac1",
+      "cancel_result": "HTTP409 Cannot cancel a workflow run that has not been queued yet",
+      "disposition": "Original branch HELD, not deleted"
+    },
+    "default_branch_advisories": {
+      "source": "git push server notice; not candidate audit",
+      "total": 17,
+      "high": 4,
+      "moderate": 11,
+      "low": 2,
+      "note": "Main remains unchanged. Candidate installed Python and npm audits separately report zero known advisories; no claim to resolve default alerts before merge."
+    }
+  },
+  "branch_cleanup": {
+    "deleted": 6,
+    "held_merged": 1,
+    "remaining": 14
+  }
+}

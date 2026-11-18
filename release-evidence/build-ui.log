@@ -1,0 +1,4 @@
+
+> aegis-healthsec-dashboard@1.1.0 build
+> tsc --noEmit && node build.mjs
+

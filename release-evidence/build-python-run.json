@@ -1,0 +1,15 @@
+{
+  "name": "build-python",
+  "command": [
+    "/workspace/work/envs/attack/bin/python",
+    "-m",
+    "build",
+    "--outdir",
+    "/workspace/work/evidence/attack-detection-engine/final/packages"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:24.262511+00:00",
+  "finished_at": "2026-11-18T04:02:30.804873+00:00",
+  "exit_code": 0,
+  "log": "build-python.log"
+}

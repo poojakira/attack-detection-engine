@@ -1,0 +1,15 @@
+{
+  "name": "pip-audit",
+  "command": [
+    "/workspace/work/envs/attack/bin/pip-audit",
+    "--format",
+    "json",
+    "--output",
+    "/workspace/work/evidence/attack-detection-engine/final/pip-audit.json"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:08.164243+00:00",
+  "finished_at": "2026-11-18T04:02:20.212508+00:00",
+  "exit_code": 0,
+  "log": "pip-audit.log"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "actionlint",
+  "command": [
+    "/workspace/work/tooling/actionlint/actionlint"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:07.689279+00:00",
+  "finished_at": "2026-11-18T04:02:07.700948+00:00",
+  "exit_code": 0,
+  "log": "actionlint.log"
+}

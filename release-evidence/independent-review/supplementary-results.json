@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "check": "initial actual case list remains usable after ordinary title/input edits",
+      "utc": "2026-11-18T04:07:55.016392+00:00"
+    },
+    {
+      "check": "controlled stale list error cannot overwrite successful fresh list or show obsolete alert",
+      "utc": "2026-11-18T04:07:55.865398+00:00",
+      "case_id": "case-1b77c28b45604b138d5ed90335cbcadd",
+      "note": "Synthetic 503 injected as an ordinary failed request; data import/list requests use real API/PostgreSQL."
+    },
+    {
+      "check": "independent installed wheel identity and 47-module byte equality to freshly hashed release artifact",
+      "utc": "2026-11-18T04:07:56.389522+00:00",
+      "identity": {
+        "module": "/workspace/work/attack-wheel-smoke-parent/venv/lib/python3.12/site-packages/detection_engine/__init__.py",
+        "source": {
+          "commit": "UNKNOWN",
+          "clean": null
+        },
+        "source_sha256": "da72e5cd872fb18abce645970fdf83ef74a9699918ceca8238c0ac9ee5b2faa4"
+      },
+      "python_files": 47
+    },
+    {
+      "check": "independent installed wheel migrations, canonical workflow/delta, actual restart, persistence and Unicode export byte checksum",
+      "utc": "2026-11-18T04:07:59.068136+00:00",
+      "case_id": "case-64bd10ea0ee74c60a4a6524f509d43fc",
+      "source": {
+        "commit": "UNKNOWN",
+        "clean": null
+      },
+      "report_sha256": "2a1adf468cae07d4bc40885743f7552a1182d5112a14fb1b92d35f2bc6571a15"
+    }
+  ]
+}

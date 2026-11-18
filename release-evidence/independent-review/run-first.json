@@ -1,0 +1,2185 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case-bc959e59305f45638b89a0089bb3dec7",
+  "title": "Synthetic review — Café Ω 東京 🩺",
+  "run_id": "run-e91cd81002b143daad467bc058e1d3b5",
+  "data_origin": "synthetic",
+  "input_sha256": "8b1bddfdcd34b59a8ee35c6440fca9916c142b40caa7b6b5a28e9706eb461004",
+  "input_bytes": 23531,
+  "config": {
+    "bulk_access_threshold": 25,
+    "denial_streak_threshold": 3
+  },
+  "config_sha256": "884c02398b46e9e9ee29c02e139180ab40d5d97e342452c0d7a9a3e5909ec707",
+  "app_version": "1.1.0",
+  "rule_version": "clinical-access-1.1",
+  "core_revision": "087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b",
+  "source": {
+    "commit": "8ae9090b560871d1e584d717734693bb570fffae",
+    "clean": true
+  },
+  "source_sha256": "da72e5cd872fb18abce645970fdf83ef74a9699918ceca8238c0ac9ee5b2faa4",
+  "dependencies": {
+    "attack-detection-engine": "1.1.0",
+    "attack-v19-core": "19.2.0",
+    "pydantic": "2.7.4",
+    "fastapi": "0.134.0",
+    "sqlalchemy": "2.1.9"
+  },
+  "started_at": "2026-11-18T04:06:25.037749+00:00",
+  "finished_at": "2026-11-18T04:06:25.131327+00:00",
+  "connector": {
+    "source_type": "fhir_audit_event",
+    "connector_version": "1.1",
+    "parsed": 30,
+    "normalized": 30,
+    "rejected": 0,
+    "errors": []
+  },
+  "events": [
+    {
+      "event_id": "evt-fc68a5a69d0f40bc",
+      "source_index": 0,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-00",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:00Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-00"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-fc68a5a69d0f40bc",
+        "source_event_id": "af02b3d4d79c0cc564ac4ee0ff3012dfda951d6b8e56f32d30a8e15678ac65b3",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:00Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.206962Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-00",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-00",
+          "resource_id": "synthetic-patient-00",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:00+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-645b2d042b5d4c98",
+      "source_index": 1,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-01",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:01Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-01"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-645b2d042b5d4c98",
+        "source_event_id": "cda068fc2dc3f4aebb7a5bfd5b8b45504067aeaff19942ad0a2963bcd4687877",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:01Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207181Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-01",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-01",
+          "resource_id": "synthetic-patient-01",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:01+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-8f67acbf0b904758",
+      "source_index": 2,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-02",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:02Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-02"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-8f67acbf0b904758",
+        "source_event_id": "01c741518f1cf1d7ffaed0bb31d29098567e885cd37047c14ecdf8d90d0ed594",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:02Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207758Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-02",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-02",
+          "resource_id": "synthetic-patient-02",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:02+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-db1a15a7668e4235",
+      "source_index": 3,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-03",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:03Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-03"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-db1a15a7668e4235",
+        "source_event_id": "561ce8791154e128ac3712c4697a6cc41849c1b8772d1c904087a70a65ab8b54",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:03Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207800Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-03",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-03",
+          "resource_id": "synthetic-patient-03",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:03+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-23f2da7e3aef49b0",
+      "source_index": 4,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-04",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:04Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-04"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-23f2da7e3aef49b0",
+        "source_event_id": "2d65754336aaa609fcfd2be931b10bdf64b38e4a415bdaddb4b04b8383f1603c",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:04Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207830Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-04",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-04",
+          "resource_id": "synthetic-patient-04",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:04+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-434fb0bcc5004411",
+      "source_index": 5,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-05",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:05Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-05"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-434fb0bcc5004411",
+        "source_event_id": "794733cfa7636570088e29756429303e36d7d495ee9954f38cde9cb92db2c0b6",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:05Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207861Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-05",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-05",
+          "resource_id": "synthetic-patient-05",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:05+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-4e1ba8886bfc45ad",
+      "source_index": 6,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-06",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:06Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-06"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-4e1ba8886bfc45ad",
+        "source_event_id": "6b4e3f8854652808258f33b9d9b2cf725c6061fe19e7302c43b9d6ac40e1f104",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:06Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207886Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-06",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-06",
+          "resource_id": "synthetic-patient-06",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:06+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-c72dfc0517b34b86",
+      "source_index": 7,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-07",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:07Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-07"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-c72dfc0517b34b86",
+        "source_event_id": "2bf6c375a80b92c627d0fead036c77ebd6cb91040056bb627bc37e829511ae0e",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:07Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207910Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-07",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-07",
+          "resource_id": "synthetic-patient-07",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:07+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-9391fda9401f4328",
+      "source_index": 8,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-08",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:08Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-08"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-9391fda9401f4328",
+        "source_event_id": "707e9150bdc95f6adcc80b203bf2fca9c0997faf13f608515493edfd9700b027",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:08Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.207986Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-08",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-08",
+          "resource_id": "synthetic-patient-08",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:08+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-7922c6e1ad6b4255",
+      "source_index": 9,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-09",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:09Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-09"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-7922c6e1ad6b4255",
+        "source_event_id": "c7201f1c320eb6cfae86d22bcde0903b43e45cf8bbd26ef5bb3388b448ab7b11",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:09Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208013Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-09",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-09",
+          "resource_id": "synthetic-patient-09",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:09+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-de6dc7d8b4be4f65",
+      "source_index": 10,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-10",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:10Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-10"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-de6dc7d8b4be4f65",
+        "source_event_id": "0c2ca80af4a7d8d87308e938772bb0b34aa44bca4fa7f01a14fe0f1d166d51f8",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:10Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208035Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-10",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-10",
+          "resource_id": "synthetic-patient-10",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:10+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-7983cef537194698",
+      "source_index": 11,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-11",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:11Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-11"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-7983cef537194698",
+        "source_event_id": "e8d56675cdc99fbee4139017ee9738404ceecaf8ba361643d04861bb9a6a5dff",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:11Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208057Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-11",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-11",
+          "resource_id": "synthetic-patient-11",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:11+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-e479c601a75848b7",
+      "source_index": 12,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-12",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:12Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-12"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-e479c601a75848b7",
+        "source_event_id": "fff3cc46d2fb507da98702b3843b63a785166c10706984c778236943921e779b",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:12Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208079Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-12",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-12",
+          "resource_id": "synthetic-patient-12",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:12+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-e48d359051af47bc",
+      "source_index": 13,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-13",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:13Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-13"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-e48d359051af47bc",
+        "source_event_id": "8951b236689894553ceefd91a1f41c74f83aecd970e459240560c4be856be787",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:13Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208099Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-13",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-13",
+          "resource_id": "synthetic-patient-13",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:13+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-3cd84b8769cb4352",
+      "source_index": 14,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-14",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:14Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-14"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-3cd84b8769cb4352",
+        "source_event_id": "a8d458c5725a475e4b1b1bf8cb297d82e76d3a09dc9c2ce8d022a43590793bff",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:14Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208120Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-14",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-14",
+          "resource_id": "synthetic-patient-14",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:14+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-93fc82a192464858",
+      "source_index": 15,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-15",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:15Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-15"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-93fc82a192464858",
+        "source_event_id": "8ee743a625b6a045287ff2eeebbe4184268142b601f9440cb9c3c49830f532fa",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:15Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208142Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-15",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-15",
+          "resource_id": "synthetic-patient-15",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:15+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-bc4ff76257974dbb",
+      "source_index": 16,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-16",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:16Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-16"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-bc4ff76257974dbb",
+        "source_event_id": "5df8377acc7bfd81f79dc524fe8756c4fe4423ef736fcf1585eb6a194f732021",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:16Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208162Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-16",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-16",
+          "resource_id": "synthetic-patient-16",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:16+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-1ff35c0e96ef4052",
+      "source_index": 17,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-17",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:17Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-17"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-1ff35c0e96ef4052",
+        "source_event_id": "e01addf4d69efcebf3b4058afdc01117a6f4c0d9bac97d6ac7ad501bf865b7ad",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:17Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208181Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-17",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-17",
+          "resource_id": "synthetic-patient-17",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:17+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-fed306ee997a4af7",
+      "source_index": 18,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-18",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:18Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-18"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-fed306ee997a4af7",
+        "source_event_id": "16565c780e74714693762d93c63c97a9983ba0217cc3f3209816aeb6f67f49ff",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:18Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208201Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-18",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-18",
+          "resource_id": "synthetic-patient-18",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:18+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-4408d0b427884ebd",
+      "source_index": 19,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-19",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:19Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-19"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-4408d0b427884ebd",
+        "source_event_id": "abe421897f9790b060791cec9c027093b26a9c1e132c083e302f6f83fe46b37c",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:19Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208223Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-19",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-19",
+          "resource_id": "synthetic-patient-19",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:19+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-1180825006b048ba",
+      "source_index": 20,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-20",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:20Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-20"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-1180825006b048ba",
+        "source_event_id": "7a8ee84febbff1645ca37421170657cc3af1cd7f2da640fb8126fb5dafda0e8b",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:20Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208244Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-20",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-20",
+          "resource_id": "synthetic-patient-20",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:20+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-3f39e8337ea449be",
+      "source_index": 21,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-21",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:21Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-21"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-3f39e8337ea449be",
+        "source_event_id": "b66f0e131fe7dc4e16de6eb1ca85154eecb6a4e3fd1d4dcbbe66d0bab1b411db",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:21Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208265Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-21",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-21",
+          "resource_id": "synthetic-patient-21",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:21+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-dd750cdf76044c5d",
+      "source_index": 22,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-22",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:22Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-22"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-dd750cdf76044c5d",
+        "source_event_id": "405cbb7d9221b7a4b3bb54ede3b9d607b0c5320cb1978bea24ec555b599de0a8",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:22Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208284Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-22",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-22",
+          "resource_id": "synthetic-patient-22",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:22+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-b6049cdd01c64915",
+      "source_index": 23,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-23",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:23Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-23"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-b6049cdd01c64915",
+        "source_event_id": "fa8d22b3f41fe969dc1253d16b7343aaeb9a569a9ae93cd336dcdf50b9d764b7",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:23Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208304Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-23",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-23",
+          "resource_id": "synthetic-patient-23",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:23+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-cef5ce30a5e240dc",
+      "source_index": 24,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-24",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:24Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-24"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-cef5ce30a5e240dc",
+        "source_event_id": "a2836c4a834992fabe6d655f39d498cf2d74af48dd1b039520ffaede305dcbc7",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:24Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.208324Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-24",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-24",
+          "resource_id": "synthetic-patient-24",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:24+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-be135846d57d4272",
+      "source_index": 25,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-25",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:25Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-25"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-be135846d57d4272",
+        "source_event_id": "016a77f6123c047f7d87b5d55a133e3134ac3ab7339b5225fd749831622b4d69",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:25Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.209355Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-25",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-25",
+          "resource_id": "synthetic-patient-25",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:25+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-57444b6d116d402b",
+      "source_index": 26,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-26",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:26Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-26"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-57444b6d116d402b",
+        "source_event_id": "a778c3fd283fc23fee0b740c404dde76ae8719f4150690aca492e00c3edfc025",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:26Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.209395Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-26",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-26",
+          "resource_id": "synthetic-patient-26",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:26+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-9057ac404a4d4307",
+      "source_index": 27,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-27",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:27Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-27"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-9057ac404a4d4307",
+        "source_event_id": "00939a9e223c5a4ac20358552b77d350dc1ade823197269ab3f8c70adf4a1ae4",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:27Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.209420Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-27",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-27",
+          "resource_id": "synthetic-patient-27",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:27+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-8a5ecaa024544592",
+      "source_index": 28,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-28",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:28Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-28"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-8a5ecaa024544592",
+        "source_event_id": "5314b67b284d2880de0d5cb86a942704e29cddffe9c96b39370c7eb3fd667bca",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:28Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.209442Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-28",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-28",
+          "resource_id": "synthetic-patient-28",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:28+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    },
+    {
+      "event_id": "evt-cde34958237a4787",
+      "source_index": 29,
+      "source": {
+        "resourceType": "AuditEvent",
+        "id": "synthetic-access-29",
+        "type": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "110110"
+        },
+        "recorded": "2026-11-16T10:00:29Z",
+        "action": "R",
+        "outcome": "0",
+        "agent": [
+          {
+            "who": {
+              "reference": "Practitioner/synthetic-analyst"
+            },
+            "requestor": true
+          }
+        ],
+        "source": {
+          "observer": {
+            "reference": "Device/synthetic-workstation"
+          }
+        },
+        "entity": [
+          {
+            "what": {
+              "reference": "Patient/synthetic-patient-29"
+            }
+          }
+        ]
+      },
+      "normalized": {
+        "schema_version": "1.0",
+        "event_id": "evt-cde34958237a4787",
+        "source_event_id": "09431c3f044689bae4800eb8b5365f1c0db483fa3342f943b12f7addd9c5c0fd",
+        "source_type": "fhir_audit_event",
+        "event_timestamp": "2026-11-16T10:00:29Z",
+        "ingestion_timestamp": "2026-11-18T03:56:12.209463Z",
+        "identity_id": "synthetic-analyst",
+        "session_id": "synthetic-workstation",
+        "host_id": null,
+        "resource_reference": "synthetic-patient-29",
+        "action": "read",
+        "outcome": "success",
+        "organization_id": "local-investigations",
+        "data_origin": "synthetic",
+        "source_metadata": {
+          "fhir_type_code": "110110",
+          "fhir_subtype_codes": [],
+          "source_ip": null,
+          "connector_version": "1.1"
+        },
+        "normalized_attributes": {
+          "actor_id": "synthetic-analyst",
+          "patient_ref": "synthetic-patient-29",
+          "resource_id": "synthetic-patient-29",
+          "resource_type": "",
+          "action": "read",
+          "outcome": "success",
+          "timestamp": "2026-11-16T10:00:29+00:00",
+          "data_origin": "synthetic"
+        }
+      }
+    }
+  ],
+  "findings": [
+    {
+      "schema_version": "1.0",
+      "finding_id": "fnd-67a52b9d859f4e8a",
+      "rule_id": "HC-ACCESS-BULK",
+      "rule_version": "clinical-access-1.1",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "description": "Actor synthetic-analyst read 30 distinct patient records in one window (threshold 25).",
+      "evidence_references": {
+        "actor_id": "synthetic-analyst",
+        "actor_type": "unknown",
+        "actor_role": "",
+        "actor_department": "",
+        "patient_ref": "synthetic-patient-00",
+        "resource_id": "synthetic-patient-00",
+        "resource_type": "",
+        "action": "read",
+        "outcome": "success",
+        "record_count": 1,
+        "session_id": "",
+        "source_host": "",
+        "source_location": "",
+        "break_glass": false,
+        "authorized": null,
+        "timestamp": "2026-11-16T10:00:00+00:00",
+        "data_origin": "synthetic",
+        "contributing_signal": "HC-ACCESS-BULK",
+        "distinct_patients": 30
+      },
+      "mapped_attack_techniques": [],
+      "detection_timestamp": "2026-11-16T10:00:00Z",
+      "affected_identity": "synthetic-analyst",
+      "affected_resource": "synthetic-patient-00",
+      "disposition": null,
+      "organization_id": "local-investigations",
+      "source_event_id": null,
+      "fingerprint": "681030e330d73da062eb21e9d27cc435dd84d5c2e2f46966d1fd7c6594e39857",
+      "related_event_ids": [
+        "evt-fc68a5a69d0f40bc",
+        "evt-645b2d042b5d4c98",
+        "evt-8f67acbf0b904758",
+        "evt-db1a15a7668e4235",
+        "evt-23f2da7e3aef49b0",
+        "evt-434fb0bcc5004411",
+        "evt-4e1ba8886bfc45ad",
+        "evt-c72dfc0517b34b86",
+        "evt-9391fda9401f4328",
+        "evt-7922c6e1ad6b4255",
+        "evt-de6dc7d8b4be4f65",
+        "evt-7983cef537194698",
+        "evt-e479c601a75848b7",
+        "evt-e48d359051af47bc",
+        "evt-3cd84b8769cb4352",
+        "evt-93fc82a192464858",
+        "evt-bc4ff76257974dbb",
+        "evt-1ff35c0e96ef4052",
+        "evt-fed306ee997a4af7",
+        "evt-4408d0b427884ebd",
+        "evt-1180825006b048ba",
+        "evt-3f39e8337ea449be",
+        "evt-dd750cdf76044c5d",
+        "evt-b6049cdd01c64915",
+        "evt-cef5ce30a5e240dc",
+        "evt-be135846d57d4272",
+        "evt-57444b6d116d402b",
+        "evt-9057ac404a4d4307",
+        "evt-8a5ecaa024544592",
+        "evt-cde34958237a4787"
+      ],
+      "hypothesis": "Deterministic access-pattern signal; review required.",
+      "counter_evidence": "No authoritative assignments or shift context supplied.",
+      "uncertainty": "A threshold crossing is not proof of unauthorized or malicious access. ATT&CK mapping is absent when unsupported by the signal."
+    }
+  ],
+  "incidents": [
+    {
+      "incident_id": "inc-d4d9b5470c274033",
+      "title": "Suspicious healthcare record access: synthetic-analyst",
+      "correlation_reason": "Correlated 1 finding(s) for synthetic-analyst in local-investigations within a 60-minute window. Categories: healthcare_access. Signals: HC-ACCESS-BULK.",
+      "finding_ids": [
+        "fnd-67a52b9d859f4e8a"
+      ],
+      "event_ids": [
+        "evt-1180825006b048ba",
+        "evt-1ff35c0e96ef4052",
+        "evt-23f2da7e3aef49b0",
+        "evt-3cd84b8769cb4352",
+        "evt-3f39e8337ea449be",
+        "evt-434fb0bcc5004411",
+        "evt-4408d0b427884ebd",
+        "evt-4e1ba8886bfc45ad",
+        "evt-57444b6d116d402b",
+        "evt-645b2d042b5d4c98",
+        "evt-7922c6e1ad6b4255",
+        "evt-7983cef537194698",
+        "evt-8a5ecaa024544592",
+        "evt-8f67acbf0b904758",
+        "evt-9057ac404a4d4307",
+        "evt-9391fda9401f4328",
+        "evt-93fc82a192464858",
+        "evt-b6049cdd01c64915",
+        "evt-bc4ff76257974dbb",
+        "evt-be135846d57d4272",
+        "evt-c72dfc0517b34b86",
+        "evt-cde34958237a4787",
+        "evt-cef5ce30a5e240dc",
+        "evt-db1a15a7668e4235",
+        "evt-dd750cdf76044c5d",
+        "evt-de6dc7d8b4be4f65",
+        "evt-e479c601a75848b7",
+        "evt-e48d359051af47bc",
+        "evt-fc68a5a69d0f40bc",
+        "evt-fed306ee997a4af7"
+      ]
+    }
+  ],
+  "delta": {
+    "baseline_run_id": null,
+    "added": 1,
+    "removed": 0,
+    "unchanged": 0,
+    "added_fingerprints": [
+      "681030e330d73da062eb21e9d27cc435dd84d5c2e2f46966d1fd7c6594e39857"
+    ],
+    "removed_fingerprints": []
+  },
+  "limitations": [
+    "Offline batch investigation; no continuous monitoring.",
+    "Input references are extracted tokens, not guaranteed anonymization. Source JSON is retained locally in PostgreSQL.",
+    "No external authorization context, field accuracy, or malicious intent is established.",
+    "R4 security metadata subset, not full FHIR conformance validation.",
+    "No ATT&CK mapping is asserted for the supported read-access bulk signal."
+  ]
+}

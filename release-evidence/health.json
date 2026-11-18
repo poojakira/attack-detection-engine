@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "time": "2026-11-18T04:03:36.797983+00:00",
+  "version": "1.1.0",
+  "rule_version": "clinical-access-1.1",
+  "core_revision": "087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b",
+  "source": {
+    "commit": "8ae9090b560871d1e584d717734693bb570fffae",
+    "clean": true
+  }
+}

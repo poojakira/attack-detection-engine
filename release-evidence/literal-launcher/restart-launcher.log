@@ -1,0 +1,218 @@
+Obtaining file:///workspace/work/candidates/attack-detection-engine
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  /tmp/pip-build-env-3d_j8nby/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: BuildBackendWarning: `project.license` as a TOML table is deprecated
+  !!
+  
+          ********************************************************************************
+          Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+  
+          By 2027-Feb-18, you need to update your project and remove deprecated calls
+          or your builds will no longer be supported.
+  
+          See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+          ********************************************************************************
+  
+  !!
+    corresp(dist, value, root_dir)
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+  /tmp/pip-build-env-3d_j8nby/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: BuildBackendWarning: `project.license` as a TOML table is deprecated
+  !!
+  
+          ********************************************************************************
+          Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+  
+          By 2027-Feb-18, you need to update your project and remove deprecated calls
+          or your builds will no longer be supported.
+  
+          See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+          ********************************************************************************
+  
+  !!
+    corresp(dist, value, root_dir)
+Collecting attack-v19-core @ git+https://github.com/poojakira/attack-v19-core.git@087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b (from attack-detection-engine==1.1.0)
+  Cloning https://github.com/poojakira/attack-v19-core.git (to revision 087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b) to /tmp/pip-install-xix1qgkp/attack-v19-core_827ae12726cc4cc79308bccc2a93620b
+  Running command git clone --filter=blob:none --quiet https://github.com/poojakira/attack-v19-core.git /tmp/pip-install-xix1qgkp/attack-v19-core_827ae12726cc4cc79308bccc2a93620b
+  Running command git rev-parse -q --verify '087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b^{commit}'
+  087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b
+  Running command git checkout -q 087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b
+  Resolved https://github.com/poojakira/attack-v19-core.git to commit 087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mitreattack-python==3.0.3 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (3.0.3)
+Requirement already satisfied: stix2==3.0.1 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (3.0.1)
+Requirement already satisfied: taxii2-client==2.3.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (2.3.0)
+Requirement already satisfied: networkx==3.3 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (3.3)
+Requirement already satisfied: pandas==2.2.2 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (2.2.2)
+Requirement already satisfied: pydantic==2.7.4 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (2.7.4)
+Requirement already satisfied: redis==5.0.6 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (5.0.6)
+Requirement already satisfied: structlog==24.2.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (24.2.0)
+Requirement already satisfied: tqdm==4.70.1 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (4.70.1)
+Requirement already satisfied: httpx==0.27.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (0.27.0)
+Requirement already satisfied: PyYAML==6.0.3 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (6.0.3)
+Requirement already satisfied: scapy==2.7.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (2.7.0)
+Requirement already satisfied: lxml>=6.1.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (6.1.3)
+Requirement already satisfied: fastapi==0.134.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (0.134.0)
+Requirement already satisfied: starlette==1.3.1 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (1.3.1)
+Requirement already satisfied: uvicorn>=0.29 in ./.venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (0.54.0)
+Requirement already satisfied: sqlalchemy>=2.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (2.1.9)
+Requirement already satisfied: alembic>=1.13 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (1.20.1)
+Requirement already satisfied: psycopg>=3.1 in ./.venv/lib/python3.12/site-packages (from psycopg[binary]>=3.1; extra == "platform"->attack-detection-engine==1.1.0) (3.3.9)
+Requirement already satisfied: PyJWT>=2.8 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (2.15.1)
+Requirement already satisfied: python-multipart>=0.0.9 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (0.0.34)
+Requirement already satisfied: argon2-cffi>=23.1 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (25.1.0)
+Requirement already satisfied: bcrypt>=4.0 in ./.venv/lib/python3.12/site-packages (from attack-detection-engine==1.1.0) (5.0.0)
+Requirement already satisfied: typing-extensions>=4.8.0 in ./.venv/lib/python3.12/site-packages (from fastapi==0.134.0->attack-detection-engine==1.1.0) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in ./.venv/lib/python3.12/site-packages (from fastapi==0.134.0->attack-detection-engine==1.1.0) (0.4.5)
+Requirement already satisfied: annotated-doc>=0.0.2 in ./.venv/lib/python3.12/site-packages (from fastapi==0.134.0->attack-detection-engine==1.1.0) (0.0.6)
+Requirement already satisfied: anyio in ./.venv/lib/python3.12/site-packages (from httpx==0.27.0->attack-detection-engine==1.1.0) (4.16.0)
+Requirement already satisfied: certifi in ./.venv/lib/python3.12/site-packages (from httpx==0.27.0->attack-detection-engine==1.1.0) (2026.10.23)
+Requirement already satisfied: httpcore==1.* in ./.venv/lib/python3.12/site-packages (from httpx==0.27.0->attack-detection-engine==1.1.0) (1.0.9)
+Requirement already satisfied: idna in ./.venv/lib/python3.12/site-packages (from httpx==0.27.0->attack-detection-engine==1.1.0) (3.20)
+Requirement already satisfied: sniffio in ./.venv/lib/python3.12/site-packages (from httpx==0.27.0->attack-detection-engine==1.1.0) (1.3.1)
+Requirement already satisfied: colour in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.1.5)
+Requirement already satisfied: deepdiff in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (9.1.0)
+Requirement already satisfied: drawsvg>=2.0.0 in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.4.2)
+Requirement already satisfied: loguru in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.8.0)
+Requirement already satisfied: Markdown in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (3.11.3)
+Requirement already satisfied: numpy in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.5.5)
+Requirement already satisfied: openpyxl in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (3.1.5)
+Requirement already satisfied: pooch in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.9.0)
+Requirement already satisfied: python-dateutil in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.0.0)
+Requirement already satisfied: Pillow in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (13.0.0)
+Requirement already satisfied: requests in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.34.2)
+Requirement already satisfied: rich in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (15.0.0)
+Requirement already satisfied: stix2-elevator in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.1.7)
+Requirement already satisfied: tabulate in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.10.0)
+Requirement already satisfied: typer in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.29.1)
+Requirement already satisfied: xlsxwriter in ./.venv/lib/python3.12/site-packages (from mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (3.3.1)
+Requirement already satisfied: pytz>=2020.1 in ./.venv/lib/python3.12/site-packages (from pandas==2.2.2->attack-detection-engine==1.1.0) (2026.6)
+Requirement already satisfied: tzdata>=2022.7 in ./.venv/lib/python3.12/site-packages (from pandas==2.2.2->attack-detection-engine==1.1.0) (2026.6)
+Requirement already satisfied: annotated-types>=0.4.0 in ./.venv/lib/python3.12/site-packages (from pydantic==2.7.4->attack-detection-engine==1.1.0) (0.8.0)
+Requirement already satisfied: pydantic-core==2.18.4 in ./.venv/lib/python3.12/site-packages (from pydantic==2.7.4->attack-detection-engine==1.1.0) (2.18.4)
+Requirement already satisfied: simplejson in ./.venv/lib/python3.12/site-packages (from stix2==3.0.1->attack-detection-engine==1.1.0) (4.3.0)
+Requirement already satisfied: stix2-patterns>=1.2.0 in ./.venv/lib/python3.12/site-packages (from stix2==3.0.1->attack-detection-engine==1.1.0) (2.1.2)
+Requirement already satisfied: six in ./.venv/lib/python3.12/site-packages (from taxii2-client==2.3.0->attack-detection-engine==1.1.0) (1.17.0)
+Requirement already satisfied: h11>=0.16 in ./.venv/lib/python3.12/site-packages (from httpcore==1.*->httpx==0.27.0->attack-detection-engine==1.1.0) (0.16.0)
+Requirement already satisfied: Mako in ./.venv/lib/python3.12/site-packages (from alembic>=1.13->attack-detection-engine==1.1.0) (1.4.3)
+Requirement already satisfied: argon2-cffi-bindings in ./.venv/lib/python3.12/site-packages (from argon2-cffi>=23.1->attack-detection-engine==1.1.0) (26.2.0)
+Requirement already satisfied: psycopg-binary==3.3.9 in ./.venv/lib/python3.12/site-packages (from psycopg[binary]>=3.1; extra == "platform"->attack-detection-engine==1.1.0) (3.3.9)
+Requirement already satisfied: antlr4-python3-runtime~=4.13.0 in ./.venv/lib/python3.12/site-packages (from stix2-patterns>=1.2.0->stix2==3.0.1->attack-detection-engine==1.1.0) (4.13.2)
+Requirement already satisfied: click>=7.0 in ./.venv/lib/python3.12/site-packages (from uvicorn>=0.29->uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (8.5.1)
+Requirement already satisfied: httptools>=0.8.0 in ./.venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (0.9.0)
+Requirement already satisfied: python-dotenv>=0.13 in ./.venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (1.2.4)
+Requirement already satisfied: uvloop>=0.15.1 in ./.venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (0.23.0)
+Requirement already satisfied: watchfiles>=0.20 in ./.venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (1.3.0)
+Requirement already satisfied: websockets>=13.0 in ./.venv/lib/python3.12/site-packages (from uvicorn[standard]>=0.29; extra == "platform"->attack-detection-engine==1.1.0) (17.4)
+Requirement already satisfied: cffi>=1.0.1 in ./.venv/lib/python3.12/site-packages (from argon2-cffi-bindings->argon2-cffi>=23.1->attack-detection-engine==1.1.0) (2.1.1)
+Requirement already satisfied: pycparser in ./.venv/lib/python3.12/site-packages (from cffi>=1.0.1->argon2-cffi-bindings->argon2-cffi>=23.1->attack-detection-engine==1.1.0) (3.12)
+Requirement already satisfied: cachebox<6,>=5.2 in ./.venv/lib/python3.12/site-packages (from deepdiff->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (5.2.3)
+Requirement already satisfied: orderly-set<6,>=5.5.0 in ./.venv/lib/python3.12/site-packages (from deepdiff->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (5.5.0)
+Requirement already satisfied: MarkupSafe>=2.0 in ./.venv/lib/python3.12/site-packages (from Mako->alembic>=1.13->attack-detection-engine==1.1.0) (3.0.4)
+Requirement already satisfied: et-xmlfile in ./.venv/lib/python3.12/site-packages (from openpyxl->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.0.0)
+Requirement already satisfied: platformdirs>=2.5.0 in ./.venv/lib/python3.12/site-packages (from pooch->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.14.7)
+Requirement already satisfied: packaging>=20.0 in ./.venv/lib/python3.12/site-packages (from pooch->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (26.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./.venv/lib/python3.12/site-packages (from requests->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (3.5.2)
+Requirement already satisfied: urllib3<3,>=1.26 in ./.venv/lib/python3.12/site-packages (from requests->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.8.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in ./.venv/lib/python3.12/site-packages (from rich->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.3.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in ./.venv/lib/python3.12/site-packages (from rich->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.21.0)
+Requirement already satisfied: mdurl~=0.1 in ./.venv/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.1.2)
+Requirement already satisfied: maec in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.1.0.17)
+Requirement already satisfied: netaddr in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.3.0)
+Requirement already satisfied: pycountry>=20.7.0 in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (26.2.16)
+Requirement already satisfied: pluralizer in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.0.0)
+Requirement already satisfied: stix<1.2.1.0,>=1.1.1.9 in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.2.0.11)
+Requirement already satisfied: stix2-validator>=3.0.0 in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (3.3.2)
+Requirement already satisfied: stixmarx>=1.0.8 in ./.venv/lib/python3.12/site-packages (from stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.0.8)
+Requirement already satisfied: mixbox>=1.0.4 in ./.venv/lib/python3.12/site-packages (from stix<1.2.1.0,>=1.1.1.9->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.0.5)
+Requirement already satisfied: cybox<2.1.1.0,>=2.1.0.13 in ./.venv/lib/python3.12/site-packages (from stix<1.2.1.0,>=1.1.1.9->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2.1.0.21)
+Requirement already satisfied: ordered-set in ./.venv/lib/python3.12/site-packages (from mixbox>=1.0.4->stix<1.2.1.0,>=1.1.1.9->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.1.0)
+Requirement already satisfied: weakrefmethod>=1.0.3 in ./.venv/lib/python3.12/site-packages (from mixbox>=1.0.4->stix<1.2.1.0,>=1.1.1.9->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.0.3)
+Requirement already satisfied: colorama in ./.venv/lib/python3.12/site-packages (from stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.4.6)
+Requirement already satisfied: cpe in ./.venv/lib/python3.12/site-packages (from stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.3.1)
+Requirement already satisfied: jsonschema>=4.20.0 in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (4.26.0)
+Requirement already satisfied: attrs>=22.2.0 in ./.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in ./.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in ./.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (2026.9.1)
+Requirement already satisfied: fqdn in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.6.0)
+Requirement already satisfied: isoduration in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (20.11.0)
+Requirement already satisfied: jsonpointer>1.13 in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (3.12)
+Requirement already satisfied: rfc3339-validator in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.1.4)
+Requirement already satisfied: rfc3986-validator>0.1.0 in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (0.1.1)
+Requirement already satisfied: rfc3987-syntax>=1.1.0 in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.1.0)
+Requirement already satisfied: uri-template in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.3.0)
+Requirement already satisfied: webcolors>=24.6.0 in ./.venv/lib/python3.12/site-packages (from jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (25.10.0)
+Requirement already satisfied: lark>=1.2.2 in ./.venv/lib/python3.12/site-packages (from rfc3987-syntax>=1.1.0->jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.3.1)
+Requirement already satisfied: arrow>=0.15.0 in ./.venv/lib/python3.12/site-packages (from isoduration->jsonschema[format-nongpl]>=4.20.0->stix2-validator>=3.0.0->stix2-elevator->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.4.0)
+Requirement already satisfied: shellingham>=1.3.0 in ./.venv/lib/python3.12/site-packages (from typer->mitreattack-python==3.0.3->attack-detection-engine==1.1.0) (1.5.4)
+Building wheels for collected packages: attack-detection-engine
+  Building editable for attack-detection-engine (pyproject.toml): started
+  Building editable for attack-detection-engine (pyproject.toml): finished with status 'done'
+  /tmp/pip-build-env-3d_j8nby/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: BuildBackendWarning: `project.license` as a TOML table is deprecated
+  !!
+  
+          ********************************************************************************
+          Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+  
+          By 2027-Feb-18, you need to update your project and remove deprecated calls
+          or your builds will no longer be supported.
+  
+          See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+          ********************************************************************************
+  
+  !!
+    corresp(dist, value, root_dir)
+  /tmp/pip-build-env-3d_j8nby/overlay/lib/python3.12/site-packages/setuptools/command/editable_wheel.py:354: BuildBackendWarning: Editable installation.
+  !!
+  
+          ********************************************************************************
+          Please be careful with folders in your working directory with the same
+          name as your package as they may take precedence during imports.
+          ********************************************************************************
+  
+  !!
+    with strategy, WheelFile(wheel_path, "w") as wheel_obj:
+  Created wheel for attack-detection-engine: filename=attack_detection_engine-1.1.0-0.editable-py3-none-any.whl size=8286 sha256=29168ec5dd0506e40b7386241251bbd90b8ab3435b0cfc91fcc3da19790cda95
+  Stored in directory: /tmp/pip-ephem-wheel-cache-mjrr0uqj/wheels/8e/24/d5/64e0dbdddad0fe4620e4e9b8cf58befa64f56cc300c38eaf36
+Successfully built attack-detection-engine
+Installing collected packages: attack-detection-engine
+  Attempting uninstall: attack-detection-engine
+    Found existing installation: attack-detection-engine 1.1.0
+    Not uninstalling attack-detection-engine at /workspace/work/envs/attack/lib/python3.12/site-packages, outside environment /workspace/work/candidates/attack-detection-engine/.venv
+    Can't uninstall 'attack-detection-engine'. No files were found to uninstall.
+Successfully installed attack-detection-engine-1.1.0
+
+added 16 packages in 716ms
+
+> aegis-healthsec-dashboard@1.1.0 build
+> tsc --noEmit && node build.mjs
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/getpass.py:91: GetPassWarning: Can not control echo on the terminal.
+  passwd = fallback_getpass(prompt, stream)
+Warning: Password input may be echoed.
+Initial local analyst password (12+ characters): 
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:8000 (username: local-analyst)
+INFO:     Started server process [95449]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:54682 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54702 - "GET /api/v1/workbench/cases/case-f56c67ec02ac42349bdc69901f008251 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54704 - "GET /api/v1/workbench/cases/case-f56c67ec02ac42349bdc69901f008251/runs/run-76fda5d512b249b0961f4e63ebdb1d0d/export HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [95449]

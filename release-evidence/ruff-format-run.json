@@ -1,0 +1,14 @@
+{
+  "name": "ruff-format",
+  "command": [
+    "/workspace/work/envs/attack/bin/ruff",
+    "format",
+    "--check",
+    "."
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:01:53.630333+00:00",
+  "finished_at": "2026-11-18T04:01:53.646722+00:00",
+  "exit_code": 0,
+  "log": "ruff-format.log"
+}

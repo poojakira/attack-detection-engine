@@ -1,0 +1,35 @@
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 4295fbcefb96, initial platform schema
+INFO  [alembic.runtime.migration] Running upgrade 4295fbcefb96 -> 53fef2dbf01d, add user token_version for revocation
+INFO  [alembic.runtime.migration] Running upgrade 53fef2dbf01d -> a1b2c3d4e5f6, add tamper-evident audit hash chain columns
+INFO  [alembic.runtime.migration] Running upgrade a1b2c3d4e5f6 -> b2c3d4e5f6a7, Persist bounded workbench datasets and immutable run reports.
+Local workbench: http://127.0.0.1:35613 (username: synthetic-analyst)
+INFO:     Started server process [88061]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:35613 (Press CTRL+C to quit)
+INFO:     127.0.0.1:41560 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41570 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41574 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41590 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41592 - "POST /api/v1/workbench/cases/case-06c7d037452046149300ec53ca47b247/runs HTTP/1.1" 201 Created
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [88061]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:35613 (username: synthetic-analyst)
+INFO:     Started server process [88937]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:35613 (Press CTRL+C to quit)
+INFO:     127.0.0.1:41732 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41736 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41752 - "GET /api/v1/workbench/cases/case-06c7d037452046149300ec53ca47b247 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41768 - "GET /api/v1/workbench/cases/case-06c7d037452046149300ec53ca47b247/runs/run-e3902b8973de4f6cafbf674ff0fa0cbe/export HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [88937]

@@ -1,0 +1,12 @@
+{
+  "name": "pip-check",
+  "command": [
+    "/workspace/work/envs/attack/bin/pip",
+    "check"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:07.728807+00:00",
+  "finished_at": "2026-11-18T04:02:08.134637+00:00",
+  "exit_code": 0,
+  "log": "pip-check.log"
+}

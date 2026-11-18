@@ -1,0 +1,94 @@
+{
+  "source_commit": "8ae9090b560871d1e584d717734693bb570fffae",
+  "capabilities": [
+    {
+      "capability": "Authenticated real browser input and loopback launch",
+      "state": "TESTED",
+      "code": [
+        "dashboard-ui/src/screens/Workbench.tsx",
+        "detection_engine/platform/local.py",
+        "scripts/local-workbench.sh"
+      ],
+      "evidence": [
+        "browser/browser.json",
+        "literal-launcher/browser-result.json"
+      ]
+    },
+    {
+      "capability": "Bounded FHIR subset import, rejection counts, unknown semantics",
+      "state": "TESTED",
+      "code": [
+        "detection_engine/platform/connectors/fhir_auditevent.py",
+        "detection_engine/platform/workbench.py"
+      ],
+      "evidence": [
+        "junit.xml",
+        "independent-review/optional-semantics.json"
+      ]
+    },
+    {
+      "capability": "Canonical clinical detection, correlation and persisted evidence",
+      "state": "TESTED",
+      "code": [
+        "detection_engine/platform/investigation.py",
+        "detection_engine/platform/correlation.py",
+        "detection_engine/platform/models.py"
+      ],
+      "evidence": [
+        "browser/report.json",
+        "independent-review/runtime-results.json"
+      ]
+    },
+    {
+      "capability": "Per-case threshold rerun, delta, immutable UTF8 export/checksum",
+      "state": "TESTED",
+      "code": [
+        "detection_engine/platform/workbench.py",
+        "dashboard-ui/src/screens/Workbench.tsx"
+      ],
+      "evidence": [
+        "literal-launcher/literal-report.json",
+        "literal-launcher/restart-result.json"
+      ]
+    },
+    {
+      "capability": "Installed wheel migrations, UNKNOWN source outside tracked root",
+      "state": "TESTED",
+      "code": [
+        "detection_engine/platform/local.py",
+        "detection_engine/platform/migrations/versions/b2c3d4e5f6a7_workbench.py"
+      ],
+      "evidence": [
+        "installed-wheel.json",
+        "independent-review/supplementary-results.json"
+      ]
+    },
+    {
+      "capability": "Delayed case-list response consistency QA01",
+      "state": "VERIFIED in focused independent review",
+      "code": [
+        "dashboard-ui/src/screens/Workbench.tsx"
+      ],
+      "evidence": [
+        "browser/browser.json",
+        "independent-review/runtime-results.json",
+        "independent-review/supplementary-results.json"
+      ]
+    },
+    {
+      "capability": "Full FHIR conformance, automotive/firmware browser integration, hard parser/detector isolation, coordinated multiprocess quotas, externally anchored audit integrity",
+      "state": "NOT IMPLEMENTED / NOT VERIFIED",
+      "evidence": [
+        "../docs/WORKBENCH.md"
+      ]
+    },
+    {
+      "capability": "Exhaustive historical semantic docs audit, clean-download startup, hosted final CI, production recovery/privacy signoff",
+      "state": "NOT VERIFIED",
+      "evidence": [
+        "RELEASE_ASSESSMENT.md",
+        "remote-ci/status.json"
+      ]
+    }
+  ]
+}

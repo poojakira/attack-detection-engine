@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-18T04:11:25.983374+00:00",
+  "scope": "Disposable task PostgreSQL databases only",
+  "private_backup_retained": true,
+  "database_count": 7,
+  "all_pg_dump_exit_codes": 0,
+  "all_pg_restore_exit_codes": 0,
+  "original_container_running": true,
+  "no_backup_bytes_or_credentials_published": true
+}

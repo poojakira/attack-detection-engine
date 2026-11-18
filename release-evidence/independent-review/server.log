@@ -1,0 +1,209 @@
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [89488]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:59716 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59718 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59722 - "GET /readiness HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59730 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59740 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59748 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59758 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59786 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "POST /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs HTTP/1.1" 201 Created
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs/run-41abcee78fba4737b2820fa06c1d92d9/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59794 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs/run-41abcee78fba4737b2820fa06c1d92d9/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59810 - "POST /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs HTTP/1.1" 201 Created
+INFO:     127.0.0.1:59816 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59810 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs/run-6e8502f0addd4950bc189b3ff8a71ffe/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "POST /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:59830 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59810 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:59772 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59772 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59786 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59844 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:59860 - "POST /api/v1/workbench/cases HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:59870 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:59880 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59882 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs/run-41abcee78fba4737b2820fa06c1d92d9/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59884 - "POST /api/v1/workbench/cases HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59890 - "POST /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59896 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59912 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs/run-41abcee78fba4737b2820fa06c1d92d9/export HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59926 - "POST /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59940 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59942 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [89488]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [89867]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58702 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58704 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58706 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58712 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58722 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7/runs/run-41abcee78fba4737b2820fa06c1d92d9/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58730 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58730 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58736 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58736 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58736 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58736 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58736 - "GET /api/v1/workbench/cases/case-bc959e59305f45638b89a0089bb3dec7 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [89867]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [90232]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52878 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52890 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52890 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52900 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52908 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52900 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52890 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52908 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52914 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52926 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52890 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52890 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52890 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90232]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 4295fbcefb96, initial platform schema
+INFO  [alembic.runtime.migration] Running upgrade 4295fbcefb96 -> 53fef2dbf01d, add user token_version for revocation
+INFO  [alembic.runtime.migration] Running upgrade 53fef2dbf01d -> a1b2c3d4e5f6, add tamper-evident audit hash chain columns
+INFO  [alembic.runtime.migration] Running upgrade a1b2c3d4e5f6 -> b2c3d4e5f6a7, Persist bounded workbench datasets and immutable run reports.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [90515]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:53036 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53042 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53052 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53058 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53070 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:53086 - "POST /api/v1/workbench/cases/case-595052a4b71647c39551f70a9d697c40/runs HTTP/1.1" 201 Created
+INFO:     127.0.0.1:53098 - "GET /api/v1/workbench/cases/case-595052a4b71647c39551f70a9d697c40/runs/run-329b40369ddc48f7b522e072010f4691/export HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90515]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [90647]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60980 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60998 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60998 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60998 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60998 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60998 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32774 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60998 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60998 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32774 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32776 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32784 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60990 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:60990 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90647]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [90933]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:32876 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32878 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32890 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32894 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32908 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:32924 - "POST /api/v1/workbench/cases/case-64bd10ea0ee74c60a4a6524f509d43fc/runs HTTP/1.1" 201 Created
+INFO:     127.0.0.1:32940 - "GET /api/v1/workbench/cases/case-64bd10ea0ee74c60a4a6524f509d43fc/runs/run-5054823fe1c74d209c908f5ffaa37ac6/export HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90933]
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Local workbench: http://127.0.0.1:18779 (username: independent-analyst)
+INFO:     Started server process [90995]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18779 (Press CTRL+C to quit)
+INFO:     127.0.0.1:45802 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45812 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45820 - "GET /api/v1/workbench/cases/case-64bd10ea0ee74c60a4a6524f509d43fc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45824 - "GET /api/v1/workbench/cases/case-64bd10ea0ee74c60a4a6524f509d43fc/runs/run-5054823fe1c74d209c908f5ffaa37ac6/export HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90995]

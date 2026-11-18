@@ -1,0 +1,139 @@
+{
+  "repository": "poojakira/attack-detection-engine",
+  "utc": "2026-11-18T04:10:14.056296+00:00",
+  "candidate": "8ae9090b560871d1e584d717734693bb570fffae",
+  "default_unchanged": "b631f31df52e9a7477cbc65dff9b4f46758f71a7",
+  "bundle_verified": true,
+  "private_bundle_not_published": true,
+  "deleted": [
+    {
+      "branch": "feat/automotive-firmware-can",
+      "previous_sha": "1b647ea9b2df10708379ca2c05172ef77fb3253f",
+      "merged_pr": 38,
+      "terminal_main_pr": 38,
+      "verified_blob_count": 16,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [],
+      "archive_tag": "archive/aegis/feat-automotive-firmware-can-20261118",
+      "disposition": "DELETED; exact tip retained by verified annotated recovery tag and private verified bundle",
+      "recovery_command": "git push origin 1b647ea9b2df10708379ca2c05172ef77fb3253f:refs/heads/feat/automotive-firmware-can"
+    },
+    {
+      "branch": "feat/milestone-c-platform",
+      "previous_sha": "75b15dba12016cd3d68073d17b70dcb2ba3afebb",
+      "merged_pr": 48,
+      "terminal_main_pr": 47,
+      "verified_blob_count": 94,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [],
+      "archive_tag": "archive/aegis/feat-milestone-c-platform-20261118",
+      "disposition": "DELETED; exact tip retained by verified annotated recovery tag and private verified bundle",
+      "recovery_command": "git push origin 75b15dba12016cd3d68073d17b70dcb2ba3afebb:refs/heads/feat/milestone-c-platform"
+    },
+    {
+      "branch": "feat/milestone-d-hardening",
+      "previous_sha": "b4f5e137b572030f62a0190f295f59f63e491ad9",
+      "merged_pr": 49,
+      "terminal_main_pr": 47,
+      "verified_blob_count": 94,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [],
+      "archive_tag": "archive/aegis/feat-milestone-d-hardening-20261118",
+      "disposition": "DELETED; exact tip retained by verified annotated recovery tag and private verified bundle",
+      "recovery_command": "git push origin b4f5e137b572030f62a0190f295f59f63e491ad9:refs/heads/feat/milestone-d-hardening"
+    },
+    {
+      "branch": "feat/milestone-e-connectors",
+      "previous_sha": "c24dc59b84a981e7c57f53357e14ce85ea5f80fc",
+      "merged_pr": 50,
+      "terminal_main_pr": 47,
+      "verified_blob_count": 94,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [],
+      "archive_tag": "archive/aegis/feat-milestone-e-connectors-20261118",
+      "disposition": "DELETED; exact tip retained by verified annotated recovery tag and private verified bundle",
+      "recovery_command": "git push origin c24dc59b84a981e7c57f53357e14ce85ea5f80fc:refs/heads/feat/milestone-e-connectors"
+    },
+    {
+      "branch": "fix/automotive-validation-docs",
+      "previous_sha": "988417f79dba6262410d5d3a783922076137c096",
+      "merged_pr": 39,
+      "terminal_main_pr": 39,
+      "verified_blob_count": 10,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [],
+      "archive_tag": "archive/aegis/fix-automotive-validation-docs-20261118",
+      "disposition": "DELETED; exact tip retained by verified annotated recovery tag and private verified bundle",
+      "recovery_command": "git push origin 988417f79dba6262410d5d3a783922076137c096:refs/heads/fix/automotive-validation-docs"
+    },
+    {
+      "branch": "fix/full-test-index-fixture",
+      "previous_sha": "72f1fe9cff6d6c7c5b859763624ea3df09863252",
+      "merged_pr": 40,
+      "terminal_main_pr": 40,
+      "verified_blob_count": 7,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [],
+      "archive_tag": "archive/aegis/fix-full-test-index-fixture-20261118",
+      "disposition": "DELETED; exact tip retained by verified annotated recovery tag and private verified bundle",
+      "recovery_command": "git push origin 72f1fe9cff6d6c7c5b859763624ea3df09863252:refs/heads/fix/full-test-index-fixture"
+    }
+  ],
+  "held": [
+    {
+      "branch": "feat/healthsec-detection",
+      "previous_sha": "44c2ca2c6f0f07c590107091acd381ddb36d7ea0",
+      "merged_pr": 47,
+      "terminal_main_pr": 47,
+      "verified_blob_count": 94,
+      "protected": false,
+      "open_pr_dependency": false,
+      "workflow_reference": false,
+      "release_deployment_reference": false,
+      "active_runs": [
+        {
+          "id": 40562530813,
+          "status": "queued",
+          "sha": "cfdb5c9ef7bb5ffd347a627fb6dba0e7b13c0ac1"
+        }
+      ],
+      "disposition": "HELD: unresolved queued workflow; cancellation returned HTTP409"
+    }
+  ],
+  "remaining_remote_branches": [
+    "codex/local-workbench-20261116",
+    "dependabot/github_actions/actions/setup-python-7.1.0",
+    "dependabot/github_actions/actions/upload-artifact-7.0.2",
+    "dependabot/github_actions/docker/login-action-4.8.0",
+    "dependabot/github_actions/docker/setup-buildx-action-4.4.1",
+    "dependabot/npm_and_yarn/dashboard-ui/vite-8.3.5",
+    "dependabot/pip/bandit-gte-1.9.4",
+    "dependabot/pip/build-gte-1.6.1",
+    "dependabot/pip/pydantic-2.14.2",
+    "dependabot/pip/starlette-1.3.1",
+    "dependabot/pip/starlette-1.7.0",
+    "feat/healthsec-detection",
+    "feature/cross-language-hipaa-admin-detection",
+    "main"
+  ],
+  "remaining_count": 14,
+  "policy": "Retain main, one candidate, ten active dependency PRs, unique unmerged cross-language work and one merged branch with unresolved queued CI. No history rewrite."
+}

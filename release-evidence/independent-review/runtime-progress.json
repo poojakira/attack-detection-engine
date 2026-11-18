@@ -1,0 +1,99 @@
+{
+  "checks": [
+    {
+      "check": "fresh source runtime, real PostgreSQL readiness, app/core/rule provenance",
+      "utc": "2026-11-18T04:06:21.889730+00:00",
+      "health": {
+        "status": "ok",
+        "time": "2026-11-18T04:06:21.860665+00:00",
+        "version": "1.1.0",
+        "rule_version": "clinical-access-1.1",
+        "core_revision": "087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b",
+        "source": {
+          "commit": "8ae9090b560871d1e584d717734693bb570fffae",
+          "clean": true
+        }
+      }
+    },
+    {
+      "check": "independent Chromium import/evidence/timeline",
+      "utc": "2026-11-18T04:06:25.512253+00:00",
+      "case_id": "case-bc959e59305f45638b89a0089bb3dec7",
+      "run_id": "run-e91cd81002b143daad467bc058e1d3b5",
+      "events": 30,
+      "findings": 1,
+      "incidents": 1
+    },
+    {
+      "check": "same input threshold rerun, actual delta and UTF-8 byte checksum",
+      "utc": "2026-11-18T04:06:25.714062+00:00",
+      "run_id": "run-41abcee78fba4737b2820fa06c1d92d9",
+      "removed": 1,
+      "report_sha256": "a1ccc390042d222d970ee8bee10f01ff2f7c4bab9d4f48e76e276d615cacc4f2",
+      "report_bytes": 42472,
+      "unicode_title": "Synthetic review — Café Ω 東京 🩺"
+    },
+    {
+      "check": "pending committed rerun cancelled by edit; obsolete result absent; database reconciliation retains committed run",
+      "utc": "2026-11-18T04:06:26.173468+00:00",
+      "runs": 3
+    },
+    {
+      "check": "pending export superseded by run switch produces no stale download",
+      "utc": "2026-11-18T04:06:26.613129+00:00"
+    },
+    {
+      "check": "stale historical rerun rejected 409 without extra persisted run",
+      "utc": "2026-11-18T04:06:26.857613+00:00"
+    },
+    {
+      "check": "AEGIS-QA-01 closed: actual delayed initial list preserves newer persisted case",
+      "utc": "2026-11-18T04:06:27.529540+00:00",
+      "new_case_visible_after_old_list": true
+    },
+    {
+      "check": "browser page errors",
+      "utc": "2026-11-18T04:06:27.601255+00:00",
+      "count": 0
+    },
+    {
+      "check": "missing optional action/outcome preserved unknown; unsupported entries counted",
+      "utc": "2026-11-18T04:06:27.776458+00:00",
+      "normalized": 30,
+      "rejected": 3,
+      "findings": 0
+    },
+    {
+      "check": "present unsupported action rejected",
+      "utc": "2026-11-18T04:06:27.783300+00:00",
+      "status": 422
+    },
+    {
+      "check": "controlled accounts: unauthenticated 401, same-org auditor read/export allowed write 403, foreign org list empty and object/export/rerun 404",
+      "utc": "2026-11-18T04:06:27.831839+00:00"
+    },
+    {
+      "check": "actual API restart, old token invalidated, login and all persisted reports/export bytes unchanged",
+      "utc": "2026-11-18T04:06:29.013059+00:00",
+      "runs": 3,
+      "report_sha256": "a1ccc390042d222d970ee8bee10f01ff2f7c4bab9d4f48e76e276d615cacc4f2"
+    },
+    {
+      "check": "fresh Chromium login after restart restores saved case and historical zero-finding report",
+      "utc": "2026-11-18T04:06:30.357664+00:00"
+    },
+    {
+      "check": "direct PostgreSQL persistence counts",
+      "utc": "2026-11-18T04:06:30.471857+00:00",
+      "columns": [
+        "cases",
+        "runs",
+        "events",
+        "findings",
+        "incidents"
+      ],
+      "values": "9|15|60|9|9"
+    }
+  ],
+  "defects": []
+}

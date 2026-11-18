@@ -1,0 +1,15 @@
+{
+  "name": "npm-audit",
+  "command": [
+    "npm",
+    "--prefix",
+    "dashboard-ui",
+    "audit",
+    "--json"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:20.246990+00:00",
+  "finished_at": "2026-11-18T04:02:20.724965+00:00",
+  "exit_code": 0,
+  "log": "npm-audit.log"
+}

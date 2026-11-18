@@ -1,0 +1,14 @@
+{
+  "name": "pyright",
+  "command": [
+    "/workspace/work/security-tools/bin/pyright",
+    "--pythonpath",
+    "/workspace/work/envs/attack/bin/python",
+    "detection_engine"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:01:53.702500+00:00",
+  "finished_at": "2026-11-18T04:02:07.654992+00:00",
+  "exit_code": 0,
+  "log": "pyright.log"
+}

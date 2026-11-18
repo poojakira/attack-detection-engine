@@ -1,0 +1,22 @@
+{
+  "source_commit": "8ae9090b560871d1e584d717734693bb570fffae",
+  "utc_start": "2026-11-18T04:11:13.738212+00:00",
+  "utc_end": "2026-11-18T04:11:22.443479+00:00",
+  "result": "PASS",
+  "command": [
+    "./scripts/local-workbench.sh"
+  ],
+  "source_status": "CLEAN",
+  "checks": [
+    "literal restart with existing local PostgreSQL volume",
+    "local sign-in after restart",
+    "same case and two immutable runs restored",
+    "same30 persisted events and threshold40 delta",
+    "export bytes exactly match pre-restart SHA256",
+    "source clean/commit exact"
+  ],
+  "case_id": "case-f56c67ec02ac42349bdc69901f008251",
+  "run_id": "run-76fda5d512b249b0961f4e63ebdb1d0d",
+  "report_sha256": "9e5c6501ab5ef89cf71e1d472744d5cf8a759aa1e0c7a96c18deaabe9bad276f",
+  "environment_scope": "Existing isolated dependencies reused; actual pip install and npm ci/build ran. No clean-download-environment claim."
+}

@@ -1,0 +1,21 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "checks": [
+    "AEGIS-QA-01: delayed initial real case list cannot hide a freshly imported persisted case",
+    "Actual synthetic import: 30 persisted events, canonical HC-ACCESS-BULK finding, source/normalized evidence",
+    "Same exact dataset rerun: threshold 40, removed 1 finding, checksum-verified JSON export",
+    "Page reload: saved case and both immutable run reports restored from PostgreSQL",
+    "Obsolete checksum completion cannot download a report after new input",
+    "Delayed File.text cannot overwrite a later manual edit",
+    "XSS-shaped title/reference render as text; mixed unsupported Bundle resource counted, origin unspecified",
+    "Malformed JSON displays an error and clears obsolete results",
+    "390px mobile layout has no horizontal overflow"
+  ],
+  "page_errors": [],
+  "case_list_race": {
+    "new_case_id": "case-1be51bd0bdbd43ed9c7af121463040d2",
+    "new_case_visible_after_old_list": true,
+    "held_actual_initial_api_response": true
+  },
+  "report_sha256": "149d533aba5f68af5c407f867f12a13e88944206b29147f1a0b585e39d581c61"
+}

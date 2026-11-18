@@ -1,0 +1,15 @@
+{
+  "name": "build-ui",
+  "command": [
+    "npm",
+    "--prefix",
+    "dashboard-ui",
+    "run",
+    "build"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:21.445597+00:00",
+  "finished_at": "2026-11-18T04:02:24.231403+00:00",
+  "exit_code": 0,
+  "log": "build-ui.log"
+}

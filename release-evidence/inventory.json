@@ -1,0 +1,1347 @@
+{
+  "repository": "/workspace/work/candidates/attack-detection-engine",
+  "commit": "8ae9090b560871d1e584d717734693bb570fffae",
+  "status": "",
+  "files": [
+    {
+      "path": ".dockerignore",
+      "bytes": 226,
+      "sha256": "8178a2d11912543bebe7d5f882f9ffdf7e07983125abbaab5e54e0d045bf0ddb",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": ".env.example",
+      "bytes": 423,
+      "sha256": "db8bac5fc6b1e4b56ae6693f6f57feade1e3b8f47e523fb79532382b56ad1130",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "bytes": 13,
+      "sha256": "27d3ad00ee4a7804316eb48c1a30918124876bc87aa26a5ee84ef7c47eb0faef",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "bytes": 498,
+      "sha256": "fbf0dc65640f42c9e632ba54a463f0891c26f5df44a5b87d5066bf1de00300ce",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/scripts/security_gate.py",
+      "bytes": 4061,
+      "sha256": "71c803a01493ffcef8e85dadfd69cef313d8f19abade3c896fadfada0ec26879",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": ".github/security-allowlist.json",
+      "bytes": 40,
+      "sha256": "89707c7791180ab674a99688ddb7e615026373c95a3852102072522f566ba7f1",
+      "symlink": false,
+      "syntax": "PASSED JSON parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/arm-firmware.yml",
+      "bytes": 4623,
+      "sha256": "29938f84af0d98c03b26b7a67d8b34847cee8a5f84be3d8e9b473e68fb98f879",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 5560,
+      "sha256": "8f9b043266b7a672296e86a9aed17aebed0d5652e89669ff90150380e90b673b",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/container.yml",
+      "bytes": 1806,
+      "sha256": "5b16cdbdc19dfeed413af433a8f052636bd57136657f628185ac860d26c5833b",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/production-gate.yml",
+      "bytes": 1461,
+      "sha256": "14c662b299f2f95f3c530f686ebcb575df75a4f0893a745e64e7c42ce8f69ecf",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/production-policy.yml",
+      "bytes": 1358,
+      "sha256": "e03d1e52c41f308772874fd7968aa0dabf8342256e252e3e891c13b9a19aa3d7",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/security-hygiene.yml",
+      "bytes": 4443,
+      "sha256": "63025c89796b7e05210debe5cef14b18ba46ce18c78a718d0ed1b3ce6b82e2fb",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".github/workflows/workbench.yml",
+      "bytes": 4684,
+      "sha256": "abe0c4ea74d4c2413b247da1b1fc6fbbc2ef492f7cf9e7cdb77284d224f9cf4e",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 856,
+      "sha256": "9d648e31efab3d2f5430628e38bd8f8b1f6a7c17db849196de5ea917392c68af",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": ".mailmap",
+      "bytes": 807,
+      "sha256": "ec7093717cc1537a21d0d1b45b0e9b9f04db9dacccbfd17ef9867f11d8c92f11",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "bytes": 962,
+      "sha256": "959d53405fe07adbc2526a5855bf441c0f11b38e7b0a034008df99da9a1db91b",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "AUTOMOTIVE_SECURITY.md",
+      "bytes": 5718,
+      "sha256": "38c08c2944224d5e1f27eac66fce99a7f0a76221a46b415225950dd56c153e18",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "BASELINE_REPAIR_2026-10-27.md",
+      "bytes": 5437,
+      "sha256": "6efbe50ee2ed680f0a7eea51dc1063613d1c40f2c67ed1b56b9a84a030b719da",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 1930,
+      "sha256": "f416fea2ee7e8f16080b17d98b1c47daa444a6a912c534d51ab90f83b6b9b9cb",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "bytes": 3521,
+      "sha256": "3d8fb70ffc0a6cf1d9fc1dcc93c5c54e1117e29340770b969d727f34f3c1a593",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "Dockerfile",
+      "bytes": 1101,
+      "sha256": "999010b2778068be9d517731eed57b4807a8dfdae2cd59f4cb39cdedf7c8a9c6",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "HEALTHCARE_SECURITY.md",
+      "bytes": 8941,
+      "sha256": "4c4d3a9565485b6978e037751dea950dcccbae2cc70025896b1743769099b293",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 3006,
+      "sha256": "136ae2854bcb9d6423a4293153ed5925cacdc30e537415cbd0a56dcf49983f49",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "MILESTONE_C_BASELINE_2026-10-27.md",
+      "bytes": 2230,
+      "sha256": "1487d912469bcf2c48dcd94565f26a5d663677ce3d5bd87ffc0ccc6342a65801",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "MILESTONE_C_FINAL_REPORT.md",
+      "bytes": 6516,
+      "sha256": "da68f86ad13b35914b018cdd425d1bd78c8a649121f2daf3d1117fb47b643685",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "MILESTONE_D_BASELINE_2026-10-27.md",
+      "bytes": 1441,
+      "sha256": "6d3381f01176abc4ccd1d69689e2fcb1daef63c0ccbf30ea718c735c05e2f0c4",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "MILESTONE_D_PROGRESS.md",
+      "bytes": 2192,
+      "sha256": "9401c1825b6d702178aa7ce05332824dc47ceb35d4910aeb14e6f561cee08245",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "MILESTONE_D_SECURITY_REPORT.md",
+      "bytes": 7681,
+      "sha256": "1fe7892fb4a12b11ebd194b17fb6fe778b72a8f39b3865c769f4bca218762962",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 833,
+      "sha256": "e05d88db72930b2b1145c64188be7a01c7c6ed6daa93244e708fe70e2be2742e",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "PLATFORM.md",
+      "bytes": 6708,
+      "sha256": "8c5b87ec3a6f6a07db24dc819c08af0f8b33c23c7f9250a6fc98626fff870e1a",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "PRODUCTION.md",
+      "bytes": 5012,
+      "sha256": "f7acb554f22e780d6f1314dcc39ff71a22592ded7a2f57f5eb0216b3798fd314",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "PRODUCT_VALIDATION.md",
+      "bytes": 4829,
+      "sha256": "ab112e78f7b58fbf9a653f7c5e9b941d1f838a0e6bbd4b897f0c3102701002e8",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "PROVENANCE.md",
+      "bytes": 8193,
+      "sha256": "e69ae7e624fee2774ba6d2169b0bdc89a77806d5887fa06c888a16fa483c4ac7",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2758,
+      "sha256": "b9172b3aa77e6d7e807c8355e9fa5bdedef3014fd7d2190e435867c0954053a0",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "RUNBOOK.md",
+      "bytes": 6251,
+      "sha256": "a690136c003d40dc03d03946601ed7bbdc48fac823319225ac3d6bfa58a6b0e7",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 5359,
+      "sha256": "96ee8d35830c5fd699c4d8ee3e268e0e09404f1c5813f7218bf2437fa56a5651",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "SECURITY_AUDIT.md",
+      "bytes": 2579,
+      "sha256": "3eceaf2acb5ea7bb592a4c57b9cb1afb614cb2274ba7a465fae42b2d58063073",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "SECURITY_AUDIT_2026-09-30.md",
+      "bytes": 4553,
+      "sha256": "51634dd3a389d28bd973700e77c645cf6fb9320b05429c5504719221232794a1",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "THREAT_MODEL.md",
+      "bytes": 7816,
+      "sha256": "a86f03a0751f333aee71286f52664758033bf9a72d9b4212fe422bad066f95e2",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "dashboard-ui/build.mjs",
+      "bytes": 851,
+      "sha256": "c43d31a07bb58b4dbbf9d87a1749057a6e045de21615139417b533d8b01815ff",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/index.html",
+      "bytes": 310,
+      "sha256": "951ee0dab324216996a9b31cf81953a79782070b093183d048ed8847abe6895a",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/package-lock.json",
+      "bytes": 20188,
+      "sha256": "7bf2a9f79e7fe0bcb97af89682780b6bd59191ff52c5c6361868ae2b6ce66945",
+      "symlink": false,
+      "syntax": "PASSED JSON parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "dashboard-ui/package.json",
+      "bytes": 426,
+      "sha256": "c289cfcc4ddead080a83821d71769057e7f03eef378bf18895fe9e3d30fa01e6",
+      "symlink": false,
+      "syntax": "PASSED JSON parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "dashboard-ui/src/App.tsx",
+      "bytes": 2742,
+      "sha256": "9ccf51d7166634d552651b5a2e49f2f38d52578afb0405407c9e20ba46bac412",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/api/client.ts",
+      "bytes": 7626,
+      "sha256": "b2061153c101c37edbcab53dedce57247a979769197ea670b9b5b9e7be28208e",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/main.tsx",
+      "bytes": 242,
+      "sha256": "806173917b12038a05079d5d10bee3b6679a7222e4c95bfc41ff737f0979b0a6",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/screens/IncidentQueue.tsx",
+      "bytes": 2975,
+      "sha256": "197be984ef68520ae76f30a13ec0e49b76a1b3a309dd625338572b65dd4358f7",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/screens/Investigation.tsx",
+      "bytes": 4492,
+      "sha256": "4bf3dad5fb194e3b78fda795554b83491474bc4fc5fc4d90be18125901b4ac43",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/screens/Overview.tsx",
+      "bytes": 2820,
+      "sha256": "ae82d61a1239678c49429788a9411f0473b57e19420d32d9678b66c19de902f4",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/screens/Workbench.tsx",
+      "bytes": 10643,
+      "sha256": "9dc5e5f18efaa3cad1db3687cdc62e09abce0c63bc52e03beaaae1f6bb5d2191",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/src/styles.css",
+      "bytes": 4124,
+      "sha256": "fd17501786e3596589702628c6d104cde480f34e2cb5d9dd833569200bad622a",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "dashboard-ui/tsconfig.json",
+      "bytes": 508,
+      "sha256": "3dbbde6e820d93d3bc05d0c54de9aba50d39b9e7fb6b736713a60a2edf5a17af",
+      "symlink": false,
+      "syntax": "PASSED JSON parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "dashboard/index.html",
+      "bytes": 18689,
+      "sha256": "6148848478f6a436127b771be2dd7f8a6bdc15c4749be2cf44694c6b22c48af6",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "deploy/.env.example",
+      "bytes": 963,
+      "sha256": "8497ae507dc81701cfb0609c13e35c885fbbae5a31651a7c330074fea0cdffe3",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "deploy/Dockerfile.backend",
+      "bytes": 1846,
+      "sha256": "c4b336fa3125d0ce13be6925271a6fd9bc903c250041f6c61d7eb7f87c07aad2",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "deploy/Dockerfile.frontend",
+      "bytes": 567,
+      "sha256": "3f419d728467b4ca5f142b85379af7c28849ad3f48c8b5cfe177335084470cc6",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "deploy/backend-entrypoint.sh",
+      "bytes": 1155,
+      "sha256": "b1b001a33f73462cf62173d73d698c4064bcafafa6c2a7e49bf4920c104a00ee",
+      "symlink": false,
+      "syntax": "PASSED bash -n (not executed)"
+    },
+    {
+      "path": "deploy/docker-compose.yml",
+      "bytes": 3151,
+      "sha256": "5cb365ee509540f45a4f7f3ece5c0bc00e43d7b0903d15a5f118d7315cd35759",
+      "symlink": false,
+      "syntax": "PASSED YAML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "deploy/nginx.conf",
+      "bytes": 595,
+      "sha256": "bdf5a69e134f009c993ca28573c02a2eb188fc091736b66a881dfb52f286fd83",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "detection_engine/__init__.py",
+      "bytes": 2042,
+      "sha256": "72876293deaa23c59c63fa8ade71c708078901291fc68367b14193be849c073e",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/arm_binary_analyzer.py",
+      "bytes": 5453,
+      "sha256": "5fbfa3bee9be807c42b7cf72c973fdad834e47cfd3aff89303a9c22cb00c5711",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/automotive_can_detector.py",
+      "bytes": 4771,
+      "sha256": "da43a62ec69825559fb27b63eb6b3acd92db3d6d3fdab9bdeacb364f8238d2b6",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/base.py",
+      "bytes": 1132,
+      "sha256": "5dacba77015567ab596532292f50c6e062e46367ef7586c6dfe656d4ee900cf3",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/behavior_detector.py",
+      "bytes": 6168,
+      "sha256": "8331dd0f6f922d59c8e6b1f689432291a14f2a50dce7dac83d24a078324c30ab",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/candump_parser.py",
+      "bytes": 2142,
+      "sha256": "8eed13ea61feffba084bf6d4810b2ab619923f7e4658a9c5bf0c37819be95451",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/cli.py",
+      "bytes": 3709,
+      "sha256": "ba4032f94ae8bff9c8ae5ef5f94b762928523aec6e8169e522548a052b68be1f",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/code_detector.py",
+      "bytes": 2743,
+      "sha256": "f0787d49bf49d1325ae122bad48cbe2cb841fbc946ac8065e0ba105f1a6d571c",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/event_detector.py",
+      "bytes": 5974,
+      "sha256": "2d2d92ff0e40996e6c116709e91b5b2a3dfb048b35cbed64d911aab629f90130",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/firmware_auditor.py",
+      "bytes": 2378,
+      "sha256": "50d6885b799895a998d55a44df77a5f81dbbf1d62f2b193639a348ac845be7e5",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/__init__.py",
+      "bytes": 1157,
+      "sha256": "f776c78885a9fc00425b1b6dbb23e5f5e3b4caa04bc5b7bef45efedf620528ba",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/context.py",
+      "bytes": 3472,
+      "sha256": "7369819afd77f04c4f5f804bd2f32943d3c4065c236061a0f994a3141459e6dd",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/detector.py",
+      "bytes": 14659,
+      "sha256": "83b4d8dc57d1e92179e5e69adbd386c5cba5495be10c3988b9d961b566b17c47",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/mimic/__init__.py",
+      "bytes": 509,
+      "sha256": "48eb2f37862cc7ea08212e75791ae87d9880c7553e22cbf108b6862fa533b2de",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/mimic/adapter.py",
+      "bytes": 8241,
+      "sha256": "fe600aaecf3aac53d3f84ad875d44802e7d489b845cdb38b08053a439f8cd96b",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/mimic/provenance.py",
+      "bytes": 2407,
+      "sha256": "d2f459fe8349c9567cb0db0de06b32fad9a4591f3930918d626a20ab1eed85e3",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/schema.py",
+      "bytes": 9411,
+      "sha256": "08ae60f6c324ef175573226b5ce159705cd9df80f0bafe27d7fdab263abe5d33",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/healthcare/synthetic.py",
+      "bytes": 13783,
+      "sha256": "65351362c00ab92d95323e74696974af204c9c4d6373163f2cedebe46a9f3e07",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/log_detector.py",
+      "bytes": 3917,
+      "sha256": "1d9abf227f0e05934c1c9494b07c9f5817481ef520c50b8a02c6511d4b1dab2e",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/pattern_library.py",
+      "bytes": 21362,
+      "sha256": "18b7e780304f2fc4399a6ac55d75eb4678e916b82fbdc16136350afb2e095720",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/pipeline.py",
+      "bytes": 4699,
+      "sha256": "08caa360c172c40fabae89bea319ada19ae839d203b3654aeb1e0a28043dbacb",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/__init__.py",
+      "bytes": 1007,
+      "sha256": "99958c3c4e61e258bf10834be07aa49371c2b0244b5bea82cbc84f00e9a429a0",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/alembic.ini",
+      "bytes": 5011,
+      "sha256": "0f2ce09203f8b1dbc1f02965d85339ad455c22f267e79d79c169e3ec412eb9dc",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "detection_engine/platform/api.py",
+      "bytes": 31022,
+      "sha256": "10932cf31a54e6e555e6a0832aec92c6a013b5f3d41f976e935c1baf615c3bb5",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/auth.py",
+      "bytes": 11555,
+      "sha256": "17a0a067c4e30cb40922a3e375b1b421059753e644940b4b1ab460493a21f8c1",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/body_limit.py",
+      "bytes": 1752,
+      "sha256": "d06d79beb90d8c1df82b2727dbd5e2efa4cec579acc69c621927d4387d996c42",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/bootstrap.py",
+      "bytes": 2122,
+      "sha256": "dd21ec959187a8b534370be2e64a92fc6044d8e8c15c0d418df93ad93b57a02d",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/connectors/__init__.py",
+      "bytes": 959,
+      "sha256": "a8e2a64a0ba2c0b2c29cf5b430ac4c7ac822d27e11cd67d4beb078d27e41ad57",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/connectors/base.py",
+      "bytes": 2029,
+      "sha256": "bdd0c8fec750dd9c41bb0ae47eeea00e0133593e6a3b86b673ecbabd4aa9a372",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/connectors/fhir_auditevent.py",
+      "bytes": 8969,
+      "sha256": "0a1ea3d4b40eb77da95837faa7879a20426751f0ccff284d50ce6df9c50c7de4",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/correlation.py",
+      "bytes": 6646,
+      "sha256": "d226199043661903060fe0f1b9059e976cc83dedbee70e706e18452b8ae971fd",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/db.py",
+      "bytes": 12681,
+      "sha256": "d15ff8a84fc39ce84c9dc2707bb0d0b954882dad09a8c7c08912775718141df1",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/ingestion.py",
+      "bytes": 13994,
+      "sha256": "426d914ec09d37967b92896771e5cf0053a8fb5c72f4fbc724ed44117c4a1346",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/investigation.py",
+      "bytes": 7941,
+      "sha256": "1652cf825516b836235e53bf5e2f995539a7cfe6eac481f10236acc39bc5d7b7",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/local.py",
+      "bytes": 2881,
+      "sha256": "b799c8fbe94f93df280ffc0870343a7761efa1402aee4362800976a4af51a48b",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/migrations/README",
+      "bytes": 38,
+      "sha256": "31595cf53626af9ed16e15c44fa43183209cc163fbc3ebcb904b22ac436a8884",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "detection_engine/platform/migrations/env.py",
+      "bytes": 1696,
+      "sha256": "8e750454959d606bc9dbab703ccd418b784271511cc98d4d596a457a6e2a03c2",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/migrations/script.py.mako",
+      "bytes": 704,
+      "sha256": "d38920781b4d31ae1c0a71bc09f41c2ade8feab9e5a087e3f30cb4bbf0c1c9d3",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "detection_engine/platform/migrations/versions/4295fbcefb96_initial_platform_schema.py",
+      "bytes": 13008,
+      "sha256": "5173fd13c88ad937b58931f225ba160e67ed101ed153193fc35a0c3f58ce6e52",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/migrations/versions/53fef2dbf01d_add_user_token_version_for_revocation.py",
+      "bytes": 767,
+      "sha256": "3a8b53bb3ed033644aae5771a3f8f17c0a3f0e8cf6806a73448a0ffb4a4ed32e",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/migrations/versions/a1b2c3d4e5f6_add_audit_hash_chain.py",
+      "bytes": 1486,
+      "sha256": "79162b37d92233c05f2b046484edd8b2d61f8848aaccd320b496e0892a0f4401",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/migrations/versions/b2c3d4e5f6a7_workbench.py",
+      "bytes": 1306,
+      "sha256": "080a2a622e71e8a2a2cbb2341fb3a47829096bf1c4f96aff0208d57b7dc5e8e4",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/models.py",
+      "bytes": 9155,
+      "sha256": "1e8f6e8e254ea6260c81a518772b3461108fc985486731a8b6d4fe943f49bde1",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/provenance.py",
+      "bytes": 1671,
+      "sha256": "8b929e3a309257eaa476b9fe0f129f6168f2cbe646ce923a0699023db79e3127",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/repository.py",
+      "bytes": 14979,
+      "sha256": "c9fda6e4b32cf757661fa63c3e5909df1d1d2ab9517589bbfda22c2a832d142d",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/sample.py",
+      "bytes": 1255,
+      "sha256": "ce4277f7c7093288c4e78bfb967ea11b15e8f03476da2becc725d482abb1ec7c",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/server.py",
+      "bytes": 1945,
+      "sha256": "3615b43f7cc0c53441c860a0ddfe6e19d0e613cb5ad9e579b7a03a67befea4a0",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/platform/workbench.py",
+      "bytes": 9358,
+      "sha256": "2f7c2c1edb7192cf5c43c3d0ada608106f4034d16aeaa75a30be4101efda472b",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/rule_engine.py",
+      "bytes": 3973,
+      "sha256": "bbde53715a594ee7c422ec5f03fa8a495640c7cb0cf4c748aab265e94bb51e24",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "detection_engine/traffic_detector.py",
+      "bytes": 12276,
+      "sha256": "d5635f0d68eaf7bee25d8370c87aaaa43843da9dea4ccae371d83310b305fdac",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "docs/EVIDENCE.md",
+      "bytes": 1714,
+      "sha256": "b3c00ab0e95b8592bbba36352636ac9612def33ddd3b9c02ad0c56f62f4aeae9",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "docs/WORKBENCH.md",
+      "bytes": 16375,
+      "sha256": "7000433b269d8f0500980708aaf266a09f3ddaf0f5c526bcb1d20ecd2faab934",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "docs/internal/REPOSITORY_AUDIT.md",
+      "bytes": 10731,
+      "sha256": "27d12076345d96d11ea619b911e46beb4cffb3ab5787fb4b994c2544fdbd7c87",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "examples/can/anomalous.candump",
+      "bytes": 154,
+      "sha256": "f1c9a361fe3a4b9afcfa5f2243ea317d21d00a82af36acaf08a3578ed39275fb",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "examples/can/normal.candump",
+      "bytes": 154,
+      "sha256": "483ca0615338e2a1d3ee05730a7453004f9a822bcd7f86eb1fb507c81bb510ac",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "examples/ecu/cortexm_lab.c",
+      "bytes": 815,
+      "sha256": "c0865f9fa1d2440a82798bb1433a85b7a66919bc39f9383857de9c064a6664c8",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "examples/ecu/cortexm_lab.elf",
+      "bytes": 5032,
+      "sha256": "216534614a5171d9d71e8f04584cf2ce4f7b14724be33893b5c42c4d6bc5e48e",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "examples/ecu/ecu_fixed.c",
+      "bytes": 454,
+      "sha256": "c07ccd6e8189596782c7cae6a26f6d7efea72850961a5fedf0d370696e2db397",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "examples/ecu/ecu_vulnerable.c",
+      "bytes": 393,
+      "sha256": "b2ff8745aee79dd8f0cc473970c099e9e66f8afc2033f915459bfc83e4be0f55",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "examples/ecu/linker.ld",
+      "bytes": 889,
+      "sha256": "89cc18a062dc56a8e91b7ffeee722ccdd6c128d57993d85ca317b623ee5f3bd4",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 1606,
+      "sha256": "eefe0aa9d43926af7f12577658b3fa6d14135c616bcebc5cc7a5067b3a731e45",
+      "symlink": false,
+      "syntax": "PASSED TOML parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "bytes": 314,
+      "sha256": "d06f9087ffa001357c470ad16ae3f14b6873b8f8f95208620f39bef1544f5436",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "requirements.lock",
+      "bytes": 2470,
+      "sha256": "fcb8856c72458b5ffe5c872590c3ff686cf78cda522638ef6bae9a9f92c32cf6",
+      "symlink": false,
+      "syntax": "NOT APPLICABLE"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 327,
+      "sha256": "1ee1b1c1ee8376399ba8e9911bbf198015cdedf4413b95954fd947a99382ea3b",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "scripts/browser-workbench.py",
+      "bytes": 12214,
+      "sha256": "631147c5c2bc228bf984e676bc41af7ad00601295fdcbba41d5d1c92c0e90de9",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "scripts/local-workbench.sh",
+      "bytes": 1916,
+      "sha256": "dbacfc4c87c13dbd80587bd72c695087cee8f8a83b840616da551dfd8b93c535",
+      "symlink": false,
+      "syntax": "PASSED bash -n (not executed)"
+    },
+    {
+      "path": "scripts/security_scan.py",
+      "bytes": 5596,
+      "sha256": "33401270fb6cf176b25f1681ded46e9e1225a9641c5f27b1f6bfa43d17cb3483",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "security_scans/SUPPLY_CHAIN_2026-10-27.md",
+      "bytes": 3496,
+      "sha256": "f701b6f2425ddb06ba18af0f46092ba127dc4e34e9f2bec3eb8bdfe92f647cdf",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "security_scans/bandit.txt",
+      "bytes": 1875,
+      "sha256": "0724f6aa817ebf873e35ecdf72b05ea0cfbdbe30bd744d52c1017346668bf49d",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "security_scans/pip_audit.txt",
+      "bytes": 2874,
+      "sha256": "a55e7d272652bf3d89fe74707ea67b6ba2e492f6123e29b3409972461897d0ba",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "security_scans/pip_audit_aegis.txt",
+      "bytes": 321,
+      "sha256": "1d42a7311d5128e3ec88b5650e86f8aecd157c47599c309d5f827721b4b582d2",
+      "symlink": false,
+      "syntax": "READ text; facts/examples NOT VERIFIED by this script"
+    },
+    {
+      "path": "security_scans/sbom-aegis.json",
+      "bytes": 7687,
+      "sha256": "71aec403261a62fc3976c0355d98f5b924c5c44de2dca4603abeabd6326d867c",
+      "symlink": false,
+      "syntax": "PASSED JSON parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "tests/conftest.py",
+      "bytes": 1961,
+      "sha256": "efe6e7eddc790eec471e318e72ded67fe5b6a06e44633eac4ca327b0501028d4",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/fixtures/product_telemetry_corpus.json",
+      "bytes": 4420,
+      "sha256": "225be7e9daebf910f08afec85390ee504841ed6a0184ff23c2fc19b560c1b1e7",
+      "symlink": false,
+      "syntax": "PASSED JSON parse (schema NOT VERIFIED)"
+    },
+    {
+      "path": "tests/test_automotive_embedded.py",
+      "bytes": 2772,
+      "sha256": "5173a51b787f6d6cc2c89983291ab19ead43664a5b55b9b4a49e88a715f86d3d",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_automotive_evidence.py",
+      "bytes": 4407,
+      "sha256": "1234ab47abcc3f4c3144d7400fce016645da8c1d1a3f9723711fe04c8e1b65bc",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_automotive_pipeline.py",
+      "bytes": 1216,
+      "sha256": "0040a8f7f29ed6abf5981ee59068583cac0ad8c230f5ee583fd92f26f14c3274",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_cli.py",
+      "bytes": 1388,
+      "sha256": "030d616ec094fa33767b2cc4037db1e799afd2e8816c2ba0b487978038803d97",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_connector_fhir.py",
+      "bytes": 10433,
+      "sha256": "5b2b5a8c9d84b75b3dfc4da1449c2d273d3e7023f5cf165b26e5535af0ee7bd6",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_healthcare_detector.py",
+      "bytes": 5954,
+      "sha256": "8d1667bd0d1ab6bb8ebe7fa08eb03ca209ea6c6029f28c3e4218784a861aacfb",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_healthcare_pipeline.py",
+      "bytes": 3066,
+      "sha256": "5a061db338cec8066d8491e7612bf9cf535558422947dee2e445cfe10c31dac5",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_healthcare_schema.py",
+      "bytes": 5203,
+      "sha256": "2d8f6de879748ce30d4c91e260c3b62ce2b262caa18c6c8dc003577e22c726e1",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_healthcare_units.py",
+      "bytes": 9157,
+      "sha256": "15eb3d7dec6d62dcc6204fe0f70d40c75592d5c646e283744aa08f3082336375",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_mimic_adapter.py",
+      "bytes": 6130,
+      "sha256": "3239744d6c45d43c74eb0f57d1f280e0f47a586b0e02d92de42c2afc3ec9d52f",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_pipeline.py",
+      "bytes": 4478,
+      "sha256": "d8ecb9d87617d435a705fa84c058c655a48edb21eecc405ec2ee735f365dd026",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_api_e2e.py",
+      "bytes": 14088,
+      "sha256": "06314c45ae60b3e336f4a7ae3e60271f0595837c2facb60c2f72973b702b112f",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_audit_integrity.py",
+      "bytes": 6187,
+      "sha256": "2617d085c0c88a2deb0b19cfba77de728ba45b508930d5741e7d569e9fb3cf14",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_auth.py",
+      "bytes": 3369,
+      "sha256": "02a20fe6cc51176417038694b267785489915cad51e788a351a4df456f934f5f",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_auth_hardening.py",
+      "bytes": 13945,
+      "sha256": "e58ca4d3a520ac8b070d7c75527453f0999965bc90ebb50a20aab2f5ff05c1ae",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_correlation.py",
+      "bytes": 5188,
+      "sha256": "32f7f0387e3bc50ef8ff8107beacdc33faad5f802074d07b21db99a1d66c2d70",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_db.py",
+      "bytes": 10950,
+      "sha256": "3afb24ccef9ad64142c372bfecf94c095e12ad9df0c6841b8b737b1a39dbebc2",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_failure_injection.py",
+      "bytes": 7170,
+      "sha256": "639b0864346bac1fcea8f31269bc0d41b7e5b02f5167f55d3392a9e6ce66a24c",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_models.py",
+      "bytes": 6000,
+      "sha256": "4265f9cd5e06a55c63c2d260e7157f190222eaf865e067261aa69a1de7be3964",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_tenant_isolation.py",
+      "bytes": 10329,
+      "sha256": "4195d05b088dd53e831e09203f67a1db4ed84677acaf7d05bf69e9419252a33f",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_platform_web_security.py",
+      "bytes": 5230,
+      "sha256": "e15bb0e1eab58496bf4240792e4008a7d52ed0c04a7814a80d9d2a5d0e7d4c1e",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_product_contract.py",
+      "bytes": 2201,
+      "sha256": "42dd8fe2d6227b081a4cb0b9401567955d29f042de83d28e260dc0d6baa41880",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_product_telemetry_corpus.py",
+      "bytes": 2072,
+      "sha256": "427b52ac240ce0d8fc76185d198cdbe6932504384bd6ec2f6c0d26577282a256",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_revoked_id_handling.py",
+      "bytes": 6064,
+      "sha256": "11999696b3680ded757a986c2a4c728d61849e5718e6091ebbfafde0b24c95cd",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    },
+    {
+      "path": "tests/test_workbench.py",
+      "bytes": 14383,
+      "sha256": "1ca2412d7f62214cc0f0251a6d4adb6976c44e5a9c29ae155d0693e78e4dd8e6",
+      "symlink": false,
+      "syntax": "PASSED Python AST (not executed)"
+    }
+  ],
+  "errors": [],
+  "links": [
+    {
+      "source": "AUTOMOTIVE_SECURITY.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "BASELINE_REPAIR_2026-10-27.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "CONTRIBUTING.md",
+      "target": "LICENSE",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "CONTRIBUTING.md",
+      "target": "SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "CONTRIBUTING.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "CONTRIBUTING.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "HEALTHCARE_SECURITY.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "MILESTONE_C_BASELINE_2026-10-27.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "MILESTONE_C_FINAL_REPORT.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "MILESTONE_D_BASELINE_2026-10-27.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "MILESTONE_D_PROGRESS.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "MILESTONE_D_SECURITY_REPORT.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PLATFORM.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PRODUCTION.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PRODUCTION.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PRODUCT_VALIDATION.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PRODUCT_VALIDATION.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PROVENANCE.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "PROVENANCE.md",
+      "target": "https://github.com/poojakira/attack-detection-engine/commit/51151f34b10169352ef4206c1913f79fd779dbd8",
+      "kind": "external"
+    },
+    {
+      "source": "PROVENANCE.md",
+      "target": "https://github.com/poojakira/attack-detection-engine/commit/51151f34b10169352ef4206c1913f79fd779dbd8",
+      "kind": "external"
+    },
+    {
+      "source": "PROVENANCE.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "docs/EVIDENCE.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "CHANGELOG.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "docs/internal/REPOSITORY_AUDIT.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "https://raw.githubusercontent.com/poojakira/attack-detection-engine/refs/tags/evidence/local-workbench-20261116/release-evidence/browser/desktop.png",
+      "kind": "external"
+    },
+    {
+      "source": "RUNBOOK.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "RUNBOOK.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "SECURITY.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "SECURITY.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "SECURITY_AUDIT.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "SECURITY_AUDIT.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "SECURITY_AUDIT_2026-09-30.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "SECURITY_AUDIT_2026-09-30.md",
+      "target": "AUTOMOTIVE_SECURITY.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "THREAT_MODEL.md",
+      "target": "docs/WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "docs/EVIDENCE.md",
+      "target": "WORKBENCH.md",
+      "kind": "local",
+      "exists": true
+    },
+    {
+      "source": "docs/WORKBENCH.md",
+      "target": "internal/REPOSITORY_AUDIT.md",
+      "kind": "local",
+      "exists": true
+    }
+  ],
+  "limits": [
+    "Syntax checks are not behavioral tests.",
+    "External links and anchors not checked here.",
+    "No arbitrary scripts or models executed.",
+    "This script does not establish semantic correctness or security."
+  ]
+}

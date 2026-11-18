@@ -1,0 +1,38 @@
+{
+  "checked_utc": "2026-11-18T04:13:27.392440+00:00",
+  "source_commit": "8ae9090b560871d1e584d717734693bb570fffae",
+  "run": {
+    "id": 44234954330,
+    "head_sha": "8ae9090b560871d1e584d717734693bb570fffae",
+    "head_branch": "codex/local-workbench-20261116",
+    "status": "queued",
+    "conclusion": null,
+    "created_at": "2026-11-18T04:06:01Z",
+    "updated_at": "2026-11-18T04:06:01Z",
+    "html_url": "https://github.com/poojakira/attack-detection-engine/actions/runs/44234954330"
+  },
+  "jobs": [],
+  "decision": "NOT VERIFIED unless completed successfully; no artifact or hosted pass is asserted",
+  "new_workflow_dispatch": {
+    "command": "gh workflow run workbench.yml --repo poojakira/attack-detection-engine --ref codex/local-workbench-20261116",
+    "exit_code": 1,
+    "result": "HTTP404: workflow is not registered on unchanged main; actual PR produced no recorded run"
+  },
+  "actions_settings_read": "HTTP403 Resource not accessible by integration; no settings changed",
+  "old_queue_cancellation": {
+    "run_id": 40562530813,
+    "observed_status": "queued",
+    "head_branch": "feat/healthsec-detection",
+    "head_sha": "cfdb5c9ef7bb5ffd347a627fb6dba0e7b13c0ac1",
+    "cancel_result": "HTTP409 Cannot cancel a workflow run that has not been queued yet",
+    "disposition": "Original branch HELD, not deleted"
+  },
+  "default_branch_advisories": {
+    "source": "git push server notice; not candidate audit",
+    "total": 17,
+    "high": 4,
+    "moderate": 11,
+    "low": 2,
+    "note": "Main remains unchanged. Candidate installed Python and npm audits separately report zero known advisories; no claim to resolve default alerts before merge."
+  }
+}

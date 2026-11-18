@@ -1,0 +1,14 @@
+{
+  "name": "inventory",
+  "command": [
+    "python",
+    "/workspace/work/validate_inventory.py",
+    ".",
+    "/workspace/work/evidence/attack-detection-engine/final/inventory.json"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:30.838838+00:00",
+  "finished_at": "2026-11-18T04:02:31.003706+00:00",
+  "exit_code": 0,
+  "log": "inventory.log"
+}

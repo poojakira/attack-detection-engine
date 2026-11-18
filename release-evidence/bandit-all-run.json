@@ -1,0 +1,17 @@
+{
+  "name": "bandit-all",
+  "command": [
+    "/workspace/work/envs/attack/bin/bandit",
+    "-r",
+    "detection_engine",
+    "-f",
+    "json",
+    "-o",
+    "/workspace/work/evidence/attack-detection-engine/final/bandit-all.json"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-18T04:02:33.793215+00:00",
+  "finished_at": "2026-11-18T04:02:34.447986+00:00",
+  "exit_code": 1,
+  "log": "bandit-all.log"
+}

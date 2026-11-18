@@ -1,0 +1,48 @@
+{
+  "gate": "Medium/high severity gate passed; full-severity output retained.",
+  "findings": [
+    {
+      "path": "detection_engine/healthcare/synthetic.py",
+      "line": 84,
+      "id": "B311",
+      "severity": "LOW",
+      "description": "Standard pseudo-random generators are not suitable for security/cryptographic purposes."
+    },
+    {
+      "path": "detection_engine/platform/api.py",
+      "line": 165,
+      "id": "B110",
+      "severity": "LOW",
+      "description": "Try, Except, Pass detected."
+    },
+    {
+      "path": "detection_engine/platform/migrations/env.py",
+      "line": 22,
+      "id": "B110",
+      "severity": "LOW",
+      "description": "Try, Except, Pass detected."
+    },
+    {
+      "path": "detection_engine/platform/provenance.py",
+      "line": 6,
+      "id": "B404",
+      "severity": "LOW",
+      "description": "Consider possible security implications associated with the subprocess module."
+    },
+    {
+      "path": "detection_engine/platform/provenance.py",
+      "line": 23,
+      "id": "B607",
+      "severity": "LOW",
+      "description": "Starting a process with a partial executable path"
+    },
+    {
+      "path": "detection_engine/platform/provenance.py",
+      "line": 23,
+      "id": "B603",
+      "severity": "LOW",
+      "description": "subprocess call - check for execution of untrusted input."
+    }
+  ],
+  "review": "Unchanged LOW issues: noncryptographic synthetic RNG, explicit rollback/config fallbacks, fixed Git provenance subprocess without user-controlled executable/arguments."
+}
