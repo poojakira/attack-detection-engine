@@ -1,85 +1,21 @@
-> Historical / secondary workflow reference. This document predates the 1.1.0 local workbench candidate; its metrics and branch/status claims are not current release evidence. See [the current workbench guide](docs/WORKBENCH.md) for the supported browser workflow and limits. Original dates and content below are preserved.
+# Release and deployment governance
 
-# Production Operating Contract
+**Decision: PARTIAL. No production deployment is approved.** Candidate software/API 1.1.0 and rule version `clinical-access-1.1` describe a functioning synthetic-data local workflow, not an operational certification.
 
-## System role
+## Promotion evidence
 
-This repository is maintained as a **security event detection engine**.
+Freeze the exact code and documentation commit, then run complete applicable regression with real disposable PostgreSQL and ATT&CK prerequisites, browser E2E, negative/boundary/recovery checks, lint/type/security/dependency analysis, builds, migrations/package startup and documentation/example checks. Record real source/clean state, commands, UTC intervals, environment/dependencies, pass/fail/skip counts, coverage settings and artifact hashes outside the checkout. Preserve the 53% coverage gate and existing security thresholds; skipped, queued or unexecuted checks are not passes.
 
-## Production purpose
+[Evidence status](docs/EVIDENCE.md) separates the published 8ae implementation proof, its independent review and blocked hosted state from pending later-head checks. The generic name Production Gate does not confer production approval. Dated October reports/scans are historical; their dependency-constraint explanations and Actions settings observations must not be assumed current.
 
-normalize inputs and execute deterministic rule/detector pipelines with machine-readable findings.
+## Outstanding properties
 
-## Release gate
+Full FHIR validation, real-patient privacy/use approval, clinical authorization context, representative efficacy/performance, parser/detector isolation and hard execution deadline, coordinated multiprocess quotas, externally anchored audit integrity, tested production backup/restore, clean-machine/container/runtime attestation and operational signoff remain missing or unverified. The input retains source JSON and can contain identifiers. No anonymization, HIPAA, enterprise deployment or field detection-rate claim is permitted.
 
-A release is promotable only when pipeline/CLI tests, rule validation, container build, lint, and dependency/security gates pass.
+The optional Compose stack and ASGI deployment entrypoint require operator-owned secrets, reviewed image digests, migrations/storage permissions, appropriate TLS/ingress and trusted identity policy. These are separate from the local launcher, which uses a named local volume and ephemeral signing secret. Production recovery and rollback need an exercised, compatible backup plan; normal container restart is not that proof. See [operations](RUNBOOK.md).
 
-## Operating requirements
+## Branches and publication
 
-- Configuration must come from explicit environment/config files; secrets must never be committed.
-- Production defaults must fail safely when required identity, credentials, artifacts, or dependencies are missing.
-- Health/readiness behavior must represent real dependency state where the repository exposes a service.
-- Logs and machine-readable outputs must support incident/debug reconstruction without leaking secrets.
-- Dependency and security findings at the repository's blocking threshold must stop promotion.
-- Public metrics and benchmark claims must identify their dataset, environment, and scope.
-- Deployment images/artifacts must be versioned and immutable at promotion time.
-- Rollback must be possible without rewriting Git history.
+Keep protected main, the reviewed candidate and active/unique work. The completed six-branch cleanup/recovery references and the healthcare branch held for queued CI are in [EVIDENCE.md](docs/EVIDENCE.md#branch-disposition). Do not delete ambiguous/unmerged work or rewrite shared history. This documentation pass performs no remote mutation or new source branch creation.
 
-## Evidence boundary
-
-"Production-oriented" describes the engineering and release contract of this repository. It does **not** mean that an external enterprise deployment, penetration test, certification, uptime history, or scale target has occurred unless a separate committed artifact proves it.
-
-## Change management
-
-Main is the supported integration branch. Production changes should be small, reviewable, tested, and tied to observable behavior. Historical benchmark/research material may remain for evidence, but active README, security, runbook, and deployment surfaces must describe the supported runtime rather than an academic or prototype status.
-
-
-## Automotive and embedded-security scope update (October 15, 2026)
-
-The repository also accepts `automotive_can`, `firmware`, and `arm_binary`
-offline inputs through `DetectionPipeline`. Verified scope is limited to
-synthetic CAN trace parsing and policy findings, selected C/C++ CWE-pattern
-candidate findings, and inspection of a locally cross-compiled ARM Cortex-M3
-ELF32 sample. A controlled native C fixture produced a reproducible
-AddressSanitizer stack-buffer-overflow finding; a separate fixed fixture
-rejected the same oversized input. This is an intentionally inserted lab
-vulnerability, not a discovery in a production ECU.
-
-For exact sample code, compiler commands, regression tests and unsupported
-claims, consult [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md). This
-update does not retroactively change historical snapshots and does not claim
-hardware testing, live vehicle penetration testing, full firmware reverse
-engineering, production efficacy, or independent security certification.
-The targeted post-merge Windows Python 3.12 run passed 29 tests; a later
-Python 3.11 Docker run (October 17, 2026) with two added ARM-ELF regression
-tests passed 31 focused tests. Neither number is a full-repository test total.
-
-
-## Milestone C: Investigation platform (October 27, 2026)
-
-The repository now also contains an end-to-end investigation platform under
-`detection_engine/platform/` (FastAPI API, PostgreSQL persistence via SQLAlchemy
-+ Alembic, deterministic correlation, RBAC/auth, and a React/TS SOC dashboard
-under `dashboard-ui/`). It is deployed via `deploy/docker-compose.yml`
-(postgres + backend + frontend) with health/readiness checks and migration
-startup.
-
-Operating requirements specific to the platform:
-
-- `AEGIS_JWT_SECRET` MUST be provided in any deployment; the container
-  entrypoint refuses to start without it (no insecure default).
-- `AEGIS_DATABASE_URL` configures PostgreSQL; the backend applies
-  `alembic upgrade head` on startup and waits for a healthy database.
-- `/readiness` returns 503 when the database is unreachable (no false-healthy).
-- Every data endpoint requires authentication and is organization-scoped;
-  cross-organization access returns 404.
-
-Verified locally and in a real Docker Compose run on 2026-10-27: full test suite
-**212 passed** (incl. real PostgreSQL integration and 8 end-to-end API/security
-tests), ruff clean, frontend build succeeds, and the stack ingests → detects →
-correlates → persists → investigates → resolves an incident that survives a
-container restart. This is engineering/release evidence in a controlled
-environment. It is **not** a claim of external enterprise deployment, HIPAA
-certification, penetration test, or uptime history. Hosted GitHub Actions CI is
-currently BLOCKED because repository Actions are disabled; see PLATFORM.md and
-the final report.
+Use immutable non-release evidence tags for generated, hash-verified records. They are not software release tags. Review/merge, package/container publication, cloud resources and deployment are separate actions. No current documentation commit inherits an earlier commit's passing results.

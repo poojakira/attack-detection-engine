@@ -1,165 +1,57 @@
-> Historical / secondary workflow reference. This document predates the 1.1.0 local workbench candidate; its metrics and branch/status claims are not current release evidence. See [the current workbench guide](docs/WORKBENCH.md) for the supported browser workflow and limits. Original dates and content below are preserved.
+# Clinical-access detection and data boundaries
 
-# Healthcare Clinical-Access Security Detection
+## Implemented scope
 
-This document describes the healthcare detection module added to the engine. It
-is written for security engineers evaluating the component. It states what is
-implemented and verified, and what is explicitly **not** claimed.
+`detection_engine/healthcare/` provides a normalized `ClinicalAccessEvent`, explicit caller-supplied `ClinicalContext`, a labeled synthetic generator, seven deterministic `PatientAccessDetector` rules and an optional checksum-checking MIMIC demo context adapter. The platform, FHIR connector, persistence, correlation and React UI also exist in this repository; they are described in [PLATFORM.md](PLATFORM.md) and [WORKBENCH.md](docs/WORKBENCH.md). Their existence is not real EHR streaming, clinical authorization validation or production approval.
 
-## Scope and status
+The current workbench accepts only the documented bounded FHIR R4 metadata subset. It requires a seconds component (optional fractional seconds) with explicit timezone and at least one object agent. Missing optional action/outcome stays UNKNOWN. R4 outcomes 4/8/12 indicate failure levels, not explicit authorization denial. Unsupported present codes and malformed/unsupported entries are rejected/countable. The separate normalized schema historically accepts its documented naive-UTC convention; that does not relax the FHIR adapter.
 
-The module adds a **clinical-access anomaly detection** capability alongside the
-existing automotive/ATT&CK detectors. The two domains share one pipeline but are
-code-decoupled: healthcare code lives entirely under
-`detection_engine/healthcare/` and does not touch the automotive detectors.
+## Privacy and context
 
-| Capability | Status | Evidence |
+The normalized schema forbids extra fields and rejects some obvious email/SSN/bare-long-number identifiers in selected fields. These are heuristics, not a proof that accepted values are pseudonymous, lawful to process or de-identified. Reference-token extraction can retain identifying values. Findings project normalized metadata; **workbench reports also deliberately retain original JSON**, including fields outside that projection. Only synthetic data is permitted in this evaluation. Do not label exports PHI-free, anonymous or compliant.
+
+`ClinicalContext` is supplied context, not independently established authorization ground truth. Synthetic assignments are fictional. A MIMIC admission's provider–patient link is a documented care relationship, kept separate from `assigned_patients`; it is not an authorization grant. Trusted HR/IAM/scheduling provenance and deployment-specific interpretation remain external prerequisites.
+
+## Rule inventory and interpretation
+
+| Rule | Default signal | Boundary |
 |---|---|---|
-| Normalized clinical-access event schema (PII-rejecting, UTC, correlation-ready) | **VERIFIED** | `detection_engine/healthcare/schema.py`, `tests/test_healthcare_schema.py` |
-| FHIR R4 `AuditEvent` normalization (reference tokens only) | **VERIFIED (subset)** | `ClinicalAccessEvent.from_fhir_audit_event`, schema tests |
-| Labeled, seed-deterministic synthetic event generator | **VERIFIED** | `synthetic.py`, detector/determinism tests |
-| Deterministic `PatientAccessDetector` (7 rules) | **VERIFIED** | `detector.py`, `tests/test_healthcare_detector.py` |
-| Pipeline integration as `clinical_access` source | **VERIFIED** | `pipeline.py`, `tests/test_healthcare_pipeline.py` |
-| MIMIC-IV Demo v2.2 legitimate-context adapter (checksum-verified) | **VERIFIED** | `mimic/adapter.py`, `tests/test_mimic_adapter.py`, PROVENANCE.md |
-| Statistical/behavioral anomaly scoring | **NOT IMPLEMENTED** | deterministic rules only; no trained model, no accuracy metric claimed |
-| Real FHIR/EHR live ingestion | **NOT IMPLEMENTED** | schema is FHIR-forward; no live connector exists |
-| Persistence, API, dashboard, correlation engine | **NOT IMPLEMENTED** | out of scope for this increment |
-| HIPAA compliance | **NOT CLAIMED** | the module can support monitoring/evidence; it is not a compliance attestation |
+| `HC-ACCESS-BULK` | At least 25 distinct patient READ/SUCCESS records for one actor in a batch | Threshold crossing, not malicious-intent proof |
+| `HC-ACCESS-OFFSHIFT` | Unassigned access outside a supplied shift without break-glass | Requires meaningful caller-supplied profile/shift context |
+| `HC-ACCESS-UNASSIGNED` | Access outside a supplied assignment panel | Review signal; care relationships can mitigate but do not authorize |
+| `HC-ACCESS-BREAKGLASS` | Break-glass metadata | LOW review signal, not a malicious verdict |
+| `HC-ACCESS-DENYSUCCESS` | Default three explicit denials on a resource then success | Current R4 mapping does not infer `denied`; its threshold has no effect without those semantics |
+| `HC-IDENTITY-SVCSCOPE` | Service-account resource outside a supplied prefix scope | Requires supplied service profile/scope; empty configured scope has different meaning |
+| `HC-EXFIL-BULKEXPORT` | Export of at least 1,000 records in one event | Investigation trigger, not proven exfiltration; T1567 mapping only when a mapping builder/index is supplied |
 
-## The event schema
+No trained anomaly model, statistical baseline, population precision/recall or hospital efficacy measurement is established. Batch processing is not continuous monitoring or a general cross-batch session detector. The workbench exposes only two bounded thresholds and uses no authoritative assignment context.
 
-`ClinicalAccessEvent` is the canonical, source-agnostic record of one
-clinical-resource access *as seen by a security monitor*. It is metadata only —
-who did what to which resource, when, from where, with what outcome — and
-deliberately excludes patient record content.
+## Run a synthetic detector example
 
-Privacy properties (enforced, with tests):
-- `actor_id`, `patient_ref`, `resource_id`, `session_id` must be **pseudonymous**.
-  The schema rejects values that look like plaintext PII (emails, SSNs, bare
-  9+ digit MRN/phone-style tokens).
-- Unknown/extra fields are **forbidden** (`extra="forbid"`), preventing accidental
-  smuggling of fields like `patient_name`.
-- Timestamps are normalized to **UTC**.
-- `redacted_evidence()` produces the only evidence attached to findings: metadata
-  and pseudonymous identifiers, never record content.
-
-## Detection rules
-
-All rules are deterministic and explainable. Each finding records the exact
-`contributing_signal` and the metadata that triggered it.
-
-| Rule ID | Severity | Fires when |
-|---|---|---|
-| `HC-ACCESS-BULK` | HIGH | One actor reads ≥ `bulk_access_threshold` (default 25) distinct patients in the batch |
-| `HC-ACCESS-OFFSHIFT` | HIGH | Access to an unassigned patient outside the actor's shift, no break-glass |
-| `HC-ACCESS-UNASSIGNED` | MEDIUM | On-shift access to a patient outside the actor's panel (review; may be legitimate cross-coverage) |
-| `HC-ACCESS-BREAKGLASS` | LOW | Break-glass/emergency access used — surfaced for **review, not treated as malicious** |
-| `HC-ACCESS-DENYSUCCESS` | HIGH | ≥ `denial_streak_threshold` (default 3) denials on one resource then a success (possible authorization probing) |
-| `HC-IDENTITY-SVCSCOPE` | HIGH | A service account touches a resource outside its authorized prefix scope |
-| `HC-EXFIL-BULKEXPORT` | CRITICAL | A single export event of ≥ `bulk_export_record_threshold` (default 1000) records |
-
-### Design choices that matter
-
-- **A clinician accessing several assigned patients is not an alert.** Legitimate
-  rounds (assigned patients, during shift) produce **zero** findings. This is a
-  tested benign control.
-- **Documented emergency access is a review event, not a malicious verdict.**
-  Break-glass yields only a LOW `HC-ACCESS-BREAKGLASS`.
-- **ATT&CK is attached only where justified.** Only `HC-EXFIL-BULKEXPORT` maps to
-  an ATT&CK technique (**T1567 — Exfiltration Over Web Service**), because it is
-  exfiltration-shaped. Access-pattern anomalies emit **no** ATT&CK mapping rather
-  than inventing one.
-- **A large export is not proof of exfiltration.** The CRITICAL finding is an
-  investigation trigger, and its description says so.
-
-## Authorization context
-
-The detector consumes a `ClinicalContext` (`context.py`): per-actor assignment
-panels, service-account resource scopes, and shift windows. This is the
-authorization ground truth. It can come from:
-
-- the synthetic generator (`ClinicalContext.from_synthetic_org`), or
-- the MIMIC-IV Demo adapter (`MimicDemoAdapter.build_clinical_context`), which
-  records documented `provider → patient` **care relationships** from real
-  admission data (populating `care_relationships`, a mitigating contextual
-  signal — **not** `assigned_patients`, because an admission link is not proof
-  of access authorization), or
-- (future) an authoritative HR/IAM/scheduling feed.
-
-## End-to-end: run it yourself
-
-Prerequisites: the engine installed with the pinned `attack-v19-core` (see
-`BASELINE_REPAIR_2026-10-27.md` for the exact isolated-venv steps).
-
-### A. Fully synthetic (no dataset needed)
+With the package/platform prerequisites installed, this invokes the actual clinical detector without downloading a clinical dataset or constructing the optional STIX index:
 
 ```python
-from attack_v19_core import ATTACKLoader, ATTACKIndex
-from detection_engine.pipeline import DetectionPipeline
-from detection_engine.healthcare.synthetic import SyntheticAccessGenerator
 from detection_engine.healthcare.context import ClinicalContext
+from detection_engine.healthcare.detector import PatientAccessDetector
+from detection_engine.healthcare.synthetic import SyntheticAccessGenerator
 
 gen = SyntheticAccessGenerator(seed=1337)
 org = gen.build_org()
-ctx = ClinicalContext.from_synthetic_org(org)
-pipe = DetectionPipeline(ATTACKIndex(ATTACKLoader()), clinical_context=ctx)
-
-benign = [e.model_dump(mode="json") for e in gen.benign_rounds(org)]
-attack = [e.model_dump(mode="json") for e in gen.attack_bulk_export(org)]
-
-print("benign findings:", [f.rule_id for f in pipe.run({"clinical_access": benign})])
-print("attack findings:", [f.rule_id for f in pipe.run({"clinical_access": attack})])
+detector = PatientAccessDetector(context=ClinicalContext.from_synthetic_org(org))
+benign = detector.detect(list(gen.benign_rounds(org)))
+export = detector.detect(list(gen.attack_bulk_export(org)))
+print([f.rule_id for f in benign])
+print([f.rule_id for f in export])
 ```
 
-Expected: benign produces no HIGH/CRITICAL finding; the export produces
-`HC-EXFIL-BULKEXPORT` mapped to T1567.
+The benign control has no HIGH/CRITICAL signal; the export contains `HC-EXFIL-BULKEXPORT`. Without an optional index, this example does not demonstrate ATT&CK mapping. Use the supported browser sample for import/persistence/rerun/export acceptance.
 
-### B. Real legitimate context from MIMIC-IV Demo + simulated attack
+## Optional MIMIC context adapter
 
-First download the ODbL demo (no credentials needed for the demo subset):
+`MimicDemoAdapter` accepts an operator-supplied local dataset directory and defaults to verifying each consumed file against its recorded digest in `healthcare/mimic/provenance.py` before parsing. `build_clinical_context()` actually reads only `hosp/patients.csv.gz` and `hosp/admissions.csv.gz`; provenance constants list five tables, and the private row reader defines a services schema, but that does not mean all five are consumed by this public method. The API exposes `verify_checksums=False`; do not use that bypass to support a verified-provenance claim. A matching digest binds expected bytes, not data-use authorization, clinical accuracy or patient privacy.
 
-```bash
-wget -r -N -c -np https://physionet.org/files/mimic-iv-demo/2.2/
-# place hosp/ and icu/ under ./mimic_data/
-```
+For an independently approved local dataset, import `MimicDemoAdapter` from `detection_engine.healthcare.mimic.adapter`, construct it with that dataset root, call `build_clinical_context()` and inspect `load_report()` for consumed/verified files and skipped rows. These dataset-dependent calls were source-reviewed, not executed in this documentation pass. Missing files, checksum mismatches and missing required columns raise explicit provenance/schema errors. The adapter derives care relationships rather than security telemetry or cyberattack labels. Its output is not proof of clinician access or misuse. Dataset licensing/access/privacy decisions require the authoritative publisher's terms and an independently approved context; no download or real-clinical-data processing was performed in this documentation pass. The [historical attribution/provenance record](PROVENANCE.md#healthcare-dataset-provenance--mimic-iv-demo-v22-october-27-2026) retains its original observations; they are not newly executed or independently certified here.
 
-```python
-from detection_engine.healthcare.mimic import MimicDemoAdapter
+## Verification and remaining gates
 
-adapter = MimicDemoAdapter("mimic_data")        # verifies SHA256 before parsing
-ctx = adapter.build_clinical_context()           # documented care relationships
-print(adapter.load_report())                      # PHI-free provenance report
-```
-
-Then build the pipeline with `clinical_context=ctx` and run **synthetic** access
-events as in example A. Because an admission link is modelled as a care
-relationship (not an authorization grant), a provider reading a care-related
-patient yields a LOW review signal that records the relationship; the same
-provider bulk-reading many unrelated patients fires `HC-ACCESS-BULK`. Note: the
-access events here are simulated — this is **not** a real clinician accessing
-real records.
-
-## Verified test evidence (2026-10-27)
-
-Isolated venv, pinned `attack-v19-core` `087accffc7`, Python 3.12.3:
-
-- Full suite: **116 passed** (70 pre-existing + 46 healthcare: 37 schema/detector/
-  pipeline + 9 MIMIC adapter).
-- `ruff 0.8.4` check: **All checks passed**.
-- Real MIMIC-IV Demo load: 100 patients / 275 admissions / 170 providers,
-  all five consumed files SHA256-verified against the published sums.
-
-These figures are deterministic regression/behavior evidence on constructed test
-data. They are **not** a detection-rate measurement for any real hospital, and
-nothing here constitutes HIPAA certification or production validation.
-
-## Known limitations
-
-- Rules are threshold/deterministic; thresholds are defaults and must be tuned
-  per environment. No statistical baseline or ML scoring is implemented.
-- Detection runs per batch; there is no persistent cross-batch correlation,
-  alert suppression, or stateful session tracking yet.
-- The FHIR adapter maps a subset of `AuditEvent` and trusts the caller to supply
-  pseudonymous references.
-- No live telemetry connectors, storage, API, or dashboard are included in this
-  increment.
+Schema/detector/synthetic/pipeline/MIMIC fixture tests exercise named cases. Current full-suite and browser results must identify the actual frozen commit in [EVIDENCE.md](docs/EVIDENCE.md). Historical 116-test/real-demo records remain historical; they are not current results or authorization to process real PHI. Full FHIR conformance, real EHR feeds, authoritative clinical context, representative accuracy, privacy/legal review and operational approval remain NOT IMPLEMENTED or NOT VERIFIED as recorded.

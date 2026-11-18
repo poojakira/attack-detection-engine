@@ -1,9 +1,50 @@
-# Evidence contract
+# Evidence and release status
 
-Final evidence is generated outside the source checkout after a clean candidate commit is frozen. The manifest records exact repository/branch/SHA/clean status; UTC command intervals/exits; OS/Python/Node and dependency versions; input/config/source hashes; JUnit testcase pass/fail/skip and separate native subtest counts; coverage settings; browser checks, logs, screenshots and actual export; package/build/security results; artifact SHA-256s; retained resources/cleanup; remaining limitations and an honest decision.
+## Published implementation source
 
-Reports contain the original input hash (UTF-8 file text), canonical config hash, Python source-content hash, exact-source Git status or UNKNOWN, app/rule/core revisions and package versions. Per-run UUIDs, timestamps, finding IDs and incident IDs vary; semantic findings and input/config hashes can be reproduced. Reports themselves are checksummed but are not signed or externally tamper-proof.
+The complete immutable non-release archive at `evidence/local-workbench-20261116-complete` contains proof for **`8ae9090b560871d1e584d717734693bb570fffae`**:
 
-Health/report evidence is allowlisted and must never capture bearer/sessionStorage tokens, bootstrap passwords, provider credentials, browser storage dumps or actual PHI. Synthetic identifiers and test-only local database credentials are not production credentials. Server logs must not include authorization headers or request bodies. Export source data can contain arbitrary uploaded fields; only synthetic fixtures are permitted in public evidence.
+- [Assessment and limitations](https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/RELEASE_ASSESSMENT.md)
+- [Exact commands, environment, times and artifact hashes](https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/manifest.json)
+- [Focused independent closure](https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/independent-review/ASSESSMENT.md)
+- [Branch dispositions and restore commands](https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/branch-disposition.json)
+- [Hosted limitation record](https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/remote-ci/status.json)
 
-The expected immutable non-release screenshot archive URL is documented in README. Publishing that archive and approving any report publication are separate parent tasks. A clean test run is not a production signoff. Review [WORKBENCH.md](WORKBENCH.md) for test commands, boundaries and unresolved master-contract gaps.
+At that source: 327 individual tests passed with 0 failures/errors/skips; 82.47% line coverage (2489/3018), preserving the 53% gate. Nine engineering browser checks and seven installed-wheel checks passed. Eighteen focused independent observations closed AEGIS-QA-01 and matched 74 then-frozen engineering artifacts; the reviewer did not independently repeat the complete regression. The coordinating engineer's literal-launcher checks (7 browser and 6 restart/persistence observations) included exact export bytes after actual restart and a post-cleanup 327-test repeat. Installed dependency environments were reused; no clean-download-install claim is made.
+
+Candidate Python/npm audits reported 0 known advisories. Full-severity Bandit retained 6 reviewed LOW findings and a nonzero exit while the medium/high gate passed. Secret heuristics' 51 candidates were reviewed as public hashes/revisions or synthetic fixtures; no live checking or suppression baseline. These findings cannot prove absence of secrets/vulnerabilities. The default-main push notice: 17 alerts (4 high/11 moderate/2 low) was distinct from candidate audits and was not resolved by leaving main unchanged.
+
+The archive's 118 public files were hash-verified. An initial incomplete packaging tag is preserved and explicitly superseded by the complete archive; no immutable tag was rewritten. These counts, screenshots and reviews stay tied to 8ae after a later documentation commit.
+
+## Documentation head and provenance rules
+
+Fresh later-head regression/browser/build/security results are **pending until an actual generated manifest identifies that exact frozen head**. The planned new non-release archive is `evidence/docs-reconciliation-20261118`; a name alone does not prove existence or success. [PR #58](https://github.com/poojakira/attack-detection-engine/pull/58) records actual publication status. The [all-document ledger](DOCUMENTATION_AUDIT.md) separates read/source checks, executed examples, syntax-only checks and unavailable or unsafe prerequisites.
+
+Generate final artifacts outside source. Record repository/branch/SHA/clean state, UTC intervals, tool/OS/dependency versions and locks, exact commands/exits, individual JUnit pass/fail/skip counts and separate native subtests, coverage method, builds, runtime/API/browser evidence, screenshots/export and artifact hashes. A current headline cannot borrow an earlier commit's result. [WORKBENCH.md](WORKBENCH.md#testing-evidence-and-security-autopsy) gives the actual gates and destructive-test prerequisites.
+
+Reports bind UTF-8 input/configuration and Python source-content hashes, versions and source status. Per-run IDs/times/incident IDs vary; semantic signals and input/config hashes can be reproduced. Installed wheels report source UNKNOWN outside their exact tracked source root. A checksummed report is not signed, anonymized or externally tamper-proof.
+
+Never save bearer/sessionStorage tokens, bootstrap/database/provider secrets, browser storage dumps, private backups or real PHI in public evidence. Synthetic fixtures must be labeled. Exports retain original supplied fields; inspect before sharing. Syntax validation is not execution of deployment, clinical-data download, test database destruction or an intentionally vulnerable native fixture.
+
+## Hosted CI boundary
+
+At the published 8ae pass, CI 44234954330 remained queued with no jobs; the new `workbench.yml` dispatch returned 404 because it was not registered on unchanged main. Actions-settings read returned 403. An old queued run 40562530813 returned 409 on cancellation. None is a hosted pass. Earlier October reports claimed Actions-disabled status from their then-observed setting; that is historical, not independently re-established by the later 403/queued observations. No security setting or workflow gate was bypassed to force green results.
+
+## Branch disposition
+
+The completed implementation pass retained 14 remote branches: main, this candidate, ten active dependency PR branches, unique unmerged cross-language work and the merged healthcare branch held for its unresolved queued CI. Re-read provider state before later cleanup; this is a dated disposition, not a live API.
+
+| Deleted merged/unused branch | Verified recovery tag |
+|---|---|
+| `feat/automotive-firmware-can` | `archive/aegis/feat-automotive-firmware-can-20261118` |
+| `feat/milestone-c-platform` | `archive/aegis/feat-milestone-c-platform-20261118` |
+| `feat/milestone-d-hardening` | `archive/aegis/feat-milestone-d-hardening-20261118` |
+| `feat/milestone-e-connectors` | `archive/aegis/feat-milestone-e-connectors-20261118` |
+| `fix/automotive-validation-docs` | `archive/aegis/fix-automotive-validation-docs-20261118` |
+| `fix/full-test-index-fixture` | `archive/aegis/fix-full-test-index-fixture-20261118` |
+
+Content/transitive merge chains, PR/protection/CI/release/deploy/reference checks, a verified private Git bundle and annotated recovery tags preceded deletion. The private bundle and database backups are not published. No unique/ambiguous branch was deleted, no default history was rewritten and no main merge/deployment/software release occurred. This documentation pass performs no branch mutation.
+
+## Remaining acceptance gates
+
+Hard parser/detector execution isolation/deadline, coordinated multiprocess quotas, full FHIR conformance, authoritative clinical authorization/privacy, external audit anchoring, clean-machine/image/runtime proof and production recovery/operational approval remain missing or unverified. Local all-document reconciliation does not verify external historical chronology, field efficacy, third-party/legal assertions or every deployment command. Release remains **PARTIAL**; see [PRODUCTION.md](../PRODUCTION.md).

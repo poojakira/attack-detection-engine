@@ -1,4 +1,4 @@
-> Historical / secondary workflow reference. This document predates the 1.1.0 local workbench candidate; its metrics and branch/status claims are not current release evidence. See [the current workbench guide](docs/WORKBENCH.md) for the supported browser workflow and limits. Original dates and content below are preserved.
+> **Historical/source-bounded record.** Metrics, branch/settings statements, dependency constraints, commands and author-recorded external observations below describe their cited earlier snapshot. They are not current documentation-head execution or production/privacy approval. Current state and review limits: [evidence status](docs/EVIDENCE.md). External chronology, dataset/legal/field assertions were not independently revalidated in this documentation pass. Do not execute destructive, credential-bearing, clinical-data or deployment examples merely to reproduce a historical record.
 
 # Milestone D — Security Hardening Report (2026-10-27)
 

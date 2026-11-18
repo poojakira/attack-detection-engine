@@ -20,27 +20,10 @@ Rights already validly granted under earlier MIT, Apache-2.0, or other terms (wh
 
 For licensing requests, contact poojakiranbhardwaj@gmail.com. No permission is implied from silence.
 
-
 ## Current authorized development
 
-The current local workflow and test prerequisites are in [docs/WORKBENCH.md](docs/WORKBENCH.md). The testing section requires an explicitly disposable PostgreSQL database; fixtures drop all tables. Historical test totals below are not current candidate evidence.
+Use [README setup](README.md#start-locally), [developer/test prerequisites](docs/WORKBENCH.md#testing-evidence-and-security-autopsy), and [operations](RUNBOOK.md). Full tests drop all ORM tables: explicitly isolate the test database from retained/user data. Pin the exact core and verified ATT&CK bundles; do not substitute an API-incompatible build with the same version label.
 
-## Historical automotive and embedded-security scope update (October 15, 2026)
+Run applicable full regression/browser/security/type/build/doc gates after source freeze and publish only actual exact-source outcomes. Keep unchanged blocking thresholds, preserve skipped/failed checks and source-scope historical reports. Use synthetic inputs and out-of-tree evidence; never publish secrets, tokens, clinical data or private recovery backups. Do not turn a loopback development workflow into a public service or bypass checks to obtain green results.
 
-The repository also accepts `automotive_can`, `firmware`, and `arm_binary`
-offline inputs through `DetectionPipeline`. Verified scope is limited to
-synthetic CAN trace parsing and policy findings, selected C/C++ CWE-pattern
-candidate findings, and inspection of a locally cross-compiled ARM Cortex-M3
-ELF32 sample. A controlled native C fixture produced a reproducible
-AddressSanitizer stack-buffer-overflow finding; a separate fixed fixture
-rejected the same oversized input. This is an intentionally inserted lab
-vulnerability, not a discovery in a production ECU.
-
-For exact sample code, compiler commands, regression tests and unsupported
-claims, consult [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md). This
-update does not retroactively change historical snapshots and does not claim
-hardware testing, live vehicle penetration testing, full firmware reverse
-engineering, production efficacy, or independent security certification.
-The targeted post-merge Windows Python 3.12 run passed 29 tests; a later
-Python 3.11 Docker run (October 17, 2026) with two added ARM-ELF regression
-tests passed 31 focused tests. Neither number is a full-repository test total.
+Explain the concrete behavior, code/doc changes, validation and remaining risk in a reviewed proposal. Retain active/unique work and safe recovery points before any separately authorized cleanup. Default merge, deployment, package/container publication and external data/notifications require their own explicit scope and readiness gates. See [documentation audit](docs/DOCUMENTATION_AUDIT.md) and [historical provenance](PROVENANCE.md).
