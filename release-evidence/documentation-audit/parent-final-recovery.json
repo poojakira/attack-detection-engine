@@ -1,0 +1,11 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "author_handoff": "FINAL_HANDOFF.json records original Docker ENOSPC failure before CLI startup; not a pass",
+  "parent_final_controls": "offline-checks-final.json now records five actual successful current-source controls, after coordinated resource cleanup; original error retained in final-command-04.log and handoff",
+  "final_cli_expected_and_actual_exits": [
+    0,
+    0,
+    2
+  ],
+  "product_or_security_threshold_changes": false
+}

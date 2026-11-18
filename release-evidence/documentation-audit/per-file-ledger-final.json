@@ -1,0 +1,211 @@
+{
+  "baseline_source": "8ae9090b560871d1e584d717734693bb570fffae",
+  "utc": "2026-11-18T20:22:09.032898+00:00",
+  "scope": "27 original human text documents plus two requirements files read completely; legal LICENSE separately read/preserved. Semantic review is bounded by source inspection and named actual checks; no independent certification of historical/external/legal/clinical claims.",
+  "files": [
+    {
+      "path": "AUTOMOTIVE_SECURITY.md",
+      "disposition": "current guidance reconciled",
+      "review": "Reconciled CAN text/frame bounds, caller policy, three source heuristics, actual ELF segment checks and bytes/NDJSON boundary; retained historical compiler/lab observations as unverified history. Executed safe fenced example only.",
+      "original_sha256": "38c08c2944224d5e1f27eac66fce99a7f0a76221a46b415225950dd56c153e18",
+      "reconciled_sha256": "c644dd309a16a635c38c83c37d84e8c77345f39b18101efe0cada6cc2edfea69"
+    },
+    {
+      "path": "BASELINE_REPAIR_2026-10-27.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "6efbe50ee2ed680f0a7eea51dc1063613d1c40f2c67ed1b56b9a84a030b719da",
+      "reconciled_sha256": "a9fd8e5c4acf4f60600e8a7f2d365bba700311fc550601309eaac7d3ad200e0d"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "disposition": "current guidance reconciled",
+      "review": "Added documentation reconciliation scope; corrected stale candidate review/branch statements; preserved historical entries and dates.",
+      "original_sha256": "f416fea2ee7e8f16080b17d98b1c47daa444a6a912c534d51ab90f83b6b9b9cb",
+      "reconciled_sha256": "dbe3cc535218bc79dda9de32abf5fa1cf89fbcab4a124a71887946eb2c6ac883"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "disposition": "current guidance reconciled",
+      "review": "Preserved legal/authorization preamble verbatim; consolidated current development, destructive-test precautions, exact-pin and review expectations.",
+      "original_sha256": "3d8fb70ffc0a6cf1d9fc1dcc93c5c54e1117e29340770b969d727f34f3c1a593",
+      "reconciled_sha256": "6b95ab87a0dfdda059209dbe99fa569e78ec101bccf89d80c17226ff1b04e645"
+    },
+    {
+      "path": "HEALTHCARE_SECURITY.md",
+      "disposition": "current guidance reconciled",
+      "review": "Reconciled seven rules, optional mapping, context/care/authorization distinction, FHIR UNKNOWN/timestamp boundary, raw-input privacy and optional MIMIC checksum bypass. Executed synthetic example; no clinical download.",
+      "original_sha256": "4c4d3a9565485b6978e037751dea950dcccbae2cc70025896b1743769099b293",
+      "reconciled_sha256": "c5ebaed5a8cbd53d37cd83a4600771bd3ac0072afea24044bda674c1ee0441b5"
+    },
+    {
+      "path": "MILESTONE_C_BASELINE_2026-10-27.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "1487d912469bcf2c48dcd94565f26a5d663677ce3d5bd87ffc0ccc6342a65801",
+      "reconciled_sha256": "73724c3973e177c9a0cec5d356647888e365f38354d9f4392dc3772797896764"
+    },
+    {
+      "path": "MILESTONE_C_FINAL_REPORT.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "da68f86ad13b35914b018cdd425d1bd78c8a649121f2daf3d1117fb47b643685",
+      "reconciled_sha256": "4a01253bdcd6a4a98c834e8840f1572dda6a4df19e6c268caf19d8daa80b5164"
+    },
+    {
+      "path": "MILESTONE_D_BASELINE_2026-10-27.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "6d3381f01176abc4ccd1d69689e2fcb1daef63c0ccbf30ea718c735c05e2f0c4",
+      "reconciled_sha256": "78f03fec4ec17486a489779f580d62d31283176dd30fc68373eb5223bc3506f4"
+    },
+    {
+      "path": "MILESTONE_D_PROGRESS.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "9401c1825b6d702178aa7ce05332824dc47ceb35d4910aeb14e6f561cee08245",
+      "reconciled_sha256": "622d3308ace3c5b879ef304fac53d730d66202fd6bc463b2e4b630e6d2026d16"
+    },
+    {
+      "path": "MILESTONE_D_SECURITY_REPORT.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "1fe7892fb4a12b11ebd194b17fb6fe778b72a8f39b3865c769f4bca218762962",
+      "reconciled_sha256": "4614b6bbd816c7589fd6e15e5122c37d8ae1415e8fb5d9a8a14a5323eb35bfd6"
+    },
+    {
+      "path": "PLATFORM.md",
+      "disposition": "current guidance reconciled",
+      "review": "Reconciled actual React/API/DB flow, ten tables, current Argon2id/PyJWT authority, routes, secure-config conditional, OpenAPI/CSP and migration behavior.",
+      "original_sha256": "8c5b87ec3a6f6a07db24dc819c08af0f8b33c23c7f9250a6fc98626fff870e1a",
+      "reconciled_sha256": "9670034147a8f9c7039e0de4dee103a84c76e893137001348b1fbb4d522a66af"
+    },
+    {
+      "path": "PRODUCTION.md",
+      "disposition": "current guidance reconciled",
+      "review": "Replaced obsolete release checklist with current PARTIAL decision, exact-source verification and unresolved technical/hosted/privacy/operations gates.",
+      "original_sha256": "f7acb554f22e780d6f1314dcc39ff71a22592ded7a2f57f5eb0216b3798fd314",
+      "reconciled_sha256": "39850fe9a459ffa37217a8fc8effcc07ac59a71e5254bf5374e784ded8da36f2"
+    },
+    {
+      "path": "PRODUCT_VALIDATION.md",
+      "disposition": "current guidance reconciled",
+      "review": "Reconciled concrete user task, feature matrix, synthetic fixture limits, historical versus current metrics and acceptance gaps.",
+      "original_sha256": "ab112e78f7b58fbf9a653f7c5e9b941d1f838a0e6bbd4b897f0c3102701002e8",
+      "reconciled_sha256": "c84f3a16da13fd7d410dbb3156f885f1bf5f5dfcf25aaaa4aa6bc42a9d9717ea"
+    },
+    {
+      "path": "PROVENANCE.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "e69ae7e624fee2774ba6d2169b0bdc89a77806d5887fa06c888a16fa483c4ac7",
+      "reconciled_sha256": "d2cbe83fc4bd59e72332ecadd6d7790b421134c30dc8b7b5e31f1b3bbf5f3ed8"
+    },
+    {
+      "path": "README.md",
+      "disposition": "current guidance reconciled",
+      "review": "Replaced fragmented milestones with actual launch, complete browser task, source-scoped real screenshot/evidence, limits and documentation index.",
+      "original_sha256": "b9172b3aa77e6d7e807c8355e9fa5bdedef3014fd7d2190e435867c0954053a0",
+      "reconciled_sha256": "3d7e36359015a2f41f6ceeafec88c3e2564aa593628ee6cf62624dd56ec66dc5"
+    },
+    {
+      "path": "RUNBOOK.md",
+      "disposition": "current guidance reconciled",
+      "review": "Reconciled supported launch/alternate port, administrator seed, private volume/password pairing, safe owned shutdown, actual CLI envelopes/exits, pin/data/test prerequisites and nonautomatic migration rollback.",
+      "original_sha256": "a690136c003d40dc03d03946601ed7bbdc48fac823319225ac3d6bfa58a6b0e7",
+      "reconciled_sha256": "73a28ef33734dcf86ac9fe76181867f62e65aeda8564dbed3ef5926f4659c3d0"
+    },
+    {
+      "path": "SECURITY.md",
+      "disposition": "current guidance reconciled",
+      "review": "Removed unsupported response SLA; reconciled private reporting, credentials, actual auth controls, original-input retention, deployment and unresolved security boundaries.",
+      "original_sha256": "96ee8d35830c5fd699c4d8ee3e268e0e09404f1c5813f7218bf2437fa56a5651",
+      "reconciled_sha256": "98473711753f7cffc2c6764bfdb9df591dfc9f86d4dc398402b90dbbe53a4cb6"
+    },
+    {
+      "path": "SECURITY_AUDIT.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "3eceaf2acb5ea7bb592a4c57b9cb1afb614cb2274ba7a465fae42b2d58063073",
+      "reconciled_sha256": "827eaddb16acd246f8cca26ca80e229fe5923a28032a4a47597e69430d70e636"
+    },
+    {
+      "path": "SECURITY_AUDIT_2026-09-30.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "51634dd3a389d28bd973700e77c645cf6fb9320b05429c5504719221232794a1",
+      "reconciled_sha256": "3e55b8f9ffc0bb97794f30ac2ceb866740d1cd0f5c409e1f15af782dce1268ca"
+    },
+    {
+      "path": "THREAT_MODEL.md",
+      "disposition": "current guidance reconciled",
+      "review": "Mapped actual trust boundaries/control/source/test relationships and explicit residual risks without claiming universal protection.",
+      "original_sha256": "a86f03a0751f333aee71286f52664758033bf9a72d9b4212fe422bad066f95e2",
+      "reconciled_sha256": "726cf71591e17d7060d867b92bf5e03c823f892fb1aa85b33be43af2124b74f6"
+    },
+    {
+      "path": "docs/EVIDENCE.md",
+      "disposition": "current guidance reconciled",
+      "review": "Reconciled immutable 8ae archive, focused versus full review, CI observed errors, prior branch recovery and pending new-head evidence; no remote mutation.",
+      "original_sha256": "b3c00ab0e95b8592bbba36352636ac9612def33ddd3b9c02ad0c56f62f4aeae9",
+      "reconciled_sha256": "54c4c4b677a1dffe78b5cd0458c9f1ca7a5c048e429037424ce2dac6c5aa0d4d"
+    },
+    {
+      "path": "docs/WORKBENCH.md",
+      "disposition": "current guidance reconciled",
+      "review": "Preserved detailed current workflow/API/tests; corrected administrator role, partial pinning, optional fractional FHIR time, denial-control limitation and stale review/publication/cleanup statements.",
+      "original_sha256": "7000433b269d8f0500980708aaf266a09f3ddaf0f5c526bcb1d20ecd2faab934",
+      "reconciled_sha256": "e15c6f5e4e2a249010cd36fbc1637656195f753a28bdd7028702d5d93d4abab6"
+    },
+    {
+      "path": "docs/internal/REPOSITORY_AUDIT.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "27d12076345d96d11ea619b911e46beb4cffb3ab5787fb4b994c2544fdbd7c87",
+      "reconciled_sha256": "0ab08de18d4f8cfab9aec9d512a6016981fc74e498883cfca29cbe821d7fe391"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "disposition": "dependency pins reviewed; preserved byte-for-byte",
+      "review": "Reviewed against project setup; no dependency modification or new resolution.",
+      "original_sha256": "d06f9087ffa001357c470ad16ae3f14b6873b8f8f95208620f39bef1544f5436",
+      "reconciled_sha256": "d06f9087ffa001357c470ad16ae3f14b6873b8f8f95208620f39bef1544f5436"
+    },
+    {
+      "path": "requirements.txt",
+      "disposition": "dependency pins reviewed; preserved byte-for-byte",
+      "review": "Reviewed against project setup; no dependency modification or new resolution.",
+      "original_sha256": "1ee1b1c1ee8376399ba8e9911bbf198015cdedf4413b95954fd947a99382ea3b",
+      "reconciled_sha256": "1ee1b1c1ee8376399ba8e9911bbf198015cdedf4413b95954fd947a99382ea3b"
+    },
+    {
+      "path": "security_scans/SUPPLY_CHAIN_2026-10-27.md",
+      "disposition": "historical record preserved with explicit scope notice",
+      "review": "Read complete original; historical counts, credentials/examples, branch/settings/deployment/external claims remain attributed to their original environment and are not current execution evidence. Added links to current evidence and cautions against blindly executing historical instructions.",
+      "original_sha256": "f701b6f2425ddb06ba18af0f46092ba127dc4e34e9f2bec3eb8bdfe92f647cdf",
+      "reconciled_sha256": "680dcb5fc347e3abb084c6159ed3902df6e8f024b73cae2ccdf16206d9af6890"
+    },
+    {
+      "path": "security_scans/bandit.txt",
+      "disposition": "raw historical scan preserved byte-for-byte",
+      "review": "Original tool output retained; no claim it establishes current candidate security.",
+      "original_sha256": "0724f6aa817ebf873e35ecdf72b05ea0cfbdbe30bd744d52c1017346668bf49d",
+      "reconciled_sha256": "0724f6aa817ebf873e35ecdf72b05ea0cfbdbe30bd744d52c1017346668bf49d"
+    },
+    {
+      "path": "security_scans/pip_audit.txt",
+      "disposition": "raw historical scan preserved byte-for-byte",
+      "review": "Original tool output retained; no claim it establishes current candidate security.",
+      "original_sha256": "a55e7d272652bf3d89fe74707ea67b6ba2e492f6123e29b3409972461897d0ba",
+      "reconciled_sha256": "a55e7d272652bf3d89fe74707ea67b6ba2e492f6123e29b3409972461897d0ba"
+    },
+    {
+      "path": "security_scans/pip_audit_aegis.txt",
+      "disposition": "raw historical scan preserved byte-for-byte",
+      "review": "Original tool output retained; no claim it establishes current candidate security.",
+      "original_sha256": "1d42a7311d5128e3ec88b5650e86f8aecd157c47599c309d5f827721b4b582d2",
+      "reconciled_sha256": "1d42a7311d5128e3ec88b5650e86f8aecd157c47599c309d5f827721b4b582d2"
+    }
+  ],
+  "exact_documentation_head": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632"
+}

@@ -1,0 +1,104 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "source_status": "",
+  "utc": "2026-11-18T20:24:40.269147+00:00",
+  "checks": [
+    {
+      "document": "README.md",
+      "token": 15,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "document": "RUNBOOK.md",
+      "token": 18,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "document": "RUNBOOK.md",
+      "token": 31,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "document": "RUNBOOK.md",
+      "token": 44,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "document": "AUTOMOTIVE_SECURITY.md",
+      "token": 21,
+      "language": "python",
+      "check": "executed actual fenced synthetic/offline example; no DB, download or supplied native execution",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "document": "HEALTHCARE_SECURITY.md",
+      "token": 36,
+      "language": "python",
+      "check": "executed actual fenced synthetic/offline example; no DB, download or supplied native execution",
+      "exit": 0,
+      "stdout": "[]\n['HC-IDENTITY-SVCSCOPE', 'HC-EXFIL-BULKEXPORT']\n",
+      "stderr": ""
+    },
+    {
+      "document": "PLATFORM.md",
+      "token": 9,
+      "language": "mermaid",
+      "check": "not executed"
+    },
+    {
+      "document": "THREAT_MODEL.md",
+      "token": 9,
+      "language": "mermaid",
+      "check": "not executed"
+    },
+    {
+      "document": "docs/WORKBENCH.md",
+      "token": 21,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "document": "docs/WORKBENCH.md",
+      "token": 60,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "document": "docs/WORKBENCH.md",
+      "token": 79,
+      "language": "mermaid",
+      "check": "not executed"
+    },
+    {
+      "document": "docs/WORKBENCH.md",
+      "token": 128,
+      "language": "sh",
+      "check": "shell syntax only; not executed",
+      "exit": 0,
+      "stderr": ""
+    }
+  ],
+  "limits": [
+    "Shell/deployment/test/clinical-data commands were syntax-checked only.",
+    "No database mutation, live credentials, clinical data, vehicle interaction or supplied native execution.",
+    "Regression/browser/build/security suite is separate after candidate freeze."
+  ]
+}

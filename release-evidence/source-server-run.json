@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/workspace/work/envs/attack/bin/python",
+    "-m",
+    "detection_engine.platform.local",
+    "--dashboard",
+    "/workspace/work/candidates/attack-detection-engine/dashboard-ui/dist",
+    "--username",
+    "synthetic-analyst",
+    "--password-stdin",
+    "--port",
+    "18770"
+  ],
+  "started_at": "2026-11-18T20:40:20.083802+00:00",
+  "finished_at": "2026-11-18T20:40:25.551519+00:00",
+  "expected_shutdown": true,
+  "exit_code": -15
+}

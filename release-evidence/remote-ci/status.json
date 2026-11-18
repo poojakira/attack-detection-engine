@@ -1,0 +1,25 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "checked_utc": "2026-11-18T20:45:57.024548+00:00",
+  "runs": [
+    {
+      "id": 44393875474,
+      "name": "CI",
+      "event": "workflow_dispatch",
+      "path": ".github/workflows/ci.yml",
+      "head_sha": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/poojakira/attack-detection-engine/actions/runs/44393875474"
+    }
+  ],
+  "observed_jobs": [],
+  "jobs_query": "GET actions/runs/44393875474/jobs returned empty jobs array",
+  "workbench_dispatch": {
+    "workflow": "workbench.yml",
+    "outcome": "HTTP404NotFound; new candidate workflow absent on unchanged default branch"
+  },
+  "hosted_pass_claimed": false,
+  "prior_implementation_ci": "44234954330 belongs to source8ae9090 only, not current verification",
+  "limitations": "No repository security/approval setting changed; no release/container-publishing/cloud workflow dispatched."
+}

@@ -1,0 +1,8 @@
+WARNING: The directory '/home/agent/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Processing /workspace/work/evidence/attack-detection-engine/docs-reconciliation/packages/attack_detection_engine-1.1.0-py3-none-any.whl
+Installing collected packages: attack-detection-engine
+  Attempting uninstall: attack-detection-engine
+    Found existing installation: attack-detection-engine 1.1.0
+    Uninstalling attack-detection-engine-1.1.0:
+      Successfully uninstalled attack-detection-engine-1.1.0
+Successfully installed attack-detection-engine-1.1.0

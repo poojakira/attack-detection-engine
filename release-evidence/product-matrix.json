@@ -1,0 +1,87 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "capabilities": [
+    {
+      "capability": "Authenticated React/FastAPI input, actual detector/correlation/source evidence and PostgreSQL persistence",
+      "status": "TESTED",
+      "code": [
+        "dashboard-ui/src/screens/Workbench.tsx",
+        "detection_engine/platform/workbench.py",
+        "detection_engine/platform/investigation.py"
+      ],
+      "evidence": [
+        "junit.xml",
+        "browser/browser.json",
+        "browser/report.json"
+      ]
+    },
+    {
+      "capability": "Bounded FHIR subset, unknown optional semantics and rejected resource accounting",
+      "status": "TESTED;notfullFHIRconformance",
+      "code": [
+        "detection_engine/platform/connectors/fhir_auditevent.py"
+      ],
+      "evidence": [
+        "junit.xml",
+        "documentation-audit/offline-checks-final.json"
+      ]
+    },
+    {
+      "capability": "Same-input threshold rerun/delta, saved case/reload, immutable checksummed export and stale response controls",
+      "status": "TESTED",
+      "code": [
+        "dashboard-ui/src/screens/Workbench.tsx",
+        "detection_engine/platform/workbench.py"
+      ],
+      "evidence": [
+        "browser/browser.json",
+        "installed-wheel.json"
+      ]
+    },
+    {
+      "capability": "New installed wheel, packaged migrations, actual API restart and UNKNOWN provenance under unrelated Git",
+      "status": "TESTED",
+      "evidence": [
+        "wheel-install-run.json",
+        "installed-wheel.json"
+      ]
+    },
+    {
+      "capability": "Literal launcher orchestration at current documentation head",
+      "status": "NOT REEXECUTED;currentmodulebrowser/wheelstartupandwheelAPIrestartpassed;prior8aeliteralproofremainshistorical",
+      "evidence": [
+        "source-server-run.json",
+        "RELEASE_ASSESSMENT.md"
+      ]
+    },
+    {
+      "capability": "All human documentation reconciliation",
+      "status": "27originalhumandocs+2requirements+LICENSEread;25MDchanges;25Markdown72targets0errors;2actualfencedPythonexamples7shellsyntaxblocks5actualCLI/help/FHIRcontrols",
+      "evidence": [
+        "documentation-audit/per-file-ledger-final.json",
+        "documentation-audit/parent-final-recovery.json"
+      ]
+    },
+    {
+      "capability": "Independent security closure at this head",
+      "status": "NOT REEXECUTED;18focusedobservationsandQA01closurearehistorically8ae-scoped;freshengineeringbrowserregressionseparate",
+      "evidence": [
+        "RELEASE_ASSESSMENT.md"
+      ]
+    },
+    {
+      "capability": "Hosted CI / product-container runtime",
+      "status": "NOT VERIFIED;currentCIqueuedwithoutjobs;newworkbenchworkflowdispatch404",
+      "evidence": [
+        "remote-ci/status.json"
+      ]
+    },
+    {
+      "capability": "Full FHIR conformance, raw-input anonymization, automotive browser integration, hard parser/detector isolation, coordinated multiprocess quotas, external audit anchors, production/privacy/recovery approval",
+      "status": "NOT IMPLEMENTED / NOT VERIFIED",
+      "evidence": [
+        "RELEASE_ASSESSMENT.md"
+      ]
+    }
+  ]
+}

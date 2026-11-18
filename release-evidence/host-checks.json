@@ -1,0 +1,191 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "runs": [
+    {
+      "name": "ruff-check",
+      "command": [
+        "/workspace/work/envs/attack/bin/ruff",
+        "check",
+        "."
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:04.559107+00:00",
+      "utc_end": "2026-11-18T20:30:04.623818+00:00",
+      "exit_code": 0,
+      "log": "ruff-check.log"
+    },
+    {
+      "name": "ruff-format",
+      "command": [
+        "/workspace/work/envs/attack/bin/ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:04.624286+00:00",
+      "utc_end": "2026-11-18T20:30:04.640302+00:00",
+      "exit_code": 0,
+      "log": "ruff-format.log"
+    },
+    {
+      "name": "actionlint",
+      "command": [
+        "/workspace/work/tooling/actionlint/actionlint"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:04.640563+00:00",
+      "utc_end": "2026-11-18T20:30:04.656718+00:00",
+      "exit_code": 0,
+      "log": "actionlint.log"
+    },
+    {
+      "name": "pyright",
+      "command": [
+        "/workspace/work/security-tools/bin/pyright",
+        "--pythonpath",
+        "/workspace/work/envs/attack/bin/python",
+        "detection_engine"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:04.657239+00:00",
+      "utc_end": "2026-11-18T20:30:15.308419+00:00",
+      "exit_code": 0,
+      "log": "pyright.log"
+    },
+    {
+      "name": "pip-check",
+      "command": [
+        "/workspace/work/envs/attack/bin/pip",
+        "check"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:15.308881+00:00",
+      "utc_end": "2026-11-18T20:30:15.827332+00:00",
+      "exit_code": 0,
+      "log": "pip-check.log"
+    },
+    {
+      "name": "bandit",
+      "command": [
+        "/workspace/work/envs/attack/bin/bandit",
+        "-r",
+        "detection_engine",
+        "-ll",
+        "-f",
+        "json",
+        "-o",
+        "/workspace/work/evidence/attack-detection-engine/docs-reconciliation/bandit.json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:15.827759+00:00",
+      "utc_end": "2026-11-18T20:30:16.394227+00:00",
+      "exit_code": 0,
+      "log": "bandit.log"
+    },
+    {
+      "name": "bandit-all",
+      "command": [
+        "/workspace/work/envs/attack/bin/bandit",
+        "-r",
+        "detection_engine",
+        "-f",
+        "json",
+        "-o",
+        "/workspace/work/evidence/attack-detection-engine/docs-reconciliation/bandit-all.json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:16.394816+00:00",
+      "utc_end": "2026-11-18T20:30:16.910116+00:00",
+      "exit_code": 1,
+      "log": "bandit-all.log"
+    },
+    {
+      "name": "npm-audit",
+      "command": [
+        "npm",
+        "--prefix",
+        "dashboard-ui",
+        "audit",
+        "--json"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:16.910809+00:00",
+      "utc_end": "2026-11-18T20:30:17.599085+00:00",
+      "exit_code": 0,
+      "log": "npm-audit.log"
+    },
+    {
+      "name": "pip-audit",
+      "command": [
+        "/workspace/work/envs/attack/bin/pip-audit",
+        "--format",
+        "json",
+        "--output",
+        "/workspace/work/evidence/attack-detection-engine/docs-reconciliation/pip-audit.json",
+        "--cache-dir",
+        "/workspace/work/cache/pip-audit"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:17.600961+00:00",
+      "utc_end": "2026-11-18T20:30:23.956926+00:00",
+      "exit_code": 0,
+      "log": "pip-audit.log"
+    },
+    {
+      "name": "security-scan",
+      "command": [
+        "python",
+        "scripts/security_scan.py"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:23.958860+00:00",
+      "utc_end": "2026-11-18T20:30:24.076199+00:00",
+      "exit_code": 0,
+      "log": "security-scan.log"
+    },
+    {
+      "name": "shell-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/local-workbench.sh"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:24.076652+00:00",
+      "utc_end": "2026-11-18T20:30:24.080564+00:00",
+      "exit_code": 0,
+      "log": "shell-syntax.log"
+    },
+    {
+      "name": "build-python",
+      "command": [
+        "/workspace/work/envs/attack/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "/workspace/work/evidence/attack-detection-engine/docs-reconciliation/packages"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:24.081021+00:00",
+      "utc_end": "2026-11-18T20:30:27.474430+00:00",
+      "exit_code": 0,
+      "log": "build-python.log"
+    },
+    {
+      "name": "build-ui",
+      "command": [
+        "npm",
+        "--prefix",
+        "dashboard-ui",
+        "run",
+        "build"
+      ],
+      "cwd": "/workspace/work/candidates/attack-detection-engine",
+      "utc_start": "2026-11-18T20:30:27.474875+00:00",
+      "utc_end": "2026-11-18T20:30:29.732728+00:00",
+      "exit_code": 0,
+      "log": "build-ui.log"
+    }
+  ]
+}

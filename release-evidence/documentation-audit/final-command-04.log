@@ -1,0 +1,32 @@
+[
+  {
+    "exit": 125,
+    "passed": false,
+    "stdout": "",
+    "stderr": "docker: Error response from daemon: open /home/dockerd/.local/share/docker/vfs/dir/32e27b882ff9a922702cd8ea83ac11922485d7cada99b4359450d4228e475ba8-init/usr/bin/zless: no space left on device\n\nRun 'docker run --help' for more information\n"
+  },
+  {
+    "exit": 125,
+    "passed": false,
+    "stdout": "",
+    "stderr": "docker: Error response from daemon: mkdir /home/dockerd/.local/share/docker/vfs/dir/6d26fff99e717af46309c5efa7d1b7dc46f987b0d7d564c91db569a73fcce636-init: no space left on device\n\nRun 'docker run --help' for more information\n"
+  },
+  {
+    "exit": 125,
+    "passed": false,
+    "stdout": "",
+    "stderr": "docker: Error response from daemon: mkdir /home/dockerd/.local/share/docker/vfs/dir/a3fad2bfe86e4b25b1d9ebe16f9c219d5969c0fd99afff17d8f21e9dcc565cf2-init: no space left on device\n\nRun 'docker run --help' for more information\n"
+  },
+  {
+    "exit": 0,
+    "passed": true,
+    "stdout": "Synthetic fractional-time/UNKNOWN/explicit READ-SUCCESS and no-timezone controls passed\n",
+    "stderr": ""
+  },
+  {
+    "exit": 0,
+    "passed": true,
+    "stdout": "usage: local.py [-h] --dashboard DASHBOARD [--username USERNAME]\n                [--password-stdin] [--port PORT]\n\nLoopback launch for an installed backend and prebuilt React dashboard. The\ncaller supplies a local PostgreSQL URL; this module never creates cloud\nresources or reads arbitrary upload paths. Applies real Alembic migrations.\n\noptions:\n  -h, --help            show this help message and exit\n  --dashboard DASHBOARD\n                        Trusted prebuilt dashboard-ui/dist directory\n  --username USERNAME\n  --password-stdin      Read initial local password from stdin, for isolated\n                        automation\n  --port PORT\n",
+    "stderr": ""
+  }
+]

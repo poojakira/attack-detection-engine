@@ -1,0 +1,47 @@
+{
+  "utc": "2026-11-18T20:22:58.289196+00:00",
+  "method": "HEAD, no credentials, maximum four workers, 12-second request timeout",
+  "limits": "Reachability only; linked assertions, timestamps, external heading anchors, legal rights and image semantics not verified. No historical download/deployment examples executed.",
+  "results": [
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/RELEASE_ASSESSMENT.md",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/RELEASE_ASSESSMENT.md"
+    },
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/branch-disposition.json",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/branch-disposition.json"
+    },
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/independent-review/ASSESSMENT.md",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/independent-review/ASSESSMENT.md"
+    },
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/manifest.json",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/manifest.json"
+    },
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/remote-ci/status.json",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/remote-ci/status.json"
+    },
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/commit/51151f34b10169352ef4206c1913f79fd779dbd8",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/commit/51151f34b10169352ef4206c1913f79fd779dbd8"
+    },
+    {
+      "url": "https://github.com/poojakira/attack-detection-engine/pull/58",
+      "status": 200,
+      "final_url": "https://github.com/poojakira/attack-detection-engine/pull/58"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/poojakira/attack-detection-engine/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/browser/desktop.png",
+      "status": 200,
+      "final_url": "https://raw.githubusercontent.com/poojakira/attack-detection-engine/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/browser/desktop.png"
+    }
+  ]
+}

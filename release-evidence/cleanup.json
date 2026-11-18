@@ -1,0 +1,31 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "utc": "2026-11-18T20:45:14.675608+00:00",
+  "task_test_database": "Dedicated task-owned PostgreSQL tmpfs instance stopped after checks; three synthetic doc DBs privately archived",
+  "backup_checks": [
+    {
+      "synthetic_test_database": "aegis_docs_20261118",
+      "private_dump_bytes": 1748,
+      "dump_exit": 0,
+      "archive_list_exit": 0,
+      "restore_execution": "NOT RUN; archive readability only"
+    },
+    {
+      "synthetic_test_database": "aegis_docs_browser_20261118",
+      "private_dump_bytes": 53631,
+      "dump_exit": 0,
+      "archive_list_exit": 0,
+      "restore_execution": "NOT RUN; archive readability only"
+    },
+    {
+      "synthetic_test_database": "aegis_docs_wheel_20261118",
+      "private_dump_bytes": 47696,
+      "dump_exit": 0,
+      "archive_list_exit": 0,
+      "restore_execution": "NOT RUN; archive readability only"
+    }
+  ],
+  "product_state": "Named aegis-local-workbench-postgres and paired password/volume untouched; remains stopped as inherited",
+  "source_and_wheel_servers": "Stopped after fresh proof; actual wheel API restarted during validation",
+  "private_backup_publication": "Excluded, including any database credential content; no production backup/restore certification"
+}

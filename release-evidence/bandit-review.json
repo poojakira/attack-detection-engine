@@ -1,0 +1,7 @@
+{
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "medium_high_gate": "PASS,0findings",
+  "full_severity_exit": 1,
+  "retained_low_findings": 6,
+  "review": "Unchanged LOW synthetic RNG, explicit rollback/config fallback and fixed provenance subprocess. Not suppressed; exact full report retained."
+}

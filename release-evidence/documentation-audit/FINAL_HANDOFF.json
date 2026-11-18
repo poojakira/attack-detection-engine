@@ -1,0 +1,315 @@
+{
+  "repository": "/workspace/work/candidates/attack-detection-engine",
+  "branch": "codex/local-workbench-20261116",
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "source_status": "",
+  "baseline_source": "8ae9090b560871d1e584d717734693bb570fffae",
+  "utc": "2026-11-18T20:24:41.360588+00:00",
+  "documentation_review": {
+    "original_human_text_files_read_completely": 27,
+    "requirements_text_files_read_preserved": 2,
+    "license_read_preserved": true,
+    "changed_markdown_files": 25,
+    "per_file_ledger": "per-file-ledger-final.json",
+    "source_ledger": "docs/DOCUMENTATION_AUDIT.md",
+    "numstat": "33\t49\tAUTOMOTIVE_SECURITY.md\n1\t1\tBASELINE_REPAIR_2026-10-27.md\n8\t1\tCHANGELOG.md\n5\t22\tCONTRIBUTING.md\n38\t146\tHEALTHCARE_SECURITY.md\n1\t1\tMILESTONE_C_BASELINE_2026-10-27.md\n1\t1\tMILESTONE_C_FINAL_REPORT.md\n1\t1\tMILESTONE_D_BASELINE_2026-10-27.md\n1\t1\tMILESTONE_D_PROGRESS.md\n1\t1\tMILESTONE_D_SECURITY_REPORT.md\n42\t121\tPLATFORM.md\n11\t75\tPRODUCTION.md\n17\t57\tPRODUCT_VALIDATION.md\n1\t1\tPROVENANCE.md\n32\t7\tREADME.md\n39\t111\tRUNBOOK.md\n16\t77\tSECURITY.md\n1\t1\tSECURITY_AUDIT.md\n1\t1\tSECURITY_AUDIT_2026-09-30.md\n33\t77\tTHREAT_MODEL.md\n66\t0\tdocs/DOCUMENTATION_AUDIT.md\n46\t5\tdocs/EVIDENCE.md\n5\t5\tdocs/WORKBENCH.md\n2\t0\tdocs/internal/REPOSITORY_AUDIT.md\n4\t0\tsecurity_scans/SUPPLY_CHAIN_2026-10-27.md\n"
+  },
+  "commands": [
+    {
+      "command": [
+        "/workspace/work/tooling/venv/bin/python",
+        "/workspace/work/tooling/docs_link_audit.py",
+        "/workspace/work/candidates/attack-detection-engine",
+        "/workspace/work/doc-reconciliation/attack-detection-engine/local-links-final.json"
+      ],
+      "start_utc": "2026-11-18T20:24:39.188409+00:00",
+      "end_utc": "2026-11-18T20:24:39.444099+00:00",
+      "exit": 0,
+      "log": "final-command-01.log"
+    },
+    {
+      "command": [
+        "/workspace/work/tooling/venv/bin/python",
+        "/workspace/work/validate_inventory.py",
+        "/workspace/work/candidates/attack-detection-engine",
+        "/workspace/work/doc-reconciliation/attack-detection-engine/inventory-final.json"
+      ],
+      "start_utc": "2026-11-18T20:24:39.445779+00:00",
+      "end_utc": "2026-11-18T20:24:39.758980+00:00",
+      "exit": 0,
+      "log": "final-command-02.log"
+    },
+    {
+      "command": [
+        "/workspace/work/tooling/venv/bin/python",
+        "/workspace/work/doc-reconciliation/attack-detection-engine/check_examples.py"
+      ],
+      "start_utc": "2026-11-18T20:24:39.759899+00:00",
+      "end_utc": "2026-11-18T20:24:40.282952+00:00",
+      "exit": 0,
+      "log": "final-command-03.log"
+    },
+    {
+      "command": [
+        "python",
+        "/workspace/work/doc-reconciliation/attack-detection-engine/offline_checks.py"
+      ],
+      "start_utc": "2026-11-18T20:24:40.283376+00:00",
+      "end_utc": "2026-11-18T20:24:41.331709+00:00",
+      "exit": 1,
+      "log": "final-command-04.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "start_utc": "2026-11-18T20:24:41.332607+00:00",
+      "end_utc": "2026-11-18T20:24:41.336884+00:00",
+      "exit": 0,
+      "log": "final-command-05.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "8ae9090b560871d1e584d717734693bb570fffae",
+        "--exit-code",
+        "--",
+        "detection_engine",
+        "tests",
+        "scripts",
+        ".github",
+        "deploy",
+        "dashboard-ui",
+        "pyproject.toml",
+        "requirements.txt",
+        "requirements-dev.txt",
+        "requirements.lock",
+        "LICENSE",
+        "security_scans/bandit.txt",
+        "security_scans/pip_audit.txt",
+        "security_scans/pip_audit_aegis.txt"
+      ],
+      "start_utc": "2026-11-18T20:24:41.337287+00:00",
+      "end_utc": "2026-11-18T20:24:41.341556+00:00",
+      "exit": 0,
+      "log": "final-command-06.log"
+    }
+  ],
+  "checks_passed": false,
+  "limits": [
+    "Full suite/browser/build/wheel/security/hosted checks are pending the parent exact-head verification; earlier 327/82.47/18 remain explicitly 8ae scoped.",
+    "Two safe offline fenced examples and five bounded help/CLI/FHIR controls are freshly executed; shell fences syntax only.",
+    "No DB mutation, service stop, password reset, volume deletion, clinical download, supplied native code execution, new provider key, paid service or remote write.",
+    "CLI reused existing dependencies and verified ATT&CK data; no clean-download install or new helper image build.",
+    "Eight public URL HEAD checks pre-freeze returned 200; linked facts/external chronology/legal/privacy claims and diagrams not independently certified.",
+    "Original implementation production/security/FHIR/privacy/ops blockers remain PARTIAL."
+  ],
+  "verification_status": "PARTIAL: final-head document checks pass; three fresh isolated CLI starts blocked by Docker VFS disk exhaustion",
+  "blockers": [
+    {
+      "check": "Final-head isolated CLI help/benign/rejected-input controls",
+      "actual_exit": 125,
+      "exact_daemon_error": "no space left on device",
+      "location": "/home/dockerd/.local/share/docker/vfs/dir/*-init",
+      "scope": "Docker daemon failed before CLI startup; not a product test failure or success. Pre-freeze controls passed separately and are not relabeled final-head results.",
+      "evidence": "offline-checks-final.json",
+      "parent_action": "Re-execute these bounded controls in the parent-owned existing isolated verification container after coordinating disk resources; do not prune retained product volumes/private backups."
+    }
+  ],
+  "fresh_passes": {
+    "commonmark_documents": 25,
+    "local_targets_and_anchors": 72,
+    "inventory_files": 159,
+    "syntax_errors": 0,
+    "safe_fenced_python_examples": 2,
+    "current_shell_fences_syntax_only": 7,
+    "direct_synthetic_fhir_control": true,
+    "local_module_help": true,
+    "protected_runtime_dependencies_workflows_rules_tests_legal_raw_records_unchanged": true,
+    "git_diff_check": true
+  },
+  "pre_freeze_checks": {
+    "artifact": "offline-checks-pre-freeze.json",
+    "isolated_cli_help_exit": 0,
+    "synthetic_empty_input_exit": 0,
+    "invalid_list_input_exit": 2,
+    "scope": "Executed before documentation freeze. Not final-head verification."
+  },
+  "reviewed_source_files_changed": [
+    "AUTOMOTIVE_SECURITY.md",
+    "BASELINE_REPAIR_2026-10-27.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "HEALTHCARE_SECURITY.md",
+    "MILESTONE_C_BASELINE_2026-10-27.md",
+    "MILESTONE_C_FINAL_REPORT.md",
+    "MILESTONE_D_BASELINE_2026-10-27.md",
+    "MILESTONE_D_PROGRESS.md",
+    "MILESTONE_D_SECURITY_REPORT.md",
+    "PLATFORM.md",
+    "PRODUCTION.md",
+    "PRODUCT_VALIDATION.md",
+    "PROVENANCE.md",
+    "README.md",
+    "RUNBOOK.md",
+    "SECURITY.md",
+    "SECURITY_AUDIT.md",
+    "SECURITY_AUDIT_2026-09-30.md",
+    "THREAT_MODEL.md",
+    "docs/DOCUMENTATION_AUDIT.md",
+    "docs/EVIDENCE.md",
+    "docs/WORKBENCH.md",
+    "docs/internal/REPOSITORY_AUDIT.md",
+    "security_scans/SUPPLY_CHAIN_2026-10-27.md"
+  ],
+  "artifacts": [
+    {
+      "path": "check_examples.py",
+      "bytes": 2196,
+      "sha256": "561fedbc16c2ed38a89e0ec74651be56b56e2f065e4998b39372146d8970cb17"
+    },
+    {
+      "path": "cli-help.txt",
+      "bytes": 526,
+      "sha256": "92bf9779d24cecb3fdfdc11106dc1c63be391ee3c4d54fca2ba9482b3e3eb82f"
+    },
+    {
+      "path": "examples-final.json",
+      "bytes": 2661,
+      "sha256": "1181a3498d977b2af6024044c47116fd9ecb1f87219e36fe9009fb69282025e5"
+    },
+    {
+      "path": "examples-pre-freeze.json",
+      "bytes": 2575,
+      "sha256": "cf3f9b95638127555dc86f0fe54f6afda3b4d0ac4b65c17293b279e71e1a92a6"
+    },
+    {
+      "path": "external-url-reachability.json",
+      "bytes": 2917,
+      "sha256": "993eb1eebe0b15185780a588607311772b908895228f4e9810380b178b0191f7"
+    },
+    {
+      "path": "final-command-01.log",
+      "bytes": 435,
+      "sha256": "da60d9a5fc4bacb89147e350fdd62eb538683b25d763a35572680498ebcab133"
+    },
+    {
+      "path": "final-command-02.log",
+      "bytes": 127,
+      "sha256": "f062893365c1976c8a45a1418448a232134132931ef55c60d3901b2febf07698"
+    },
+    {
+      "path": "final-command-03.log",
+      "bytes": 2661,
+      "sha256": "1181a3498d977b2af6024044c47116fd9ecb1f87219e36fe9009fb69282025e5"
+    },
+    {
+      "path": "final-command-04.log",
+      "bytes": 1853,
+      "sha256": "9934bebbe5ab54817890183bfe203f7b32a735a16eaf589c305cd66ddf631d12"
+    },
+    {
+      "path": "final-command-05.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final-command-06.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final_checks.py",
+      "bytes": 3769,
+      "sha256": "ba8369b7e6eecc27680e64fdc823d80cd73841395aff28141053e5b0cce76afa"
+    },
+    {
+      "path": "finalize_docs.py",
+      "bytes": 1064,
+      "sha256": "079b88dd75789308c8789039fbb24c4a4609279d1da0b3742d10f6aec599540b"
+    },
+    {
+      "path": "inventory-final.json",
+      "bytes": 50704,
+      "sha256": "fb509ee7b7d8869de3c6491de3f53e5b0f3bbfe11fb80beb750fe27c45595ccc"
+    },
+    {
+      "path": "inventory-pre-freeze.json",
+      "bytes": 50829,
+      "sha256": "30bb4ade9e6677c537a192a04654ae828a981b9657e1fec1f5c1c7b2044688ef"
+    },
+    {
+      "path": "inventory-staged.json",
+      "bytes": 51359,
+      "sha256": "45ba4577212bdc1b6af06c87d02f402b02cd84a9b4ed1dd872b2abf630455120"
+    },
+    {
+      "path": "local-help.txt",
+      "bytes": 645,
+      "sha256": "5fe49c51df4246798bad34254836ba9513e48079b8818aa4e43630b3024103d8"
+    },
+    {
+      "path": "local-links-final.json",
+      "bytes": 3080,
+      "sha256": "e017583b2c2881749cc6c2cc94adff26897d35ef72060fd7cd9aea9e8a895c98"
+    },
+    {
+      "path": "local-links-pre-freeze.json",
+      "bytes": 3735,
+      "sha256": "6358281a08ff749f546f596639230c92b56ead1915ed8f0a401e77a5443f156b"
+    },
+    {
+      "path": "local-links-staged.json",
+      "bytes": 3735,
+      "sha256": "9e681e1fb7525d66fdbbc0953aed979679ad73f564dd073738de5b9f8b2b2137"
+    },
+    {
+      "path": "make_ledger.py",
+      "bytes": 10257,
+      "sha256": "5ca95b239eb389e1e3e696f527dd473ad425dca5bd0035cf35eb4f0be7fa5d79"
+    },
+    {
+      "path": "offline-checks-final.json",
+      "bytes": 7635,
+      "sha256": "3b4d9cd8460659d9fc883b469664c4669fb4c5d6e8d92d85b3b5fe6d0dd1bbe4"
+    },
+    {
+      "path": "offline-checks-pre-freeze.json",
+      "bytes": 7491,
+      "sha256": "22c949efe3bef9304eb84d25d51917f0a94c89b81737ffc494357a8621d89a4b"
+    },
+    {
+      "path": "offline_checks.py",
+      "bytes": 3831,
+      "sha256": "92de99ce580431ca1959d60a40c4233e6f3360d77d557897a9dc6e1e85ee8149"
+    },
+    {
+      "path": "original-document-texts.json",
+      "bytes": 141306,
+      "sha256": "9ab23e56bc232b6422be326d4ea1bbb27a5eab9678821171fe454f7b2695c217"
+    },
+    {
+      "path": "per-file-ledger-final.json",
+      "bytes": 15679,
+      "sha256": "7109d26a5e5b9abbd037e2a4af129d9a66fdbbd4ce8d5274f75d31d5059731f1"
+    },
+    {
+      "path": "per-file-ledger-pre-freeze.json",
+      "bytes": 15605,
+      "sha256": "da29353cd378b5def7520bfd57f01c8cdc729a157aa38d8602d9b62642d1dbd0"
+    },
+    {
+      "path": "update_docs.py",
+      "bytes": 29044,
+      "sha256": "6363b6e5df8a3d4c777685e59117eba95144f1cbc7992f0d31371f90b7a0965d"
+    },
+    {
+      "path": "update_remaining.py",
+      "bytes": 30403,
+      "sha256": "8441f08fc68b375060e385b5113675cddb8252500fd6c1d209b7719cabd2235c"
+    }
+  ]
+}
