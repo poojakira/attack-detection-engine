@@ -1,0 +1,12 @@
+flowchart TB
+    N0["1. React investigation UI"]
+    N1["2. FastAPI auth / organization / body boundary"]
+    N2["3. Bounded FHIR normalization"]
+    N3["4. Canonical clinical detector + correlator"]
+    N4["5. PostgreSQL: atomic case / runs / evidence"]
+    N5["6. Same-input rerun + delta + verified export"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5

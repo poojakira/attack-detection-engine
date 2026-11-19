@@ -4,6 +4,20 @@ A local investigation tool for security analysts reviewing bounded synthetic FHI
 
 **Software/API 1.1.0 · rules clinical-access-1.1 · release decision PARTIAL.** This is offline batch investigation, not continuous monitoring, proof of malicious access, full FHIR validation, anonymization or HIPAA approval. Use synthetic data only; original JSON is retained. No provider keys, paid services or cloud resources are required.
 
+## Try the real engine in your browser
+
+[**Open the free Colab notebook**](https://colab.research.google.com/github/poojakira/attack-detection-engine/blob/codex/local-workbench-20261116/notebooks/try_product.ipynb) · [Inspect the notebook source](notebooks/try_product.ipynb) · [Detailed architecture diagrams](docs/ARCHITECTURE.md)
+
+Sign in with a Google account, select the **free CPU runtime**, and run the setup and scenario cells. Change the scenario and run again to inspect freshly computed evidence and hashes. This is an inline, guided synthetic-data demonstration of the actual repository engine, **not a publicly hosted copy of the full web application**. No API key, paid plan, GPU, Drive mount, tunnel or cloud-resource creation is used by the notebook. Free Colab availability/limits are outside this repository's control.
+
+The setup resolves the reviewed branch to one exact SHA, checks it out and installs only minimal demo dependencies in a separate temporary environment. It starts no web server. [Testing access and limitations](docs/TRY_IT.md) distinguishes locally executed notebook checks from Colab-hosted runtime verification. Use the full local UI below for its broader supported input and workflow.
+
+## Architecture
+
+[![Readable architecture overview](docs/architecture/overview.svg)](docs/architecture/overview.svg)
+
+See the [detailed architecture and execution sequences](docs/ARCHITECTURE.md) for exact code symbols, controls, limits, errors, cleanup, evidence and the separate guided notebook scope.
+
 ## Start locally
 
 Prerequisites: Python 3.12, Node 22 or newer, npm, Docker, a browser, free loopback ports 8000/55432 and internet access for initial dependency/image downloads. From the repository root:
@@ -26,7 +40,11 @@ The sample is a controlled regression fixture, not a field accuracy benchmark. R
 
 ![Actual authenticated investigation showing persisted source and normalized evidence](https://raw.githubusercontent.com/poojakira/attack-detection-engine/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/browser/desktop.png)
 
-This screenshot and the published implementation proof attest to source `8ae9090b560871d1e584d717734693bb570fffae`, not a later documentation commit. That run recorded 327 passed, zero skipped/failed/errors and 82.47% line coverage under the unchanged 53% gate. Its 18 focused independent observations closed AEGIS-QA-01. Hosted CI remained queued/NOT VERIFIED. Later-head checks are pending until an actual generated manifest identifies that head; see [evidence status](docs/EVIDENCE.md) and [PR #58](https://github.com/poojakira/attack-detection-engine/pull/58). No production approval follows from these results.
+## Current verification and source
+
+Read the [generated assessment and exact commands](https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/RELEASE_ASSESSMENT.md) and [source manifest](https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/manifest.json). The manifest records the checked-out SHA, clean state, actual regression/browser outcomes, skips, dependency scope and artifact hashes. Compare its `source_commit` with the checkout you are using. A passing earlier commit does not attest to a later commit.
+
+The previous published documentation candidate was `4f2a661d6ddab424a087ac2b4da364ed4b6e3632`; its [immutable evidence](https://github.com/poojakira/attack-detection-engine/tree/evidence/docs-reconciliation-20261118/release-evidence) remains historical. The newer architecture/notebook changes require their own generated evidence. [PR #58](https://github.com/poojakira/attack-detection-engine/pull/58) records the current source, publication and remaining blockers. **Release remains PARTIAL.**
 
 ## Documentation index
 
@@ -42,3 +60,9 @@ This screenshot and the published implementation proof attest to source `8ae9090
 | Authorized development and all-document review | [Contributing](CONTRIBUTING.md), [documentation audit](docs/DOCUMENTATION_AUDIT.md) |
 
 Main already contains the earlier FHIR, clinical, correlation, auth, persistence and React platform. Older branch-only claims are historical. The case/rerun workflow is in this reviewed candidate; automotive/firmware/ARM browser integration remains unimplemented. Dated reports retain their original source scope, with external/operational assertions unverified where recorded. No default-branch merge, public deployment or software release is included.
+
+## Selected branches and recovery
+
+Only `main` and `codex/local-workbench-20261116` remain as remote branches. This cleanup retired 12 additional branches after preserving their exact tips in `archive/selected-20261118/*` annotated recovery tags and a verified private Git bundle. Unmerged/dependency changes were **not merged or certified** by retiring their branches. Existing release/deployment source references are preserved separately. Main was not rewritten or merged.
+
+See [branch policy and restore procedure](docs/BRANCHES.md) and the generated [branch-cleanup evidence](https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/branch-cleanup.json). Bots or collaborators may create later branches; the published report records the actual verification time rather than promising permanent branch counts.

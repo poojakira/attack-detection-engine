@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-18 — Architecture, selected branches and free notebook access
+
+- Added detailed component/trust-boundary and execution-sequence diagrams, verified against named source symbols and actual limits.
+- Added source-resolving, synthetic-only inline Colab notebooks that call the canonical engine, with local equivalent runners and explicit hosted-runtime limits.
+- Retired nonselected branches only after exact-tip recovery tags/private verified backups; retained main and the reviewed candidate without merging unreviewed work.
+- Updated README testing/evidence links and kept all production, independent-review, privacy and operational blockers explicit. No provider key or paid resource is used by this workflow.
+
+
 ## Documentation reconciliation — unreleased
 
 - Consolidate real local launch, user/API/architecture/security/operations/testing guidance and all-document audit ledger.

@@ -16,6 +16,6 @@ The optional Compose stack and ASGI deployment entrypoint require operator-owned
 
 ## Branches and publication
 
-Keep protected main, the reviewed candidate and active/unique work. The completed six-branch cleanup/recovery references and the healthcare branch held for queued CI are in [EVIDENCE.md](docs/EVIDENCE.md#branch-disposition). Do not delete ambiguous/unmerged work or rewrite shared history. This documentation pass performs no remote mutation or new source branch creation.
+The owner-selected remote branch set is `main` and `codex/local-workbench-20261116`. Additional dependency and unique-work branches were retired only after exact-tip annotated recovery tags and verified private backups; unreviewed changes were not merged. See [selected branches and recovery](docs/BRANCHES.md). Earlier branch counts/dispositions remain historical. Security automation and protected-main checks remain enabled.
 
 Use immutable non-release evidence tags for generated, hash-verified records. They are not software release tags. Review/merge, package/container publication, cloud resources and deployment are separate actions. No current documentation commit inherits an earlier commit's passing results.
