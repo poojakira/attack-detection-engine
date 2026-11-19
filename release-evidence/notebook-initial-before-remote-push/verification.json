@@ -1,0 +1,15 @@
+{
+  "repository": "attack-detection-engine",
+  "source_commit": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "expected_candidate": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "utc_start": "2026-11-19T00:22:08.941548+00:00",
+  "utc_end": "2026-11-19T00:22:12.112060+00:00",
+  "result": "FAIL",
+  "error": "CalledProcessError: Command '['/workspace/work/selected-branches/notebook-temp/synthetic-demo-environment-x2vduef0/bin/python', '-m', 'pip', 'install', '--disable-pip-version-check', '--no-cache-dir', '-r', '/workspace/work/selected-branches/notebook-temp/attack-detection-engine-0ianc5lj/demo/requirements-notebook.txt']' returned non-zero exit status 1.",
+  "environment": "Actual committed notebook setup/scenario/comparison cells executed on local LinuxCPython3.12, GitHubpubliccheckout and fresh isolated minimalvenv",
+  "colab_hosted_kernel": "NOT VERIFIED; no Google sign-in or remote hosted execution claimed",
+  "source_notebook_sha256": "0bd22ed60d01fa6bbd4c064fa853c75c2a0ef808e3a4a2ebc7f5a72d2124aa18",
+  "all_result_checksums_verified": false,
+  "no_external_resources": "No server/tunnel/Drive/GPU/paidAPI/cloudresource/APIkey; only publicGitHub/PyPI downloads",
+  "scenario_summaries": []
+}

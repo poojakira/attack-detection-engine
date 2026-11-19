@@ -1,0 +1,230 @@
+{
+  "repository": "attack-detection-engine",
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "checked_utc": "2026-11-19T00:47:14.791787+00:00",
+  "source_clean": true,
+  "remote_heads": {
+    "codex/local-workbench-20261116": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+    "main": "b631f31df52e9a7477cbc65dff9b4f46758f71a7"
+  },
+  "remote_branch_count": 2,
+  "main_unchanged": true,
+  "retired_branch_count": 12,
+  "recovery_tags_reverified": [
+    {
+      "branch": "dependabot/github_actions/actions/setup-python-7.1.0",
+      "sha": "f0858f00ab7ce0cd2b5d655b372f245ad4030e83",
+      "archive_tag": "archive/selected-20261118/dependabot/github_actions/actions/setup-python-7.1.0",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin f0858f00ab7ce0cd2b5d655b372f245ad4030e83:refs/heads/dependabot/github_actions/actions/setup-python-7.1.0",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/github_actions/actions/upload-artifact-7.0.2",
+      "sha": "e40e39d7e45581ca4153606955cb4dfc4530b278",
+      "archive_tag": "archive/selected-20261118/dependabot/github_actions/actions/upload-artifact-7.0.2",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin e40e39d7e45581ca4153606955cb4dfc4530b278:refs/heads/dependabot/github_actions/actions/upload-artifact-7.0.2",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/github_actions/docker/login-action-4.8.0",
+      "sha": "2c7784f50af50ff11bd0d61d1c7deb0a3ef7d2a1",
+      "archive_tag": "archive/selected-20261118/dependabot/github_actions/docker/login-action-4.8.0",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 2c7784f50af50ff11bd0d61d1c7deb0a3ef7d2a1:refs/heads/dependabot/github_actions/docker/login-action-4.8.0",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/github_actions/docker/setup-buildx-action-4.4.1",
+      "sha": "2c8957e50223b6b3603e0d833867fe81d8afe232",
+      "archive_tag": "archive/selected-20261118/dependabot/github_actions/docker/setup-buildx-action-4.4.1",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 2c8957e50223b6b3603e0d833867fe81d8afe232:refs/heads/dependabot/github_actions/docker/setup-buildx-action-4.4.1",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/npm_and_yarn/dashboard-ui/vite-8.3.5",
+      "sha": "ee296a2f3a6b7e521d3383a692a7ba8da5214daf",
+      "archive_tag": "archive/selected-20261118/dependabot/npm_and_yarn/dashboard-ui/vite-8.3.5",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin ee296a2f3a6b7e521d3383a692a7ba8da5214daf:refs/heads/dependabot/npm_and_yarn/dashboard-ui/vite-8.3.5",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/pip/bandit-gte-1.9.4",
+      "sha": "789d781c980f0b0027d4e157a88427684de3fe5b",
+      "archive_tag": "archive/selected-20261118/dependabot/pip/bandit-gte-1.9.4",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 789d781c980f0b0027d4e157a88427684de3fe5b:refs/heads/dependabot/pip/bandit-gte-1.9.4",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/pip/build-gte-1.6.1",
+      "sha": "04ece9c100bf12e24650a935ceb430da603089bd",
+      "archive_tag": "archive/selected-20261118/dependabot/pip/build-gte-1.6.1",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 04ece9c100bf12e24650a935ceb430da603089bd:refs/heads/dependabot/pip/build-gte-1.6.1",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/pip/pydantic-2.14.2",
+      "sha": "cc70338d181e466138377c315f3fe69f6950dc96",
+      "archive_tag": "archive/selected-20261118/dependabot/pip/pydantic-2.14.2",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin cc70338d181e466138377c315f3fe69f6950dc96:refs/heads/dependabot/pip/pydantic-2.14.2",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/pip/starlette-1.3.1",
+      "sha": "dfd242a305c4d8a30f4c8fd0b73a184607e8dadf",
+      "archive_tag": "archive/selected-20261118/dependabot/pip/starlette-1.3.1",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin dfd242a305c4d8a30f4c8fd0b73a184607e8dadf:refs/heads/dependabot/pip/starlette-1.3.1",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "dependabot/pip/starlette-1.7.0",
+      "sha": "168af818ac5ab3a0acbadba32a9001b843789df6",
+      "archive_tag": "archive/selected-20261118/dependabot/pip/starlette-1.7.0",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 168af818ac5ab3a0acbadba32a9001b843789df6:refs/heads/dependabot/pip/starlette-1.7.0",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "feat/healthsec-detection",
+      "sha": "44c2ca2c6f0f07c590107091acd381ddb36d7ea0",
+      "archive_tag": "archive/selected-20261118/feat/healthsec-detection",
+      "unique_commits_against_retained_heads": 28,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 44c2ca2c6f0f07c590107091acd381ddb36d7ea0:refs/heads/feat/healthsec-detection",
+      "remote_tag_verified": true
+    },
+    {
+      "branch": "feature/cross-language-hipaa-admin-detection",
+      "sha": "660e1c6c47e862a8c2818bed98f5f57aa23c4210",
+      "archive_tag": "archive/selected-20261118/feature/cross-language-hipaa-admin-detection",
+      "unique_commits_against_retained_heads": 1,
+      "disposition": "Preserve tag and verified private bundle; retire branch without merging its unreviewed changes",
+      "restore_command": "git push origin 660e1c6c47e862a8c2818bed98f5f57aa23c4210:refs/heads/feature/cross-language-hipaa-admin-detection",
+      "remote_tag_verified": true
+    }
+  ],
+  "retired_prs_final": [
+    {
+      "number": 57,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/github_actions/docker/login-action-4.8.0",
+      "head_sha": "2c7784f50af50ff11bd0d61d1c7deb0a3ef7d2a1",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/57"
+    },
+    {
+      "number": 56,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/pip/bandit-gte-1.9.4",
+      "head_sha": "789d781c980f0b0027d4e157a88427684de3fe5b",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/56"
+    },
+    {
+      "number": 55,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/pip/starlette-1.7.0",
+      "head_sha": "168af818ac5ab3a0acbadba32a9001b843789df6",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/55"
+    },
+    {
+      "number": 54,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/pip/pydantic-2.14.2",
+      "head_sha": "cc70338d181e466138377c315f3fe69f6950dc96",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/54"
+    },
+    {
+      "number": 53,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/pip/build-gte-1.6.1",
+      "head_sha": "04ece9c100bf12e24650a935ceb430da603089bd",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/53"
+    },
+    {
+      "number": 52,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/npm_and_yarn/dashboard-ui/vite-8.3.5",
+      "head_sha": "ee296a2f3a6b7e521d3383a692a7ba8da5214daf",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/52"
+    },
+    {
+      "number": 51,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/pip/starlette-1.3.1",
+      "head_sha": "dfd242a305c4d8a30f4c8fd0b73a184607e8dadf",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/51"
+    },
+    {
+      "number": 46,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/github_actions/actions/setup-python-7.1.0",
+      "head_sha": "f0858f00ab7ce0cd2b5d655b372f245ad4030e83",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/46"
+    },
+    {
+      "number": 44,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/github_actions/docker/setup-buildx-action-4.4.1",
+      "head_sha": "2c8957e50223b6b3603e0d833867fe81d8afe232",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/44"
+    },
+    {
+      "number": 43,
+      "state": "closed",
+      "merged_at": null,
+      "head": "dependabot/github_actions/actions/upload-artifact-7.0.2",
+      "head_sha": "e40e39d7e45581ca4153606955cb4dfc4530b278",
+      "draft": false,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/43"
+    }
+  ],
+  "open_prs": [
+    {
+      "number": 58,
+      "state": "open",
+      "merged_at": null,
+      "head": "codex/local-workbench-20261116",
+      "head_sha": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+      "draft": true,
+      "html_url": "https://github.com/poojakira/attack-detection-engine/pull/58"
+    }
+  ],
+  "private_bundle_verified_before_deletion": true,
+  "private_bundle_publication": "EXCLUDED; private recovery bytes retained",
+  "historical_deployment_refs": [],
+  "policy": "Exactly two branches at recorded time; automation can create future branches. Unique work preserved by tags, not silently merged."
+}

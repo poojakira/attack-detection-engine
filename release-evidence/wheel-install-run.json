@@ -1,0 +1,19 @@
+{
+  "name": "wheel-install",
+  "command": [
+    "/workspace/work/envs/attack/bin/python",
+    "-m",
+    "pip",
+    "--python",
+    "/workspace/work/attack-wheel-smoke-parent/venv/bin/python",
+    "install",
+    "--force-reinstall",
+    "--no-deps",
+    "/workspace/work/evidence/attack-detection-engine/selected-branches/packages/attack_detection_engine-1.1.0-py3-none-any.whl"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-19T00:24:56.694386+00:00",
+  "finished_at": "2026-11-19T00:24:57.933052+00:00",
+  "exit_code": 0,
+  "log": "wheel-install.log"
+}

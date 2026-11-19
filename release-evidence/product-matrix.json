@@ -1,0 +1,95 @@
+{
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "capabilities": [
+    {
+      "capability": "Browser input reaches actual engine and exposes evidence; edit/rerun/export within documented scope",
+      "status": "TESTED",
+      "code": [
+        "dashboard-ui/src/screens/Workbench.tsx",
+        "detection_engine/platform/workbench.py",
+        "detection_engine/platform/investigation.py",
+        "demo/adapter.py"
+      ],
+      "evidence": [
+        "junit.xml",
+        "browser/",
+        "executed-test-inventory.json"
+      ]
+    },
+    {
+      "capability": "Installed distribution outside checkout; packaged assets/HTTP and correct UNKNOWN provenance",
+      "status": "TESTED",
+      "evidence": [
+        "installed-wheel.json"
+      ]
+    },
+    {
+      "capability": "Readable source-mapped architecture, full-size SVG, zoom controls and mobile bounds",
+      "status": "TESTED locally",
+      "evidence": [
+        "architecture/viewer-checks.json",
+        "final-file-audit.json"
+      ]
+    },
+    {
+      "capability": "Inline guided notebook with actual fixture engine execution",
+      "status": "TESTED locally from fresh public checkout; hosted kernel NOT VERIFIED",
+      "scope": "Stateless preview invokes the actual FHIR connector, PatientAccessDetector and CorrelationEngine on 30 synthetic events: threshold 25 produces one finding/incident; threshold 40 produces none. The preview has no database/auth/saved cases. The full local UI uses real PostgreSQL.",
+      "evidence": [
+        "notebook/verification.json",
+        "notebook/actual-engine-results.json",
+        "public-source-verification.json"
+      ]
+    },
+    {
+      "capability": "All current tracked files inventory/type checks, local doc targets, SVG XML, notebook compilation",
+      "status": "TESTED within recorded per-type scope; not proof of every external historical assertion",
+      "evidence": [
+        "final-file-audit.json",
+        "final-file-inventory.json",
+        "final-doc-links.json"
+      ]
+    },
+    {
+      "capability": "Exactly two remote branches and preserved retired tips",
+      "status": "OBSERVED",
+      "evidence": [
+        "branch-disposition.json"
+      ]
+    },
+    {
+      "capability": "No new values in current secret scan; history classifications reviewed; no confirmed provider credential",
+      "status": "OBSERVED within heuristic scope; no universal absence claim",
+      "evidence": [
+        "current-secret-scan.json",
+        "secret-history-triage.json"
+      ]
+    },
+    {
+      "capability": "Current hosted workflow executions",
+      "status": "NOT VERIFIED",
+      "evidence": [
+        "remote-ci/status.json"
+      ]
+    },
+    {
+      "capability": "Public hosted full app / Colab hosted kernel / deployment release",
+      "status": "NOT VERIFIED / not deployed",
+      "evidence": [
+        "pages-configuration.json",
+        "cost-and-access-audit.json"
+      ]
+    },
+    {
+      "capability": "Independent adversarial closure at this exact source",
+      "status": "NOT VERIFIED",
+      "scope": "Historical focused independent reviews retain their old source bounds. Sequential documentation author/parent review is separate."
+    }
+  ],
+  "remaining_full_contract_gates": [
+    "Current hosted CI is queued/NOT VERIFIED; no hosted passing result or product-container runtime is asserted.",
+    "The API does not provide hard process isolation/deadlines for parser/detector computation; the 15-second body deadline bounds receipt only.",
+    "Multiprocess quotas, full FHIR conformance, external audit anchoring and automotive browser integration remain missing or NOT VERIFIED.",
+    "Real PHI handling, production privacy/recovery/load approval and hostile public hosting remain NOT VERIFIED; use synthetic inputs only."
+  ]
+}

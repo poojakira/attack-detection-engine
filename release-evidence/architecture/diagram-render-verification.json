@@ -1,0 +1,36 @@
+{
+  "utc": "2026-11-19T00:10:27.095100+00:00",
+  "renderer": "mermaid11.12.2;headlessChromium;strictsecurity;pureSVGtext",
+  "mermaid_js_sha256": "d0830a6c05546e9edb8fe20a8f545f3e0dc7c4c3134d584bad9c13a99d7a71e0",
+  "diagrams": [
+    {
+      "diagram": 1,
+      "path": "docs/architecture/components.svg",
+      "svg_sha256": "c5252cc9811009202b151f3150c2cb0f8670fa47867cd205c764a21f8e408368",
+      "bytes": 54353,
+      "parsed_and_rendered": true
+    },
+    {
+      "diagram": 2,
+      "path": "docs/architecture/sequence.svg",
+      "svg_sha256": "2a937518a4a483eff83169115fa024bade759bd87657bcca993706e973e4ba01",
+      "bytes": 38582,
+      "parsed_and_rendered": true
+    },
+    {
+      "diagram": 3,
+      "path": "docs/architecture/rerun-export.svg",
+      "svg_sha256": "c6a366214195c33dc76f4450e7926bbe9c40ab6ec89f66f02011876973b6f11a",
+      "bytes": 31337,
+      "parsed_and_rendered": true
+    },
+    {
+      "diagram": 4,
+      "path": "docs/architecture/guided-notebook.svg",
+      "svg_sha256": "ff91fb4ec83d86acb20003dc87d5f2a5120df6cfc2506c6e989411d7e410a765",
+      "bytes": 19510,
+      "parsed_and_rendered": true
+    }
+  ],
+  "standalone_svg": "Root width/height set to actual viewBox pixels for readable full-size opening; README uses separate22pxoverview; HTMLvieweraddszoom/pan"
+}

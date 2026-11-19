@@ -1,0 +1,47 @@
+{
+  "utc": "2026-11-19T00:08:52.592136+00:00",
+  "baseline_head": "4f2a661d6ddab424a087ac2b4da364ed4b6e3632",
+  "worktree_status": " M CHANGELOG.md\n M PRODUCTION.md\n M README.md\n M docs/EVIDENCE.md\n?? demo/\n?? docs/ARCHITECTURE.md\n?? docs/BRANCHES.md\n?? docs/TRY_IT.md\n?? notebooks/\n?? tests/test_notebook_demo.py\n",
+  "architecture_path": "docs/ARCHITECTURE.md",
+  "architecture_sha256": "530d3dfaf45e0913cd3aae6b4e0629b617f7b2c168fb05d92c809cef82da10f9",
+  "changes_by_this_agent": [
+    "docs/ARCHITECTURE.md"
+  ],
+  "existing_parent_changes_preserved": true,
+  "diagram_count": 4,
+  "diagram_types": [
+    "flowchart TB",
+    "sequenceDiagram",
+    "sequenceDiagram",
+    "flowchart LR"
+  ],
+  "local_link_targets_checked": 19,
+  "local_link_errors": [],
+  "checks": [
+    "Read actual API/body/auth/workbench/repository/DB/correlation/provenance/UI client/component and notebook/adapter/runner source",
+    "CommonMark parse with all local link targets existing",
+    "Four Mermaid blocks statically inspected and contain no semicolons",
+    "Python AST confirmed 25 named symbols in 10 source files"
+  ],
+  "not_executed": [
+    "Mermaid renderer - parent handles",
+    "Runtime tests/browser/full regression/Colab-hosted kernel",
+    "Install/download/launch/server/DB/container operations",
+    "Commit/push/remote mutation"
+  ],
+  "overstatement_notes": [
+    "No existing WORKBENCH/RUNBOOK/PLATFORM edits needed",
+    "Architecture uses actual fixed-time correlator bucket instead of broad module docstring claims",
+    "Body receive deadline explicitly distinct from parser/detector execution timeout",
+    "Token resolver derives current role/org from DB without claiming explicit token-role/org equality rejection",
+    "Notebook uses real canonical engines in memory without DB/accounts/saved cases/API controls",
+    "Notified parent that parent-owned TRY_IT.md retains cross-product HF/libseccomp wording"
+  ],
+  "remaining_parent_actions": [
+    "Render and inspect all four Mermaid diagrams",
+    "Freeze exact source and run applicable full checks",
+    "Publish source-associated generated evidence only after execution"
+  ],
+  "private_state": "Product volume/password/backups untouched",
+  "named_python_symbols_checked": 25
+}

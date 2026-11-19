@@ -1,0 +1,42 @@
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 4295fbcefb96, initial platform schema
+INFO  [alembic.runtime.migration] Running upgrade 4295fbcefb96 -> 53fef2dbf01d, add user token_version for revocation
+INFO  [alembic.runtime.migration] Running upgrade 53fef2dbf01d -> a1b2c3d4e5f6, add tamper-evident audit hash chain columns
+INFO  [alembic.runtime.migration] Running upgrade a1b2c3d4e5f6 -> b2c3d4e5f6a7, Persist bounded workbench datasets and immutable run reports.
+Local workbench: http://127.0.0.1:18770 (username: synthetic-analyst)
+INFO:     Started server process [53717]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18770 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52800 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52826 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52824 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "POST /api/v1/workbench/cases/case-f0fba448bd434b3ba1dd9813bf0f9b9c/runs HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52824 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /api/v1/workbench/cases/case-f0fba448bd434b3ba1dd9813bf0f9b9c/runs/run-8637c4cf005a4d819f2384ceed578b42/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52824 - "GET /api/v1/workbench/cases/case-f0fba448bd434b3ba1dd9813bf0f9b9c HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /api/v1/workbench/cases/case-f0fba448bd434b3ba1dd9813bf0f9b9c/runs/run-8637c4cf005a4d819f2384ceed578b42/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52824 - "GET /assets/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET /assets/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "GET /api/v1/workbench/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "POST /api/v1/workbench/cases HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52812 - "GET /api/v1/workbench/cases HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52812 - "POST /api/v1/workbench/cases HTTP/1.1" 422 Unprocessable Entity
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [53717]

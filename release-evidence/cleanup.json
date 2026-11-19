@@ -1,0 +1,35 @@
+{
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "utc": "2026-11-19T00:36:19.898612+00:00",
+  "task_instance_stopped": true,
+  "source_and_wheel_servers": "stoppedafteractualstartup/browser/restartproof",
+  "synthetic_backups": [
+    {
+      "synthetic_database": "aegis_selected_20261118",
+      "private_dump_bytes": 1764,
+      "dump_exit": 0,
+      "archive_list_exit": 0
+    },
+    {
+      "synthetic_database": "aegis_selected_fixed_20261118",
+      "private_dump_bytes": 1788,
+      "dump_exit": 0,
+      "archive_list_exit": 0
+    },
+    {
+      "synthetic_database": "aegis_selected_browser_20261118",
+      "private_dump_bytes": 53727,
+      "dump_exit": 0,
+      "archive_list_exit": 0
+    },
+    {
+      "synthetic_database": "aegis_selected_wheel_20261118",
+      "private_dump_bytes": 47682,
+      "dump_exit": 0,
+      "archive_list_exit": 0
+    }
+  ],
+  "backup_scope": "Custom dumps privately retained and archive listings validated; no full restore executed for these new dumps; not production backup certification",
+  "product_state": "Inherited named product container/volume/private password pair and prior private backups untouched",
+  "private_backup_publication": "Excluded, including credential values"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "browser",
+  "command": [
+    "/workspace/work/tooling/venv/bin/python",
+    "/workspace/work/candidates/attack-detection-engine/scripts/browser-workbench.py",
+    "--url",
+    "http://127.0.0.1:18770",
+    "--evidence",
+    "/workspace/work/evidence/attack-detection-engine/selected-branches/browser"
+  ],
+  "cwd": "/workspace/work/candidates/attack-detection-engine",
+  "started_at": "2026-11-19T00:25:04.994859+00:00",
+  "finished_at": "2026-11-19T00:25:13.229083+00:00",
+  "exit_code": 0,
+  "log": "browser.log"
+}

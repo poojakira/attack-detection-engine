@@ -1,0 +1,532 @@
+[
+  {
+    "report": {
+      "product": "Aegis HealthSec Engine Preview",
+      "software_version": "1.1.0",
+      "mode": "GUIDED_SYNTHETIC_ONLY",
+      "scenario": "threshold25",
+      "source": {
+        "commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+        "state": "CLEAN"
+      },
+      "started_utc": "2026-11-19T00:24:01.549450+00:00",
+      "evidence": {
+        "summary": "1 canonical finding(s), 1 correlated incident(s); events=30",
+        "engine_report": {
+          "current": {
+            "input_sha256": "95b0f00eef1b670d98b871f64eebf8c01ff4991969565082cf2e7a09342de7c6",
+            "config": {
+              "bulk_access_threshold": 25
+            },
+            "event_count": 30,
+            "rejected_count": 0,
+            "findings": [
+              {
+                "schema_version": "1.0",
+                "finding_id": "fnd-4b8ff28be6d049ef",
+                "rule_id": "HC-ACCESS-BULK",
+                "rule_version": "clinical-access-1.1",
+                "severity": "HIGH",
+                "confidence": 0.8,
+                "description": "Actor synthetic-analyst read 30 distinct patient records in one window (threshold 25).",
+                "evidence_references": {
+                  "actor_id": "synthetic-analyst",
+                  "actor_type": "unknown",
+                  "actor_role": "",
+                  "actor_department": "",
+                  "patient_ref": "synthetic-patient-00",
+                  "resource_id": "synthetic-patient-00",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "record_count": 1,
+                  "session_id": "",
+                  "source_host": "",
+                  "source_location": "",
+                  "break_glass": false,
+                  "authorized": null,
+                  "timestamp": "2026-11-16T10:00:00+00:00",
+                  "data_origin": "synthetic",
+                  "contributing_signal": "HC-ACCESS-BULK",
+                  "distinct_patients": 30
+                },
+                "mapped_attack_techniques": [],
+                "detection_timestamp": "2026-11-16T10:00:00Z",
+                "affected_identity": "synthetic-analyst",
+                "affected_resource": "synthetic-patient-00",
+                "disposition": null,
+                "organization_id": "synthetic-notebook-demo",
+                "source_event_id": null
+              }
+            ],
+            "incidents": [
+              {
+                "schema_version": "1.0",
+                "incident_id": "inc-8791a016de1e45cf",
+                "title": "Suspicious healthcare record access: synthetic-analyst",
+                "description": "Correlated 1 finding(s) for synthetic-analyst in synthetic-notebook-demo within a 60-minute window. Categories: healthcare_access. Signals: HC-ACCESS-BULK.",
+                "severity": "HIGH",
+                "status": "NEW",
+                "created_at": "2026-11-19T00:24:01.558684Z",
+                "updated_at": "2026-11-19T00:24:01.558685Z",
+                "first_seen": "2026-11-16T10:00:00Z",
+                "last_seen": "2026-11-16T10:00:00Z",
+                "assigned_analyst": null,
+                "related_findings": [
+                  "fnd-4b8ff28be6d049ef"
+                ],
+                "related_events": [],
+                "correlation_reason": "Correlated 1 finding(s) for synthetic-analyst in synthetic-notebook-demo within a 60-minute window. Categories: healthcare_access. Signals: HC-ACCESS-BULK.",
+                "affected_entities": {
+                  "identity": "synthetic-analyst",
+                  "resources": [
+                    "synthetic-patient-00"
+                  ],
+                  "attack_techniques": []
+                },
+                "resolution_summary": null,
+                "close_reason": null,
+                "organization_id": "synthetic-notebook-demo",
+                "correlation_key": "synthetic-notebook-demo|synthetic-analyst|healthcare_access|498562"
+              }
+            ],
+            "normalized_evidence": [
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-6869889c83b74c9e",
+                "source_event_id": "synthetic-access-00",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:00Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.557346Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-00",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-00",
+                  "resource_id": "synthetic-patient-00",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:00+00:00",
+                  "data_origin": "synthetic"
+                }
+              },
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-3f1cceea5a7e408b",
+                "source_event_id": "synthetic-access-01",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:01Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.557462Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-01",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-01",
+                  "resource_id": "synthetic-patient-01",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:01+00:00",
+                  "data_origin": "synthetic"
+                }
+              }
+            ],
+            "data_origin": "synthetic",
+            "persistence": "NOT USED in notebook engine preview; full local product uses PostgreSQL"
+          }
+        }
+      },
+      "finished_utc": "2026-11-19T00:24:01.558982+00:00",
+      "limitations": [
+        "Only the first-party synthetic sample is accepted; no PHI, credentials or arbitrary event uploads.",
+        "This stateless notebook preview has no database, user accounts or saved investigations. The full local React/API product uses PostgreSQL.",
+        "Signals support investigation; they prove neither malicious access nor field accuracy.",
+        "No anonymization, full FHIR conformance, hard parser isolation, public full-workbench approval or HIPAA certification."
+      ]
+    },
+    "report_sha256": "b944539bb717a524486b34e414e13925954baaaf16e276567598e5f494f4e572",
+    "checksum_encoding": "UTF-8 JSON; sorted keys; compact separators; ensure_ascii=true; no NaN"
+  },
+  {
+    "report": {
+      "product": "Aegis HealthSec Engine Preview",
+      "software_version": "1.1.0",
+      "mode": "GUIDED_SYNTHETIC_ONLY",
+      "scenario": "threshold40",
+      "source": {
+        "commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+        "state": "CLEAN"
+      },
+      "started_utc": "2026-11-19T00:24:01.716118+00:00",
+      "evidence": {
+        "summary": "0 canonical finding(s), 0 correlated incident(s); events=30",
+        "engine_report": {
+          "current": {
+            "input_sha256": "95b0f00eef1b670d98b871f64eebf8c01ff4991969565082cf2e7a09342de7c6",
+            "config": {
+              "bulk_access_threshold": 40
+            },
+            "event_count": 30,
+            "rejected_count": 0,
+            "findings": [],
+            "incidents": [],
+            "normalized_evidence": [
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-cc9b8e9c084c442c",
+                "source_event_id": "synthetic-access-00",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:00Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.722427Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-00",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-00",
+                  "resource_id": "synthetic-patient-00",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:00+00:00",
+                  "data_origin": "synthetic"
+                }
+              },
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-2ac7b273da42456b",
+                "source_event_id": "synthetic-access-01",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:01Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.722533Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-01",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-01",
+                  "resource_id": "synthetic-patient-01",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:01+00:00",
+                  "data_origin": "synthetic"
+                }
+              }
+            ],
+            "data_origin": "synthetic",
+            "persistence": "NOT USED in notebook engine preview; full local product uses PostgreSQL"
+          }
+        }
+      },
+      "finished_utc": "2026-11-19T00:24:01.723834+00:00",
+      "limitations": [
+        "Only the first-party synthetic sample is accepted; no PHI, credentials or arbitrary event uploads.",
+        "This stateless notebook preview has no database, user accounts or saved investigations. The full local React/API product uses PostgreSQL.",
+        "Signals support investigation; they prove neither malicious access nor field accuracy.",
+        "No anonymization, full FHIR conformance, hard parser isolation, public full-workbench approval or HIPAA certification."
+      ]
+    },
+    "report_sha256": "ababc3cf75d0addccd26856db1c333dbe5718a2799afa64048ce9c26a207f0ea",
+    "checksum_encoding": "UTF-8 JSON; sorted keys; compact separators; ensure_ascii=true; no NaN"
+  },
+  {
+    "report": {
+      "product": "Aegis HealthSec Engine Preview",
+      "software_version": "1.1.0",
+      "mode": "GUIDED_SYNTHETIC_ONLY",
+      "scenario": "compare",
+      "source": {
+        "commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+        "state": "CLEAN"
+      },
+      "started_utc": "2026-11-19T00:24:01.880543+00:00",
+      "evidence": {
+        "summary": "1 canonical finding(s), 1 correlated incident(s); events=30; removed=1",
+        "engine_report": {
+          "current": {
+            "input_sha256": "95b0f00eef1b670d98b871f64eebf8c01ff4991969565082cf2e7a09342de7c6",
+            "config": {
+              "bulk_access_threshold": 25
+            },
+            "event_count": 30,
+            "rejected_count": 0,
+            "findings": [
+              {
+                "schema_version": "1.0",
+                "finding_id": "fnd-e80035c090ae4ba9",
+                "rule_id": "HC-ACCESS-BULK",
+                "rule_version": "clinical-access-1.1",
+                "severity": "HIGH",
+                "confidence": 0.8,
+                "description": "Actor synthetic-analyst read 30 distinct patient records in one window (threshold 25).",
+                "evidence_references": {
+                  "actor_id": "synthetic-analyst",
+                  "actor_type": "unknown",
+                  "actor_role": "",
+                  "actor_department": "",
+                  "patient_ref": "synthetic-patient-00",
+                  "resource_id": "synthetic-patient-00",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "record_count": 1,
+                  "session_id": "",
+                  "source_host": "",
+                  "source_location": "",
+                  "break_glass": false,
+                  "authorized": null,
+                  "timestamp": "2026-11-16T10:00:00+00:00",
+                  "data_origin": "synthetic",
+                  "contributing_signal": "HC-ACCESS-BULK",
+                  "distinct_patients": 30
+                },
+                "mapped_attack_techniques": [],
+                "detection_timestamp": "2026-11-16T10:00:00Z",
+                "affected_identity": "synthetic-analyst",
+                "affected_resource": "synthetic-patient-00",
+                "disposition": null,
+                "organization_id": "synthetic-notebook-demo",
+                "source_event_id": null
+              }
+            ],
+            "incidents": [
+              {
+                "schema_version": "1.0",
+                "incident_id": "inc-b35b5080bdc44c77",
+                "title": "Suspicious healthcare record access: synthetic-analyst",
+                "description": "Correlated 1 finding(s) for synthetic-analyst in synthetic-notebook-demo within a 60-minute window. Categories: healthcare_access. Signals: HC-ACCESS-BULK.",
+                "severity": "HIGH",
+                "status": "NEW",
+                "created_at": "2026-11-19T00:24:01.887545Z",
+                "updated_at": "2026-11-19T00:24:01.887546Z",
+                "first_seen": "2026-11-16T10:00:00Z",
+                "last_seen": "2026-11-16T10:00:00Z",
+                "assigned_analyst": null,
+                "related_findings": [
+                  "fnd-e80035c090ae4ba9"
+                ],
+                "related_events": [],
+                "correlation_reason": "Correlated 1 finding(s) for synthetic-analyst in synthetic-notebook-demo within a 60-minute window. Categories: healthcare_access. Signals: HC-ACCESS-BULK.",
+                "affected_entities": {
+                  "identity": "synthetic-analyst",
+                  "resources": [
+                    "synthetic-patient-00"
+                  ],
+                  "attack_techniques": []
+                },
+                "resolution_summary": null,
+                "close_reason": null,
+                "organization_id": "synthetic-notebook-demo",
+                "correlation_key": "synthetic-notebook-demo|synthetic-analyst|healthcare_access|498562"
+              }
+            ],
+            "normalized_evidence": [
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-e7f1ed9680bc4c28",
+                "source_event_id": "synthetic-access-00",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:00Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.886320Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-00",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-00",
+                  "resource_id": "synthetic-patient-00",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:00+00:00",
+                  "data_origin": "synthetic"
+                }
+              },
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-68f3b6b9e0c345f0",
+                "source_event_id": "synthetic-access-01",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:01Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.886419Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-01",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-01",
+                  "resource_id": "synthetic-patient-01",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:01+00:00",
+                  "data_origin": "synthetic"
+                }
+              }
+            ],
+            "data_origin": "synthetic",
+            "persistence": "NOT USED in notebook engine preview; full local product uses PostgreSQL"
+          },
+          "after": {
+            "input_sha256": "95b0f00eef1b670d98b871f64eebf8c01ff4991969565082cf2e7a09342de7c6",
+            "config": {
+              "bulk_access_threshold": 40
+            },
+            "event_count": 30,
+            "rejected_count": 0,
+            "findings": [],
+            "incidents": [],
+            "normalized_evidence": [
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-59edb36ad51744e5",
+                "source_event_id": "synthetic-access-00",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:00Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.887882Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-00",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-00",
+                  "resource_id": "synthetic-patient-00",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:00+00:00",
+                  "data_origin": "synthetic"
+                }
+              },
+              {
+                "schema_version": "1.0",
+                "event_id": "evt-7de035077a72418d",
+                "source_event_id": "synthetic-access-01",
+                "source_type": "fhir_audit_event",
+                "event_timestamp": "2026-11-16T10:00:01Z",
+                "ingestion_timestamp": "2026-11-19T00:24:01.887922Z",
+                "identity_id": "synthetic-analyst",
+                "session_id": "synthetic-workstation",
+                "host_id": null,
+                "resource_reference": "synthetic-patient-01",
+                "action": "read",
+                "outcome": "success",
+                "organization_id": "synthetic-notebook-demo",
+                "data_origin": "synthetic",
+                "source_metadata": {
+                  "fhir_type_code": "110110",
+                  "fhir_subtype_codes": [],
+                  "source_ip": null,
+                  "connector_version": "1.1"
+                },
+                "normalized_attributes": {
+                  "actor_id": "synthetic-analyst",
+                  "patient_ref": "synthetic-patient-01",
+                  "resource_id": "synthetic-patient-01",
+                  "resource_type": "",
+                  "action": "read",
+                  "outcome": "success",
+                  "timestamp": "2026-11-16T10:00:01+00:00",
+                  "data_origin": "synthetic"
+                }
+              }
+            ],
+            "data_origin": "synthetic",
+            "persistence": "NOT USED in notebook engine preview; full local product uses PostgreSQL"
+          },
+          "finding_count_removed": 1
+        }
+      },
+      "finished_utc": "2026-11-19T00:24:01.889107+00:00",
+      "limitations": [
+        "Only the first-party synthetic sample is accepted; no PHI, credentials or arbitrary event uploads.",
+        "This stateless notebook preview has no database, user accounts or saved investigations. The full local React/API product uses PostgreSQL.",
+        "Signals support investigation; they prove neither malicious access nor field accuracy.",
+        "No anonymization, full FHIR conformance, hard parser isolation, public full-workbench approval or HIPAA certification."
+      ]
+    },
+    "report_sha256": "db5f995427ffa3dfacb0d0dcd87743305e8e5f78ff35588da8d928470141a5aa",
+    "checksum_encoding": "UTF-8 JSON; sorted keys; compact separators; ensure_ascii=true; no NaN"
+  }
+]

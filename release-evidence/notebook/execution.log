@@ -1,0 +1,10 @@
+Resolved source: aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83
+Guided dependencies installed. Full-app and hosted-runtime verification are separate.
+1 canonical finding(s), 1 correlated incident(s); events=30
+Run source: {'commit': 'aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83', 'state': 'CLEAN'}
+Evidence SHA-256: 3e288dc06cc218eeb8681fd10b7b32b0af6132a8a4eea1d2b7701c6741dee613
+<IPython.core.display.JSON object>
+threshold25 → 1 canonical finding(s), 1 correlated incident(s); events=30
+threshold40 → 0 canonical finding(s), 0 correlated incident(s); events=30
+compare → 1 canonical finding(s), 1 correlated incident(s); events=30; removed=1
+<IPython.core.display.JSON object>

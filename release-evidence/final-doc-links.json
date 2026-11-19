@@ -1,0 +1,112 @@
+{
+  "repository": "/workspace/work/candidates/attack-detection-engine",
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "source_status": "",
+  "utc": "2026-11-19T00:38:49.702671+00:00",
+  "documents_parsed": 28,
+  "local_targets_checked": 100,
+  "errors": [],
+  "external_targets_not_verified": [
+    {
+      "document": "PROVENANCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/commit/51151f34b10169352ef4206c1913f79fd779dbd8",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "PROVENANCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/commit/51151f34b10169352ef4206c1913f79fd779dbd8",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://colab.research.google.com/github/poojakira/attack-detection-engine/blob/codex/local-workbench-20261116/notebooks/try_product.ipynb",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://raw.githubusercontent.com/poojakira/attack-detection-engine/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/browser/desktop.png",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/RELEASE_ASSESSMENT.md",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/manifest.json",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/docs-reconciliation-20261118/release-evidence",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/pull/58",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "README.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/branch-cleanup.json",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/BRANCHES.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/branch-cleanup.json",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/RELEASE_ASSESSMENT.md",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/manifest.json",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/independent-review/ASSESSMENT.md",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/branch-disposition.json",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/blob/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/remote-ci/status.json",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/EVIDENCE.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/pull/58",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/TRY_IT.md",
+      "url": "https://colab.research.google.com/github/poojakira/attack-detection-engine/blob/codex/local-workbench-20261116/notebooks/try_product.ipynb",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/TRY_IT.md",
+      "url": "https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/RELEASE_ASSESSMENT.md",
+      "reason": "External target not validated by local-file/anchor check"
+    },
+    {
+      "document": "docs/TRY_IT.md",
+      "url": "https://research.google.com/colaboratory/faq.html",
+      "reason": "External target not validated by local-file/anchor check"
+    }
+  ],
+  "scope": "CommonMark links/images and block HTML href/src, local existence and Markdown heading/HTML ids. No claim of external URL/image semantics or perfect GitHub/MDX/RST parser equivalence."
+}

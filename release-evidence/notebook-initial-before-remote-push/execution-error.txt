@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/work/selected-branches/execute_notebook_cells.py", line 9, in <module>
+    if c['cell_type']=='code':exec(compile(''.join(c['source']),'actual-notebook-cell-'+str(i),'exec'),context)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "actual-notebook-cell-1", line 45, in <module>
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/workspace/work/selected-branches/notebook-temp/synthetic-demo-environment-x2vduef0/bin/python', '-m', 'pip', 'install', '--disable-pip-version-check', '--no-cache-dir', '-r', '/workspace/work/selected-branches/notebook-temp/attack-detection-engine-0ianc5lj/demo/requirements-notebook.txt']' returned non-zero exit status 1.

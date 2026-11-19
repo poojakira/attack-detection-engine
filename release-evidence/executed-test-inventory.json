@@ -1,0 +1,1998 @@
+{
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "count_units": "Individual JUnit testcases; native subtests and separate focused executions excluded",
+  "tests": [
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_invalid_can_ids[-1]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_invalid_can_ids[2048]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_invalid_can_ids[536870912]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_invalid_can_ids[True]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_invalid_can_ids[100]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_extended_can_and_can_fd",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_rejects_bad_payload[bad0]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_rejects_bad_payload[bad1]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_rejects_bad_payload[bad2]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_rejects_bad_payload[ff]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_can_policy_findings",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_bad_timestamp[nan]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_bad_timestamp[inf]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_bad_timestamp[None]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_bad_timestamp[1]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_firmware_findings_and_clean_case",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_embedded",
+      "name": "test_arm_elf_identification",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_real_cross_compiled_cortexm_binary",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_writable_executable_segment_is_flagged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_executable_stack_segment_is_flagged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_entry_point_outside_executable_segment_is_flagged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_corrupted_elf_rejected[truncated]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_corrupted_elf_rejected[bad-header]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_corrupted_elf_rejected[bad-segment]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_real_candump_lab_traces",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_candump_bad_frames_rejected[(1.0) vcan0 123#00F]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_candump_bad_frames_rejected[(1.0) vcan0 123#GG]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_candump_bad_frames_rejected[(1.0) vcan0 800#00]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_candump_bad_frames_rejected[(1.0) vcan0 123#001122334455667788]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_evidence",
+      "name": "test_vulnerable_and_fixed_code_audit_differ",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_automotive_pipeline",
+      "name": "test_mixed_automotive_pipeline_end_to_end",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_cli",
+      "name": "test_cli_processes_ndjson",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_cli",
+      "name": "test_cli_rejects_non_object_ndjson",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_single_resource",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_display_name_never_leaks",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_bundle_of_auditevents",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_list_of_resources",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_missing_recorded_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_invalid_timestamp_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_missing_agent_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_unsupported_resource_type_raises",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_non_object_payload_raises",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_mixed_valid_and_invalid_isolated",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_max_items_enforced",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirConnectorParsing",
+      "name": "test_org_from_caller_not_payload",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirEndToEnd",
+      "name": "test_single_fhir_event_ingested",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirEndToEnd",
+      "name": "test_fhir_bundle_bulk_triggers_incident",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirEndToEnd",
+      "name": "test_invalid_fhir_rejected_not_crash",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_connector_fhir.TestFhirEndToEnd",
+      "name": "test_fhir_duplicate_event_deduped",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestBenignControls",
+      "name": "test_legitimate_rounds_produce_no_malicious_finding",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestBenignControls",
+      "name": "test_documented_emergency_access_is_review_not_malicious",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestBenignControls",
+      "name": "test_in_scope_service_account_not_flagged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestPositiveDetections",
+      "name": "test_bulk_access_fires",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestPositiveDetections",
+      "name": "test_off_shift_unassigned_fires",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestPositiveDetections",
+      "name": "test_denied_then_success_fires",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestPositiveDetections",
+      "name": "test_service_account_scope_violation_fires",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestPositiveDetections",
+      "name": "test_bulk_export_fires_critical",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestThresholdsAndNegatives",
+      "name": "test_below_bulk_threshold_does_not_fire",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestThresholdsAndNegatives",
+      "name": "test_small_export_does_not_fire_exfil",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestThresholdsAndNegatives",
+      "name": "test_evidence_contains_no_record_content",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestDeterminism",
+      "name": "test_same_seed_same_org",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_detector.TestDeterminism",
+      "name": "test_same_seed_same_findings",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_pipeline.TestClinicalAccessPipeline",
+      "name": "test_source_is_accepted",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_pipeline.TestClinicalAccessPipeline",
+      "name": "test_benign_rounds_no_high_findings",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_pipeline.TestClinicalAccessPipeline",
+      "name": "test_bulk_export_maps_to_t1567",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_pipeline.TestClinicalAccessPipeline",
+      "name": "test_healthcare_and_automotive_coexist",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_pipeline.TestClinicalAccessPipeline",
+      "name": "test_unknown_source_still_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_pipeline.TestClinicalAccessPipeline",
+      "name": "test_serialization_roundtrip",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestSchemaValid",
+      "name": "test_minimal_valid_event",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestSchemaValid",
+      "name": "test_timestamp_forced_to_utc_from_naive",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestSchemaValid",
+      "name": "test_aware_timestamp_converted_to_utc",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestSchemaValid",
+      "name": "test_correlation_keys_present",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestSchemaValid",
+      "name": "test_redacted_evidence_has_no_record_content",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestSchemaValid",
+      "name": "test_frozen_event_is_immutable",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_pii_is_rejected[actor_id-jane.doe@hospital.org]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_pii_is_rejected[patient_ref-123-45-6789]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_pii_is_rejected[patient_ref-123456789012]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_pii_is_rejected[resource_id-patient@example.com]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_pii_is_rejected[session_id-987654321]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_structured_surrogates_allowed[actor_id-clin-001]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_structured_surrogates_allowed[patient_ref-pt-0007]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_structured_surrogates_allowed[resource_id-res-billing-0001]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_structured_surrogates_allowed[session_id-sess-5a2b9c]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestPIIGuard",
+      "name": "test_extra_fields_forbidden",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestFHIRNormalization",
+      "name": "test_fhir_audit_event_maps_to_pseudonymous_tokens",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_schema.TestFHIRNormalization",
+      "name": "test_fhir_denied_outcome_maps",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_looks_like_pii_email",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_looks_like_pii_ssn",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_looks_like_pii_bare_mrn",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_looks_like_pii_clean",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_ref_token_prefers_reference",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_ref_token_falls_back_to_identifier",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_ref_token_empty",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_from_dict_builds_event",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSchemaHelpers",
+      "name": "test_export_zero_records_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_is_on_shift_day_window",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_is_on_shift_crosses_midnight",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_is_assigned",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_has_care_relationship",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_resource_scope_no_restriction_allows_all",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_resource_scope_enforced",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_clinical_context_profile_lookup",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestContextFunctions",
+      "name": "test_from_synthetic_org_roundtrip",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_session_token_is_pseudonymous_and_stable",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_org_is_on_shift",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_build_org_has_service_accounts",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[benign_rounds]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[benign_emergency_access]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[benign_service_account]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[attack_off_shift_unassigned]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[attack_denied_then_success]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[attack_service_account_scope_violation]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_scenario_methods_return_synthetic_events[attack_bulk_export]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestSyntheticFunctions",
+      "name": "test_attack_bulk_access_count",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestDetectorFunctions",
+      "name": "test_coerce_accepts_objects_and_dicts",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestDetectorFunctions",
+      "name": "test_empty_batch_no_findings",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestDetectorFunctions",
+      "name": "test_break_glass_rule_isolated",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestDetectorFunctions",
+      "name": "test_denied_then_success_requires_streak",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestAdapterHelpers",
+      "name": "test_compute_sha256_matches_hashlib",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestAdapterHelpers",
+      "name": "test_gzip_csv_bytes_roundtrip",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestAdapterHelpers",
+      "name": "test_patient_token",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_healthcare_units.TestAdapterHelpers",
+      "name": "test_load_report_as_dict_shape",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestProvenance",
+      "name": "test_missing_file_raises",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestProvenance",
+      "name": "test_checksum_mismatch_raises",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestProvenance",
+      "name": "test_checksum_match_allows_load",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestSchemaAndParsing",
+      "name": "test_missing_required_column_raises",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestSchemaAndParsing",
+      "name": "test_context_from_admissions",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestSchemaAndParsing",
+      "name": "test_admission_link_does_not_imply_authorization",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestSchemaAndParsing",
+      "name": "test_patients_are_pseudonymized",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestSchemaAndParsing",
+      "name": "test_report_counts",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_mimic_adapter.TestSchemaAndParsing",
+      "name": "test_unknown_subject_in_admissions_ignored",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_notebook_demo",
+      "name": "test_canonical_guided_fixture[threshold25]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_notebook_demo",
+      "name": "test_canonical_guided_fixture[threshold40]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_notebook_demo",
+      "name": "test_canonical_guided_fixture[compare]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_notebook_demo",
+      "name": "test_unknown_fixture_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_notebook_demo",
+      "name": "test_isolated_runner_uses_own_source",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_pipeline_initialization",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_log_detector_powershell",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_log_detector_credential_dumping",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_traffic_detector_beaconing",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_traffic_detector_dns_tunneling",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_code_detector_python_eval",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_code_detector_powershell_iex",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_pipeline",
+      "name": "test_serialization",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestEndToEndAcceptance",
+      "name": "test_full_investigation_workflow",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestEndToEndAcceptance",
+      "name": "test_benign_access_no_high_incident",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestSecurityBoundaries",
+      "name": "test_unauthenticated_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestSecurityBoundaries",
+      "name": "test_cross_org_incident_access_blocked",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestSecurityBoundaries",
+      "name": "test_auditor_cannot_modify",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestSecurityBoundaries",
+      "name": "test_duplicate_events_deduped",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestSecurityBoundaries",
+      "name": "test_invalid_event_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_api_e2e.TestSecurityBoundaries",
+      "name": "test_invalid_status_transition_409",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestAuditHashChain",
+      "name": "test_chain_builds_and_verifies",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestAuditHashChain",
+      "name": "test_tamper_note_breaks_chain",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestAuditHashChain",
+      "name": "test_tamper_delete_breaks_chain",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestAuditHashChain",
+      "name": "test_chain_is_per_org",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestAuditHashChain",
+      "name": "test_chain_survives_restart",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestTransactionalIntegrity",
+      "name": "test_rollback_discards_partial_writes",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestTransactionalIntegrity",
+      "name": "test_concurrent_analyst_updates_optimistic_lock",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_audit_integrity.TestTransactionalIntegrity",
+      "name": "test_duplicate_incident_retry_no_duplicate",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestPasswordHashing",
+      "name": "test_roundtrip",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestPasswordHashing",
+      "name": "test_hash_is_salted",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestPasswordHashing",
+      "name": "test_long_password_does_not_crash",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestPasswordHashing",
+      "name": "test_verify_bad_hash_returns_false",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestTokens",
+      "name": "test_decode_roundtrip",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestTokens",
+      "name": "test_tampered_token_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestTokens",
+      "name": "test_garbage_token_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestRoleCapabilities",
+      "name": "test_analyst_can_ingest_and_write",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestRoleCapabilities",
+      "name": "test_auditor_is_read_only",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestRoleCapabilities",
+      "name": "test_admin_can_manage_users",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestStateMachine",
+      "name": "test_legal_transitions",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestStateMachine",
+      "name": "test_illegal_transition_new_to_resolved",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth.TestStateMachine",
+      "name": "test_invalid_transition_is_value_error",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_roundtrip_argon2id",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_argon2_is_default_and_no_rehash_needed",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_long_passwords_sharing_72_byte_prefix_differ",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_unicode_and_very_long",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_wrong_password_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_legacy_bcrypt_hash_still_verifies_and_flagged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_v2_bcrypt_prehash_still_verifies_and_flagged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestPasswordSafety",
+      "name": "test_malformed_hash_fails_closed",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestTokenValidation",
+      "name": "test_valid_decode",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestTokenValidation",
+      "name": "test_tampered_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestTokenValidation",
+      "name": "test_wrong_audience_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestTokenValidation",
+      "name": "test_expired_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestTokenValidation",
+      "name": "test_missing_required_claim_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestTokenValidation",
+      "name": "test_none_alg_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestSecureConfig",
+      "name": "test_require_secure_config_rejects_missing",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestSecureConfig",
+      "name": "test_require_secure_config_rejects_weak",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestSecureConfig",
+      "name": "test_require_secure_config_accepts_strong",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestLoginThrottle",
+      "name": "test_locks_after_max_failures",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestLoginThrottle",
+      "name": "test_success_clears",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestLoginThrottle",
+      "name": "test_lockout_expires",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestRevocationAndDisable",
+      "name": "test_disabled_account_token_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestRevocationAndDisable",
+      "name": "test_token_version_bump_revokes",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestRevocationAndDisable",
+      "name": "test_role_change_takes_effect_from_db",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestRevocationAndDisable",
+      "name": "test_bad_login_is_generic_and_throttled",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_auth_hardening.TestRevocationAndDisable",
+      "name": "test_legacy_hash_migrates_to_argon2_on_login",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestScenarioA_SuspiciousHealthcareAccess",
+      "name": "test_denied_then_success_plus_bulk_correlate",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestScenarioB_PrivilegeAbuse",
+      "name": "test_identity_findings_group",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestScenarioC_AuditSuppression",
+      "name": "test_audit_category_label",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestScenarioD_BenignControl",
+      "name": "test_no_findings_no_incident",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestNegativesAndIsolation",
+      "name": "test_unrelated_identities_not_merged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestNegativesAndIsolation",
+      "name": "test_separate_orgs_not_merged",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestTimeWindows",
+      "name": "test_findings_outside_window_separate",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestTimeWindows",
+      "name": "test_findings_inside_window_merge",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestIdempotencyAndEscalation",
+      "name": "test_correlation_key_stable_and_order_independent",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestIdempotencyAndEscalation",
+      "name": "test_severity_is_max_of_group",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_correlation.TestIdempotencyAndEscalation",
+      "name": "test_event_ids_attached_from_mapping",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestEventPersistence",
+      "name": "test_insert_and_read_event",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestEventPersistence",
+      "name": "test_idempotent_event_dedup",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestEventPersistence",
+      "name": "test_distinct_orgs_not_deduped",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestIncidentPersistence",
+      "name": "test_incident_with_links_and_fk",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestIncidentPersistence",
+      "name": "test_idempotent_incident_by_correlation_key",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestIncidentPersistence",
+      "name": "test_optimistic_concurrency",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestIncidentPersistence",
+      "name": "test_cross_org_isolation_on_read",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestIncidentPersistence",
+      "name": "test_list_incidents_filter_and_paginate",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestInvestigationAudit",
+      "name": "test_action_recorded_and_ordered",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestCorrelationPersistenceIdempotency",
+      "name": "test_rerun_correlation_does_not_duplicate_incident",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_db.TestRestartPersistence",
+      "name": "test_data_survives_engine_restart",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_failure_injection.TestDatabaseOutage",
+      "name": "test_readiness_503_when_db_down",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_failure_injection.TestDatabaseOutage",
+      "name": "test_ingest_failure_does_not_report_success",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_failure_injection.TestDetectorFailureNotSilent",
+      "name": "test_detector_exception_is_not_clean_result",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_failure_injection.TestTokenFailures",
+      "name": "test_expired_token_denied",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_failure_injection.TestTokenFailures",
+      "name": "test_garbage_token_denied",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_failure_injection.TestDuplicateIngestionBounded",
+      "name": "test_repeated_same_event_no_uncontrolled_duplicates",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_defaults_and_schema_version",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_timestamps_normalized_to_utc",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_null_fields_allowed",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_extra_fields_forbidden",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_dedup_key_uses_source_event_id",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_dedup_key_content_hash_when_no_source_id",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityEvent",
+      "name": "test_dedup_key_distinct_orgs",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestDetectionFindingRecord",
+      "name": "test_from_engine_finding_maps_core_fields",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestDetectionFindingRecord",
+      "name": "test_from_engine_finding_extracts_attack_techniques",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestDetectionFindingRecord",
+      "name": "test_unknown_severity_defaults_to_info",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestDetectionFindingRecord",
+      "name": "test_finding_id_generated",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSeverityAndStatus",
+      "name": "test_severity_rank_order",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSeverityAndStatus",
+      "name": "test_status_values",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityIncident",
+      "name": "test_defaults",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestSecurityIncident",
+      "name": "test_extra_forbidden",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestInvestigationAction",
+      "name": "test_action_record",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_models.TestInvestigationAction",
+      "name": "test_status_change_records_previous_and_updated",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_get_incident_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_evidence_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_timeline_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_history_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_export_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_assign_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_notes_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_status_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_disposition_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_close_cross_org_404",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_list_excludes_other_org",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestCrossOrgIsolationEveryEndpoint",
+      "name": "test_org_b_cannot_affect_org_a_incident_state",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_cannot_ingest",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_cannot_assign",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_cannot_note",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_cannot_change_status",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_cannot_disposition",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_cannot_close",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestRoleEnforcementEveryWriteEndpoint",
+      "name": "test_auditor_can_read",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestServerSideOrgBinding",
+      "name": "test_client_cannot_override_org_via_event_payload",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_tenant_isolation.TestServerSideOrgBinding",
+      "name": "test_db_scoping_foreign_incident_id_substitution",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestSecurityHeaders",
+      "name": "test_headers_present",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestBodyLimits",
+      "name": "test_oversized_body_rejected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestBodyLimits",
+      "name": "test_batch_limit_enforced",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestSafeErrors",
+      "name": "test_malformed_json_handled",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestSafeErrors",
+      "name": "test_readiness_no_secret_leak",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestSafeErrors",
+      "name": "test_404_is_generic",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestListLimits",
+      "name": "test_list_limit_capped",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_platform_web_security.TestInjectionSafety",
+      "name": "test_sqlish_strings_do_not_break",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_contract",
+      "name": "test_rejects_unknown_telemetry_source",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_contract",
+      "name": "test_rejects_non_list_source",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_contract",
+      "name": "test_rejects_non_object_record",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_contract",
+      "name": "test_rejects_unbounded_batch",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_contract",
+      "name": "test_mixed_sysmon_and_zeek_style_batch_is_detected",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_telemetry_corpus",
+      "name": "test_product_telemetry_corpus[windows_powershell_encoded_command]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_telemetry_corpus",
+      "name": "test_product_telemetry_corpus[credential_dumping_command]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_telemetry_corpus",
+      "name": "test_product_telemetry_corpus[periodic_https_beacon]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_telemetry_corpus",
+      "name": "test_product_telemetry_corpus[dynamic_python_execution]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_product_telemetry_corpus",
+      "name": "test_product_telemetry_corpus[empty_benign_batch]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_revoked_id_remapped_with_warning",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_revoked_parent_remapped_to_new_parent",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_revoked_subtechnique_remapped_to_new_subtechnique",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_revoked_log_clearing_remapped",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_unknown_id_returns_none_logs_error",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_revoked_id_that_also_missing_returns_none",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_valid_id_returns_mapping",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_subtechnique_returns_subtechnique_fields",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_caller_must_filter_none",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestRevokedIDHandling",
+      "name": "test_revocation_map_all_entries_resolvable",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestGracefulDegradation",
+      "name": "test_revoked_ids_resolve_through_revocation_map",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestGracefulDegradation",
+      "name": "test_new_v19_ids_resolvable_if_stix_is_v19",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1059]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1565]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1190]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1027]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1036]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1078]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_revoked_id_handling.TestPreV19Regression",
+      "name": "test_unchanged_enterprise_techniques_still_work[T1499]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[action-None]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[action-X]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[outcome-wat]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[outcome-0]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[recorded-2026-11-16]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[recorded-2026-11-16T10:00:00]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[recorded-2026-99-01T10:00:00Z]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[agent-value7]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_malformed_fhir_not_relabelled[entity-bad]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_optional_r4_values_remain_unknown_through_detector[action]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_optional_r4_values_remain_unknown_through_detector[outcome]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_major_failure_supported_and_not_success",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_unsupported_entries_counted_before_limit",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_streamed_body_cut_off_before_unbounded_accumulation[None]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_streamed_body_cut_off_before_unbounded_accumulation[1]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_streamed_body_cut_off_before_unbounded_accumulation[99999999]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_slow_stream_deadline_before_handler",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_full_persisted_rerun_delta_export_restart_and_org_isolation",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_configuration_rejects_unsafe_or_invalid_fields[config0]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_configuration_rejects_unsafe_or_invalid_fields[config1]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_configuration_rejects_unsafe_or_invalid_fields[config2]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_configuration_rejects_unsafe_or_invalid_fields[config3]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_configuration_rejects_unsafe_or_invalid_fields[config4]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_configuration_rejects_unsafe_or_invalid_fields[config5]",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_reject_malformed_parse_failure_is_atomic",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_mixed_rejections_unknown_and_byo_origin_persisted",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_same_ids_changed_dataset_never_reuses_old_metadata",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_no_care_context_no_invented_authorization",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_host_and_cors_boundaries",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_replayed_config_is_case_local",
+      "status": "PASSED",
+      "skip_reason": null
+    },
+    {
+      "class": "tests.test_workbench",
+      "name": "test_alembic_restart_and_new_table_rollback",
+      "status": "PASSED",
+      "skip_reason": null
+    }
+  ]
+}

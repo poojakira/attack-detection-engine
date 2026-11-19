@@ -1,0 +1,21 @@
+{
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "checked_utc": "2026-11-19T00:47:12.688Z",
+  "runs": [
+    {
+      "id": 44431212087,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "workflow_dispatch",
+      "status": "queued",
+      "conclusion": null,
+      "head_sha": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+      "url": "https://github.com/poojakira/attack-detection-engine/actions/runs/44431212087"
+    }
+  ],
+  "dispatch": {
+    "workflow": "ci.yml",
+    "ref": "codex/local-workbench-20261116",
+    "result": "Normal existing verification-only workflow dispatch accepted; queued is NOT VERIFIED, no hosted pass asserted"
+  }
+}

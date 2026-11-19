@@ -1,0 +1,28 @@
+{
+  "repository": "attack-detection-engine",
+  "source_commit": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "expected_candidate": "aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83",
+  "utc_start": "2026-11-19T00:23:56.350189+00:00",
+  "utc_end": "2026-11-19T00:24:02.126202+00:00",
+  "result": "PASS",
+  "error": null,
+  "environment": "Actual committed notebook setup/scenario/comparison cells executed on local LinuxCPython3.12, GitHubpubliccheckout and fresh isolated minimalvenv",
+  "colab_hosted_kernel": "NOT VERIFIED; no Google sign-in or remote hosted execution claimed",
+  "source_notebook_sha256": "0bd22ed60d01fa6bbd4c064fa853c75c2a0ef808e3a4a2ebc7f5a72d2124aa18",
+  "all_result_checksums_verified": true,
+  "no_external_resources": "No server/tunnel/Drive/GPU/paidAPI/cloudresource/APIkey; only publicGitHub/PyPI downloads",
+  "scenario_summaries": [
+    {
+      "scenario": "threshold25",
+      "summary": "1 canonical finding(s), 1 correlated incident(s); events=30"
+    },
+    {
+      "scenario": "threshold40",
+      "summary": "0 canonical finding(s), 0 correlated incident(s); events=30"
+    },
+    {
+      "scenario": "compare",
+      "summary": "1 canonical finding(s), 1 correlated incident(s); events=30; removed=1"
+    }
+  ]
+}
