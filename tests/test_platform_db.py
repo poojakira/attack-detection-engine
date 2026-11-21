@@ -45,7 +45,7 @@ def _postgres_available() -> bool:
 
 
 pytestmark = pytest.mark.skipif(
-    not _postgres_available(), reason=f"PostgreSQL not reachable at {TEST_DB_URL}"
+    not _postgres_available(), reason="PostgreSQL test database is not reachable"
 )
 
 
@@ -225,7 +225,7 @@ class TestInvestigationAudit:
                 )
             )
         pg_session.commit()
-        actions = repo.incident_actions(row.incident_id)
+        actions = repo.incident_actions(row.incident_id, "org-a")
         assert [a.action_type for a in actions] == ["acknowledge", "add_note"]
 
 
@@ -302,3 +302,64 @@ class TestRestartPersistence:
             s2.close()
         finally:
             engine2.dispose()
+
+
+@pytest.mark.parametrize("kind", ["event", "incident"])
+def test_parallel_ingestion_returns_the_committed_row(pg_session, pg_engine, kind):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    from time import monotonic, sleep
+
+    from sqlalchemy import text
+
+    def persist(session):
+        repo = Repository(session)
+        if kind == "event":
+            row, inserted = repo.upsert_event(_event(source_event_id="parallel"))
+            return row.event_id, inserted
+        row, inserted = repo.upsert_incident(
+            SecurityIncident(
+                title="Parallel incident",
+                severity=IncidentSeverity.HIGH,
+                organization_id="org-a",
+                correlation_key="parallel",
+            )
+        )
+        return row.incident_id, inserted
+
+    saved_id, created = persist(pg_session)
+    assert created
+    sessions = _db.make_session_factory(pg_engine)
+    started = Event()
+    backend = []
+
+    def store_again():
+        with sessions() as session:
+            backend.append(session.scalar(text("SELECT pg_backend_pid()")))
+            started.set()
+            result = persist(session)
+            session.commit()
+            return result
+
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        pending = pool.submit(store_again)
+        try:
+            assert started.wait(5)
+            deadline = monotonic() + 5
+            with pg_engine.connect() as observer:
+                while monotonic() < deadline:
+                    if observer.scalar(
+                        text(
+                            "SELECT EXISTS (SELECT FROM pg_locks WHERE pid = :pid AND NOT granted)"
+                        ),
+                        {"pid": backend[0]},
+                    ):
+                        break
+                    sleep(0.01)
+                else:
+                    pytest.fail(
+                        "concurrent insert did not reach the contested database row"
+                    )
+        finally:
+            pg_session.commit()
+        assert pending.result(timeout=5) == (saved_id, False)

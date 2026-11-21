@@ -177,3 +177,10 @@ jobs:
           name: repository-security-report
           path: security-reports/
           retention-days: 90
+
+  workbench:
+    name: Local Workbench Acceptance
+    needs: lint
+    permissions:
+      contents: read
+    uses: ./.github/workflows/workbench.yml

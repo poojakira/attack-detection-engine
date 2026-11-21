@@ -179,3 +179,57 @@ class TestTransactionalIntegrity:
             pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
         )
         assert len(rows) == 1
+
+
+def test_parallel_audit_appends_preserve_chain_order(pg_session, pg_engine):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    from time import monotonic, sleep
+
+    from sqlalchemy import text
+
+    repo = Repository(pg_session)
+    incident_id = _incident(repo).incident_id
+    pg_session.commit()
+    first = _action(repo, incident_id, note="first")
+    assert first.chain_seq == 1
+    sessions = _db.make_session_factory(pg_engine)
+    started = Event()
+    backend = []
+
+    def append_second():
+        with sessions() as session:
+            backend.append(session.scalar(text("SELECT pg_backend_pid()")))
+            started.set()
+            row = _action(Repository(session), incident_id, note="second")
+            session.commit()
+            return row.chain_seq
+
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        pending = pool.submit(append_second)
+        try:
+            assert started.wait(5)
+            deadline = monotonic() + 5
+            with pg_engine.connect() as observer:
+                while not pending.done() and monotonic() < deadline:
+                    if observer.scalar(
+                        text(
+                            "SELECT EXISTS (SELECT FROM pg_locks "
+                            "WHERE pid = :pid AND locktype = 'advisory' AND NOT granted)"
+                        ),
+                        {"pid": backend[0]},
+                    ):
+                        break
+                    sleep(0.01)
+        finally:
+            pg_session.commit()
+        assert pending.result(timeout=5) == 2
+    assert repo.verify_audit_chain("org-a")
+
+
+def test_investigation_write_is_scoped_to_incident_organization(pg_session):
+    repo = Repository(pg_session)
+    incident_id = _incident(repo).incident_id
+    with pytest.raises(LookupError, match="organization"):
+        _action(repo, incident_id, org="org-b")
+    assert repo.incident_actions(incident_id, "org-a") == []

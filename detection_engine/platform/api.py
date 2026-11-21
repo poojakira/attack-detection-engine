@@ -441,6 +441,10 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
                     origin = "synthetic"
             except (ValueError, RecursionError):
                 pass
+            # Count and reserve the case in one transaction across app processes.
+            Repository(session).lock_organization(
+                principal.organization_id, "workbench-import"
+            )
             if (
                 session.scalar(
                     select(func.count())
@@ -673,7 +677,7 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
                     "note": a.note,
                     "timestamp": a.timestamp.isoformat(),
                 }
-                for a in repo.incident_actions(incident_id)
+                for a in repo.incident_actions(incident_id, principal.organization_id)
             ]
         }
 
@@ -824,7 +828,7 @@ def create_app(*, pipeline_factory=None, clinical_detector_factory=None) -> Fast
                     "note": a.note,
                     "timestamp": a.timestamp.isoformat(),
                 }
-                for a in repo.incident_actions(incident_id)
+                for a in repo.incident_actions(incident_id, principal.organization_id)
             ],
         }
 

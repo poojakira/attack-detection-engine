@@ -418,3 +418,77 @@ def test_alembic_restart_and_new_table_rollback(pg_engine, monkeypatch):
     assert "workbench_cases" not in tables and "security_events" in tables
     command.upgrade(cfg, "head")
     assert "workbench_cases" in inspect(pg_engine).get_table_names()
+
+
+def test_case_quota_serializes_concurrent_imports(clients, pg_engine, monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    from time import monotonic, sleep
+
+    from sqlalchemy import func, select, text
+
+    from detection_engine.platform import workbench
+
+    _, tokens = clients
+    input_text = json.dumps(synthetic_sample())
+    with db.make_session_factory(pg_engine)() as session:
+        session.add_all(
+            [
+                db.WorkbenchCaseRow(
+                    case_id=f"seeded-{i}",
+                    organization_id="org-a",
+                    title="Synthetic prior case",
+                    input_text="{}",
+                    input_sha256=workbench.sha("{}"),
+                    origin="synthetic",
+                )
+                for i in range(99)
+            ]
+        )
+        session.commit()
+
+    execute = workbench.execute_run
+    first_pending = Event()
+    release = Event()
+
+    def pause_first(session, case, config):
+        if case.title == "First import":
+            first_pending.set()
+            assert release.wait(8)
+        return execute(session, case, config)
+
+    monkeypatch.setattr(workbench, "execute_run", pause_first)
+    first_client = TestClient(create_app())
+    second_client = TestClient(create_app())
+
+    def submit(client, title):
+        return client.post(
+            "/api/v1/workbench/cases",
+            json={"input_text": input_text, "title": title},
+            headers=tokens["a"],
+        ).status_code
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(submit, first_client, "First import")
+        try:
+            assert first_pending.wait(5)
+            second = pool.submit(submit, second_client, "Second import")
+            deadline = monotonic() + 5
+            with pg_engine.connect() as observer:
+                while not second.done() and monotonic() < deadline:
+                    if observer.scalar(
+                        text(
+                            "SELECT EXISTS (SELECT FROM pg_locks WHERE locktype = 'advisory' AND NOT granted)"
+                        )
+                    ):
+                        break
+                    sleep(0.01)
+        finally:
+            release.set()
+        assert first.result(timeout=5) == 201
+        assert second.result(timeout=5) == 409
+
+    with db.make_session_factory(pg_engine)() as session:
+        assert (
+            session.scalar(select(func.count()).select_from(db.WorkbenchCaseRow)) == 100
+        )

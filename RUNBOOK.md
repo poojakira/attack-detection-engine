@@ -74,6 +74,10 @@ Set `ATTACK_DATA_DIR` to an absolute directory that the container runtime user c
 
 Some optional STIX tooling writes at its default HOME. Do not override a managed read-only HOME. Use an isolated nonroot runtime with an ephemeral writable mount at that runtime's existing default HOME. Missing PostgreSQL/data/optional prerequisites must appear as skips/blockers, not passing tests. Source headers, runtime/API contracts and timestamps in final artifacts identify the actual candidate.
 
+### Manual hosted verification for a draft
+
+Select the existing **CI** workflow and the draft ref when manually dispatching checks. Its reusable workbench job runs the PostgreSQL, browser, and package acceptance workflow from that same ref. This route does not depend on the draft's standalone workflow being registered on the default branch. A run with zero jobs supplies no hosted verification.
+
 ## Separate Compose deployment and rollback
 
 `deploy/docker-compose.yml` is an optional deployment configuration, not the local launch script. It requires operator-owned `AEGIS_DB_PASSWORD`, a strong `AEGIS_JWT_SECRET`, and suitable bootstrap/admin configuration. Compose does not publish PostgreSQL to the host; backend/frontend dev ports bind loopback. The backend secure-config gate is enabled there. Its PostgreSQL version/image, Dockerfiles, mutable base tags, runtime HOME mount and target network/storage require independent review. No current product-container deployment or production approval is established by this documentation pass.

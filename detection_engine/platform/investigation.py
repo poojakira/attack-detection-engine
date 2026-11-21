@@ -208,7 +208,7 @@ class InvestigationService:
                     "summary": f"{f.rule_id} [{f.severity}] {f.description}",
                 }
             )
-        for a in self.repo.incident_actions(incident_id):
+        for a in self.repo.incident_actions(incident_id, organization_id):
             items.append(
                 {
                     "kind": "analyst_action",
