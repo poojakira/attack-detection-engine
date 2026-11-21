@@ -9,3 +9,9 @@ The shell probe reproduced masked collection failures and confirmed the patched 
 - exit=0
 
 The local workflow syntax check used actionlint 1.7.7. The Markdown lexical check inspected relative file targets. It does not establish heading fragments, external targets, or example commands. Logs and command wrappers are in the workspace audit directory.
+
+## Local Docker CLI smoke
+
+The unmodified Docker build stopped at the environment's TLS trust error during dependency fetch. A temporary build input mounted the environment's public CA bundle for pip without changing the tracked Dockerfile or disabling TLS verification. An initial retry exhausted workspace storage. After removing the two test-only Node images, the adapted build exited 0.
+
+Image ID sha256:2fafcfd5fb52cede8b9b40a0341357ded37b28e8ee3c5f393396c4cc9ce5b541. Running as the image's nonroot user with networking disabled and the digest-verified ATT&CK v19.2 data, the CLI accepted one benign NDJSON record, returned one envelope with zero findings and exited 0. This verifies the adapted local CLI image only. The image was not published. The Compose product runtime and browser-to-backend path still need a fresh end-to-end run on the final candidate.
