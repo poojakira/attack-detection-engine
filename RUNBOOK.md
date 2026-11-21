@@ -47,9 +47,24 @@ attack-detect --help
 printf '%s\n' '{}' | attack-detect --input - --output - --fail-on high
 ```
 
-The empty object is a synthetic benign control, not proof that a host is clean. CLI input is NDJSON: each nonblank UTF-8 line must be a JSON object, at most 1 MiB. Supported source keys are `logs`, `traffic`, `behaviors`, `events`, `code`, `automotive_can`, `firmware`, `arm_binary` and `clinical_access`; each supplied source is a list of objects, by default at most 10,000 records. Unknown keys fail. CLI `--fail-on` defaults to `never`; exit 0 therefore does not establish absence of findings or safety. Configured threshold findings yield exit 1; caught input/I/O errors yield exit 2. Other initialization failures may propagate; preserve stderr rather than inventing a successful scan.
+The empty object is a synthetic benign control, not proof that a host is clean. CLI input is NDJSON: each UTF-8 line has a 1 MiB byte limit, including its terminator if present. Nonblank lines must be JSON objects. Supported source keys are `logs`, `traffic`, `behaviors`, `events`, `code`, `automotive_can`, `firmware`, `arm_binary` and `clinical_access`; each supplied source is a list of objects, by default at most 10,000 records. Unknown keys fail. CLI `--fail-on` defaults to `never`; exit 0 therefore does not establish absence of findings or safety. Configured threshold findings yield exit 1; caught input/I/O errors yield exit 2. Other initialization failures may propagate; preserve stderr rather than inventing a successful scan.
 
 `arm_binary` requires actual bytes in the Python API, which ordinary NDJSON cannot encode directly. There is no documented implicit base64 decoder. Use the [separate offline examples](AUTOMOTIVE_SECURITY.md). CLI output is NDJSON: each accepted input object produces an envelope with `line`, `finding_count` and a `findings` list, including an empty list for the benign control. This is separate from the authenticated workbench's case/run report.
+
+## Run the CLI image
+
+Build the root Dockerfile with the pinned core revision. Supply the verified data directory to the runtime user through a read-only mount.
+
+```sh
+ATTACK_CORE_REF=087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b
+docker build --build-arg "ATTACK_CORE_REF=$ATTACK_CORE_REF" -t aegis-detection-cli .
+python -m attack_v19_core.download --data-dir "$ATTACK_DATA_DIR"
+printf '%s\n' '{}' | docker run --rm -i \
+  --mount "type=bind,src=$ATTACK_DATA_DIR,dst=/attack-data,readonly" \
+  --env ATTACK_DATA_DIR=/attack-data aegis-detection-cli
+```
+
+Set `ATTACK_DATA_DIR` to an absolute directory that the container runtime user can read. The CLI image and the separate workbench deployment have distinct entry points.
 
 ## Develop and verify safely
 

@@ -45,7 +45,7 @@ def _postgres_available() -> bool:
 
 requires_postgres = pytest.mark.skipif(
     not _postgres_available(),
-    reason=f"PostgreSQL not reachable at {TEST_DB_URL}",
+    reason="PostgreSQL test database is not reachable",
 )
 
 

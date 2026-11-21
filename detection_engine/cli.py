@@ -21,13 +21,14 @@ def build_pipeline() -> DetectionPipeline:
 
 def _iter_records(stream: TextIO) -> Iterable[tuple[int, dict[str, Any]]]:
     """Yield validated NDJSON telemetry records from a text stream."""
-    for line_number, raw in enumerate(stream, start=1):
-        if not raw.strip():
-            continue
+    bounded_lines = iter(lambda: stream.readline(_MAX_RECORD_BYTES + 1), "")
+    for line_number, raw in enumerate(bounded_lines, start=1):
         if len(raw.encode("utf-8")) > _MAX_RECORD_BYTES:
             raise ValueError(
                 f"line {line_number}: record exceeds {_MAX_RECORD_BYTES} bytes"
             )
+        if not raw.strip():
+            continue
         try:
             value = json.loads(raw)
         except json.JSONDecodeError as exc:

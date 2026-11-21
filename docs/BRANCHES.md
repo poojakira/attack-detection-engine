@@ -6,7 +6,7 @@ The owner requested that only selected branches remain. The selected set is `mai
 
 12 additional branches were retired in this cleanup. Every exact tip is retained in an annotated `archive/selected-20261118/ORIGINAL_BRANCH` tag, whose remote peeled SHA was verified before conditional, atomic branch deletion. A private Git bundle was verified before mutation. Active dependency proposals were retired without merging their unreviewed changes; unique experimental work is preserved by its recovery ref rather than silently discarded. Historical deployment refs were checked and preserved. Private bundles are not public evidence.
 
-Read the generated [branch-cleanup record](https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/branch-cleanup.json) for exact names, SHAs, unique-commit counts, affected PRs, commands/results and recovery tags. Earlier cleanup records retain their original dates/source scope. The count above is this cleanup's count, not every historical deletion.
+Read the generated [branch-cleanup record](https://github.com/poojakira/attack-detection-engine/blob/875299dd6a7ed061df792d1150371c688383fc05/release-evidence/cleanup.json) for exact names, SHAs, unique-commit counts, affected PRs, commands/results and recovery tags. Earlier cleanup records retain their original dates/source scope. The count above is this cleanup's count, not every historical deletion.
 
 ## Restore a retired branch
 

@@ -44,7 +44,7 @@ jobs:
           pip install playwright==1.65.2 pyright==1.1.388
           export ATTACK_DATA_DIR="$RUNNER_TEMP/attack-data"
           echo "ATTACK_DATA_DIR=$ATTACK_DATA_DIR" >> "$GITHUB_ENV"
-          python -m attack_v19_core.download
+          python -m attack_v19_core.download --data-dir "$ATTACK_DATA_DIR"
           npm --prefix dashboard-ui ci
       - name: Quality and security
         run: |
