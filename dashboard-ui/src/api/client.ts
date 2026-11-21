@@ -157,3 +157,40 @@ export async function closeIncident(id: string, reason: string): Promise<void> {
     }),
   );
 }
+
+export interface CaseConfig { bulk_access_threshold: number; denial_streak_threshold: number }
+export interface RunReport {
+  schema_version: string; case_id: string; title: string; run_id: string;
+  input_sha256: string; config_sha256: string; data_origin: string;
+  app_version: string; rule_version: string; source: {commit: string; clean: boolean | null};
+  config: CaseConfig; started_at: string; finished_at: string;
+  connector: {parsed: number; normalized: number; rejected: number; errors: unknown[]};
+  events: {event_id: string; source_index: number; source: unknown; normalized: {event_timestamp: string; action: string; outcome: string; identity_id: string; normalized_attributes: unknown}}[];
+  findings: {finding_id: string; rule_id: string; severity: string; description: string; mapped_attack_techniques: string[]; related_event_ids: string[]; evidence_references: unknown; hypothesis: string; counter_evidence: string; uncertainty: string}[];
+  incidents: {incident_id: string; title: string; correlation_reason: string}[];
+  delta: {baseline_run_id: string | null; added: number; removed: number; unchanged: number};
+  limitations: string[];
+}
+export async function sampleInput(): Promise<{input_text: string; label: string}> {
+  return handle(await fetch('/api/v1/workbench/sample', {headers: headers()}));
+}
+export async function listCases(): Promise<{items: {case_id: string; title: string}[]}> {
+  return handle(await fetch('/api/v1/workbench/cases', {headers: headers()}));
+}
+export async function loadCase(caseId: string): Promise<{runs: RunReport[]}> {
+  return handle(await fetch(`/api/v1/workbench/cases/${encodeURIComponent(caseId)}`, {headers: headers()}));
+}
+export async function importCase(input_text: string, title: string, config: CaseConfig, signal: AbortSignal): Promise<RunReport> {
+  return handle(await fetch('/api/v1/workbench/cases', {method: 'POST', headers: headers(), body: JSON.stringify({input_text, title, config}), signal}));
+}
+export async function rerunCase(report: RunReport, config: CaseConfig, signal: AbortSignal): Promise<RunReport> {
+  return handle(await fetch(`/api/v1/workbench/cases/${encodeURIComponent(report.case_id)}/runs`, {method: 'POST', headers: headers(), body: JSON.stringify({config, expected_run_id: report.run_id}), signal}));
+}
+export async function exportRun(report: RunReport, signal: AbortSignal): Promise<{blob: Blob; sha256: string}> {
+  const response = await fetch(`/api/v1/workbench/cases/${encodeURIComponent(report.case_id)}/runs/${encodeURIComponent(report.run_id)}/export`, {headers: headers(), signal});
+  if (!response.ok) throw new Error(`Export failed: ${response.status}`);
+  const blob = await response.blob();
+  const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', await blob.arrayBuffer())), b => b.toString(16).padStart(2, '0')).join('');
+  if (digest !== response.headers.get('X-Report-SHA256')) throw new Error('Export checksum mismatch');
+  return {blob, sha256: digest};
+}

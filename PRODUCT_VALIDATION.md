@@ -1,64 +1,26 @@
-# Product Validation
+# Product validation and acceptance scope
 
-## Product boundary
+## Supported user job
 
-Attack Detection Engine is a rule-based detection and ATT&CK-mapping engine for telemetry supplied by an upstream collector. It is not an EDR, SIEM, endpoint agent, or automated response platform.
+An authenticated analyst imports bounded synthetic FHIR AuditEvent JSON, inspects actual persisted clinical findings/correlation with source/normalized evidence, changes a case threshold, reruns the retained dataset, compares immutable runs and downloads a checksummed JSON report. The first-party 30-event bulk-read fixture at thresholds 25 and 40 defines a reproducible acceptance example, not field efficacy.
 
-## Real-world validation ladder
+The implementation uses actual React/FastAPI/PostgreSQL and canonical detector/correlator code. [WORKBENCH.md](docs/WORKBENCH.md) maps the architecture/API, uncertainty, errors, lifecycle and testing. [PLATFORM.md](PLATFORM.md), [HEALTHCARE_SECURITY.md](HEALTHCARE_SECURITY.md) and [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md) describe distinct supported paths; those paths are not automatically browser features.
 
-1. Unit tests for each detector and ATT&CK mapping.
-2. Mixed telemetry contract tests using Sysmon/Windows-event and Zeek/NetFlow-shaped records.
-3. Strict ingestion validation: unknown source types, non-object records, non-list source payloads, and oversized batches fail loudly rather than being silently ignored.
-4. Replay tests over captured/sanitized telemetry from a consenting lab environment.
-5. Differential comparison against an independent detection implementation for selected scenarios.
-6. External pilot where findings are reviewed by an analyst before any response action is considered.
+## Acceptance matrix
 
-## Release gates
+| Property | Implemented/tested relationship | Remaining boundary |
+|---|---|---|
+| Import → detector → correlation → persistence | Workbench/API/connector, real PostgreSQL and browser tests | Synthetic metadata subset; no live EHR stream or full FHIR conformance |
+| Edit configuration and rerun | Per-case bounded thresholds, same retained source, immutable report/delta | Denial-streak control needs explicit denial semantics unavailable in the current R4 mapping |
+| Evidence and exports | Original/normalized events, related links, uncertainty, versions/hashes and canonical checksum | No signed attestation, anonymization or externally tamper-proof custody |
+| Authentication and organization scope | Actual password/JWT/DB principal/role/org gates | Trusted local host/DB; no SSO or public deployment approval |
+| Failure/recovery | Bounded actual body receive, atomic rollback, stale-run conflict, saved-case reload/restart and stale UI guards | No hard parser/worker kill deadline, coordinated quotas or tested production backup/restore |
+| Separate NDJSON/automotive/ATT&CK paths | Source validation, supplied-event rules, CAN parser, source heuristics and ELF structures | Not real collectors, EDR/prevention, firmware execution/disassembly or live vehicle testing |
 
-- Unknown telemetry source keys must never be silently ignored.
-- Batches must be bounded.
-- Findings must retain source evidence and ATT&CK mappings.
-- Rule count must never be described as a detection-rate or coverage guarantee.
-- A missing collector, parser, or rule match must not be represented as a clean system state.
-- No automated containment claim is permitted; this repository emits findings only.
+## Evidence method
 
-## Evidence boundary
+Run every applicable suite after candidate freeze; identify prerequisites and individual skips. Fresh results belong to that exact commit. Prior implementation source `8ae9090b560871d1e584d717734693bb570fffae` and dated 68/116/212/280-test reports remain separate snapshots. Source-content hashes help compare implementation bytes but do not turn old runs into new-head execution. See [EVIDENCE.md](docs/EVIDENCE.md) and [documentation audit](docs/DOCUMENTATION_AUDIT.md).
 
-Passing these gates proves deterministic behavior for the committed rules and tested telemetry shapes. It does not establish real-world detection efficacy, false-positive rates across arbitrary enterprise environments, or equivalence to a SIEM/EDR product.
+The committed mixed-telemetry corpus uses a deterministic minimal ATT&CK index for fast rule regression; the full integration requires the pinned core and verified v19.2 bundles. Neither that corpus nor curated synthetic healthcare/CAN/firmware examples measures population precision/recall, clinical malicious-intent detection, hardware exploitability or customer adoption.
 
-
-## Dependency provenance
-
-The ATT&CK taxonomy/mapping dependency is pinned to immutable commit `087accffc7d9ba7e2c086b9ef72ef7ac6f23c29b` from `poojakira/attack-v19-core`. That revision's CI, Production Gate, Documentation Integrity, and Security Hygiene workflows are green. This prevents a stale or behaviorally different package build from silently changing mapping semantics during installation.
-
-## Pilot corpus: mixed telemetry replay
-
-The committed `tests/fixtures/product_telemetry_corpus.json` and its executable regression test replay representative Windows process events, periodic HTTPS connection records, Python code telemetry, and an empty benign batch through the real detection pipeline. The corpus test uses a deterministic minimal ATT&CK index so detector regressions stay fast and offline; the separate `tests/test_product_contract.py` path retains the pinned full ATT&CK v19 integration check. The corpus requires the expected ATT&CK technique family to be emitted for malicious-shaped cases and zero findings for the empty control.
-
-This corpus is deterministic regression evidence, not a detection-rate benchmark. It does not measure false-positive/false-negative performance on arbitrary enterprise telemetry, and the reserved documentation/test addresses in the fixture are not live threat infrastructure.
-
-
-## Verification snapshot — 2026-10-03
-
-The pilot corpus passed 5/5 deterministic regression cases covering Windows process telemetry, credential-dumping command telemetry, periodic HTTPS beacon-shaped traffic, Python dynamic-execution telemetry, and an empty benign batch. This is regression evidence, not an enterprise detection-rate benchmark.
-
-
-## Automotive and embedded-security scope update (October 15, 2026)
-
-The repository also accepts `automotive_can`, `firmware`, and `arm_binary`
-offline inputs through `DetectionPipeline`. Verified scope is limited to
-synthetic CAN trace parsing and policy findings, selected C/C++ CWE-pattern
-candidate findings, and inspection of a locally cross-compiled ARM Cortex-M3
-ELF32 sample. A controlled native C fixture produced a reproducible
-AddressSanitizer stack-buffer-overflow finding; a separate fixed fixture
-rejected the same oversized input. This is an intentionally inserted lab
-vulnerability, not a discovery in a production ECU.
-
-For exact sample code, compiler commands, regression tests and unsupported
-claims, consult [AUTOMOTIVE_SECURITY.md](AUTOMOTIVE_SECURITY.md). This
-update does not retroactively change historical snapshots and does not claim
-hardware testing, live vehicle penetration testing, full firmware reverse
-engineering, production efficacy, or independent security certification.
-The targeted post-merge Windows Python 3.12 run passed 29 tests; a later
-Python 3.11 Docker run (October 17, 2026) with two added ARM-ELF regression
-tests passed 31 focused tests. Neither number is a full-repository test total.
+Release remains PARTIAL until the outstanding technical, hosted, documentary/external and deployment-specific gates are closed. No production/HIPAA approval, paid cloud service, live clinical/vehicle validation or automatic containment is established by this pass.

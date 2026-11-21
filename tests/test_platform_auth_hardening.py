@@ -43,6 +43,7 @@ def _deps_available() -> bool:
 
 # --- unit: password safety (bcrypt truncation fix) -------------------------
 
+
 class TestPasswordSafety:
     def test_roundtrip_argon2id(self):
         h = auth.hash_password("Sü@h3!-pâsswörd")
@@ -98,10 +99,16 @@ class TestPasswordSafety:
 
 # --- unit: JWT validation ---------------------------------------------------
 
+
 class TestTokenValidation:
     def _tok(self, **over):
-        kw = dict(user_id="u1", username="a", role="security_analyst",
-                  organization_id="org-a", token_version=0)
+        kw = dict(
+            user_id="u1",
+            username="a",
+            role="security_analyst",
+            organization_id="org-a",
+            token_version=0,
+        )
         kw.update(over)
         return auth.create_access_token(**kw)
 
@@ -115,30 +122,55 @@ class TestTokenValidation:
 
     def test_wrong_audience_rejected(self):
         bad = jwt.encode(
-            {"sub": "u1", "role": "security_analyst", "org": "o", "aud": "other",
-             "iss": auth.JWT_ISSUER,
-             "iat": int(datetime.now(timezone.utc).timestamp()),
-             "exp": int((datetime.now(timezone.utc) + timedelta(minutes=5)).timestamp())},
-            auth.JWT_SECRET, algorithm=auth.JWT_ALGORITHM,
+            {
+                "sub": "u1",
+                "role": "security_analyst",
+                "org": "o",
+                "aud": "other",
+                "iss": auth.JWT_ISSUER,
+                "iat": int(datetime.now(timezone.utc).timestamp()),
+                "exp": int(
+                    (datetime.now(timezone.utc) + timedelta(minutes=5)).timestamp()
+                ),
+            },
+            auth.JWT_SECRET,
+            algorithm=auth.JWT_ALGORITHM,
         )
         assert auth.decode_token(bad) is None
 
     def test_expired_rejected(self):
         expired = jwt.encode(
-            {"sub": "u1", "role": "security_analyst", "org": "o",
-             "aud": auth.JWT_AUDIENCE, "iss": auth.JWT_ISSUER,
-             "iat": int((datetime.now(timezone.utc) - timedelta(hours=2)).timestamp()),
-             "exp": int((datetime.now(timezone.utc) - timedelta(hours=1)).timestamp())},
-            auth.JWT_SECRET, algorithm=auth.JWT_ALGORITHM,
+            {
+                "sub": "u1",
+                "role": "security_analyst",
+                "org": "o",
+                "aud": auth.JWT_AUDIENCE,
+                "iss": auth.JWT_ISSUER,
+                "iat": int(
+                    (datetime.now(timezone.utc) - timedelta(hours=2)).timestamp()
+                ),
+                "exp": int(
+                    (datetime.now(timezone.utc) - timedelta(hours=1)).timestamp()
+                ),
+            },
+            auth.JWT_SECRET,
+            algorithm=auth.JWT_ALGORITHM,
         )
         assert auth.decode_token(expired) is None
 
     def test_missing_required_claim_rejected(self):
         bad = jwt.encode(
-            {"sub": "u1", "aud": auth.JWT_AUDIENCE, "iss": auth.JWT_ISSUER,
-             "iat": int(datetime.now(timezone.utc).timestamp()),
-             "exp": int((datetime.now(timezone.utc) + timedelta(minutes=5)).timestamp())},
-            auth.JWT_SECRET, algorithm=auth.JWT_ALGORITHM,
+            {
+                "sub": "u1",
+                "aud": auth.JWT_AUDIENCE,
+                "iss": auth.JWT_ISSUER,
+                "iat": int(datetime.now(timezone.utc).timestamp()),
+                "exp": int(
+                    (datetime.now(timezone.utc) + timedelta(minutes=5)).timestamp()
+                ),
+            },
+            auth.JWT_SECRET,
+            algorithm=auth.JWT_ALGORITHM,
         )  # missing role/org
         assert auth.decode_token(bad) is None
 
@@ -149,15 +181,24 @@ class TestTokenValidation:
         import json
 
         def b64(obj):
-            return base64.urlsafe_b64encode(json.dumps(obj).encode()).rstrip(b"=").decode()
+            return (
+                base64.urlsafe_b64encode(json.dumps(obj).encode()).rstrip(b"=").decode()
+            )
 
         header = b64({"alg": "none", "typ": "JWT"})
-        payload = b64({
-            "sub": "u1", "role": "administrator", "org": "o",
-            "aud": auth.JWT_AUDIENCE, "iss": auth.JWT_ISSUER,
-            "iat": int(datetime.now(timezone.utc).timestamp()),
-            "exp": int((datetime.now(timezone.utc) + timedelta(minutes=5)).timestamp()),
-        })
+        payload = b64(
+            {
+                "sub": "u1",
+                "role": "administrator",
+                "org": "o",
+                "aud": auth.JWT_AUDIENCE,
+                "iss": auth.JWT_ISSUER,
+                "iat": int(datetime.now(timezone.utc).timestamp()),
+                "exp": int(
+                    (datetime.now(timezone.utc) + timedelta(minutes=5)).timestamp()
+                ),
+            }
+        )
         forged = f"{header}.{payload}."  # empty signature
         assert auth.decode_token(forged) is None
 
@@ -179,6 +220,7 @@ class TestSecureConfig:
 
 
 # --- unit: login throttle ---------------------------------------------------
+
 
 class TestLoginThrottle:
     def test_locks_after_max_failures(self):
@@ -205,7 +247,9 @@ class TestLoginThrottle:
 
 # --- integration: revocation + disabled account (real PG + HTTP) -----------
 
-pg_http = pytest.mark.skipif(not _deps_available(), reason="requires PostgreSQL + fastapi + core")
+pg_http = pytest.mark.skipif(
+    not _deps_available(), reason="requires PostgreSQL + fastapi + core"
+)
 
 
 @pg_http
@@ -221,8 +265,14 @@ class TestRevocationAndDisable:
         _db.Base.metadata.drop_all(eng)
         _db.Base.metadata.create_all(eng)
         s = _db.make_session_factory(eng)()
-        seed_user(s, user_id="u-a", username="ana", password="pw-strong-1",
-                  role="security_analyst", organization_id="org-a")
+        seed_user(
+            s,
+            user_id="u-a",
+            username="ana",
+            password="pw-strong-1",
+            role="security_analyst",
+            organization_id="org-a",
+        )
         s.close()
         app = build_app()
         yield TestClient(app), eng
@@ -236,37 +286,65 @@ class TestRevocationAndDisable:
         c, eng = client
         tok = self._login(c).json()["access_token"]
         # Works initially
-        assert c.get("/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}).status_code == 200
+        assert (
+            c.get(
+                "/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}
+            ).status_code
+            == 200
+        )
         # Disable the account directly in DB (simulating admin action)
         from detection_engine.platform import db as _db
+
         s = _db.make_session_factory(eng)()
         u = s.get(_db.UserRow, "u-a")
         u.is_active = False
         s.commit()
         s.close()
         # Previously-issued token must now be rejected (fail closed)
-        assert c.get("/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}).status_code == 401
+        assert (
+            c.get(
+                "/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}
+            ).status_code
+            == 401
+        )
 
     def test_token_version_bump_revokes(self, client):
         c, eng = client
         tok = self._login(c).json()["access_token"]
-        assert c.get("/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}).status_code == 200
+        assert (
+            c.get(
+                "/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}
+            ).status_code
+            == 200
+        )
         from detection_engine.platform import db as _db
+
         s = _db.make_session_factory(eng)()
         u = s.get(_db.UserRow, "u-a")
         u.token_version = 1
         s.commit()
         s.close()
         # Old token (tv=0) is now stale -> rejected
-        assert c.get("/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}).status_code == 401
+        assert (
+            c.get(
+                "/api/v1/incidents", headers={"Authorization": f"Bearer {tok}"}
+            ).status_code
+            == 401
+        )
         # A fresh login (tv=1) works again
         tok2 = self._login(c).json()["access_token"]
-        assert c.get("/api/v1/incidents", headers={"Authorization": f"Bearer {tok2}"}).status_code == 200
+        assert (
+            c.get(
+                "/api/v1/incidents", headers={"Authorization": f"Bearer {tok2}"}
+            ).status_code
+            == 200
+        )
 
     def test_role_change_takes_effect_from_db(self, client):
         c, eng = client
         tok = self._login(c).json()["access_token"]
         from detection_engine.platform import db as _db
+
         s = _db.make_session_factory(eng)()
         u = s.get(_db.UserRow, "u-a")
         u.role = "read_only_auditor"
@@ -275,7 +353,11 @@ class TestRevocationAndDisable:
         # Token still says analyst, but DB says auditor -> writes now forbidden
         # (authoritative role comes from DB via resolve_principal).
         # First create an incident path is ingest (analyst-only); now 403.
-        r = c.post("/api/v1/events", json={"events": []}, headers={"Authorization": f"Bearer {tok}"})
+        r = c.post(
+            "/api/v1/events",
+            json={"events": []},
+            headers={"Authorization": f"Bearer {tok}"},
+        )
         assert r.status_code == 403
 
     def test_bad_login_is_generic_and_throttled(self, client):
@@ -295,15 +377,24 @@ class TestRevocationAndDisable:
         # Seed a user whose password is stored as a LEGACY raw-bcrypt hash.
         legacy = bcrypt.hashpw("legacy-pw-123".encode()[:72], bcrypt.gensalt()).decode()
         s = _db.make_session_factory(eng)()
-        s.add(_db.UserRow(
-            id="u-legacy", username="legacy", password_hash=legacy,
-            role="security_analyst", organization_id="org-a", is_active=True,
-            token_version=0,
-        ))
+        s.add(
+            _db.UserRow(
+                id="u-legacy",
+                username="legacy",
+                password_hash=legacy,
+                role="security_analyst",
+                organization_id="org-a",
+                is_active=True,
+                token_version=0,
+            )
+        )
         s.commit()
         s.close()
         # Login succeeds...
-        r = c.post("/api/v1/auth/token", json={"username": "legacy", "password": "legacy-pw-123"})
+        r = c.post(
+            "/api/v1/auth/token",
+            json={"username": "legacy", "password": "legacy-pw-123"},
+        )
         assert r.status_code == 200
         # ...and the stored hash is upgraded to Argon2id (verify-then-upgrade).
         s = _db.make_session_factory(eng)()
@@ -311,4 +402,10 @@ class TestRevocationAndDisable:
         s.close()
         assert migrated.startswith("argon2$")
         # And the migrated hash still authenticates the same password.
-        assert c.post("/api/v1/auth/token", json={"username": "legacy", "password": "legacy-pw-123"}).status_code == 200
+        assert (
+            c.post(
+                "/api/v1/auth/token",
+                json={"username": "legacy", "password": "legacy-pw-123"},
+            ).status_code
+            == 200
+        )

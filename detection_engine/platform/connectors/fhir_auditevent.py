@@ -20,7 +20,8 @@ the detector/context layer).
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+import re
+from datetime import datetime
 from typing import Any, Dict, List
 
 from ..models import DataOrigin, SecurityEvent
@@ -58,9 +59,11 @@ def _ref_type(ref_obj: Dict[str, Any]) -> str:
 
 class FhirAuditEventConnector(Connector):
     source_type = "fhir_audit_event"
-    connector_version = "1.0"
+    connector_version = "1.1"
 
-    def parse(self, payload: Any, *, organization_id: str, max_items: int) -> ConnectorResult:
+    def parse(
+        self, payload: Any, *, organization_id: str, max_items: int
+    ) -> ConnectorResult:
         result = ConnectorResult(self.source_type, self.connector_version)
         resources = self._extract_resources(payload)
         if len(resources) > max_items:
@@ -68,6 +71,9 @@ class FhirAuditEventConnector(Connector):
         for idx, resource in enumerate(resources):
             try:
                 event = self._normalize(resource, organization_id)
+                from ...healthcare.schema import ClinicalAccessEvent
+
+                ClinicalAccessEvent.model_validate(event.normalized_attributes)
                 result.items.append(ParsedItem(index=idx, event=event))
             except Exception as exc:
                 # Sanitized, bounded error message (no payload echo).
@@ -76,31 +82,34 @@ class FhirAuditEventConnector(Connector):
 
     @staticmethod
     def _reason(exc: Exception) -> str:
-        msg = str(exc)
-        return (msg[:200]) if msg else exc.__class__.__name__
+        # Pydantic/type errors can contain source values. Never echo them.
+        return (
+            str(exc)[:200]
+            if type(exc) is ValueError
+            else "invalid or unsupported AuditEvent metadata"
+        )
 
-    def _extract_resources(self, payload: Any) -> List[Dict[str, Any]]:
+    def _extract_resources(self, payload: Any) -> List[Any]:
         """Return a flat list of AuditEvent resources from any supported shape."""
         if isinstance(payload, list):
-            return [p for p in payload if isinstance(p, dict)]
+            return payload
         if not isinstance(payload, dict):
             raise ConnectorError("payload must be a FHIR resource, Bundle, or list")
         rtype = payload.get("resourceType")
         if rtype == "AuditEvent":
             return [payload]
         if rtype == "Bundle":
-            out: List[Dict[str, Any]] = []
-            for entry in payload.get("entry", []) or []:
-                res = entry.get("resource") if isinstance(entry, dict) else None
-                if isinstance(res, dict) and res.get("resourceType") == "AuditEvent":
-                    out.append(res)
-            return out
-        raise ConnectorError(
-            f"unsupported resourceType {rtype!r}; expected AuditEvent or Bundle"
-        )
+            entries = payload.get("entry", [])
+            if not isinstance(entries, list):
+                raise ConnectorError("Bundle.entry must be an array")
+            return [
+                entry.get("resource") if isinstance(entry, dict) else None
+                for entry in entries
+            ]
+        raise ConnectorError("unsupported resourceType; expected AuditEvent or Bundle")
 
     def _normalize(self, res: Dict[str, Any], organization_id: str) -> SecurityEvent:
-        if res.get("resourceType") != "AuditEvent":
+        if not isinstance(res, dict) or res.get("resourceType") != "AuditEvent":
             raise ValueError("resource is not an AuditEvent")
 
         # Recorded timestamp is REQUIRED by FHIR R4; reject if absent/invalid
@@ -108,31 +117,51 @@ class FhirAuditEventConnector(Connector):
         recorded = res.get("recorded")
         if not isinstance(recorded, str):
             raise ValueError("AuditEvent.recorded (timestamp) is required")
+        if not re.fullmatch(
+            r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})",
+            recorded,
+        ):
+            raise ValueError(
+                "AuditEvent.recorded requires an instant with explicit timezone"
+            )
         try:
             ts = datetime.fromisoformat(recorded.replace("Z", "+00:00"))
         except ValueError:
             raise ValueError("AuditEvent.recorded is not a valid ISO-8601 timestamp")
-        if ts.tzinfo is None:
-            ts = ts.replace(tzinfo=timezone.utc)
 
         agents = res.get("agent") or []
         if not isinstance(agents, list) or not agents:
             raise ValueError("AuditEvent.agent is required")
-        primary = agents[0] if isinstance(agents[0], dict) else {}
+        if any(not isinstance(agent, dict) for agent in agents):
+            raise ValueError("AuditEvent.agent entries must be objects")
+        primary = agents[0]
         actor_id = _ref_token(primary.get("who", {})) or None
-        network = primary.get("network", {}) if isinstance(primary.get("network"), dict) else {}
+        network = (
+            primary.get("network", {})
+            if isinstance(primary.get("network"), dict)
+            else {}
+        )
 
         # type/subtype (Coding) -> compact subtype strings (metadata only).
         ev_type = res.get("type", {})
         type_code = ev_type.get("code") if isinstance(ev_type, dict) else None
         subtypes = res.get("subtype", []) or []
-        subtype_codes = [s.get("code") for s in subtypes if isinstance(s, dict) and s.get("code")]
+        if not isinstance(subtypes, list) or any(
+            not isinstance(s, dict) for s in subtypes
+        ):
+            raise ValueError("AuditEvent.subtype must contain Coding objects")
+        subtype_codes = [
+            s.get("code") for s in subtypes if isinstance(s, dict) and s.get("code")
+        ]
 
         # First Patient entity -> patient_ref; first non-patient -> resource.
         patient_ref = None
         resource_ref = None
         resource_type = ""
-        for ent in res.get("entity", []) or []:
+        entities = res.get("entity", [])
+        if not isinstance(entities, list):
+            raise ValueError("AuditEvent.entity must be an array")
+        for ent in entities:
             what = ent.get("what", {}) if isinstance(ent, dict) else {}
             token = _ref_token(what)
             rtype = _ref_type(what)
@@ -144,10 +173,17 @@ class FhirAuditEventConnector(Connector):
         resource_reference = resource_ref or patient_ref
 
         source = res.get("source", {})
-        source_id = _ref_token(source if isinstance(source, dict) else {})
+        source_id = _ref_token(
+            source.get("observer", {}) if isinstance(source, dict) else {}
+        )
 
-        action = _ACTION_MAP.get(str(res.get("action", "R")), "read")
-        outcome = _OUTCOME_MAP.get(str(res.get("outcome", "0")), "success")
+        for key, mapping in (("action", _ACTION_MAP), ("outcome", _OUTCOME_MAP)):
+            if key in res and (
+                not isinstance(res[key], str) or res[key] not in mapping
+            ):
+                raise ValueError(f"AuditEvent.{key} has an unsupported R4 code")
+        action = _ACTION_MAP.get(res.get("action", ""), "unknown")
+        outcome = _OUTCOME_MAP.get(res.get("outcome", ""), "unknown")
 
         return SecurityEvent(
             source_type=self.source_type,
@@ -160,7 +196,7 @@ class FhirAuditEventConnector(Connector):
             action=action,
             outcome=outcome,
             organization_id=organization_id,  # from caller, never the payload
-            data_origin=DataOrigin.DEMO_DERIVED,
+            data_origin=DataOrigin.UNSPECIFIED,
             source_metadata={
                 "fhir_type_code": type_code,
                 "fhir_subtype_codes": subtype_codes,
@@ -176,6 +212,6 @@ class FhirAuditEventConnector(Connector):
                 "action": action,
                 "outcome": outcome,
                 "timestamp": ts.isoformat(),
-                "data_origin": "demo_derived",
+                "data_origin": "unspecified",
             },
         )

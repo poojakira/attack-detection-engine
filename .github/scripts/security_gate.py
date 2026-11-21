@@ -26,16 +26,21 @@ def load_json(path: Path) -> object:
 def dependency_vulnerabilities(report: object) -> list[tuple[str, str]]:
     """Return (package, vulnerability-id) pairs from pip-audit JSON output."""
     if isinstance(report, dict):
-        report = report.get("dependencies", [])
+        report = report.get("dependencies")
     if not isinstance(report, list):
         raise SystemExit("pip-audit report must contain a dependencies list")
 
     findings: list[tuple[str, str]] = []
     for dependency in report:
         if not isinstance(dependency, dict):
+            raise SystemExit("Invalid dependency in pip-audit report")
+        if "skip_reason" in dependency:
             continue
+        vulnerabilities = dependency.get("vulns")
+        if not isinstance(vulnerabilities, list):
+            raise SystemExit("Missing vulnerability list in pip-audit report")
         package = str(dependency.get("name", "unknown"))
-        for vulnerability in dependency.get("vulns", []):
+        for vulnerability in vulnerabilities:
             if isinstance(vulnerability, dict):
                 vulnerability_id = str(vulnerability.get("id", "unknown"))
                 findings.append((package, vulnerability_id))
@@ -46,6 +51,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bandit", type=Path, required=True)
     parser.add_argument("--pip-audit", type=Path, required=True)
+    parser.add_argument("--pip-audit-exit", type=int, choices=(0, 1))
     parser.add_argument("--allowlist", type=Path, required=True)
     parser.add_argument("--summary", type=Path, required=True)
     args = parser.parse_args()
@@ -55,16 +61,22 @@ def main() -> None:
     allowlist = load_json(args.allowlist)
     if not isinstance(bandit, dict):
         raise SystemExit("Bandit report must be a JSON object")
+    if bandit.get("errors") != [] or not isinstance(bandit.get("results"), list):
+        raise SystemExit("Bandit report is incomplete or contains scan errors")
     if not isinstance(allowlist, dict):
         raise SystemExit("Security allowlist must be a JSON object")
 
     allowed_vulnerabilities = set(allowlist.get("pip_audit_vulnerability_ids", []))
     bandit_findings = [
         finding
-        for finding in bandit.get("results", [])
+        for finding in bandit["results"]
         if finding.get("issue_severity") in {"MEDIUM", "HIGH"}
     ]
     dependency_findings = dependency_vulnerabilities(audit)
+    if args.pip_audit_exit is not None and args.pip_audit_exit != int(
+        bool(dependency_findings)
+    ):
+        raise SystemExit("pip-audit status does not match the vulnerability report")
     unallowlisted_dependencies = [
         finding
         for finding in dependency_findings

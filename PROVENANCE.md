@@ -1,3 +1,5 @@
+> **Historical/source-bounded record.** Metrics, branch/settings statements, dependency constraints, commands and author-recorded external observations below describe their cited earlier snapshot. They are not current documentation-head execution or production/privacy approval. Current state and review limits: [evidence status](docs/EVIDENCE.md). External chronology, dataset/legal/field assertions were not independently revalidated in this documentation pass. Do not execute destructive, credential-bearing, clinical-data or deployment examples merely to reproduce a historical record.
+
 # Repository Provenance Audit
 
 ## Decision

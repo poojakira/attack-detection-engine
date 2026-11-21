@@ -15,9 +15,24 @@ from .healthcare.detector import PatientAccessDetector
 
 
 class DetectionPipeline:
-    ALLOWED_SOURCES = {"logs", "traffic", "behaviors", "events", "code", "automotive_can", "firmware", "arm_binary", "clinical_access"}
+    ALLOWED_SOURCES = {
+        "logs",
+        "traffic",
+        "behaviors",
+        "events",
+        "code",
+        "automotive_can",
+        "firmware",
+        "arm_binary",
+        "clinical_access",
+    }
 
-    def __init__(self, index: ATTACKIndex, max_records_per_source: int = 10_000, clinical_context=None):
+    def __init__(
+        self,
+        index: ATTACKIndex,
+        max_records_per_source: int = 10_000,
+        clinical_context=None,
+    ):
         if max_records_per_source < 1:
             raise ValueError("max_records_per_source must be positive")
         self.max_records_per_source = max_records_per_source
@@ -29,7 +44,9 @@ class DetectionPipeline:
         self.automotive_can = AutomotiveCANDetector(index)
         self.firmware = FirmwareAuditor()
         self.arm_binary = ARMBinaryAnalyzer()
-        self.clinical_access = PatientAccessDetector(context=clinical_context, index=index)
+        self.clinical_access = PatientAccessDetector(
+            context=clinical_context, index=index
+        )
 
     def _validate_telemetry(self, telemetry: Dict[str, Any]) -> None:
         if not isinstance(telemetry, dict):

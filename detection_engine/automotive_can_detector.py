@@ -10,7 +10,8 @@ from .base import BaseDetector, DetectionFinding
 
 
 class AutomotiveCANDetector(BaseDetector):
-    def detect(self, records: list[dict[str, Any]]) -> list[DetectionFinding]:
+    def detect(self, data: list[dict[str, Any]]) -> list[DetectionFinding]:
+        records = data
         findings: list[DetectionFinding] = []
         per_id: dict[int, list[tuple[float, bytes]]] = defaultdict(list)
         for record in records:
@@ -22,16 +23,16 @@ class AutomotiveCANDetector(BaseDetector):
                 )
             if not 0 <= arb_id <= (0x1FFFFFFF if extended else 0x7FF):
                 raise ValueError("CAN arbitration ID outside configured frame format")
-            data = record.get("data", [])
-            if not isinstance(data, (list, bytes, bytearray)) or any(
-                type(x) is not int or not 0 <= x <= 255 for x in data
+            payload = record.get("data", [])
+            if not isinstance(payload, (list, bytes, bytearray)) or any(
+                type(x) is not int or not 0 <= x <= 255 for x in payload
             ):
                 raise ValueError("CAN data must contain byte values")
             is_fd = record.get("is_fd", False)
             if type(is_fd) is not bool:
                 raise ValueError("is_fd must be boolean")
             max_len = 64 if is_fd else 8
-            if len(data) > max_len:
+            if len(payload) > max_len:
                 raise ValueError("CAN payload exceeds frame format maximum")
             stamp = record.get("timestamp")
             if isinstance(stamp, bool) or not isinstance(stamp, (int, float)):
@@ -55,7 +56,7 @@ class AutomotiveCANDetector(BaseDetector):
                             record,
                         )
                     )
-            per_id[arb_id].append((float(stamp), bytes(data)))
+            per_id[arb_id].append((float(stamp), bytes(payload)))
         for arb_id, history in per_id.items():
             history.sort(key=lambda pair: pair[0])
             # Flag only explicitly configured, testable rate policies.

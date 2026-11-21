@@ -35,11 +35,15 @@ def _rule_ids(findings):
 class TestBenignControls:
     def test_legitimate_rounds_produce_no_malicious_finding(self, org_and_detector):
         gen, org, det = org_and_detector
-        findings = det.detect([e.model_dump(mode="json") for e in gen.benign_rounds(org)])
+        findings = det.detect(
+            [e.model_dump(mode="json") for e in gen.benign_rounds(org)]
+        )
         # Assigned-patient access during shift must not yield HIGH/CRITICAL.
         assert not [f for f in findings if f.severity in HIGH_OR_CRITICAL]
 
-    def test_documented_emergency_access_is_review_not_malicious(self, org_and_detector):
+    def test_documented_emergency_access_is_review_not_malicious(
+        self, org_and_detector
+    ):
         gen, org, det = org_and_detector
         findings = det.detect(
             [e.model_dump(mode="json") for e in gen.benign_emergency_access(org)]
@@ -84,7 +88,10 @@ class TestPositiveDetections:
     def test_service_account_scope_violation_fires(self, org_and_detector):
         gen, org, det = org_and_detector
         findings = det.detect(
-            [e.model_dump(mode="json") for e in gen.attack_service_account_scope_violation(org)]
+            [
+                e.model_dump(mode="json")
+                for e in gen.attack_service_account_scope_violation(org)
+            ]
         )
         assert "HC-IDENTITY-SVCSCOPE" in _rule_ids(findings)
 

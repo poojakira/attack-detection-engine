@@ -1,4 +1,8 @@
+> **Historical/source-bounded record.** Metrics, branch/settings statements, dependency constraints, commands and author-recorded external observations below describe their cited earlier snapshot. They are not current documentation-head execution or production/privacy approval. Current state and review limits: [evidence status](../docs/EVIDENCE.md). External chronology, dataset/legal/field assertions were not independently revalidated in this documentation pass. Do not execute destructive, credential-bearing, clinical-data or deployment examples merely to reproduce a historical record.
+
 # Milestone D — Phase 9 Supply-Chain Security (2026-10-27)
+
+Later implementation source8ae used a compatible FastAPI/Starlette update with the preserved pydantic/core pin and recorded clean candidate Python/npm audits. The older claim that a clean audit necessarily requires a core bump is not the current constraint. See [source-scoped evidence](../docs/EVIDENCE.md); original scan values below remain historical.
 
 Reproducible scans of the Aegis platform's own runtime dependencies (not the
 polluted system/ROS environment). Artifacts in `security_scans/`.

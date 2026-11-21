@@ -10,7 +10,8 @@ from __future__ import annotations
 from datetime import datetime
 from typing import List, Optional, Sequence, Tuple
 
-from sqlalchemy import select
+from sqlalchemy import select, text
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from . import db
@@ -30,17 +31,36 @@ class Repository:
     def __init__(self, session: Session):
         self.session = session
 
+    def lock_organization(self, organization_id: str, operation: str) -> None:
+        """Serialize one organization-scoped operation until commit or rollback."""
+        self.session.execute(
+            text("SELECT pg_advisory_xact_lock(hashtextextended(:scope, 0))"),
+            {"scope": operation + "/" + organization_id},
+        )
+
+    def _insert_unique(self, row, constraint: str) -> bool:
+        """Insert an ORM row, preserving the outer transaction on a known race."""
+        try:
+            with self.session.begin_nested():
+                self.session.add(row)
+                self.session.flush()
+        except IntegrityError as exc:
+            diagnostic = getattr(exc.orig, "diag", None)
+            if getattr(diagnostic, "constraint_name", None) != constraint:
+                raise
+            return False
+        return True
+
     # --- Events -------------------------------------------------------------
 
     def upsert_event(self, event: SecurityEvent) -> Tuple[db.SecurityEventRow, bool]:
         """Insert an event idempotently. Returns (row, created)."""
         dedup = event.dedup_key()
-        existing = self.session.execute(
-            select(db.SecurityEventRow).where(
-                db.SecurityEventRow.organization_id == event.organization_id,
-                db.SecurityEventRow.dedup_key == dedup,
-            )
-        ).scalar_one_or_none()
+        existing_query = select(db.SecurityEventRow).where(
+            db.SecurityEventRow.organization_id == event.organization_id,
+            db.SecurityEventRow.dedup_key == dedup,
+        )
+        existing = self.session.execute(existing_query).scalar_one_or_none()
         if existing is not None:
             return existing, False
         row = db.SecurityEventRow(
@@ -62,11 +82,15 @@ class Repository:
             normalized_attributes=event.normalized_attributes,
             dedup_key=dedup,
         )
-        self.session.add(row)
-        self.session.flush()
-        return row, True
+        if self._insert_unique(row, "uq_event_org_dedup"):
+            return row, True
+        # The conflict winner committed while INSERT was waiting. PostgreSQL's
+        # default READ COMMITTED gives this statement a new snapshot.
+        return self.session.execute(existing_query).scalar_one(), False
 
-    def get_event(self, event_id: str, organization_id: str) -> Optional[db.SecurityEventRow]:
+    def get_event(
+        self, event_id: str, organization_id: str
+    ) -> Optional[db.SecurityEventRow]:
         return self.session.execute(
             select(db.SecurityEventRow).where(
                 db.SecurityEventRow.event_id == event_id,
@@ -111,16 +135,19 @@ class Repository:
         On a repeat correlation key, links new findings/events and refreshes
         last_seen/severity instead of creating a duplicate incident.
         """
-        existing = None
+        existing_query = (
+            select(db.IncidentRow)
+            .where(
+                db.IncidentRow.organization_id == incident.organization_id,
+                db.IncidentRow.correlation_key == incident.correlation_key,
+            )
+            .with_for_update()
+        )
+        row = None
         if incident.correlation_key is not None:
-            existing = self.session.execute(
-                select(db.IncidentRow).where(
-                    db.IncidentRow.organization_id == incident.organization_id,
-                    db.IncidentRow.correlation_key == incident.correlation_key,
-                )
-            ).scalar_one_or_none()
-
-        if existing is None:
+            row = self.session.execute(existing_query).scalar_one_or_none()
+        created = False
+        if row is None:
             row = db.IncidentRow(
                 incident_id=incident.incident_id,
                 schema_version=incident.schema_version,
@@ -140,20 +167,24 @@ class Repository:
                 organization_id=incident.organization_id,
                 correlation_key=incident.correlation_key,
             )
-            self.session.add(row)
-            self.session.flush()
-            created = True
-        else:
-            row = existing
+            created = self._insert_unique(row, "uq_incident_org_corr")
+            if not created:
+                row = self.session.execute(existing_query).scalar_one()
+
+        if not created:
             # Escalate severity if the new evidence is more severe; refresh window.
             from .models import IncidentSeverity
 
-            if IncidentSeverity(incident.severity.value).rank > IncidentSeverity(row.severity).rank:
+            if (
+                IncidentSeverity(incident.severity.value).rank
+                > IncidentSeverity(row.severity).rank
+            ):
                 row.severity = incident.severity.value
-            if incident.last_seen and (row.last_seen is None or incident.last_seen > row.last_seen):
+            if incident.last_seen and (
+                row.last_seen is None or incident.last_seen > row.last_seen
+            ):
                 row.last_seen = incident.last_seen
             row.updated_at = incident.updated_at
-            created = False
 
         self._link_findings(row.incident_id, finding_ids)
         self._link_events(row.incident_id, event_ids)
@@ -186,7 +217,9 @@ class Repository:
                     db.IncidentEventRow(incident_id=incident_id, event_id=eid)
                 )
 
-    def get_incident(self, incident_id: str, organization_id: str) -> Optional[db.IncidentRow]:
+    def get_incident(
+        self, incident_id: str, organization_id: str
+    ) -> Optional[db.IncidentRow]:
         return self.session.execute(
             select(db.IncidentRow).where(
                 db.IncidentRow.incident_id == incident_id,
@@ -209,7 +242,9 @@ class Repository:
         """
         row = self.get_incident(incident_id, organization_id)
         if row is None:
-            raise LookupError(f"incident {incident_id} not found in org {organization_id}")
+            raise LookupError(
+                f"incident {incident_id} not found in org {organization_id}"
+            )
         if expected_version is not None and row.row_version != expected_version:
             raise ConcurrencyError(
                 f"incident {incident_id} changed (expected v{expected_version}, "
@@ -247,7 +282,9 @@ class Repository:
         if since:
             stmt = stmt.where(db.IncidentRow.created_at >= since)
         total = len(self.session.execute(stmt).scalars().all())
-        stmt = stmt.order_by(db.IncidentRow.created_at.desc()).limit(limit).offset(offset)
+        stmt = (
+            stmt.order_by(db.IncidentRow.created_at.desc()).limit(limit).offset(offset)
+        )
         rows = list(self.session.execute(stmt).scalars().all())
         return rows, total
 
@@ -316,7 +353,10 @@ class Repository:
         ).scalar_one_or_none()
 
     def add_action(self, action: InvestigationAction) -> db.InvestigationActionRow:
-        # Chain is per-organization: link to the org's latest audit entry.
+        if self.get_incident(action.incident_id, action.organization_id) is None:
+            raise LookupError("No incident in the action's organization")
+        # Serialize the tail read even when the chain is still empty.
+        self.lock_organization(action.organization_id, "audit-chain")
         last = self._last_chain_row(action.organization_id)
         prev_hash = last.entry_hash if last else ""
         chain_seq = (last.chain_seq + 1) if last else 1
@@ -340,13 +380,17 @@ class Repository:
 
     def verify_audit_chain(self, organization_id: str) -> bool:
         """Recompute the org's audit hash chain in order and confirm every
-        entry_hash matches. Returns False if any record was altered/removed/
-        reordered (tamper-evident)."""
-        rows = list(self.session.execute(
-            select(db.InvestigationActionRow)
-            .where(db.InvestigationActionRow.organization_id == organization_id)
-            .order_by(db.InvestigationActionRow.chain_seq.asc())
-        ).scalars().all())
+        entry_hash matches. Detects changes and gaps within the stored chain.
+        Detecting tail truncation requires an independently retained checkpoint."""
+        rows = list(
+            self.session.execute(
+                select(db.InvestigationActionRow)
+                .where(db.InvestigationActionRow.organization_id == organization_id)
+                .order_by(db.InvestigationActionRow.chain_seq.asc())
+            )
+            .scalars()
+            .all()
+        )
         prev = ""
         for i, row in enumerate(rows, start=1):
             if row.chain_seq != i:
@@ -358,10 +402,15 @@ class Repository:
             prev = row.entry_hash
         return True
 
-    def incident_actions(self, incident_id: str) -> List[db.InvestigationActionRow]:
+    def incident_actions(
+        self, incident_id: str, organization_id: str
+    ) -> List[db.InvestigationActionRow]:
         stmt = (
             select(db.InvestigationActionRow)
-            .where(db.InvestigationActionRow.incident_id == incident_id)
+            .where(
+                db.InvestigationActionRow.incident_id == incident_id,
+                db.InvestigationActionRow.organization_id == organization_id,
+            )
             .order_by(db.InvestigationActionRow.timestamp.asc())
         )
         return list(self.session.execute(stmt).scalars().all())

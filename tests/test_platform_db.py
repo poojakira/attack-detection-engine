@@ -45,7 +45,7 @@ def _postgres_available() -> bool:
 
 
 pytestmark = pytest.mark.skipif(
-    not _postgres_available(), reason=f"PostgreSQL not reachable at {TEST_DB_URL}"
+    not _postgres_available(), reason="PostgreSQL test database is not reachable"
 )
 
 
@@ -79,7 +79,9 @@ class TestEventPersistence:
         pg_session.commit()
         assert c1 is True and c2 is False
         total = len(
-            pg_session.query(_db.SecurityEventRow).filter_by(organization_id="org-a").all()
+            pg_session.query(_db.SecurityEventRow)
+            .filter_by(organization_id="org-a")
+            .all()
         )
         assert total == 1
 
@@ -112,7 +114,9 @@ class TestIncidentPersistence:
             organization_id="org-a",
             correlation_key="org-a|clin-1|bulk",
         )
-        row, created = repo.upsert_incident(inc, finding_ids=[fnd.finding_id], event_ids=[ev.event_id])
+        row, created = repo.upsert_incident(
+            inc, finding_ids=[fnd.finding_id], event_ids=[ev.event_id]
+        )
         pg_session.commit()
         assert created is True
         assert len(repo.incident_findings(row.incident_id)) == 1
@@ -121,16 +125,20 @@ class TestIncidentPersistence:
     def test_idempotent_incident_by_correlation_key(self, pg_session):
         repo = Repository(pg_session)
         inc = SecurityIncident(
-            title="t", severity=IncidentSeverity.MEDIUM,
-            organization_id="org-a", correlation_key="K1",
+            title="t",
+            severity=IncidentSeverity.MEDIUM,
+            organization_id="org-a",
+            correlation_key="K1",
             last_seen=datetime(2026, 10, 27, 10, tzinfo=timezone.utc),
         )
         _, c1 = repo.upsert_incident(inc)
         pg_session.commit()
         # Repeat correlation key with higher severity -> escalate, no duplicate
         inc2 = SecurityIncident(
-            title="t", severity=IncidentSeverity.CRITICAL,
-            organization_id="org-a", correlation_key="K1",
+            title="t",
+            severity=IncidentSeverity.CRITICAL,
+            organization_id="org-a",
+            correlation_key="K1",
             last_seen=datetime(2026, 10, 27, 12, tzinfo=timezone.utc),
         )
         row2, c2 = repo.upsert_incident(inc2)
@@ -141,19 +149,33 @@ class TestIncidentPersistence:
 
     def test_optimistic_concurrency(self, pg_session):
         repo = Repository(pg_session)
-        inc = SecurityIncident(title="t", severity=IncidentSeverity.LOW, organization_id="org-a", correlation_key="C1")
+        inc = SecurityIncident(
+            title="t",
+            severity=IncidentSeverity.LOW,
+            organization_id="org-a",
+            correlation_key="C1",
+        )
         row, _ = repo.upsert_incident(inc)
         pg_session.commit()
         # Correct version succeeds
-        repo.update_incident(row.incident_id, "org-a", expected_version=1, status="TRIAGED")
+        repo.update_incident(
+            row.incident_id, "org-a", expected_version=1, status="TRIAGED"
+        )
         pg_session.commit()
         # Stale version raises
         with pytest.raises(ConcurrencyError):
-            repo.update_incident(row.incident_id, "org-a", expected_version=1, status="CLOSED")
+            repo.update_incident(
+                row.incident_id, "org-a", expected_version=1, status="CLOSED"
+            )
 
     def test_cross_org_isolation_on_read(self, pg_session):
         repo = Repository(pg_session)
-        inc = SecurityIncident(title="t", severity=IncidentSeverity.LOW, organization_id="org-a", correlation_key="C2")
+        inc = SecurityIncident(
+            title="t",
+            severity=IncidentSeverity.LOW,
+            organization_id="org-a",
+            correlation_key="C2",
+        )
         row, _ = repo.upsert_incident(inc)
         pg_session.commit()
         # Another org cannot read it
@@ -163,12 +185,16 @@ class TestIncidentPersistence:
     def test_list_incidents_filter_and_paginate(self, pg_session):
         repo = Repository(pg_session)
         for i in range(5):
-            repo.upsert_incident(SecurityIncident(
-                title=f"t{i}", severity=IncidentSeverity.HIGH,
-                status=IncidentStatus.NEW, organization_id="org-a",
-                correlation_key=f"P{i}",
-                created_at=datetime(2026, 10, 27, 10, i, tzinfo=timezone.utc),
-            ))
+            repo.upsert_incident(
+                SecurityIncident(
+                    title=f"t{i}",
+                    severity=IncidentSeverity.HIGH,
+                    status=IncidentStatus.NEW,
+                    organization_id="org-a",
+                    correlation_key=f"P{i}",
+                    created_at=datetime(2026, 10, 27, 10, i, tzinfo=timezone.utc),
+                )
+            )
         pg_session.commit()
         rows, total = repo.list_incidents("org-a", status="NEW", limit=2, offset=0)
         assert total == 5 and len(rows) == 2
@@ -177,18 +203,29 @@ class TestIncidentPersistence:
 class TestInvestigationAudit:
     def test_action_recorded_and_ordered(self, pg_session):
         repo = Repository(pg_session)
-        inc = SecurityIncident(title="t", severity=IncidentSeverity.HIGH, organization_id="org-a", correlation_key="A1")
+        inc = SecurityIncident(
+            title="t",
+            severity=IncidentSeverity.HIGH,
+            organization_id="org-a",
+            correlation_key="A1",
+        )
         row, _ = repo.upsert_incident(inc)
         pg_session.commit()
-        for i, atype in enumerate([InvestigationActionType.ACKNOWLEDGE, InvestigationActionType.ADD_NOTE]):
-            repo.add_action(InvestigationAction(
-                incident_id=row.incident_id, analyst_id="analyst-1",
-                action_type=atype, note=f"n{i}",
-                timestamp=datetime(2026, 10, 27, 10, i, tzinfo=timezone.utc),
-                organization_id="org-a",
-            ))
+        for i, atype in enumerate(
+            [InvestigationActionType.ACKNOWLEDGE, InvestigationActionType.ADD_NOTE]
+        ):
+            repo.add_action(
+                InvestigationAction(
+                    incident_id=row.incident_id,
+                    analyst_id="analyst-1",
+                    action_type=atype,
+                    note=f"n{i}",
+                    timestamp=datetime(2026, 10, 27, 10, i, tzinfo=timezone.utc),
+                    organization_id="org-a",
+                )
+            )
         pg_session.commit()
-        actions = repo.incident_actions(row.incident_id)
+        actions = repo.incident_actions(row.incident_id, "org-a")
         assert [a.action_type for a in actions] == ["acknowledge", "add_note"]
 
 
@@ -199,11 +236,16 @@ class TestCorrelationPersistenceIdempotency:
         repo = Repository(pg_session)
         # Two findings for same identity -> one correlated incident
         findings = []
-        for rid, sev in [("HC-ACCESS-BULK", IncidentSeverity.HIGH),
-                         ("HC-EXFIL-BULKEXPORT", IncidentSeverity.CRITICAL)]:
+        for rid, sev in [
+            ("HC-ACCESS-BULK", IncidentSeverity.HIGH),
+            ("HC-EXFIL-BULKEXPORT", IncidentSeverity.CRITICAL),
+        ]:
             rec = DetectionFindingRecord(
-                rule_id=rid, severity=sev, confidence=0.8,
-                affected_identity="clin-9", affected_resource="res-1",
+                rule_id=rid,
+                severity=sev,
+                confidence=0.8,
+                affected_identity="clin-9",
+                affected_resource="res-1",
                 organization_id="org-a",
                 detection_timestamp=datetime(2026, 10, 27, 10, 0, tzinfo=timezone.utc),
             )
@@ -221,7 +263,9 @@ class TestCorrelationPersistenceIdempotency:
             repo.upsert_incident(ci.incident, finding_ids=ci.finding_ids)
         pg_session.commit()
 
-        incidents = pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        incidents = (
+            pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        )
         assert len(incidents) == 1
         assert incidents[0].severity == "CRITICAL"
         assert len(repo.incident_findings(incidents[0].incident_id)) == 2
@@ -235,8 +279,10 @@ class TestRestartPersistence:
         repo = Repository(s1)
         ev, _ = repo.upsert_event(_event(source_event_id="S-RESTART"))
         inc = SecurityIncident(
-            title="persisted", severity=IncidentSeverity.HIGH,
-            organization_id="org-a", correlation_key="RESTART",
+            title="persisted",
+            severity=IncidentSeverity.HIGH,
+            organization_id="org-a",
+            correlation_key="RESTART",
         )
         inc_row, _ = repo.upsert_incident(inc, event_ids=[ev.event_id])
         incident_id = inc_row.incident_id
@@ -256,3 +302,64 @@ class TestRestartPersistence:
             s2.close()
         finally:
             engine2.dispose()
+
+
+@pytest.mark.parametrize("kind", ["event", "incident"])
+def test_parallel_ingestion_returns_the_committed_row(pg_session, pg_engine, kind):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    from time import monotonic, sleep
+
+    from sqlalchemy import text
+
+    def persist(session):
+        repo = Repository(session)
+        if kind == "event":
+            row, inserted = repo.upsert_event(_event(source_event_id="parallel"))
+            return row.event_id, inserted
+        row, inserted = repo.upsert_incident(
+            SecurityIncident(
+                title="Parallel incident",
+                severity=IncidentSeverity.HIGH,
+                organization_id="org-a",
+                correlation_key="parallel",
+            )
+        )
+        return row.incident_id, inserted
+
+    saved_id, created = persist(pg_session)
+    assert created
+    sessions = _db.make_session_factory(pg_engine)
+    started = Event()
+    backend = []
+
+    def store_again():
+        with sessions() as session:
+            backend.append(session.scalar(text("SELECT pg_backend_pid()")))
+            started.set()
+            result = persist(session)
+            session.commit()
+            return result
+
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        pending = pool.submit(store_again)
+        try:
+            assert started.wait(5)
+            deadline = monotonic() + 5
+            with pg_engine.connect() as observer:
+                while monotonic() < deadline:
+                    if observer.scalar(
+                        text(
+                            "SELECT EXISTS (SELECT FROM pg_locks WHERE pid = :pid AND NOT granted)"
+                        ),
+                        {"pid": backend[0]},
+                    ):
+                        break
+                    sleep(0.01)
+                else:
+                    pytest.fail(
+                        "concurrent insert did not reach the contested database row"
+                    )
+        finally:
+            pg_session.commit()
+        assert pending.result(timeout=5) == (saved_id, False)

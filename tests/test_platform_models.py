@@ -21,7 +21,9 @@ from detection_engine.platform.models import (
 
 class TestSecurityEvent:
     def _evt(self, **kw):
-        base = dict(source_type="clinical_access", event_timestamp=datetime(2026, 10, 27, 9, 0))
+        base = dict(
+            source_type="clinical_access", event_timestamp=datetime(2026, 10, 27, 9, 0)
+        )
         base.update(kw)
         return SecurityEvent(**base)
 
@@ -71,7 +73,11 @@ class TestDetectionFindingRecord:
             severity=severity,
             confidence=0.8,
             source_type="clinical_access",
-            raw_evidence={"actor_id": "clin-1", "resource_id": "res-9", "patient_name": None},
+            raw_evidence={
+                "actor_id": "clin-1",
+                "resource_id": "res-9",
+                "patient_name": None,
+            },
             mappings=mappings or [],
             timestamp="2026-10-27T10:00:00+00:00",
             host="ws-1",
@@ -118,7 +124,11 @@ class TestSeverityAndStatus:
 
     def test_status_values(self):
         assert {s.value for s in IncidentStatus} == {
-            "NEW", "TRIAGED", "INVESTIGATING", "RESOLVED", "CLOSED"
+            "NEW",
+            "TRIAGED",
+            "INVESTIGATING",
+            "RESOLVED",
+            "CLOSED",
         }
 
 

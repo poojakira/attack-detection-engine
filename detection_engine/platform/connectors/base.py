@@ -34,7 +34,7 @@ class ConnectorResult:
 
     @property
     def events(self) -> List[SecurityEvent]:
-        return [i.event for i in self.items if i.ok]
+        return [i.event for i in self.items if i.ok and i.event is not None]
 
     @property
     def errors(self) -> List[Dict[str, Any]]:
@@ -59,7 +59,9 @@ class Connector(ABC):
     connector_version: str = "0.0"
 
     @abstractmethod
-    def parse(self, payload: Any, *, organization_id: str, max_items: int) -> ConnectorResult:
+    def parse(
+        self, payload: Any, *, organization_id: str, max_items: int
+    ) -> ConnectorResult:
         """Validate + normalize a payload into a ConnectorResult. Must not raise
         on individual malformed items (record them as rejections); may raise
         ConnectorError only for a fundamentally unusable envelope."""

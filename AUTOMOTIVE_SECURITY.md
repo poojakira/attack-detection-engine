@@ -1,60 +1,46 @@
-# Automotive and Embedded Security Extension
+# Offline automotive and embedded analysis
 
-This extension adds offline, owner-authorized lab analysis. No supplied binary is executed and no frames are transmitted to a physical vehicle.
+## Actual supported surfaces
 
-## Input sources
-- `automotive_can`: decoded CAN/CAN-FD frame dictionaries containing integer `arbitration_id`, numeric `timestamp`, byte-array `data`, and optional `is_extended_id`, `is_fd`, `allowed_ids`, and `max_frames_per_second`. It checks structural validity and caller-defined ID/rate policies, not replay detection, malicious-intent attribution, or actual bus activity.
-- `firmware`: C/C++ `source_code` plus `language`. Heuristic source checks flag potentially unsafe string operations and emit CWE candidate references; manual review is required.
-- `arm_binary`: `binary` containing ELF32 ARM data. Reads ELF header architecture and endianness only, not instruction decoding, disassembly, or exploitability.
+These are separate Python pipeline/CLI-compatible telemetry paths, not browser workbench features. No supplied C/C++/firmware is executed by the analyzers and no frame is transmitted to a physical bus.
 
-## Example
+| Surface | Actual input/control | Limits and interpretation |
+|---|---|---|
+| `parse_candump_text` | Timestamped classic CAN/CAN-FD hexadecimal text → decoded frame dictionaries | At most 2,000,000 text characters and 10,000 frames; classic/FD data and ID bounds; parser does not capture a bus |
+| `AutomotiveCANDetector` / `automotive_can` | Frame metadata, optional `allowed_ids` and consistent positive `max_frames_per_second` per ID | Checks structure and supplied ID/rate policy; rate uses a rolling one-second window; no replay/intent attribution |
+| `FirmwareAuditor` / `firmware` | `source_code` string and `language` c/cpp/c++ | At most 2,000,000 characters; three regex families flag unsafe string copy/input/format candidates; not AST analysis or exploit proof |
+| `ARMBinaryAnalyzer` / `arm_binary` | Actual ELF32 ARM bytes | 52–32,000,000 bytes, bounded program-header table; architecture/endianness/entry/hash/segment structures, writable-executable and executable-stack candidates; not instruction decoding or execution |
+
+ARM validation checks loadable segment bounds and entry placement relative to executable ranges. No unrelated enterprise ATT&CK mapping is invented for these findings. A Python bytes input cannot be represented directly as ordinary JSON; the NDJSON CLI does not provide an implicit base64 firmware decoder.
+
+## Run a bounded offline example
+
+The following parses supplied text and inspects the committed synthetic ELF as data. It does not compile or execute the firmware:
 
 ```python
-findings = pipeline.run_and_serialize({
-    "automotive_can": [{"arbitration_id": 0x123, "timestamp": 0.0,
-        "data": [1, 2], "allowed_ids": [0x120], "max_frames_per_second": 5}],
-    "firmware": [{"language": "c", "file_path": "ecu.c",
-        "source_code": "void f(char*a,char*b){strcpy(a,b);}"}]
-})
+from pathlib import Path
+from detection_engine.candump_parser import parse_candump_text
+from detection_engine.arm_binary_analyzer import ARMBinaryAnalyzer
+from detection_engine.firmware_auditor import FirmwareAuditor
+
+frames = parse_candump_text("(0.000000) can0 123#0102\n")
+assert frames[0]["data"] == [1, 2]
+findings = ARMBinaryAnalyzer().detect([
+    {"file_path": "cortexm_lab.elf", "binary": Path("examples/ecu/cortexm_lab.elf").read_bytes()}
+])
+assert any(f.rule_id == "ARM-ELF-INFO" for f in findings)
+source_findings = FirmwareAuditor().detect([
+    {"language": "c", "source_code": "void f(char*a,char*b){strcpy(a,b);}"}
+])
+assert any(f.rule_id == "FW-C-001" for f in source_findings)
 ```
 
-Findings retain the original engine serialization contract; no unrelated ATT&CK mappings are invented.
+`examples/can/normal.candump` and `anomalous.candump` are deterministic offline fixtures. Policy limits must be supplied explicitly; an unlabeled trace is not automatically an attack. The [runbook](RUNBOOK.md#offline-cli-and-pipeline) describes pipeline/NDJSON boundaries and pinned ATT&CK prerequisites.
 
-## Validation
+## Verification and historical lab records
 
-```
-python -m pytest -q tests/test_automotive_embedded.py tests/test_automotive_pipeline.py
-python -m pytest -q
-python -m ruff check detection_engine tests
-```
+The focused tests are `tests/test_automotive_embedded.py`, `test_automotive_evidence.py` and `test_automotive_pipeline.py`. Fresh outcomes belong to the frozen candidate's generated [evidence](docs/EVIDENCE.md), not this static guide. C/C++ compiler, ARM cross-toolchain and AddressSanitizer executions have not been repeated by this documentation pass.
 
-## Explicit limitations
-This is a prototype offline extension and not a completed embedded firmware audit, ARM disassembler, vehicle penetration-test platform, production detector, or automotive safety certification. Synthetic test results do not establish detection efficacy on real vehicles.
+Earlier October records reported cross-compilation of `examples/ecu/cortexm_lab.c` as a Cortex-M3 ELF and an intentionally inserted `strcpy` overflow in the separate `ecu_vulnerable.c` lab fixture, with a corresponding fixed fixture. These are historical owner-recorded controlled-lab observations, not a newly discovered production vulnerability or evidence of a tested ECU. Do not compile/run the intentionally vulnerable native fixture as routine setup. Its source and existing regression artifacts remain available for a separately authorized bounded lab reproduction.
 
-## Planned upgrades
-Integrate real SocketCAN trace ingestion, documented CAN log parsers, embedded C/C++ AST analysis, compiled Cortex-M samples, ARM disassembly, structured penetration test lab reports, and benchmarked false-positive/negative rates. Validate all of these before claiming them.
-
-## Reproduced engineering evidence (October 15, 2026)
-- `examples/ecu/cortexm_lab.c` was cross-compiled in Ubuntu WSL2 using `arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -Os -ffreestanding -nostdlib -Wl,--gc-sections -T examples/ecu/linker.ld`. The committed `examples/ecu/cortexm_lab.elf` is a real ARM ELF32 binary. `arm-none-eabi-readelf` showed an executable flash segment and a writable RAM segment. Analyzer regression tests use this artifact and intentionally modified segment permissions.
-- The isolated `examples/ecu/ecu_vulnerable.c` training fixture was compiled with Clang AddressSanitizer on WSL2. A 16-character synthetic argument produced `AddressSanitizer: stack-buffer-overflow` in `strcpy` (exit 1). `examples/ecu/ecu_fixed.c` rejected the identical input (exit 3). This is a deliberately introduced lab bug, **not** a previously unknown production vulnerability.
-- Two reproducible offline timestamped CAN fixtures (`examples/can/normal.candump` and `anomalous.candump`) were parsed using `parse_candump_text`. The synthetic attack trace exercises an unauthorized ID and excessive message frequency. No real CAN bus or vehicle was accessed.
-- 29 focused tests passed on Python 3.12.13. (As of the October 17, 2026 update below, two ARM-ELF regression tests were added, bringing the focused subset to 31, verified on Python 3.11 in Docker.) Full legacy regression suite is separately tracked. The tools remain **offline lab prototypes** and do not establish deployed automotive intrusion detection, ECU compromise, commercial penetration-testing work, or full firmware reverse engineering.
-
-### Repeat locally
-```bash
-arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -Os -ffreestanding -nostdlib \
-  -Wl,--gc-sections -T examples/ecu/linker.ld examples/ecu/cortexm_lab.c -o /tmp/cortexm.elf
-arm-none-eabi-readelf -h -l /tmp/cortexm.elf
-clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_vulnerable.c -o /tmp/vulnerable
-clang -O1 -g -fsanitize=address -fno-omit-frame-pointer examples/ecu/ecu_fixed.c -o /tmp/fixed
-/tmp/vulnerable AAAAAAAAAAAAAAAA  # Expected AddressSanitizer stack-buffer-overflow
-/tmp/fixed AAAAAAAAAAAAAAAA       # Expected safe rejection (exit code 3)
-```
-
-## Repository-wide test boundary
-
-At the October 15, 2026 checkout, pytest collected 68 tests, and the focused automotive/embedded subset passed 29/29. As of the October 17, 2026 update, two ARM-ELF regression tests were added: pytest now collects 70 tests and the focused subset passes 31/31 (verified on Python 3.11 in Docker). The full run remains unverified in that sandbox because the ATT&CK-dependent historical test classes require the STIX index to be downloaded; CI performs that download. Do not treat focused results as repository-wide certification. No hardware ECU penetration test, firmware emulation, or production CAN detection-effectiveness benchmark has been performed.
-
-## Updated regression and hardware verification, October 15, 2026
-
-The **full 68-test suite passed in 25.92 seconds** on Windows Python 3.12.13 after session-scoped ATT&CK index fixture reuse. Physical ECU hardware was **not** connected; local Windows PnP/serial and WSL CAN checks did not identify a usable CAN bus adapter or ECU debug probe. No physical ECU result is claimed.
+Not established: live vehicle/CAN capture, hardware penetration testing, firmware emulation/disassembly, comprehensive source vulnerability detection, safety certification, commercial deployment or representative false-positive/negative measurements. The prior 29/31/68/70-test snapshots describe their cited historical environments; none attests to a later documentation head.

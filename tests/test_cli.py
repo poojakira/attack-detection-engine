@@ -3,6 +3,8 @@ from __future__ import annotations
 import io
 import json
 
+import pytest
+
 from detection_engine import cli
 
 
@@ -48,3 +50,19 @@ def test_cli_rejects_non_object_ndjson(monkeypatch, capsys):
 
     assert rc == 2
     assert "must be a JSON object" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("oversized", [" " * 18, '["éééééééé"]'])
+def test_ndjson_reads_bounded_records(monkeypatch, oversized):
+    monkeypatch.setattr(cli, "_MAX_RECORD_BYTES", 16)
+
+    class BoundedStream(io.StringIO):
+        def readline(self, size=-1):
+            assert size == 17
+            return super().readline(size)
+
+    stream = BoundedStream("{}\n" + oversized + "\n{}\n")
+    records = cli._iter_records(stream)
+    assert next(records) == (1, {})
+    with pytest.raises(ValueError, match="line 2: record exceeds 16 bytes"):
+        next(records)

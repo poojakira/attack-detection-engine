@@ -1,130 +1,53 @@
-# Aegis HealthSec Investigation Platform (Milestone C)
+# Investigation platform architecture and API
 
-End-to-end security investigation workflow built on the existing detection
-engine. This document describes what is implemented and verified. It makes no
-production-readiness or HIPAA-compliance claim.
+## Current components and boundaries
 
-## Workflow
+The earlier platform is already present on main; this candidate adds the bounded case/import/rerun workbench to that architecture. Current software/API is 1.1.0 and rule version is `clinical-access-1.1`. Checked-in code is not deployment or security approval. [The workbench guide](docs/WORKBENCH.md) is the complete current browser contract.
 
-```
-POST /api/v1/events (authenticated, org-scoped)
-        │  normalize -> SecurityEvent (UTC, pseudonymous, dedup_key)
-        ▼
-  upsert_event (idempotent, PostgreSQL)
-        │
-        ▼
-  PatientAccessDetector (real detection rules)  ── findings ──▶ detection_findings
-        │
-        ▼
-  CorrelationEngine (deterministic, by identity/resource/org/time-window)
-        │  idempotent correlation_key, severity = max of group
-        ▼
-  upsert_incident + link findings/events (PostgreSQL)
-        │
-        ▼
-  Investigation API: assign / note / status (state machine) / disposition / close
-        │  every change -> InvestigationAction (durable audit)
-        ▼
-  React SOC dashboard (Overview / Incident Queue / Investigation)
+```mermaid
+flowchart LR
+  Analyst[Authenticated local analyst] --> UI[React workbench and incident screens]
+  UI --> API[FastAPI role and organization gates]
+  API --> FHIR[FHIR subset normalization]
+  FHIR --> Detect[PatientAccessDetector]
+  Detect --> Corr[CorrelationEngine]
+  FHIR --> DB[(PostgreSQL)]
+  Corr --> DB
+  DB --> API
+  API --> UI
 ```
 
-## Components (all under `detection_engine/platform/`)
-
-| Module | Responsibility |
+| Component | Actual responsibility |
 |---|---|
-| `models.py` | Versioned pydantic models: `SecurityEvent`, `DetectionFindingRecord` (adapter over the engine's `DetectionFinding`), `SecurityIncident`, `InvestigationAction`. |
-| `db.py` | SQLAlchemy 2.x ORM (8 tables), engine/session factory, `AEGIS_DATABASE_URL`. |
-| `migrations/` | Alembic; initial revision creates the full schema. |
-| `repository.py` | Transaction-safe, org-scoped CRUD; idempotent event/incident upserts; optimistic concurrency. |
-| `correlation.py` | Deterministic correlation into incidents. |
-| `ingestion.py` | Orchestrates normalize → persist → detect → correlate → persist incident. |
-| `investigation.py` | Incident status state machine + auditable analyst actions + timeline. |
-| `auth.py` | bcrypt password hashing, JWT (jose), roles, org-scoped `Principal`. |
-| `api.py` | FastAPI app; authenticated, org-scoped endpoints. |
-| `bootstrap.py` / `server.py` | App builder (cached ATT&CK index), user seeding, ASGI entrypoint. |
+| `platform/local.py` | Loopback module, trusted dashboard mount, migrations and local account seed; separate from deployment ASGI bootstrap |
+| `platform/api.py`, `auth.py`, `body_limit.py` | HTTP bounds/headers, Argon2id and legacy hash verification, PyJWT, DB principal/token-version resolution, roles, scoped data routes |
+| `platform/workbench.py` | Bounded source/config parsing, canonical clinical detection/correlation, immutable report/delta construction |
+| `platform/connectors/fhir_auditevent.py` | Supported R4 AuditEvent subset and counted per-entry errors; no invented missing action/outcome/timezone |
+| `platform/db.py`, `repository.py`, `migrations/` | PostgreSQL models, scoped persistence, idempotency/concurrency and versioned migrations |
+| `platform/ingestion.py`, `correlation.py`, `investigation.py` | Separate normalized-event ingestion, deterministic grouping, incident state/actions/history |
+| `platform/provenance.py` | App/rule/core revisions, Python source-content hash and exact tracked checkout or UNKNOWN |
+| `dashboard-ui/` | Actual authenticated React/TypeScript application, static esbuild bundle; no Vite dev-server requirement |
 
-## Database schema (PostgreSQL)
+The ORM defines ten tables: users, security_events, detection_findings, incidents, incident_findings, incident_events, investigation_actions, rule_versions, workbench_cases and workbench_runs. The case/run migration is `b2c3d4e5f6a7`, following the token-version and audit-chain migrations. It stores original input text and report JSON; database owners remain trusted. A downgrade drops the case/run tables and is not automatic recovery.
 
-Tables: `users`, `security_events`, `detection_findings`, `incidents`,
-`incident_findings`, `incident_events`, `investigation_actions`,
-`rule_versions`. Primary/foreign keys, indexes, and idempotency UNIQUE
-constraints (`uq_event_org_dedup`, `uq_incident_org_corr`). Incidents carry a
-`row_version` for optimistic concurrency. Schema is applied via Alembic
-(`alembic upgrade head`).
+## Routes and authority
 
-## API routes
+| Route group | Contract |
+|---|---|
+| `/health`, `/readiness` | Unauthenticated liveness/provenance and DB check; readiness can return 503 |
+| POST `/api/v1/auth/token` | Username/password JSON → bearer token, role and organization; generic failures and per-process throttle |
+| `/api/v1/workbench/sample`, `/cases`, `/cases/{case_id}`, `/cases/{case_id}/runs`, `/cases/{case_id}/runs/{run_id}/export` under the workbench prefix | Authenticated synthetic sample, org-scoped import/list/history/rerun/checksummed export; full method/body table in the workbench guide |
+| POST `/api/v1/events` | Separate normalized clinical batch ingestion; writer role |
+| POST `/api/v1/connectors/fhir/auditevent` | Separate legacy connector ingestion; writer role; not the case/run API |
+| GET `/api/v1/incidents` and `/{incident_id}` with evidence/timeline/history/export | Organization-scoped incident queries for authorized roles |
+| Incident assign/notes/disposition/close POST and status PATCH | Writer-role actions and state/concurrency checks |
 
-| Method | Path | Auth / role |
-|---|---|---|
-| GET | `/health` | none |
-| GET | `/readiness` | none (503 if DB down) |
-| POST | `/api/v1/auth/token` | credentials → JWT |
-| POST | `/api/v1/events` | analyst/admin (ingest) |
-| GET | `/api/v1/incidents` | any role (org-scoped, filter/paginate) |
-| GET | `/api/v1/incidents/{id}` | any role (404 cross-org) |
-| GET | `/api/v1/incidents/{id}/evidence` | any role |
-| GET | `/api/v1/incidents/{id}/timeline` | any role |
-| GET | `/api/v1/incidents/{id}/history` | any role |
-| GET | `/api/v1/incidents/{id}/export` | any role |
-| POST | `/api/v1/incidents/{id}/assign` | analyst/admin |
-| POST | `/api/v1/incidents/{id}/notes` | analyst/admin |
-| PATCH | `/api/v1/incidents/{id}` (status) | analyst/admin |
-| POST | `/api/v1/incidents/{id}/disposition` | analyst/admin |
-| POST | `/api/v1/incidents/{id}/close` | analyst/admin |
+`administrator` and `security_analyst` can ingest/write; `read_only_auditor` can inspect permitted data. Foreign objects are concealed with 404; missing/invalid/revoked tokens return 401 and disallowed roles 403. Token role/org claims alone do not authorize current access: the server resolves the DB row and token version. CORS is an explicit allowlist, not authentication. OpenAPI is described at `/openapi.json`; the restrictive API documentation CSP can prevent an interactive Swagger page, so do not assume `/docs` is a usable browser client.
 
-OpenAPI docs are served at `/docs` by FastAPI.
+Workbench reports retain original/normalized records, findings, related-event links, correlated incident IDs, uncertainty, source/config/input hashes and versions. Per-run IDs/timestamps vary; input/configuration hashes and semantic expected signals support reproduction. Related-event links are batch actor context, not causal proof for every linked event. The internal investigation hash chain is not an external tamper-proof journal.
 
-## Security controls (implemented + tested)
+## Separate deployment and verification
 
-- Server-side JWT auth; **no unauthenticated data endpoints**.
-- RBAC: `administrator`, `security_analyst`, `read_only_auditor`. Auditors
-  cannot write (403, tested).
-- Organization isolation on every query; cross-org access returns 404 (tested).
-- Optimistic concurrency prevents lost incident updates (tested).
-- Incident state changes only via legal transitions (tested); every change is
-  an auditable `InvestigationAction`.
-- Evidence carries pseudonymous identifiers and metadata only — no clinical
-  record content; no tokens/passwords logged.
-- Ingestion: idempotent dedup, batch/size limits, invalid events rejected and
-  counted (not silently dropped).
+The local script uses a dedicated loopback PostgreSQL 17 development volume. `deploy/docker-compose.yml` is a separate configuration with its own PostgreSQL image, mandatory DB/signing secrets, unpublished DB, loopback dev ports and backend least-privilege controls. The ASGI `platform.server` calls secure-config validation only when `AEGIS_REQUIRE_SECURE_CONFIG=1`; the Compose environment enables it. Do not infer this gate is always active in arbitrary programmatic `create_app()` use.
 
-## Deployment (Docker Compose)
-
-```bash
-export AEGIS_JWT_SECRET=$(openssl rand -hex 32)
-export AEGIS_ADMIN_USER=admin AEGIS_ADMIN_PASSWORD=choose-a-password
-docker compose -f deploy/docker-compose.yml up --build
-# API:       http://localhost:8000  (/docs for OpenAPI)
-# Dashboard: http://localhost:8080
-```
-
-The backend waits for a healthy PostgreSQL, applies Alembic migrations, then
-serves. The frontend (nginx) serves the SPA and proxies `/api`, `/readiness`,
-`/health` to the backend. PostgreSQL uses a durable named volume.
-
-## Verified evidence (2026-10-27, isolated venv + real PostgreSQL + real Docker)
-
-- Full test suite: **212 passed** (healthcare, automotive, firmware, ARM, ATT&CK,
-  and platform including real-PostgreSQL integration and 8 real end-to-end
-  API/security tests). `ruff 0.8.4`: clean. Frontend `npm run build`: succeeds.
-- Automated end-to-end acceptance (`tests/test_platform_api_e2e.py`): ingest 40
-  synthetic events → detect → correlate → persist incident → authenticate →
-  assign/note/status/disposition → resolve → close → **restart** (fresh app) →
-  incident + full audit trail preserved. Benign control produces no HIGH/CRITICAL.
-- Live Docker Compose run: full stack healthy; seeded admin login; containerized
-  ingest of 40 synthetic events → 1 finding → 1 HIGH incident persisted and
-  retrieved; incident survived a genuine container stop/start (durable volume).
-
-## Known limitations / not claimed
-
-- Deterministic rules only; no ML scoring or trained anomaly model.
-- Single correlation strategy (identity/resource/time-window); no cross-batch
-  streaming correlation beyond persisted idempotent upserts.
-- Hosted GitHub Actions CI is **BLOCKED**: repository Actions are disabled, so
-  no hosted CI run can execute. All evidence above is from local/containerized
-  runs. See the final report.
-- No TLS termination inside the compose stack (expected to sit behind a TLS
-  proxy); no production secret manager integration.
-- **No HIPAA certification, no production-readiness claim, no real-world
-  detection-efficacy claim.** MIMIC-IV Demo provides de-identified clinical
-  context only; all security events are clearly-labeled synthetic.
+[RUNBOOK.md](RUNBOOK.md) explains lifecycle, private state, diagnostics and rollback. [THREAT_MODEL.md](THREAT_MODEL.md) maps tested boundaries and remaining risk. [EVIDENCE.md](docs/EVIDENCE.md) separates historical 212/280-test milestone records, published 8ae implementation-source evidence and pending later documentation-head execution. A restart/persistence test is not a production backup/restore, clean-machine or hosted CI approval.

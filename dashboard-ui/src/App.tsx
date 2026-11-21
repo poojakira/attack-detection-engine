@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { getSession, login, logout } from "./api/client";
+import { Workbench } from "./screens/Workbench";
 import { Overview } from "./screens/Overview";
 import { IncidentQueue } from "./screens/IncidentQueue";
 import { Investigation } from "./screens/Investigation";
@@ -26,8 +27,8 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
       <h1>Aegis HealthSec</h1>
       <p className="muted">Security Operations Console</p>
       <form onSubmit={submit}>
-        <input placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input aria-label="Username" autoComplete="username" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input aria-label="Password" autoComplete="current-password" placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">Sign in</button>
       </form>
       {error && <p className="error">{error}</p>}
@@ -46,7 +47,8 @@ export function App() {
       <div className="shell">
         <nav className="sidebar">
           <div className="brand">Aegis HealthSec</div>
-          <Link to="/">Security Overview</Link>
+          <Link to="/">Investigation Workbench</Link>
+          <Link to="/overview">Security Overview</Link>
           <Link to="/queue">Incident Queue</Link>
           <div className="spacer" />
           <div className="whoami muted">
@@ -64,7 +66,8 @@ export function App() {
         </nav>
         <main className="content">
           <Routes>
-            <Route path="/" element={<Overview />} />
+            <Route path="/" element={<Workbench />} />
+            <Route path="/overview" element={<Overview />} />
             <Route path="/queue" element={<IncidentQueue />} />
             <Route path="/incidents/:id" element={<Investigation />} />
             <Route path="*" element={<Navigate to="/" />} />

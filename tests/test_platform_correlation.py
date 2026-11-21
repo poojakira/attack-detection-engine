@@ -13,8 +13,16 @@ from detection_engine.platform.models import DetectionFindingRecord, IncidentSev
 T0 = datetime(2026, 10, 27, 10, 0, tzinfo=timezone.utc)
 
 
-def _f(rule_id, severity, identity="clin-1", resource="res-1", org="org-a",
-       minutes=0, confidence=0.8, techniques=None):
+def _f(
+    rule_id,
+    severity,
+    identity="clin-1",
+    resource="res-1",
+    org="org-a",
+    minutes=0,
+    confidence=0.8,
+    techniques=None,
+):
     return DetectionFindingRecord(
         rule_id=rule_id,
         severity=IncidentSeverity(severity),
@@ -109,7 +117,10 @@ class TestTimeWindows:
 
 class TestIdempotencyAndEscalation:
     def test_correlation_key_stable_and_order_independent(self):
-        a = [_f("HC-ACCESS-BULK", "HIGH", minutes=1), _f("HC-EXFIL-BULKEXPORT", "CRITICAL", minutes=2)]
+        a = [
+            _f("HC-ACCESS-BULK", "HIGH", minutes=1),
+            _f("HC-EXFIL-BULKEXPORT", "CRITICAL", minutes=2),
+        ]
         b = list(reversed(a))
         ka = CorrelationEngine().correlate(a)[0].incident.correlation_key
         kb = CorrelationEngine().correlate(b)[0].incident.correlation_key

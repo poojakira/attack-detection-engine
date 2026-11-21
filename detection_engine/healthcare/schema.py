@@ -42,6 +42,7 @@ class ActorType(str, Enum):
 class AccessAction(str, Enum):
     """What the actor did. Aligned with FHIR AuditEvent.action (C/R/U/D/E)."""
 
+    UNKNOWN = "unknown"
     CREATE = "create"
     READ = "read"
     UPDATE = "update"
@@ -55,6 +56,8 @@ class AccessAction(str, Enum):
 class AccessOutcome(str, Enum):
     """Result of the access. Aligned with FHIR AuditEvent.outcome semantics."""
 
+    UNKNOWN = "unknown"
+    MAJOR_FAILURE = "major_failure"
     SUCCESS = "success"
     MINOR_FAILURE = "minor_failure"
     SERIOUS_FAILURE = "serious_failure"
@@ -110,7 +113,7 @@ class ClinicalAccessEvent(BaseModel):
 
     # --- Action / outcome ---
     action: AccessAction
-    outcome: AccessOutcome = AccessOutcome.SUCCESS
+    outcome: AccessOutcome = AccessOutcome.UNKNOWN
     record_count: int = Field(
         default=1, ge=0, description="Number of records touched by this event"
     )
@@ -219,67 +222,12 @@ class ClinicalAccessEvent(BaseModel):
         patient-identifying ``.who.display`` names — only reference tokens. The
         caller remains responsible for ensuring references are pseudonymous.
         """
-        action_map = {
-            "C": AccessAction.CREATE,
-            "R": AccessAction.READ,
-            "U": AccessAction.UPDATE,
-            "D": AccessAction.DELETE,
-            "E": AccessAction.EXECUTE,
-        }
-        outcome_map = {
-            "0": AccessOutcome.SUCCESS,
-            "4": AccessOutcome.MINOR_FAILURE,
-            "8": AccessOutcome.SERIOUS_FAILURE,
-            "12": AccessOutcome.SERIOUS_FAILURE,
-        }
+        from ..platform.connectors.fhir_auditevent import FhirAuditEventConnector
 
-        agents = audit_event.get("agent", []) or [{}]
-        primary_agent = agents[0]
-        entities = audit_event.get("entity", []) or []
-
-        actor_id = _ref_token(primary_agent.get("who", {}))
-        patient_ref = ""
-        resource_id = ""
-        resource_type = ""
-        for ent in entities:
-            ref = ent.get("what", {})
-            token = _ref_token(ref)
-            rtype = str(ref.get("reference", "")).split("/", 1)[0]
-            if rtype == "Patient" and not patient_ref:
-                patient_ref = token
-            elif not resource_id:
-                resource_id = token
-                resource_type = rtype
-        if not patient_ref:
-            patient_ref = resource_id or "unknown"
-        if not resource_id:
-            resource_id = patient_ref
-
-        source = audit_event.get("source", {})
-        network = primary_agent.get("network", {})
-
-        recorded = audit_event.get("recorded")
-        timestamp = (
-            datetime.fromisoformat(recorded.replace("Z", "+00:00"))
-            if isinstance(recorded, str)
-            else datetime.now(timezone.utc)
-        )
-
-        return cls(
-            actor_id=actor_id or "unknown",
-            actor_type=ActorType.UNKNOWN,
-            patient_ref=patient_ref,
-            resource_id=resource_id,
-            resource_type=resource_type,
-            action=action_map.get(str(audit_event.get("action", "R")), AccessAction.READ),
-            outcome=outcome_map.get(
-                str(audit_event.get("outcome", "0")), AccessOutcome.SUCCESS
-            ),
-            session_id=_ref_token(source) if source else "",
-            source_ip=str(network.get("address", "")),
-            timestamp=timestamp,
-            data_origin=data_origin,
-        )
+        event = FhirAuditEventConnector()._normalize(audit_event, "adapter")
+        values = dict(event.normalized_attributes)
+        values["data_origin"] = data_origin
+        return cls.model_validate(values)
 
 
 def _ref_token(ref_obj: Dict[str, Any]) -> str:

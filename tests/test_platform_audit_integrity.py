@@ -41,18 +41,35 @@ pytestmark = pytest.mark.skipif(not _pg(), reason="requires PostgreSQL")
 
 
 def _incident(repo, org="org-a", key="K1"):
-    inc = SecurityIncident(title="t", severity=IncidentSeverity.HIGH,
-                           organization_id=org, correlation_key=key)
+    inc = SecurityIncident(
+        title="t",
+        severity=IncidentSeverity.HIGH,
+        organization_id=org,
+        correlation_key=key,
+    )
     row, _ = repo.upsert_incident(inc)
     return row
 
 
-def _action(repo, incident_id, org="org-a", atype=InvestigationActionType.ADD_NOTE, note="n", analyst="a1", ts_min=0):
-    return repo.add_action(InvestigationAction(
-        incident_id=incident_id, analyst_id=analyst, action_type=atype,
-        note=note, organization_id=org,
-        timestamp=datetime(2026, 10, 27, 10, ts_min, tzinfo=timezone.utc),
-    ))
+def _action(
+    repo,
+    incident_id,
+    org="org-a",
+    atype=InvestigationActionType.ADD_NOTE,
+    note="n",
+    analyst="a1",
+    ts_min=0,
+):
+    return repo.add_action(
+        InvestigationAction(
+            incident_id=incident_id,
+            analyst_id=analyst,
+            action_type=atype,
+            note=note,
+            organization_id=org,
+            timestamp=datetime(2026, 10, 27, 10, ts_min, tzinfo=timezone.utc),
+        )
+    )
 
 
 class TestAuditHashChain:
@@ -140,11 +157,15 @@ class TestTransactionalIntegrity:
         rA, rB = Repository(sA), Repository(sB)
         vA = rA.get_incident(inc.incident_id, "org-a").row_version
         vB = rB.get_incident(inc.incident_id, "org-a").row_version
-        rA.update_incident(inc.incident_id, "org-a", expected_version=vA, status="TRIAGED")
+        rA.update_incident(
+            inc.incident_id, "org-a", expected_version=vA, status="TRIAGED"
+        )
         sA.commit()
         # B's stale-version write must be rejected (no silent lost update).
         with pytest.raises(ConcurrencyError):
-            rB.update_incident(inc.incident_id, "org-a", expected_version=vB, status="CLOSED")
+            rB.update_incident(
+                inc.incident_id, "org-a", expected_version=vB, status="CLOSED"
+            )
         sA.close()
         sB.close()
         s.close()
@@ -154,5 +175,61 @@ class TestTransactionalIntegrity:
         _incident(repo, key="DUP")
         _incident(repo, key="DUP")  # same correlation_key -> idempotent
         pg_session.commit()
-        rows = pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        rows = (
+            pg_session.query(_db.IncidentRow).filter_by(organization_id="org-a").all()
+        )
         assert len(rows) == 1
+
+
+def test_parallel_audit_appends_preserve_chain_order(pg_session, pg_engine):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    from time import monotonic, sleep
+
+    from sqlalchemy import text
+
+    repo = Repository(pg_session)
+    incident_id = _incident(repo).incident_id
+    pg_session.commit()
+    first = _action(repo, incident_id, note="first")
+    assert first.chain_seq == 1
+    sessions = _db.make_session_factory(pg_engine)
+    started = Event()
+    backend = []
+
+    def append_second():
+        with sessions() as session:
+            backend.append(session.scalar(text("SELECT pg_backend_pid()")))
+            started.set()
+            row = _action(Repository(session), incident_id, note="second")
+            session.commit()
+            return row.chain_seq
+
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        pending = pool.submit(append_second)
+        try:
+            assert started.wait(5)
+            deadline = monotonic() + 5
+            with pg_engine.connect() as observer:
+                while not pending.done() and monotonic() < deadline:
+                    if observer.scalar(
+                        text(
+                            "SELECT EXISTS (SELECT FROM pg_locks "
+                            "WHERE pid = :pid AND locktype = 'advisory' AND NOT granted)"
+                        ),
+                        {"pid": backend[0]},
+                    ):
+                        break
+                    sleep(0.01)
+        finally:
+            pg_session.commit()
+        assert pending.result(timeout=5) == 2
+    assert repo.verify_audit_chain("org-a")
+
+
+def test_investigation_write_is_scoped_to_incident_organization(pg_session):
+    repo = Repository(pg_session)
+    incident_id = _incident(repo).incident_id
+    with pytest.raises(LookupError, match="organization"):
+        _action(repo, incident_id, org="org-b")
+    assert repo.incident_actions(incident_id, "org-a") == []

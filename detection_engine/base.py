@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
-from attack_v19_core.mapping import ATTACKMappingBuilder
-from attack_v19_core.models import ATTACKMapping
+if TYPE_CHECKING:
+    from attack_v19_core.models import ATTACKMapping
 
 
 @dataclass
@@ -14,7 +14,7 @@ class DetectionFinding:
     confidence: float
     source_type: str
     raw_evidence: Dict[str, Any]
-    mappings: List[ATTACKMapping] = field(default_factory=list)
+    mappings: List["ATTACKMapping"] = field(default_factory=list)
     timestamp: str = ""
     host: str = ""
     description: str = ""
@@ -22,6 +22,8 @@ class DetectionFinding:
 
 class BaseDetector(ABC):
     def __init__(self, index):
+        from attack_v19_core.mapping import ATTACKMappingBuilder
+
         self.index = index
         self.mapping_builder = ATTACKMappingBuilder(index)
 
@@ -35,5 +37,5 @@ class BaseDetector(ABC):
 
     def _build_mapping(
         self, technique_id: str, confidence: float
-    ) -> Optional[ATTACKMapping]:
+    ) -> Optional["ATTACKMapping"]:
         return self.mapping_builder.build(technique_id, confidence)
