@@ -40,11 +40,11 @@ The sample is a controlled regression fixture, not a field accuracy benchmark. R
 
 ![Actual authenticated investigation showing persisted source and normalized evidence](https://raw.githubusercontent.com/poojakira/attack-detection-engine/7ec35a68ab0a111a39e8ed48f2dfbc77581406a3/release-evidence/browser/desktop.png)
 
-## Current verification and source
+## Verification and release scope
 
-Read the [generated assessment and exact commands](https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/RELEASE_ASSESSMENT.md) and [source manifest](https://github.com/poojakira/attack-detection-engine/tree/evidence/selected-branches-20261118/release-evidence/manifest.json). The manifest records the checked-out SHA, clean state, actual regression/browser outcomes, skips, dependency scope and artifact hashes. Compare its `source_commit` with the checkout you are using. A passing earlier commit does not attest to a later commit.
+**LOCAL ONLY, historical snapshot.** The archived suite at `aa45efd2f9f7e229a0ae7b7f8d77adac18d96e83` recorded 332 passed, 0 failed, 0 skipped, 82.47% line coverage. The archive was generated on November 19, 2026 UTC and lists the exact commands, tooling, test window, skips and artifact hashes. Use its source SHA when citing the results. [Manifest](https://raw.githubusercontent.com/poojakira/attack-detection-engine/875299dd6a7ed061df792d1150371c688383fc05/release-evidence/manifest.json) · [Assessment](https://github.com/poojakira/attack-detection-engine/blob/875299dd6a7ed061df792d1150371c688383fc05/release-evidence/RELEASE_ASSESSMENT.md)
 
-The previous published documentation candidate was `4f2a661d6ddab424a087ac2b4da364ed4b6e3632`; its [immutable evidence](https://github.com/poojakira/attack-detection-engine/tree/evidence/docs-reconciliation-20261118/release-evidence) remains historical. The newer architecture/notebook changes require their own generated evidence. [PR #58](https://github.com/poojakira/attack-detection-engine/pull/58) records the current source, publication and remaining blockers. **Release remains PARTIAL.**
+Main contains the earlier FHIR, authentication, persistence and React platform. The saved investigation, threshold rerun and checksummed export workflow is in the draft candidate. Synthetic batch evaluation cannot establish clinical authorization, production privacy or recovery. [Draft review](https://github.com/poojakira/attack-detection-engine/pull/58)
 
 ## Documentation index
 
