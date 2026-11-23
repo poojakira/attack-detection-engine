@@ -43,7 +43,7 @@ dev = [
     "pytest-cov>=5.0",
 ]
 platform = [
-    "fastapi==0.116.2",
+    "fastapi==0.162.5",
     "starlette==0.48.0",
     "uvicorn[standard]>=0.29",
     "sqlalchemy>=2.0",
