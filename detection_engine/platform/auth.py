@@ -206,23 +206,25 @@ def decode_token(token: str) -> Optional[Principal]:
         )
     except PyJWTError:
         return None
-    # Custom claims are not covered by PyJWT's "require"; enforce explicitly.
-    if "role" not in payload or "sub" not in payload or "org" not in payload:
+    # Require exact claim types; never coerce an absent or malformed version.
+    sub = payload.get("sub")
+    org = payload.get("org")
+    username = payload.get("username")
+    version = payload.get("tv")
+    if not all(isinstance(v, str) and v.strip() for v in (sub, org, username)):
+        return None
+    if type(version) is not int or version < 0:
         return None
     try:
         role = Role(payload["role"])
-    except (KeyError, ValueError):
-        return None
-    sub = payload.get("sub")
-    org = payload.get("org")
-    if not sub or not org:
+    except (KeyError, TypeError, ValueError):
         return None
     return Principal(
         user_id=sub,
-        username=payload.get("username", ""),
+        username=username,
         role=role,
         organization_id=org,
-        token_version=int(payload.get("tv", 0)),
+        token_version=version,
     )
 
 
@@ -241,7 +243,10 @@ def resolve_principal(token: str, user_row) -> Optional[Principal]:
         return None
     if int(getattr(user_row, "token_version", 0)) != principal.token_version:
         return None
-    # Authoritative role/org come from the database, not the token.
+    # A token may never cross a tenant boundary after reassignment.
+    if user_row.id != principal.user_id or user_row.organization_id != principal.organization_id:
+        return None
+    # Authoritative role comes from the database, not the token.
     try:
         db_role = Role(user_row.role)
     except ValueError:
