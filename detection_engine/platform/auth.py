@@ -204,7 +204,7 @@ def decode_token(token: str) -> Optional[Principal]:
             issuer=JWT_ISSUER,
             options={"require": ["exp", "iat"]},
         )
-    except PyJWTError:
+    except (PyJWTError, TypeError, ValueError, OverflowError):
         return None
     # Require exact claim types; never coerce an absent or malformed version.
     sub = payload.get("sub")
